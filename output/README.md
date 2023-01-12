@@ -203,9 +203,12 @@ Commit Message Types
 ## 8. 기능 정의서
 
 - 전체적 흐름도
-  - ![basic](/assets/flowchart-basic.png)
+
+  ![basic](/assets/flowchart//flowchart-basic.png)
+
 - 자동 경매 흐름도
-  - ![auction](/assets/flowchart-auction.png)
+
+  ![auction](/assets/flowchart//flowchart-auction.png)
 
 ## 9. References
 
