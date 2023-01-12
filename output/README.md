@@ -172,7 +172,40 @@ Commit Message Types
 
 ## 7. Wire Frames
 
+- 유저 화면 프레임들
+
+  ![login](/assets/wireframes/user/%EB%A1%9C%EA%B7%B8%EC%9D%B8.png)
+  ![signup](/assets/wireframes/user/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.png)
+  ![reset-password](/assets/wireframes/user/%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8%20%EC%9E%AC%EC%84%A4%EC%A0%95.png)
+  ![set-category](/assets/wireframes/user/%EA%B0%80%EC%9E%85%EC%8B%9C%20%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%20%EC%84%A4%EC%A0%95.png)
+
+- 메인 화면 프레임들
+
+  ![notification-live](/assets/wireframes/main/%EB%A9%94%EC%9D%B8%20%ED%99%88%20%20-%20%EB%9D%BC%EC%9D%B4%EB%B8%8C%20%EC%98%88%EC%A0%95.png)
+  ![main-0](</assets/wireframes/main/%EB%A9%94%EC%9D%B8%20%ED%99%88%20-%20%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%81%EC%84%B8(%ED%8C%90%EB%A7%A4%EC%9E%90).png>)
+  ![main-1](</assets/wireframes/main/%EB%A9%94%EC%9D%B8%20%ED%99%88%20-%20%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%81%EC%84%B8(%ED%8C%90%EB%A7%A4%EC%9E%90)-1.png>)
+  ![main-2](</assets/wireframes/main/%EB%A9%94%EC%9D%B8%20%ED%99%88%20-%20%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%81%EC%84%B8(%ED%8C%90%EB%A7%A4%EC%9E%90)-2.png>)
+
+- 하위 메인 화면 프레임들
+
+  ![관심목록-내찜](/assets/wireframes/submain/%EB%A9%94%EC%9D%B8%20%ED%99%88%20-%20%EB%82%B4%20%EC%B0%9C.png)
+  ![관심목록-입장예정](/assets/wireframes/submain/%EB%82%B4%20%EC%B0%9C%20-%20%EC%9E%85%EC%9E%A5%20%EC%98%88%EC%A0%95.png)
+  ![자동경매](/assets/wireframes/submain/%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%9E%90%EB%8F%99%20%EA%B2%BD%EB%A7%A4.png)
+  ![알람리스트](/assets/wireframes/submain/%EC%95%8C%EB%9E%8C%20%EB%A6%AC%EC%8A%A4%ED%8A%B8.png)
+
+- 경매 화면 프레임들
+
+![경매라이브-판매자](/assets/wireframes/auction/%EA%B2%BD%EB%A7%A4%20%EB%9D%BC%EC%9D%B4%EB%B8%8C%20-%20%ED%8C%90%EB%A7%A4%EC%9E%90.png)
+![경매라이브-구매자](</assets/wireframes/auction/%EA%B2%BD%EB%A7%A4%20%EB%9D%BC%EC%9D%B4%EB%B8%8C%20-%20%EA%B5%AC%EB%A7%A4%EC%9E%90%20(%20%EB%B0%A9%EC%86%A1%EC%A4%91%20).png>)
+![경매방 생성](/assets/wireframes/auction/%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%9D%EC%84%B1.png)
+![낙찰시-모달](/assets/wireframes/auction/%EB%82%99%EC%B0%B0%EC%8B%9C%20%EB%AA%A8%EB%8B%AC.png)
+
 ## 8. 기능 정의서
+
+- 전체적 흐름도
+  - ![basic](/assets/flowchart-basic.png)
+- 자동 경매 흐름도
+  - ![auction](/assets/flowchart-auction.png)
 
 ## 9. References
 
