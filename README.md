@@ -27,6 +27,14 @@
 
 ## 3. Git Flow Convention
 
+디렉터리 구조는 **frontend** 와 **backend** 로 구분됩니다. 각 개발자들은 해당 디렉터리로 이동한다음 작업하면 됩니다
+
+```
+.
+├── frontend
+└── backend
+```
+
 Branch Types
 
 - main: 제품으로 출시될 수 있는 브랜치
@@ -42,8 +50,8 @@ Branch Types
 1. origin/develop 브랜치에서 작업 브랜치를 생성합니다
 
 ```
-(develop)]$ git fetch
-(develop)]$ git checkout -b feature/user-login --track origin/develop
+(fe-develop)]$ git fetch
+(fe-develop)]$ git checkout -b feature/user-login --track origin/develop
 ```
 
 2. 작업 브랜치에서 작업합니다
@@ -57,7 +65,7 @@ Branch Types
 4. 작업 브랜치를 origin/develop에 rebase 합니다
 
 ```
-(feature/user-login)]$ git pull --rebase origin develop
+(feature/user-login)]$ git pull --rebase origin fe-develop
 ```
 
 5. 작업 브랜치를 origin에 push합니다
@@ -111,6 +119,7 @@ Commit Message Types
 - Project Structure
 
 ```
+// backend 디렉터리 안에서
 .
 └── main                            // java src 디렉터리
     ├── java
@@ -146,6 +155,7 @@ Commit Message Types
 - Project Structure
 
 ```
+// frontend 디렉터리 안에서
 .
 ├── public          // 소스 코드에서 참조되지 않는 에셋
 ├── src             // 소스 코드
