@@ -6,6 +6,7 @@
 
 1. [서비스 개요](#1-서비스-개요)
 1. [팀원 소개](#2-팀원-소개)
+1. [Jira Convention]()
 1. [Git Flow Convention](#3-git-flow-convention)
 1. [Commit Message Convention](#4-commit-message-convention)
 1. [Backend Convention](#5-backend-convention)
@@ -25,7 +26,32 @@
 변유정 (팀원): Backend 개발 + 이슈 관리
 우상빈 (팀원): Backend 개발 + 이슈 관리 + 발표
 
-## 3. Git Flow Convention
+## 3. Jira Convention
+
+Jira는 개발 이슈 트랙킹 용도로 사용합니다.
+
+- 계층
+
+  1. ![epic](/assets/jira/epic.svg) (epic)
+  2. ![story](/assets/jira/story.svg) (FE), ![task](/assets/jira/task.svg) (BE), ![bug](/assets/jira/bug.svg) (bug)
+
+- 이름 규칙
+
+  - Epic은 대분류입니다. FE, BE, bug 작업의 부모 항목입니다.
+  - FE, BE 작업은 각각 프론트엔드 작업과 백엔드 작업 세부 이름입니다. (한글로 상세히 작성해 주세요)
+  - 예시) ![story](/assets/jira/story.svg) \[FE\] 유저 로그인 레이아웃 제작
+
+- 이슈
+
+  - 담당자, 우선순위, story point, Epic Link와 함께 이슈를 생성하세요
+  - Backlog 탭에서 이슈를 미리 만들어 놓고, 매주 월요일 아침 회의를 통해 이슈를 개인별로 할당합니다. 할당한 이슈를 스프린트에 옮겨놓으세요
+  - 해당 이슈를 완료하거나 작업을 시작했다면, Active sprints 탭에서 workflow (Todo, In-progress, Done)을 변경해주세요
+
+- Burndown Chart
+  - 번다운 차트는 스프린트별 시간당 잔여 Story-point 를 추적합니다
+  - 주차별 스프린트를 시작하기 전에 모든 이슈를 생성하고 할당해야 올바른 번다운 차트를 생성할 수 있습니다
+
+## 4. Git Flow Convention
 
 디렉터리 구조는 **frontend** 와 **backend** 로 구분됩니다. 각 개발자들은 해당 디렉터리로 이동한다음 작업하면 됩니다
 
@@ -51,7 +77,7 @@ Branch Types
 
 ```
 (fe-develop)]$ git fetch
-(fe-develop)]$ git checkout -b feature/user-login --track origin/develop
+(fe-develop)]$ git checkout -b fe-feature/user-login-layout --track origin/fe-develop
 ```
 
 2. 작업 브랜치에서 작업합니다
@@ -59,19 +85,19 @@ Branch Types
 3. 작업 브랜치에서 소스를 커밋합니다
 
 ```
-(feature/user-login)]$ git commit -m "feat: add user login layout"
+(fe-feature/user-login-layout)]$ git commit -m "feat: add user login layout"
 ```
 
 4. 작업 브랜치를 origin/develop에 rebase 합니다
 
 ```
-(feature/user-login)]$ git pull --rebase origin fe-develop
+(fe-feature/user-login-layout)]$ git pull --rebase origin fe-develop
 ```
 
 5. 작업 브랜치를 origin에 push합니다
 
 ```
-(feature/user-login)]$ git push origin feature/user-login
+(fe-feature/user-login-layout)]$ git push origin fe-feature/user-login-layout
 ```
 
 6. Gitlab에서 작업 브랜치를 develop에 합치도록 Merge Request 를 생성합니다
@@ -79,7 +105,7 @@ Branch Types
 
 <!-- [ref](https://techblog.woowahan.com/2553/) -->
 
-## 4. Commit Message Convention
+## 5. Commit Message Convention
 
 Commit Message Types
 
@@ -112,7 +138,7 @@ Commit Message Types
 
 <!-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) -->
 
-## 5. Backend Convention
+## 6. Backend Convention
 
 - Style Guide
   - [Google Style Guide for Java](https://google.github.io/styleguide/javaguide.html)
@@ -147,7 +173,7 @@ Commit Message Types
 
 ```
 
-## 6. Frontend Convention
+## 7. Frontend Convention
 
 - Style Guide
   - [Google Style Guide for Typescript](https://google.github.io/styleguide/tsguide.html)
@@ -170,7 +196,7 @@ Commit Message Types
 
 ```
 
-## 7. Wire Frames
+## 8. Wire Frames
 
 - 유저 화면 프레임들
 
@@ -200,7 +226,7 @@ Commit Message Types
 ![경매방 생성](/assets/wireframes/auction/%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%9D%EC%84%B1.png)
 ![낙찰시-모달](/assets/wireframes/auction/%EB%82%99%EC%B0%B0%EC%8B%9C%20%EB%AA%A8%EB%8B%AC.png)
 
-## 8. 기능 정의서
+## 9. 기능 정의서
 
 - 전체적 흐름도
 
@@ -210,7 +236,7 @@ Commit Message Types
 
   ![auction](/assets/flowchart/flowchart-auction.png)
 
-## 9. References
+## 10. References
 
 - [우린 Git-flow를 사용하고 있어요](https://techblog.woowahan.com/2553/)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
