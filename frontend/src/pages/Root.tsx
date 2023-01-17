@@ -1,10 +1,17 @@
 import React from "react";
-import style from "./Root.module.css";
+import styles from "./Root.module.css";
+import ItemsList from "../components/common/ItemsList";
 
 export default function Root() {
   return (
     <>
-      <div className={style.root}>이게 메인컴포넌트</div>
+      <div className={styles.root}>
+        <div className="header bg-turtle-standard h-14"> Header</div>
+        <div className="content">
+          <ItemsList />
+        </div>
+        <div className="footer bg-turtle-standard h-16">Footer</div>
+      </div>
     </>
   );
 }
