@@ -6,14 +6,14 @@
 
 1. [서비스 개요](#1-서비스-개요)
 1. [팀원 소개](#2-팀원-소개)
-1. [Jira Convention]()
-1. [Git Flow Convention](#3-git-flow-convention)
-1. [Commit Message Convention](#4-commit-message-convention)
-1. [Backend Convention](#5-backend-convention)
-1. [Frontend Convention](#6-frontend-convention)
-1. [Wire Frames](#7-wire-frames)
-1. [기능 정의서](#8-기능-정의서)
-1. [References](#9-references)
+1. [Jira Convention](#3-jira-convention)
+1. [Git Flow Convention](#4-git-flow-convention)
+1. [Commit Message Convention](#5-commit-message-convention)
+1. [Backend Convention](#6-backend-convention)
+1. [Frontend Convention](#7-frontend-convention)
+1. [Wire Frames](#8-wire-frames)
+1. [기능 정의서](#9-기능-정의서)
+1. [References](#10-references)
 
 ## 1. 서비스 개요
 
