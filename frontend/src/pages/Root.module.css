@@ -1,0 +1,8 @@
+body {
+}
+
+.root {
+  @apply container max-w-screen-sm mx-auto border;
+  width: 390px;
+  height: 99vh;
+}
