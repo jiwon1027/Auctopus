@@ -1,0 +1,33 @@
+a {
+  text-decoration: none !important;
+}
+p {
+  font-size: 1.2rem;
+}
+.Container {
+  width: 390px;
+  height: 844px;
+  border: solid 1px black;
+  position: relative;
+}
+.Box {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+  bottom: 0px;
+  position: absolute;
+}
+
+.icon {
+  @apply h-12 w-12;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: auto 0;
+  color: #d1d1d1;
+}
+.icon:hover {
+  color: #386641;
+}
