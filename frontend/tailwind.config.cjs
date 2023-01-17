@@ -14,7 +14,7 @@ module.exports = {
         orange: "#ff7849",
         green: "#13ce66",
         "gray-dark": "#273444",
-        gray: "#8492a6",
+        gray: "#D1D1D1",
         "gray-light": "#d3dce6",
         // custom
         "turtle-dark": "#386641",
@@ -23,6 +23,7 @@ module.exports = {
         "grey-dark": "#5C5B5B",
         "grey-standard": "#8E8E8E",
         "grey-light": "#E6E6E6",
+        "grey-dim": "#D1D1D1",
       },
       fontWeight: {
         hairline: 100,
