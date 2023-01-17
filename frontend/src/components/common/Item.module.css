@@ -1,0 +1,4 @@
+.itemBox {
+  @apply bg-turtle-light rounded-lg;
+  height: 7.5rem;
+}

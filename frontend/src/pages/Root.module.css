@@ -1,8 +1,12 @@
 body {
+  @apply bg-slate-300;
 }
 
 .root {
-  @apply container max-w-screen-sm mx-auto border;
+  @apply bg-slate-50 container max-w-screen-sm mx-auto;
   width: 390px;
-  height: 99vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
