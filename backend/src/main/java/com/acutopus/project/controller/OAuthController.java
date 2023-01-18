@@ -1,11 +1,14 @@
 package com.acutopus.project.controller;
 
-import com.acutopus.project.service.KakaoUserService;
-import com.acutopus.project.service.KakaoUserServiceimpl;
+import com.acutopus.project.db.domain.User;
+import com.acutopus.project.db.repository.UserRepository;
+import com.acutopus.project.service.KakaoUserServiceImpl;
 import com.acutopus.project.service.OAuthServiceimpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +25,7 @@ public class OAuthController {
     * */
 
     private OAuthServiceimpl oAuthServiceimpl;
-    private KakaoUserServiceimpl kakaoUserServiceimpl;
+    private KakaoUserServiceImpl kakaoUserServiceimpl;
 
     @GetMapping("/kakao")
     public void kakaoCallBack(@RequestParam String code){
@@ -34,11 +37,11 @@ public class OAuthController {
             System.out.println("access_token : "+ access_token);
 
             kakaoUserServiceimpl.createKakaoUser(access_token);
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
-
 
 }

@@ -1,6 +1,8 @@
 package com.acutopus.project.service;
 
 
+import com.acutopus.project.db.domain.User;
+import com.acutopus.project.db.repository.UserRepository;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -9,12 +11,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class KakaoUserServiceimpl implements KakaoUserService {
+public class KakaoUserServiceImpl implements KakaoUserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
     public void createKakaoUser(String token) throws Exception{
+
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         //access_token을 이용하여 사용자 정보 조회
@@ -53,18 +61,25 @@ public class KakaoUserServiceimpl implements KakaoUserService {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
 
+
+
             System.out.println("id : " + id);
             System.out.println("email : " + email);
             System.out.println("nickname : " + nickname);
             System.out.println("gender : " + gender);
+
+            userRepository.save(User.builder()
+                    .id(id)
+                    .email(email)
+                    .nickname(nickname)
+                    .build());
+
 
             br.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 }
