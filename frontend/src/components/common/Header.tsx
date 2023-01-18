@@ -10,7 +10,7 @@ function Header() {
   return (
     <div className={styles.header}>
       {/* <ChevronLeftIcon className="h-6 w-6 " onClick={() => navigate(-1)} /> */}
-      <h1>Auctopus</h1>
+      <h1 className={styles.mainTitle}>Auctopus</h1>
       <div className={styles.leftBox}>
         <BellIcon className="h-6 w-6 " />
         <MagnifyingGlassIcon className="h-6 w-6" />

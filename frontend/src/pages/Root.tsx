@@ -9,7 +9,6 @@ export default function Root() {
       <div className={styles.root}>
         <Header />
         <ItemsList />
-        <div className="content"></div>
         <Footer />
       </div>
     </>
