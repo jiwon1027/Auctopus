@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Root.module.css";
 import ItemsList from "../components/common/ItemsList";
 import Header from "../components/common/Header";
+import i from "@components/common/";
 
 import Footer from "../components/common/Footer";
 export default function Root() {
