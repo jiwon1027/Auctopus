@@ -9,27 +9,27 @@ import {
 export default function Footer() {
   return (
     <div className={styles.Box}>
-      <div className={styles.icon}>
+      <div className={styles.iconBox}>
         <a href={`/`}>
           <HomeIcon className={styles.icon} />
         </a>
         <p>Home</p>
       </div>
       {/* chat */}
-      <div className={styles.icon}>
+      <div className={styles.iconBox}>
         <a href={`/chat`}>
           <ChatBubbleOvalLeftEllipsisIcon className={styles.icon} />
         </a>
         <p>Chat</p>
       </div>
       {/* likes */}
-      <div className={styles.icon}>
+      <div className={styles.iconBox}>
         <a href={`/likes`}>
           <HeartIcon className={styles.icon} />
         </a>
         <p>Likes</p>
       </div>
-      <div className={styles.icon}>
+      <div className={styles.iconBox}>
         <a href={`/profile`}>
           <UserIcon className={styles.icon} />
         </a>
