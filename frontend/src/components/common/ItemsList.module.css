@@ -1,7 +1,7 @@
 .ItemsList {
   @apply p-2 flex-col space-y-3;
   overflow-y: scroll;
-  height: 84vh;
+  height: 80%;
 }
 /* 스크롤바 디자인 */
 .ItemsList::-webkit-scrollbar {
