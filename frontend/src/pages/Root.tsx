@@ -3,6 +3,7 @@ import styles from "./Root.module.css";
 import ItemsList from "../components/common/ItemsList";
 import Header from "../components/common/Header";
 
+import Footer from "../components/common/Footer";
 export default function Root() {
   return (
     <>
@@ -12,7 +13,7 @@ export default function Root() {
         <div className="content">
           <ItemsList />
         </div>
-        <div className="footer bg-turtle-standard h-16">Footer</div>
+        <Footer />
       </div>
     </>
   );
