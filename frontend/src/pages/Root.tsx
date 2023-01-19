@@ -30,5 +30,4 @@ const Container = styled.div`
 const DumDum = styled.div`
   font-size: 5rem;
   color: ${theme.colors.turtleDark};
-  font-weight: ${theme.fontWeight.extraBold};
 `;
