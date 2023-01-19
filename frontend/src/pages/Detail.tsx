@@ -3,20 +3,31 @@ import DummyImg from "@/assets/detail/dummy.svg";
 import Profile from "@/assets/detail/profile.svg";
 // import { HeartIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { theme } from "@/styles/theme";
 
 export default function Detail() {
   return (
     <>
       <Container>
-        <img src={DummyImg} alt="dummy-img" />
+        <ImgBox>
+          <img src={DummyImg} alt="dummy-img" />
+        </ImgBox>
+
         <div className="imgBox"></div>
         <ProfileBox>
-          <ProfileImg src={Profile} alt="profile-icon" />
+          <div className="profileIconBox">
+            <AccountCircleIcon color="disabled" sx={{ fontSize: 70 }} />
+          </div>
+
+          {/* <ProfileImg src={Profile} alt="profile-icon" /> */}
           <div className="infoBox">
             <div className="infoTitle">초록무너</div>
             <div className="infoBadge">거북이 수호자</div>
           </div>
           <div className="likes">
+            <FavoriteBorderIcon />
             {/* <HeartIcon className={styles.icon} /> */}
           </div>
         </ProfileBox>
@@ -52,26 +63,33 @@ const ProfileImg = styled.img`
   height: 2.5rem;
 `;
 const ImgBox = styled.div`
-  height: 30.4rem;
+  height: 40%;
 `;
 
 const ProfileBox = styled.div`
-  height: 5rem;
+  height: 10%;
+  padding: 0.5rem;
   display: flex;
-  background-color: lightcoral;
+  .profileIconBox {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    margin: auto 0;
+  }
   .infoBox {
     display: flex;
-    width: 78%;
+    width: 79%;
     flex-direction: column;
-    padding: 2rem;
+    padding: 1rem;
   }
   .infoTitle {
     font-size: 1.2rem;
     height: 40%;
+    font-weight: ${theme.fontWeight.bold};
   }
   .infoBadge {
     height: 20%;
-    margin-top: 1rem;
+    margin-top: 0.725rem;
   }
   .likes {
     width: 7%;
@@ -82,7 +100,7 @@ const ProfileBox = styled.div`
 
 const ContentBox = styled.div`
   padding: 1.5rem;
-  height: 25.4rem;
+  height: 40%;
   display: flex;
   flex-direction: column;
   .contentTitle {
@@ -103,6 +121,6 @@ const ContentBox = styled.div`
 `;
 
 const FooterBox = styled.div`
-  height: 3rem;
+  height: 15%;
   background-color: lightblue;
 `;
