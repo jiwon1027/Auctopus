@@ -1,5 +1,6 @@
 package com.auctopus.project.db.domain;
 
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,26 +18,15 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "user")
-public class User {
+@Table(name = "chat")
+public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int chatSeq;
+    private int ChatRoomSeq;
     private int userSeq;
-    private String userName;
-    private String nickname;
-    private String email;
-    private Byte social;
-    private String socialCode;
-    private int bankCode;
-    private String account;
-    private String address;
-    private String profileUrl;
-
-    @Builder
-    public User(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
-    }
+    private String message;
+    private Timestamp date;
 
 }
