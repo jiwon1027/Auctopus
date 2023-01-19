@@ -26,8 +26,3 @@ const Container = styled.div`
   justify-content: space-between;
   position: relative;
 `;
-
-const DumDum = styled.div`
-  font-size: 5rem;
-  color: ${theme.colors.turtleDark};
-`;

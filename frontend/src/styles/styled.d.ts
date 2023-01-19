@@ -10,6 +10,8 @@ declare module "styled-components" {
       greyStandard: string;
       greyLight: string;
       greyDim: string;
+      primary: string;
+      secondary: string;
     };
     fontWeight: {
       hairline: number;

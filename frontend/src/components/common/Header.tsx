@@ -1,22 +1,39 @@
 import React from "react";
-import styles from "./Header.module.css";
-import {
-  // ChevronLeftIcon,
-  BellIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import styled from "styled-components";
+import { theme } from "@/styles/theme";
+import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
 
-function Header() {
+export default function Header() {
   return (
-    <div className={styles.header}>
+    <StyledHeader>
       {/* <ChevronLeftIcon className="h-6 w-6 " onClick={() => navigate(-1)} /> */}
-      <h1 className={styles.mainTitle}>Auctopus</h1>
-      <div className={styles.leftBox}>
-        <BellIcon className="h-6 w-6 " />
-        <MagnifyingGlassIcon className="h-6 w-6" />
+      <Turtle width="5rem" height="4rem" />
+      <div className="iconContainer">
+        <NotificationsNoneOutlinedIcon className="icon" />
+        <SearchOutlinedIcon className="icon" />
       </div>
-    </div>
+    </StyledHeader>
   );
 }
 
-export default Header;
+const StyledHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0.5rem;
+  background-color: transparent;
+
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    /* margin: 0 1rem; */
+  }
+
+  .icon {
+    color: ${theme.colors.primary};
+    margin: 0 0.5rem;
+    width: 2rem;
+  }
+`;
