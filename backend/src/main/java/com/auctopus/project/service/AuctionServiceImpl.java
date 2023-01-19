@@ -1,11 +1,12 @@
-package com.acutopus.project.service;
+package com.auctopus.project.service;
 
-import com.acutopus.project.db.repository.AuctionRepository;
+import com.auctopus.project.db.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.acutopus.project.db.domain.Auction;
+import com.auctopus.project.db.domain.Auction;
+
 @Service
-public class AuctionServiceImpl implements AuctionService{
+public class AuctionServiceImpl implements AuctionService {
 
     @Autowired
     private AuctionRepository auctionRepository;

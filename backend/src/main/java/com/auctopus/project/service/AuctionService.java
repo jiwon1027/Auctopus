@@ -1,6 +1,8 @@
-package com.acutopus.project.service;
+package com.auctopus.project.service;
 
-import com.acutopus.project.db.domain.Auction;
+import com.auctopus.project.db.domain.Auction;
+
 public interface AuctionService {
+
     Auction findAuctionById(Long id);
 }

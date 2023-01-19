@@ -1,6 +1,5 @@
 package com.auctopus.project.service;
 
-
 import java.util.HashMap;
 
 public interface KakaoUserService {

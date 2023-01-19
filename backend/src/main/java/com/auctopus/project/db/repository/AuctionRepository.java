@@ -1,6 +1,6 @@
-package com.acutopus.project.db.repository;
+package com.auctopus.project.db.repository;
 
-import com.acutopus.project.db.domain.Auction;
+import com.auctopus.project.db.domain.Auction;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

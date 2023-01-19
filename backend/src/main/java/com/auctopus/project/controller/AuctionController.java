@@ -1,8 +1,8 @@
 package com.auctopus.project.controller;
 
-import com.acutopus.project.db.domain.Auction;
-import com.acutopus.project.db.repository.AuctionRepository;
-import com.acutopus.project.service.AuctionService;
+import com.auctopus.project.db.domain.Auction;
+import com.auctopus.project.db.repository.AuctionRepository;
+import com.auctopus.project.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +43,9 @@ public class AuctionController {
         Auction updateAuction = auctionRepository.getReferenceById(id);
         updateAuction.setTitle(auction.getTitle());
         updateAuction.setPrice(auction.getPrice());
-        updateAuction.setCategory_seq(auction.getCategory_seq());
+        updateAuction.setCategorySeq(auction.getCategorySeq());
         updateAuction.setContent(auction.getContent());
-        updateAuction.setStart_time(auction.getStart_time());
+        updateAuction.setStartTime(auction.getStartTime());
         auctionRepository.save(updateAuction);
 
         return new ResponseEntity<>("{}", HttpStatus.OK);

@@ -1,6 +1,6 @@
-package com.acutopus.project.db.repository;
+package com.auctopus.project.db.repository;
 
-import com.acutopus.project.db.domain.AuctionImage;
+import com.auctopus.project.db.domain.AuctionImage;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;

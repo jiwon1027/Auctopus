@@ -1,6 +1,5 @@
 package com.auctopus.project.service;
 
-
 import com.auctopus.project.db.repository.UserRepository;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -24,10 +23,10 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     private UserRepository userRepository;
 
     /*
-    * 인가코드(code)를 받으면 AccessToken + ID Token을 발급
-    *
-    * */
-    public HashMap<String, Object> getKakaoAccessToken (String code) {
+     * 인가코드(code)를 받으면 AccessToken + ID Token을 발급
+     *
+     * */
+    public HashMap<String, Object> getKakaoAccessToken(String code) {
         String access_Token = "";
         String refresh_Token = "";
         String id_Token = "";
@@ -48,7 +47,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=47670895bea0b100009897c133708643"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=https://localhost:8080/kakao/login"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append(
+                    "&redirect_uri=https://localhost:8080/kakao/login"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -91,7 +91,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         return tokenInfo;
     }
 
-    public HashMap<String, Object> getKakaoUserInfo(String token) throws Exception{
+    public HashMap<String, Object> getKakaoUserInfo(String token) throws Exception {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -104,7 +104,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", "Bearer " + token); //전송할 header 작성, access_token전송
+            conn.setRequestProperty("Authorization",
+                    "Bearer " + token); //전송할 header 작성, access_token전송
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
@@ -127,11 +128,14 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             //여기서 사용하는 id는 정확히 뭔지 모르겠음, 그냥 식별자 그 자체고 우리가 활용하는 데이터는 아닌거같음
 //            int id = element.getAsJsonObject().get("id").getAsInt();
 
-            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
+            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject()
+                    .get("has_email").getAsBoolean();
             String email = "";
-            String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
-            if(hasEmail){
-                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+            String nickname = element.getAsJsonObject().get("properties").getAsJsonObject()
+                    .get("nickname").getAsString();
+            if (hasEmail) {
+                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject()
+                        .get("email").getAsString();
             }
 
 //            System.out.println("id : " + id);
@@ -146,7 +150,6 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return kakaoUserInfo;
     }

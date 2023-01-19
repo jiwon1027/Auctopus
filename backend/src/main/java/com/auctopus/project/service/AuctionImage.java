@@ -1,4 +1,4 @@
-package com.acutopus.project.service;
+package com.auctopus.project.service;
 
 public interface AuctionImage {
 
