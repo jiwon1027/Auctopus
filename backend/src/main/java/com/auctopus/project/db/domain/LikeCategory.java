@@ -17,26 +17,13 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "user")
-public class User {
+@Table(name = "like_category")
+public class LikeCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int likeCategorySeq;
     private int userSeq;
-    private String userName;
-    private String nickname;
-    private String email;
-    private Byte social;
-    private String socialCode;
-    private int bankCode;
-    private String account;
-    private String address;
-    private String profileUrl;
-
-    @Builder
-    public User(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
-    }
+    private int categorySeq;
 
 }

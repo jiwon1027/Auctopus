@@ -17,26 +17,17 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "user")
-public class User {
+@Table(name = "history")
+public class History {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int historySeq;
     private int userSeq;
-    private String userName;
-    private String nickname;
-    private String email;
-    private Byte social;
-    private String socialCode;
-    private int bankCode;
-    private String account;
-    private String address;
-    private String profileUrl;
-
-    @Builder
-    public User(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
-    }
+    private int auctionSeq;
+    private int dealInfo;
+    private int finalPrice;
+    private int createTime;
+    private int state;
 
 }
