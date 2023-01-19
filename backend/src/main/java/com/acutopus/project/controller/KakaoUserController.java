@@ -37,12 +37,13 @@ public class KakaoUserController {
             HashMap<String, Object> kakaoUserInfo= kakaoUserServiceimpl.getKakaoUserInfo(access_token);
 
             // email이 현재 DB에 저장있지 않으면 DB에 저장
-            if(userRepository.findByEmail((String)kakaoUserInfo.get("email")).isPresent()){
-                userRepository.save(User.builder()
-                        .email((String) kakaoUserInfo.get("email"))
-                        .nickname((String) kakaoUserInfo.get("nickname"))
-                        .build());
-            }
+//            if(userRepository.findByEmail((String)kakaoUserInfo.get("email")).isPresent()){
+//                userRepository.save(User.builder()
+//                        .email((String) kakaoUserInfo.get("email"))
+//                        .nickname((String) kakaoUserInfo.get("nickname"))
+//                        .build());
+//            }
+
 
 
         }catch (Exception e){
