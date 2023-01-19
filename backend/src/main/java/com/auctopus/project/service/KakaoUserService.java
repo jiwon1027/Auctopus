@@ -1,12 +1,11 @@
-package com.acutopus.project.service;
+package com.auctopus.project.service;
 
 
-import com.acutopus.project.db.domain.User;
 import java.util.HashMap;
 
 public interface KakaoUserService {
 
-    String getKakaoAccessToken(String code);
+    HashMap<String, Object> getKakaoAccessToken(String code);
 
     HashMap<String, Object> getKakaoUserInfo(String token) throws Exception;
 

@@ -1,8 +1,7 @@
-package com.acutopus.project.service;
+package com.auctopus.project.service;
 
 
-import com.acutopus.project.db.domain.User;
-import com.acutopus.project.db.repository.UserRepository;
+import com.auctopus.project.db.repository.UserRepository;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -28,10 +27,13 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     * 인가코드(code)를 받으면 AccessToken + ID Token을 발급
     *
     * */
-    public String getKakaoAccessToken (String code) {
+    public HashMap<String, Object> getKakaoAccessToken (String code) {
         String access_Token = "";
         String refresh_Token = "";
+        String id_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
+
+        HashMap<String, Object> tokenInfo = new HashMap<>();
 
         try {
             URL url = new URL(reqURL);
@@ -53,7 +55,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+//            System.out.println("responseCode : " + responseCode);
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -63,7 +65,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
+//            System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -71,10 +73,14 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            id_Token = element.getAsJsonObject().get("id_token").getAsString();
 
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
+            tokenInfo.put(("access_token"), access_Token);
+            tokenInfo.put(("id_token"), id_Token);
 
+//            System.out.println("access_token : " + access_Token);
+//            System.out.println("refresh_token : " + refresh_Token);
+//            System.out.println("id_Token : " + id_Token);
 
             br.close();
             bw.close();
@@ -82,7 +88,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             e.printStackTrace();
         }
 
-        return access_Token;
+        return tokenInfo;
     }
 
     public HashMap<String, Object> getKakaoUserInfo(String token) throws Exception{
@@ -102,7 +108,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+//            System.out.println("responseCode : " + responseCode);
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -112,7 +118,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
+//            System.out.println("response body : " + result);
 
             //Gson 라이브러리로 JSON파싱
             JsonParser parser = new JsonParser();
@@ -129,8 +135,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             }
 
 //            System.out.println("id : " + id);
-            System.out.println("email : " + email);
-            System.out.println("nickname : " + nickname);
+//            System.out.println("email : " + email);
+//            System.out.println("nickname : " + nickname);
 
             kakaoUserInfo.put("email", email);
             kakaoUserInfo.put("nickname", nickname);
