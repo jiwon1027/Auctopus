@@ -7,3 +7,6 @@
   @apply w-14 flex flex-row justify-between;
   margin: auto 0;
 }
+.mainTitle {
+  @apply text-2xl pl-1 text-turtle-dark font-extra-bold;
+}
