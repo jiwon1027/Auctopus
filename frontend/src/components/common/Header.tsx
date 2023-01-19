@@ -22,17 +22,17 @@ export default function Header(props: IProps): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const from = location.state?.from?.pathname; // || "/"
+  const from = location.state?.from?.pathname; // || "/"
   return (
     <StyledHeader>
-      {/* {from ? (
+      {from ? (
         <ChevronLeftOutlinedIcon
           className="h-6 w-6 "
           onClick={() => navigate(-1)}
         />
       ) : (
         <Turtle width="5rem" height="4rem" />
-      )} */}
+      )}
       <h1 className="title">{props.title}</h1>
       <div className="iconContainer">
         {/* FIXME: be moved to main page */}
