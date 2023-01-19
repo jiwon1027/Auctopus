@@ -1,0 +1,14 @@
+.ItemsList {
+  @apply px-4 flex-col space-y-3;
+  overflow-y: scroll;
+  height: 88%;
+}
+/* 스크롤바 디자인 */
+.ItemsList::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+.ItemsList::-webkit-scrollbar-thumb {
+  background-color: lightgrey;
+  border-radius: 1em;
+}
