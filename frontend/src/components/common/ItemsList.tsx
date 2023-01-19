@@ -2,8 +2,25 @@ import React from "react";
 import Item from "./Item";
 import styled from "styled-components";
 
+export default function ItemsList() {
+  return (
+    <>
+      <div className=" h-12"> 필터</div>
+      <ItemList>
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+      </ItemList>
+    </>
+  );
+}
+
 const ItemList = styled.div`
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 88%;
   display: flex;
   flex-direction: column;
@@ -18,14 +35,3 @@ const ItemList = styled.div`
     border-radius: 1em;
   }
 `;
-
-export default function ItemsList() {
-  return (
-    <>
-      <div className=" h-12"> 필터</div>
-      <ItemList>
-        <Item />
-      </ItemList>
-    </>
-  );
-}
