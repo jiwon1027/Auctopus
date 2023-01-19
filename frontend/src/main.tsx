@@ -7,16 +7,15 @@ import router from "./router";
 import { theme } from "./styles/theme";
 
 const GlobalStyle = createGlobalStyle`
-${normalize}
- html{
-  font-size: 16px;
-  box-sizing: border-box;
-}
-body{
-  margin: 0;
-  background-color: lightyellow;
-}
-
+  ${normalize}
+  html{
+    font-size: 16px; // 1rem = 10px
+    box-sizing: border-box;
+  }
+  body{
+    margin: 0;
+    background-color: lightyellow;
+  } 
 `;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
