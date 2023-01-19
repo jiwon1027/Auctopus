@@ -8,7 +8,6 @@
     "esbenp.prettier-vscode",
     "christian-kohler.path-intellisense",
     "kisstkondoros.vscode-gutter-preview",
-    "clinyong.vscode-css-modules",
     "styled-components.vscode-styled-components"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.

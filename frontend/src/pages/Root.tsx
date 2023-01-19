@@ -2,12 +2,13 @@ import React from "react";
 import ItemsList from "../components/common/ItemsList";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
-import { theme } from "@/styles/theme";
+import Header from "@components/common/Header";
 
 export default function Root() {
   return (
     <>
       <Container>
+        <Header />
         <ItemsList />
         <Footer />
       </Container>
