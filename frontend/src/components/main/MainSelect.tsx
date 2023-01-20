@@ -1,13 +1,28 @@
 import React from "react";
-import styles from "@/components/main/MainSelect.module.css";
+import styled from "styled-components";
 
 export default function MainSelect() {
   return (
     <>
-      <div className={styles.selectBox}>
-        <div className={styles.selectBoxL}>진행중</div>
-        <div className={styles.selectBoxR}>진행예정</div>
-      </div>
+      <SelectBox>
+        <div className="selectBoxL">진행중</div>
+        <div className="selectBoxR">진행 예정</div>
+      </SelectBox>
     </>
   );
 }
+
+const SelectBox = styled.div`
+  width: 100%;
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  cursor: pointer;
+
+  .selectBoxL {
+  }
+`;
