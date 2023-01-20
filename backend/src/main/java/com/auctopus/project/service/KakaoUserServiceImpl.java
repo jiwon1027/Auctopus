@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
     /*
      * 인가코드(code)를 받으면 AccessToken + ID Token을 발급
-     *
      * */
+    
     public HashMap<String, Object> getKakaoAccessToken(String code) {
         String access_Token = "";
         String refresh_Token = "";
@@ -91,6 +92,9 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         return tokenInfo;
     }
 
+    /*
+    * access_token을 받으면 kakao server에게 사용자정보 조회
+    * */
     public HashMap<String, Object> getKakaoUserInfo(String token) throws Exception {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -152,6 +156,67 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         }
 
         return kakaoUserInfo;
+    }
+
+    public Boolean validationIdToken(String id_token){
+        String reqURL = "https://kapi.kakao.com/oauth/tokeninfo";
+        String kakaoRestapiKey = "47670895bea0b100009897c133708643";
+        String certification = "https://kauth.kakao.com";
+
+
+        // 1. base64로 디코딩
+        String payloadJWT  = id_token.split("[.]")[1];
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        String result = new String(decoder.decode(payloadJWT));
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(result);
+
+        // 2. 페이로드의 iss 값이 https://kauth.kakao.com와 일치하는지 확인
+        String iss = element.getAsJsonObject().get("iss").getAsString();
+
+        // 3. 페이로드의 aud(REST API 키값) 값이 서비스 앱 키와 일치하는지 확인
+        String aud = element.getAsJsonObject().get("aud").getAsString();
+
+
+        System.out.println(iss+ " "+aud);
+
+        if (iss.equals(certification) && aud.equals(kakaoRestapiKey)){
+            System.out.println("유효성 검사 통과!!!");
+
+        }
+        System.out.println("********************************************************************");
+
+
+//        try{
+//            URL url = new URL(reqURL);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//
+//            conn.setRequestMethod("POST");
+//            conn.setDoOutput(true);
+////            conn.setRequestProperty("Authorization",
+////                    "Bearer " + token); //전송할 header 작성, access_token전송
+//
+//            //결과 코드가 200이라면 성공
+//            int responseCode = conn.getResponseCode();
+//            System.out.println("responseCode : " + responseCode);
+//
+//            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+//            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            String line = "";
+//            String result = "";
+//
+//            while ((line = br.readLine()) != null) {
+//                result += line;
+//            }
+//            System.out.println("response body : " + result);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+
+
+        return false;
     }
 
 }
