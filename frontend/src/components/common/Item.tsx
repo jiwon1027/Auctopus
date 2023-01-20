@@ -36,46 +36,46 @@ export default function Item() {
 }
 
 const ItemBox = styled.div`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
   display: flex;
-  height: 6.5rem;
+  height: 10.4rem;
 
   img {
-    border-radius: 0.5rem;
+    border-radius: 0.8rem;
     max-width: 100%;
     max-height: 100%;
   }
 
   .imgBox {
     width: 40%;
-    border-radius: 0.5rem;
+    border-radius: 0.8rem;
   }
 
   .liveBox {
     display: flex;
     position: relative;
     height: auto;
-    left: 0.25rem;
-    bottom: 1.5rem;
+    left: 0.4rem;
+    bottom: 2.4rem;
   }
 
   .liveBoxDesc {
     font-size: 12px;
     color: white;
     font-weight: 600;
-    padding-top: 0.15rem;
-    padding-left: 0.125rem;
+    padding-top: 0.24rem;
+    padding-left: 0.2;
   }
 
   .infoBox {
     width: 60%;
-    padding-left: 0.75rem;
+    padding-left: 1.2rem;
   }
 
   .infoTitle {
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.92rem;
   }
 
   .infoTimeBox {
@@ -85,14 +85,14 @@ const ItemBox = styled.div`
   }
 
   .infoTimeDesc {
-    padding-top: 0.25rem;
-    padding-right: 0.5rem;
+    padding-top: 0.4rem;
+    padding-right: 0.8rem;
     font-size: 12px;
   }
 
   .infoTime {
     display: flex;
-    padding-top: 0.1rem;
+    padding-top: 0.16rem;
     font-weight: 700;
     color: #d32f2f;
     font-size: 14px;
@@ -101,14 +101,14 @@ const ItemBox = styled.div`
   .infoPriceBox {
     display: flex;
     justify-content: flex-end;
-    margin-top: 1.75rem;
+    margin-top: 2.8rem;
     color: ${theme.colors.turtleDark};
   }
 
   .infoPriceDesc {
     color: ${theme.colors.greyDark};
-    padding-top: 0.25rem;
-    padding-right: 0.5rem;
+    padding-top: 0.4rem;
+    padding-right: 0.8rem;
     font-size: 14px;
   }
 
@@ -120,8 +120,8 @@ const ItemBox = styled.div`
 `;
 
 const UnderLine = styled.div`
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
   width: 100%;
-  margin: 0.3rem auto;
-  border: solid 0.025rem ${theme.colors.greyLight}; // 야매로 해봄.. div라서 안되는듯
+  margin: 0.48rem auto;
+  border: solid 0.04rem ${theme.colors.greyLight};
 `;
