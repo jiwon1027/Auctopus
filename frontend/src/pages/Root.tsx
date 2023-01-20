@@ -2,12 +2,13 @@ import React from "react";
 import ItemsList from "../components/common/ItemsList";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
-import { theme } from "@/styles/theme";
+import Header from "@components/common/Header";
 
 export default function Root() {
   return (
     <>
       <Container>
+        <Header />
         <ItemsList />
         <Footer />
       </Container>
@@ -25,9 +26,4 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-`;
-
-const DumDum = styled.div`
-  font-size: 5rem;
-  color: ${theme.colors.turtleDark};
 `;

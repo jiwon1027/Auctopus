@@ -9,6 +9,8 @@ export const theme: DefaultTheme = {
     greyStandard: "#8E8E8E",
     greyLight: "#E6E6E6",
     greyDim: "#D1D1D1",
+    primary: "#386641",
+    secondary: "#A7C957",
   },
   fontWeight: {
     hairline: 100,
