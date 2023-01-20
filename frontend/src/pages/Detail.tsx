@@ -1,6 +1,5 @@
 import React from "react";
 import DummyImg from "@/assets/detail/dummy.svg";
-import Profile from "@/assets/detail/profile.svg";
 // import { HeartIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,16 +17,15 @@ export default function Detail() {
         <div className="imgBox"></div>
         <ProfileBox>
           <div className="profileIconBox">
-            <AccountCircleIcon color="disabled" sx={{ fontSize: 70 }} />
+            <AccountCircleIcon color="disabled" sx={{ fontSize: 50 }} />
           </div>
-
-          {/* <ProfileImg src={Profile} alt="profile-icon" /> */}
           <div className="infoBox">
             <div className="infoTitle">초록무너</div>
             <div className="infoBadge">거북이 수호자</div>
           </div>
           <div className="likes">
-            <FavoriteBorderIcon />
+            <FavoriteBorderIcon color="disabled" sx={{ fontSize: 30 }} />
+            <div className="likesCount">146</div>
             {/* <HeartIcon className={styles.icon} /> */}
           </div>
         </ProfileBox>
@@ -44,6 +42,8 @@ export default function Detail() {
     </>
   );
 }
+
+//imgBox 35 profileBox 10 ContentBox
 const Container = styled.div`
   background-color: white;
   margin-left: auto;
@@ -58,12 +58,9 @@ const Container = styled.div`
   }
 `;
 
-const ProfileImg = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
-`;
 const ImgBox = styled.div`
-  height: 40%;
+  height: 45%;
+  overflow: hidden;
 `;
 
 const ProfileBox = styled.div`
@@ -71,46 +68,51 @@ const ProfileBox = styled.div`
   padding: 0.5rem;
   display: flex;
   .profileIconBox {
-    width: 35%;
+    width: 20%;
     display: flex;
     justify-content: center;
     margin: auto 0;
   }
   .infoBox {
     display: flex;
-    width: 79%;
+    width: 60%;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.6em;
   }
   .infoTitle {
-    font-size: 1.2rem;
+    font-size: 1.92rem;
     height: 40%;
     font-weight: ${theme.fontWeight.bold};
   }
   .infoBadge {
     height: 20%;
-    margin-top: 0.725rem;
+    margin-top: 1.16rem;
+    font-size: 1.2rem;
+    color: ${theme.colors.turtleStandard};
   }
   .likes {
-    width: 7%;
+    width: 10%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
 `;
 
 const ContentBox = styled.div`
-  padding: 1.5rem;
-  height: 40%;
+  padding: 2.4rem;
   display: flex;
+  height: 35%;
+  border: solid 2px green;
   flex-direction: column;
   .contentTitle {
-    font-size: 1.2rem;
+    font-size: 1.92rem;
     height: 20%;
     border: solid 2px red;
   }
   .contentCataegory {
     height: 15%;
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     color: gray;
     border: solid 2px red;
   }
@@ -122,5 +124,4 @@ const ContentBox = styled.div`
 
 const FooterBox = styled.div`
   height: 15%;
-  background-color: lightblue;
 `;
