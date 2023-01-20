@@ -24,14 +24,14 @@ const ItemList = styled.div`
   height: 88%;
   display: flex;
   flex-direction: column;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
 
   &::-webkit-scrollbar {
-    width: 0.2em;
+    width: 0.32em;
   }
   &::-webkit-scrollbar-thumb {
     background-color: lightgrey;
-    border-radius: 1em;
+    border-radius: 1.6em;
   }
 `;
