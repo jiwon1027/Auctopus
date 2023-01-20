@@ -1,5 +1,5 @@
 import * as React from "react";
-import ToggleButton from "@mui/material/ToggleButton";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
@@ -7,29 +7,39 @@ import { theme } from "@/styles/theme";
 export default function MainToggleButtonGroup() {
   const [alignment, setAlignment] = React.useState("live");
 
-  const handleChange = (
+  const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    newAlignment: string | null
   ) => {
-    setAlignment(newAlignment);
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
   };
 
   return (
     <ToggleButtonGroup
-      color="success"
       value={alignment}
       exclusive
-      onChange={handleChange}
+      onChange={handleAlignment}
       aria-label="Platform"
       sx={{ paddingY: 2, marginX: 4 }}
     >
-      <CustomToogleButton value="live">진행중</CustomToogleButton>
-      <CustomToogleButton value="nonlive">진행 예정</CustomToogleButton>
+      <ToggleButton value="live">진행중</ToggleButton>
+      <ToggleButton value="nonlive">진행 예정</ToggleButton>
     </ToggleButtonGroup>
   );
 }
 
-const CustomToogleButton = mstyled(ToggleButton)`
-  width: 170px;
-  /* background-color: ${(props) => (props.ariaPressed ? "red" : "white")} */
-`;
+const ToggleButton = mstyled(MuiToggleButton)({
+  width: "170px",
+  height: "50px",
+  fontSize: "16px",
+  borderRadius: "15px",
+  border: `solid ${theme.colors.turtleStandard}`,
+  fontWeight: `${theme.fontWeight.medium}`,
+  "&.Mui-selected, &.Mui-selected:hover": {
+    color: "white",
+    backgroundColor: `${theme.colors.turtleStandard}`,
+    fontWeight: `${theme.fontWeight.medium}`,
+  },
+});

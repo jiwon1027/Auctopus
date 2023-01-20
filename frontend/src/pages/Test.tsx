@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 const CustomizedSlider = mstyled(Slider)`
   color: #20b2aa;
+  colo
 
   :hover {
     /* color: #2e8b57; */
