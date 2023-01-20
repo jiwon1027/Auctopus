@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuctionImageRepository {
+
     AuctionImage findById(Long imageId);
+
     Optional<List<AuctionImage>> findByAuctionSeq(Long auction_seq);
+
     @Transactional
     @Modifying(clearAutomatically = true)
     void deleteAllByAuctionSeq(Long auction_seq);

@@ -1,4 +1,4 @@
-package com.auctopus.project.service;
+package com.auctopus.project.api.service;
 
 import org.springframework.stereotype.Service;
 
