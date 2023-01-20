@@ -7,7 +7,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "@/styles/theme";
 
 describe("simple test", () => {
-  it("tests to show a text", () => {
+  it("tests that title is properly shown", () => {
     render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
