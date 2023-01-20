@@ -31,11 +31,11 @@ export default function MainToggleButtonGroup() {
 }
 
 const ToggleButton = mstyled(MuiToggleButton)({
-  width: "170px",
-  height: "50px",
-  fontSize: "16px",
+  width: "17rem",
+  height: "5rem",
+  fontSize: "1.6rem",
   borderRadius: "15px",
-  border: `solid ${theme.colors.turtleStandard}`,
+  border: `solid 1.5px ${theme.colors.turtleStandard}`,
   fontWeight: `${theme.fontWeight.medium}`,
   "&.Mui-selected, &.Mui-selected:hover": {
     color: "white",
