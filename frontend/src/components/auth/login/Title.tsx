@@ -5,24 +5,24 @@ import styled from "styled-components";
 export default function Title() {
   return (
     <StyledTitle>
-      <h1 className="title">Auctopus</h1>
-      <div className="imgContainer">
+      <h1>Auctopus</h1>
+      <div>
         <Turtle className="signatureIcon" />
       </div>
     </StyledTitle>
   );
 }
 
-const StyledTitle = styled.section`
+const StyledTitle = styled.div`
   flex: 1;
 
-  .title {
+  h1 {
     text-align: center;
     font-size: 5rem;
     color: ${(props) => props.theme.colors.primary};
   }
 
-  .imgContainer {
+  div {
     height: 100px;
 
     .signatureIcon {

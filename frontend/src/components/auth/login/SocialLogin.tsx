@@ -7,20 +7,19 @@ export default function SocialLogin() {
 
   return (
     <StyledSocialLogin>
-      <Button variant="outlined" className="btn">
-        Kakao
-      </Button>
+      <Button variant="outlined">Kakao</Button>
     </StyledSocialLogin>
   );
 }
 
-const StyledSocialLogin = styled.section`
+const StyledSocialLogin = styled.div`
   flex: 1;
   text-align: center;
 
-  .btn {
+  button {
     border-color: ${(props) => props.theme.colors.primary};
     color: ${(props) => props.theme.colors.primary};
     margin-top: 3rem;
+    font-size: 1.8rem;
   }
 `;

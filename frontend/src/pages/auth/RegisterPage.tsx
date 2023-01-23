@@ -1,11 +1,13 @@
 import React from "react";
 import Layout from "@components/common/Layout";
-import RegisterForm from "@components/auth/register/RegisterForm";
+import Form from "@components/auth/register/Form";
+import Title from "@components/auth/register/Title";
 
 export default function RegisterPage() {
   return (
     <Layout leftIcon="back">
-      <RegisterForm />
+      <Title />
+      <Form />
     </Layout>
   );
 }
