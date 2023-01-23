@@ -8,7 +8,7 @@ export default function Root() {
   return (
     <>
       <Container>
-        <Header />
+        <Header leftIcon="turtle" />
         <ItemsList />
         <Footer />
       </Container>
