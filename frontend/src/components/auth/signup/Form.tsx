@@ -6,6 +6,7 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { useNavigate } from "react-router-dom";
 
 const userInitState = {
   email: "",
@@ -29,13 +30,16 @@ function reducer(state: typeof userInitState, action: ACTIONTYPE) {
     case "updatePassword":
     case "updatePasswordConfirm":
       return { ...state, [action.payload.name]: action.payload.value };
-    // TODO: "submit"
+    case "submit":
+      // TODO: check sanity before "submit"
+      return state;
     default:
       return state;
   }
 }
 
-export default function RegisterForm() {
+export default function Form() {
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, userInitState);
 
   const updateHandler = (e: React.SyntheticEvent) => {
@@ -61,10 +65,13 @@ export default function RegisterForm() {
     }
   };
 
-  const submitHandler = () => dispatch({ type: "submit" });
+  const submitHandler = () => {
+    dispatch({ type: "submit" });
+    navigate("./additional");
+  };
 
   return (
-    <StyledRegisterForm method="POST" onSubmit={submitHandler}>
+    <StyledForm method="POST" onSubmit={submitHandler}>
       <TextField
         className="textField"
         // label="Email"
@@ -153,11 +160,11 @@ export default function RegisterForm() {
       <Button variant="contained" disableElevation type="submit">
         Next
       </Button>
-    </StyledRegisterForm>
+    </StyledForm>
   );
 }
 
-const StyledRegisterForm = styled.form`
+const StyledForm = styled.form`
   flex: 5;
   display: flex;
   flex-direction: column;

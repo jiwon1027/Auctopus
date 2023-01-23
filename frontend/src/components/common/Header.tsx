@@ -5,7 +5,7 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
 import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /**
  * @param title
@@ -30,6 +30,7 @@ export interface IProps {
  */
 export default function Header(props: IProps): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const RightComponent = (): JSX.Element => {
     switch (location.pathname) {
@@ -50,9 +51,10 @@ export default function Header(props: IProps): JSX.Element {
   return (
     <StyledHeader>
       {props.leftIcon === "back" ? (
-        <Link to="..">
-          <ChevronLeftOutlinedIcon />
-        </Link>
+        <ChevronLeftOutlinedIcon
+          className="backIcon"
+          onClick={() => navigate(-1)}
+        />
       ) : props.leftIcon === "turtle" ? (
         <Turtle className="signatureIcon" />
       ) : (
@@ -73,6 +75,14 @@ const StyledHeader = styled.header`
   margin: 0.5rem;
   background-color: transparent;
 
+  .backIcon {
+    position: relative;
+    left: -2rem;
+    color: ${(props) => props.theme.colors.primary};
+    width: 5rem;
+    height: 5rem;
+  }
+
   .signatureIcon {
     width: 8.6rem;
     height: 5.4rem;
@@ -87,8 +97,6 @@ const StyledHeader = styled.header`
   .iconContainer {
     display: flex;
     align-items: center;
-    /* color:  */
-    /* margin: 0 1rem; */
 
     .icon {
       color: ${(props) => props.theme.colors.primary};

@@ -1,9 +1,9 @@
 import React from "react";
 import Layout from "@components/common/Layout";
-import Form from "@components/auth/register/Form";
-import Title from "@components/auth/register/Title";
+import Form from "@components/auth/signup/Form";
+import Title from "@components/auth/signup/Title";
 
-export default function RegisterPage() {
+export default function SignupPage() {
   return (
     <Layout leftIcon="back">
       <Title />

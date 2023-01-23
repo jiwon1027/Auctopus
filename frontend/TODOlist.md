@@ -10,5 +10,7 @@
 
 # FIXME list
 
+- <Link to=".."> 설명 자세히 수정해서 알려줄것 
+  - useNavigate() 훅 써라
 - 공통 Container 컴포넌트 필요
 - MUI의 Virtual list 가이드
