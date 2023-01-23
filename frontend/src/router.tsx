@@ -10,7 +10,7 @@ import Chat from "./pages/Chat";
 import Likes from "./pages/Likes";
 import Profile from "./pages/Profile";
 import Detail from "./pages/Detail";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/auth/LoginPage";
 
 const router = createBrowserRouter([
   {

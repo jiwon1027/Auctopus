@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 export default function SocialLogin() {
+  // TODO: social login
+
   return (
     <StyledSocialLogin>
       <Button variant="outlined" className="btn">
