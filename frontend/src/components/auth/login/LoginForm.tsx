@@ -11,8 +11,8 @@ export default function LoginForm() {
   const submitHandler = () => console.log("submit");
 
   return (
-    <StyledForm>
-      <form onSubmit={submitHandler}>
+    <StyledLoginForm>
+      <form method="POST" onSubmit={submitHandler}>
         <TextField
           ref={emailRef}
           id="outlined-basic"
@@ -63,21 +63,21 @@ export default function LoginForm() {
           </NavLink>
         </div>
       </form>
-    </StyledForm>
+    </StyledLoginForm>
   );
 }
 
-const StyledForm = styled.section`
+const StyledLoginForm = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
   margin: 0;
 
   form {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 100%;
   }
 
   .btn {
