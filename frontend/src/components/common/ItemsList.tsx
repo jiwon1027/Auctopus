@@ -1,14 +1,11 @@
 import React from "react";
 import Item from "./Item";
-import MainSelect from "@components/main/MainSelect";
-import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
+
 import styled from "styled-components";
 
 export default function ItemsList() {
   return (
     <>
-      {/* <MainSelect /> */}
-      <MainToggleButtonGroup />
       <ItemList>
         <Item />
         <Item />
