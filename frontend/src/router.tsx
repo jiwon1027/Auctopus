@@ -12,6 +12,7 @@ import Detail from "./pages/Detail";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
+import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/signup/additional",
     element: <AdditionalInfoPage />,
+  },
+  {
+    path: "/signup/category",
+    element: <CategoryInfoPage />,
   },
   {
     path: "/detail",

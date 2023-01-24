@@ -1,5 +1,6 @@
 # TODO list
 
+- 관심 카테고리의 "건너뛰기"는 무슨 역할이냐
 - social login
   - prerequisite: 카카오 개발자 앱에 등록된 rest_api_key, redirect_uri 를 백엔드 개발자와 상의할 것
   - https://data-jj.tistory.com/53
@@ -10,7 +11,7 @@
 
 # FIXME list
 
-- <Link to=".."> 설명 자세히 수정해서 알려줄것 
-  - useNavigate() 훅 써라
+- \<Link to=".."> 설명 자세히 수정해서 알려줄것
+  - MUI 컴포넌트에 링크 걸어야하는 경우, useNavigate() 훅 써라
 - 공통 Container 컴포넌트 필요
 - MUI의 Virtual list 가이드

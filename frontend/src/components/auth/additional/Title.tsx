@@ -12,7 +12,6 @@ export default function Title() {
 const StyledTitle = styled.div`
   flex: 1;
   display: flex;
-  justify-content: center;
 
   h1 {
     font-size: 3.5rem;
