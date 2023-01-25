@@ -12,7 +12,7 @@ export default function Item() {
         <div className="imgBox">
           <img src={Image} alt="image" />
           <div className="liveBox">
-            <CircleIcon color="error" sx={{ fontSize: 20 }} />
+            <CircleIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">25명</div>
           </div>
         </div>
@@ -57,15 +57,15 @@ const ItemBox = styled.div`
     position: relative;
     height: auto;
     left: 0.4rem;
-    bottom: 2.4rem;
+    bottom: 2.2rem;
+    text-align: center;
   }
 
   .liveBoxDesc {
     font-size: 12px;
     color: white;
     font-weight: 600;
-    padding-top: 0.24rem;
-    padding-left: 0.2;
+    padding-left: 0.2rem;
   }
 
   .infoBox {
