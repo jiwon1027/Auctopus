@@ -2,6 +2,7 @@ import React from "react";
 import DummyImg from "@/assets/detail/dummy.svg";
 import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -9,7 +10,15 @@ import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Modal from "../components/common/Modal";
 export default function Detail() {
+  const [isBuyer, setIsBuyer] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const likeHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setIsLiked(!isLiked);
+    console.log(event);
+  };
   return (
     <>
       <Container>
@@ -31,7 +40,20 @@ export default function Detail() {
             <div className="infoBadge">거북이 수호자</div>
           </div>
           <div className="likes">
-            <FavoriteBorderIcon color="disabled" sx={{ fontSize: 30 }} />
+            {isLiked ? (
+              <FavoriteIcon
+                onClick={likeHandler}
+                color="warning"
+                sx={{ fontSize: 30 }}
+              />
+            ) : (
+              <FavoriteBorderIcon
+                onClick={likeHandler}
+                color="disabled"
+                sx={{ fontSize: 30 }}
+              />
+            )}
+
             <div className="likesCount">146</div>
             {/* <HeartIcon className={styles.icon} /> */}
           </div>
@@ -56,7 +78,11 @@ export default function Detail() {
             <div className="timeLeft">1일 01: 14: 50</div>
           </div>
           <div className="buttonBox">
-            <CustomizedButton>경매시작</CustomizedButton>
+            {isBuyer ? (
+              <CustomizedButton>경매 시작</CustomizedButton>
+            ) : (
+              <Modal />
+            )}
           </div>
         </FooterBox>
       </Container>
@@ -82,7 +108,6 @@ const CustomizedButton = mstyled(Button)`
   border-radius: 10;
 `;
 
-//imgBox 35 profileBox 10 ContentBox
 const Container = styled.div`
   background-color: white;
   margin-left: auto;
