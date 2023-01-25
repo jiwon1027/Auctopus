@@ -1,12 +1,15 @@
 package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.service.KakaoUserServiceImpl;
+import com.auctopus.project.api.service.UserServiceImpl;
 import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.repository.UserRepository;
 import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,7 @@ public class KakaoUserController {
 
     private KakaoUserServiceImpl kakaoUserServiceimpl;
     private UserRepository userRepository;
+    private UserServiceImpl userServiceImpl;
 
     @GetMapping("/login")
     public ResponseEntity<HashMap<String, Object>> kakaoLogin(@RequestParam String code){
@@ -43,7 +47,7 @@ public class KakaoUserController {
             HashMap<String, Object> kakaoUserInfo= kakaoUserServiceimpl.getKakaoUserInfo(access_token);
 
             // email이 현재 DB에 저장있지 않으면 DB에 저장
-            if(userRepository.findByEmail((String)kakaoUserInfo.get("email")).isEmpty()){
+            if(userRepository.findByEmail((String)kakaoUserInfo.get("email")) == null){
                 userRepository.save(User.builder()
                         .email((String) kakaoUserInfo.get("email"))
                         .nickname((String) kakaoUserInfo.get("nickname"))
@@ -63,4 +67,23 @@ public class KakaoUserController {
         return new ResponseEntity<HashMap<String, Object>>(resultMap, status);
     }
 
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(Authentication authentication, HttpServletRequest request){
+
+        System.out.println("logout Controller");
+
+        try{
+            // 토큰이 이상하면 여기서 예외처리 해주면 됨
+            System.out.println("Data 1 : " + authentication.getPrincipal()); //닉네임
+            System.out.println("Data 2 : " + authentication.getCredentials()); //이메일
+
+        }catch (Exception e){
+
+            System.out.println("에러발생@@@@@@@@@@@@@@@@@");
+        }
+
+
+        return null;
+    }
 }

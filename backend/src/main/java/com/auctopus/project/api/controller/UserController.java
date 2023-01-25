@@ -2,6 +2,7 @@ package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.request.UserUpdateRequest;
 import com.auctopus.project.api.service.UserService;
+import com.auctopus.project.api.service.UserServiceImpl;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.common.exception.user.UserNotFoundException;
 import com.auctopus.project.db.domain.User;
@@ -22,12 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     // 회원 정보 조회
     @GetMapping("/{userSeq}")
     public ResponseEntity<?> getUserInfo(@PathVariable int userSeq) {
-        User user = userService.getUserByUserSeq(userSeq);
+        User user = userServiceImpl.getUserByUserSeq(userSeq);
         if (user == null)
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -37,11 +38,11 @@ public class UserController {
     @Transactional
     public ResponseEntity<?> updateUserInfo(@PathVariable int userSeq,
             @RequestBody UserUpdateRequest req) {
-        User user = userService.getUserByUserSeq(userSeq);
+        User user = userServiceImpl.getUserByUserSeq(userSeq);
         if (user == null)
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         else {
-            userService.updateUserInfo(userSeq, req);
+            userServiceImpl.updateUserInfo(userSeq, req);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -49,11 +50,11 @@ public class UserController {
     @DeleteMapping("/{userSeq}")
     @Transactional
     public ResponseEntity<?> deleteUser(@PathVariable int userSeq) {
-        User user = userService.getUserByUserSeq(userSeq);
+        User user = userServiceImpl.getUserByUserSeq(userSeq);
         if (user == null)
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         else {
-            userService.deleteUser(userSeq);
+            userServiceImpl.deleteUser(userSeq);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
