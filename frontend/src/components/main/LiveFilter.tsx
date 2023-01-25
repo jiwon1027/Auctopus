@@ -36,26 +36,24 @@ export default function LiveFilter(props: IProps) {
       <FormControl variant="standard" sx={{ minWidth: 80, height: 25 }}>
         {props.live === "live" ? (
           <Select
-            labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             onChange={handleChange}
             value={filterValue}
-            label="Age"
             color="success"
+            displayEmpty
           >
-            <MenuItem value={"people"}>시청 순</MenuItem>
+            <MenuItem value="">시청 순</MenuItem>
             <MenuItem value={"category"}>카테고리 순</MenuItem>
           </Select>
         ) : (
           <Select
-            labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             onChange={handleChange}
             value={filterValue}
-            label="Age"
             color="success"
+            displayEmpty
           >
-            <MenuItem value={"people"}>좋아요 순</MenuItem>
+            <MenuItem value="">좋아요 순</MenuItem>
             <MenuItem value={"category"}>카테고리 순</MenuItem>
           </Select>
         )}
