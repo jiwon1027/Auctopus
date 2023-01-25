@@ -5,6 +5,7 @@ import Title from "@components/auth/signup/Title";
 
 // TODO: add a custom hook to handle User state e.g. { must-have, additional, confirmed }
 // User state must be shown again when the user goes back
+// navigate(to, { state })
 export default function SignupPage() {
   return (
     <Layout leftIcon="back">
