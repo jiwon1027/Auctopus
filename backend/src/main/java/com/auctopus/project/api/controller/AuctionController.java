@@ -1,8 +1,8 @@
-package com.auctopus.project.controller;
+package com.auctopus.project.api.controller;
 
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.repository.AuctionRepository;
-import com.auctopus.project.service.AuctionService;
+import com.auctopus.project.api.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class AuctionController {
     private AuctionRepository auctionRepository;
 
     @GetMapping("/")
-    public String auction(@RequestParam(value="id") Long id, Model model) {
+    public String auction(@RequestParam(value = "id") Long id, Model model) {
         model.addAttribute("auction", auctionService.findAuctionById(id));
         return "/auction";
     }

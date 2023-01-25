@@ -1,4 +1,4 @@
-package com.auctopus.project.service;
+package com.auctopus.project.api.service;
 
 import com.auctopus.project.db.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
