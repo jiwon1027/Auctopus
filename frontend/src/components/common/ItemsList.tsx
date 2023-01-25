@@ -24,8 +24,6 @@ const ItemList = styled.div`
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
 
   &::-webkit-scrollbar {
     width: 0.32em;

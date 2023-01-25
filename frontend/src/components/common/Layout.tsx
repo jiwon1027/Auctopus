@@ -30,7 +30,7 @@ export default function Layout(props: IProps) {
   // TODO: move ThemeProvider imported from Styled-components here
   return (
     <ThemeProvider theme={mtheme}>
-      <StyledContainer maxWidth="sm">
+      <StyledContainer>
         <Header leftIcon={props.leftIcon} />
         {props.children}
       </StyledContainer>
@@ -42,5 +42,7 @@ const StyledContainer = mstyled(Container)`
   background-color: white;
   display: flex;
   flex-direction: column;
+  width: 39rem;
   height: 100vh;
+  padding: 0 1.8rem;
 `;
