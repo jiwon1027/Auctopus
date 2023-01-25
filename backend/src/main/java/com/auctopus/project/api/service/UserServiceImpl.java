@@ -6,7 +6,9 @@ import com.auctopus.project.common.exception.user.UserNotFoundException;
 import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired

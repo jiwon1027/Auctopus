@@ -10,7 +10,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import java.io.IOException;
+import java.io.Reader;
 import java.security.interfaces.RSAPublicKey;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.FilterChain;
@@ -70,6 +73,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             System.out.println(jwt.getPayload());
             System.out.println(jwt.getIssuer());
             System.out.println(jwt.getClaims());
+
+            System.out.println(jwt.getClaims().get("nickname"));
+            System.out.println(jwt.getClaims().get("email"));
 
 
         } catch (Exception e) {
