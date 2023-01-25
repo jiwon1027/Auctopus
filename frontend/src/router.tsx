@@ -13,6 +13,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
+import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/oauth/callback/kakao",
+    element: <OAuth2RedirectHandler />,
   },
   {
     path: "/signup",

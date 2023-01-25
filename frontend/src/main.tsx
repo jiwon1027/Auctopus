@@ -8,6 +8,7 @@ import { mtheme } from "@/styles/theme";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { normalize } from "styled-normalize";
 import { theme } from "@/styles/theme";
+import { RecoilRoot } from "recoil";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -27,7 +28,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <MThemeProvider theme={mtheme}>
-        <RouterProvider router={router} />
+        <RecoilRoot>
+          <RouterProvider router={router} />
+        </RecoilRoot>
       </MThemeProvider>
     </ThemeProvider>
   </React.StrictMode>

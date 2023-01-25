@@ -1,13 +1,14 @@
-import Button from "@mui/material/Button";
 import React from "react";
 import styled from "styled-components";
+import Button from "@mui/material/Button";
+import { kAKAO_AUTH_URL } from "@/api/api";
 
 export default function SocialLogin() {
-  // TODO: social login
-
   return (
     <StyledSocialLogin>
-      <Button variant="outlined">Kakao</Button>
+      <Button variant="outlined" href={kAKAO_AUTH_URL}>
+        Kakao
+      </Button>
     </StyledSocialLogin>
   );
 }
