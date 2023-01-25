@@ -1,9 +1,13 @@
 package com.auctopus.project.api.controller;
 
+import com.auctopus.project.api.service.AuctionServiceImpl;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.repository.AuctionRepository;
-import com.auctopus.project.api.service.AuctionService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -22,13 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuctionController {
 
     @Autowired
-    private AuctionService auctionService;
+    private AuctionServiceImpl auctionServiceImpl;
     @Autowired
     private AuctionRepository auctionRepository;
 
     @GetMapping("/")
     public String auction(@RequestParam(value = "id") Long id, Model model) {
-        model.addAttribute("auction", auctionService.findAuctionById(id));
+        model.addAttribute("auction", auctionServiceImpl.findAuctionById(id));
         return "/auction";
     }
 
@@ -54,6 +58,34 @@ public class AuctionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAuction(@PathVariable("id") Long id) {
         auctionRepository.deleteById(id);
+        return new ResponseEntity<>("{}", HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> getAuctionList(@RequestParam(value="word", required = false) String word, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
+        List<Auction> auctionList = null;
+        List<Auction> hasMoreList = null;
+        Boolean hasMore = false;
+        if ("main".equals(sort)) {
+            // 열리기 까지 하루 남은 경매방 - 임박한 순으로 나열)
+            Pageable pageable = PageRequest.of(page, size);
+            auctionList = auctionServiceImpl.getAuctionListToday(pageable);
+            hasMoreList = auctionServiceImpl.getAuctionListToday(PageRequest.of(page+1,size));
+        } else if ("startTime".equals(sort)) {
+            // 경매 임박순 (시작안한 경매방 곧 열릴 순으로 정렬)
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+            auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
+            hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
+        } else {
+            //최신 등록순 (시작안한 경매방 나중에 열릴순으로 정렬)
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+            auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
+            hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word, PageRequest.of(page+1, size, Sort.by(sort).descending()));
+        }
+        if (hasMoreList.size() != 0) hasMore = true;
+        for (Auction auction : auctionList) {
+
+        }
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 }
