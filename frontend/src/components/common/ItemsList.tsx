@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Item from "./Item";
-
+import LiveFilter from "@components/main/LiveFilter";
 import styled from "styled-components";
+import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 
 export default function ItemsList() {
+  const [isLive, setIsLive] = useState(true);
   return (
     <>
+      <MainToggleButtonGroup />
+      <LiveFilter live={isLive} />
       <ItemList>
         <Item />
         <Item />

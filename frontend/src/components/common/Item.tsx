@@ -1,11 +1,15 @@
 import React from "react";
-import Image from "@/assets/airpodsImg.jpg";
+import Image from "@/assets/main/airpodsImg.jpg";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CircleIcon from "@mui/icons-material/Circle";
 
-export default function Item() {
+interface IProps {
+  live?: boolean;
+}
+
+export default function Item(props: IProps) {
   return (
     <>
       <ItemBox>
