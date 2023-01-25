@@ -16,7 +16,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 type Anchor = "top" | "left" | "bottom" | "right";
 
-export default function TemporaryDrawer() {
+export default function Hamburger() {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -48,8 +48,12 @@ export default function TemporaryDrawer() {
       <List>
         {["Home", "Chat", "Likes", "Profile"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${text.toLowerCase()}`}>
-              <ListItemIcon>
+            <ListItemButton
+              key={index}
+              component={Link}
+              to={`/${text.toLowerCase()}`}
+            >
+              <ListItemIcon key={index}>
                 {index % 2 != 0 ? (
                   text === "Chat" ? (
                     <TextsmsIcon />
