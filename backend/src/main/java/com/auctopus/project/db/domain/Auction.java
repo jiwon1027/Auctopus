@@ -22,12 +22,12 @@ public class Auction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
+    private int auctionSeq;
+    private String userEmail;
     private int categorySeq;
     private String title;
     private String content;
     private String startTime;
-    private int price;
+    private int startPrice;
     private int likeCount;
 }

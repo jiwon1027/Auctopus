@@ -23,7 +23,7 @@ public class LikeAuction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeAuctionSeq;
-    private String email;
+    private String userEmail;
     private int auctionSeq;
 
 }

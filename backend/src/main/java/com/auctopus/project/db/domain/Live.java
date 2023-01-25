@@ -25,11 +25,12 @@ public class Live {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int liveSeq;
-    private int userSeq;
-    private Long auctionSeq;
+    private int auctionSeq;
+    private String userEmail;
     private Timestamp startTime;
-    private int viewer;
+    private Timestamp endTime;
     private int price;
+    private int viewer;
     private int onAir;
 
 }

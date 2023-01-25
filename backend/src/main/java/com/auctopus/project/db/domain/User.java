@@ -22,12 +22,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userSeq;
-    private String userName;
-    private String nickname;
     private String email;
-    private Byte social;
-    private String socialCode;
+    private String nickname;
+    private String userName;
+    private int social;
     private int bankCode;
     private String account;
     private String address;
