@@ -6,6 +6,7 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
 import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import Hamburger from "../common/Hamburger";
 
 /**
  * @param title
@@ -50,6 +51,7 @@ export default function Header(props: IProps): JSX.Element {
 
   return (
     <StyledHeader>
+      <Hamburger />
       {props.leftIcon === "back" ? (
         <ChevronLeftOutlinedIcon
           className="backIcon"
