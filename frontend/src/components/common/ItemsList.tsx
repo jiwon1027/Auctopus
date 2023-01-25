@@ -5,7 +5,6 @@ import styled from "styled-components";
 export default function ItemsList() {
   return (
     <>
-      <div className=" h-12"> 필터</div>
       <ItemList>
         <Item />
         <Item />
@@ -19,9 +18,9 @@ export default function ItemsList() {
 }
 
 const ItemList = styled.div`
+  flex: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 88%;
   display: flex;
   flex-direction: column;
   padding-left: 1.6rem;

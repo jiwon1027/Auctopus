@@ -1,3 +1,4 @@
+import { createTheme } from "@mui/material";
 import { DefaultTheme } from "styled-components";
 
 export const theme: DefaultTheme = {
@@ -26,3 +27,14 @@ export const theme: DefaultTheme = {
     black: 900,
   },
 };
+
+export const mtheme = createTheme({
+  palette: {
+    primary: {
+      main: "#386641",
+    },
+    secondary: {
+      main: "#A7C957",
+    },
+  },
+});

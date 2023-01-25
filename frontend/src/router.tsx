@@ -3,13 +3,16 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
-import Layout from "./components/common/ItemsList";
 
 // import Footer from "./components/common/Footer";
 import Chat from "./pages/Chat";
 import Likes from "./pages/Likes";
 import Profile from "./pages/Profile";
 import Detail from "./pages/Detail";
+import LoginPage from "./pages/auth/LoginPage";
+import SignupPage from "./pages/auth/SignupPage";
+import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
+import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +21,20 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/layout",
-    element: <Layout />,
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignupPage />,
+  },
+  {
+    path: "/signup/additional",
+    element: <AdditionalInfoPage />,
+  },
+  {
+    path: "/signup/category",
+    element: <CategoryInfoPage />,
   },
   {
     path: "/detail",

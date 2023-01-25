@@ -5,11 +5,15 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
 import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-interface IProps {
+/**
+ * @param title
+ * @param leftIcon none은 없음, back은 뒤로가기 버튼, turtle은 거북이 아이콘
+ */
+export interface IProps {
   title?: string;
-  hasBack?: boolean;
+  leftIcon: "none" | "back" | "turtle";
 }
 
 /**
@@ -26,6 +30,7 @@ interface IProps {
  */
 export default function Header(props: IProps): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const RightComponent = (): JSX.Element => {
     switch (location.pathname) {
@@ -42,14 +47,18 @@ export default function Header(props: IProps): JSX.Element {
         return <></>;
     }
   };
+
   return (
     <StyledHeader>
-      {props.hasBack ? (
-        <Link to="..">
-          <ChevronLeftOutlinedIcon className="h-6 w-6 " />
-        </Link>
+      {props.leftIcon === "back" ? (
+        <ChevronLeftOutlinedIcon
+          className="backIcon"
+          onClick={() => navigate(-1)}
+        />
+      ) : props.leftIcon === "turtle" ? (
+        <Turtle className="signatureIcon" />
       ) : (
-        <Turtle width="5rem" height="4rem" />
+        <></>
       )}
       <h1 className="title">{props.title}</h1>
       <div className="iconContainer">
@@ -59,12 +68,25 @@ export default function Header(props: IProps): JSX.Element {
   );
 }
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.header`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 0.5rem;
   background-color: transparent;
+
+  .backIcon {
+    position: relative;
+    left: -2rem;
+    color: ${(props) => props.theme.colors.primary};
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .signatureIcon {
+    width: 8.6rem;
+    height: 5.4rem;
+  }
 
   .title {
     font-weight: bold;
@@ -75,13 +97,12 @@ const StyledHeader = styled.div`
   .iconContainer {
     display: flex;
     align-items: center;
-    /* color:  */
-    /* margin: 0 1rem; */
 
     .icon {
       color: ${(props) => props.theme.colors.primary};
       margin: 0 0.5rem;
-      width: 2rem;
+      width: 3rem;
+      height: 3rem;
     }
   }
 `;
