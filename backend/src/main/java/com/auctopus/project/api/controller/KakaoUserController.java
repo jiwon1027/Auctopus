@@ -1,8 +1,8 @@
-package com.auctopus.project.controller;
+package com.auctopus.project.api.controller;
 
+import com.auctopus.project.api.service.KakaoUserServiceImpl;
 import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.repository.UserRepository;
-import com.auctopus.project.service.KakaoUserServiceImpl;
 import java.util.HashMap;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
