@@ -9,7 +9,10 @@ import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Modal from "../components/common/Modal";
 export default function Detail() {
+  const [isBuyer, setIsBuyer] = useState(false);
   return (
     <>
       <Container>
@@ -56,7 +59,11 @@ export default function Detail() {
             <div className="timeLeft">1일 01: 14: 50</div>
           </div>
           <div className="buttonBox">
-            <CustomizedButton>경매시작</CustomizedButton>
+            {isBuyer ? (
+              <CustomizedButton>경매 시작</CustomizedButton>
+            ) : (
+              <Modal />
+            )}
           </div>
         </FooterBox>
       </Container>
