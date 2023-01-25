@@ -4,7 +4,11 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 
-export default function MainToggleButtonGroup() {
+interface MainProps {
+  func: (value: string) => void;
+}
+
+export default function MainToggleButtonGroup(props: MainProps) {
   const [alignment, setAlignment] = React.useState("live");
 
   /**
@@ -18,6 +22,7 @@ export default function MainToggleButtonGroup() {
   ) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
+      props.func(newAlignment);
     }
   };
 

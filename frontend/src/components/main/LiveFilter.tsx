@@ -10,7 +10,7 @@ import PodcastsIcon from "@mui/icons-material/Podcasts";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 
 interface IProps {
-  live?: boolean;
+  live?: string;
 }
 
 export default function LiveFilter(props: IProps) {
@@ -22,7 +22,7 @@ export default function LiveFilter(props: IProps) {
 
   return (
     <FilterBox>
-      {props.live ? (
+      {props.live === "live" ? (
         <FilterBoxLeft>
           <PodcastsIcon sx={{ paddingRight: 0.7 }} />
           진행중인 live 경매
@@ -34,7 +34,7 @@ export default function LiveFilter(props: IProps) {
         </FilterBoxLeft>
       )}
       <FormControl variant="standard" sx={{ minWidth: 80, height: 25 }}>
-        {props.live ? (
+        {props.live === "live" ? (
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
@@ -42,7 +42,6 @@ export default function LiveFilter(props: IProps) {
             value={filterValue}
             label="Age"
             color="success"
-            sx={{ fontSize: 11 }}
           >
             <MenuItem value={"people"}>시청 순</MenuItem>
             <MenuItem value={"category"}>카테고리 순</MenuItem>
@@ -71,6 +70,7 @@ const FilterBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  font-weight: ${theme.fontWeight.semibold};
 `;
 const FilterBoxLeft = styled.div`
   display: flex;

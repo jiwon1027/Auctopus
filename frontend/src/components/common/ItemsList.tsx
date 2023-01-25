@@ -5,10 +5,14 @@ import styled from "styled-components";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 
 export default function ItemsList() {
-  const [isLive, setIsLive] = useState(true);
+  const [isLive, setIsLive] = useState("live");
+
+  const changeisLive = (value: string) => {
+    setIsLive(value);
+  };
   return (
     <>
-      <MainToggleButtonGroup />
+      <MainToggleButtonGroup func={changeisLive} />
       <LiveFilter live={isLive} />
       <ItemList>
         <Item />
