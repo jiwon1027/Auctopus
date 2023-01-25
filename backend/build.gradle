@@ -23,14 +23,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.mysql:mysql-connector-j' //Mysql
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'com.auth0:java-jwt:4.2.2'
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
+    // MariaDB
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    // json parsing
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    // jwt 유효성 검사
+    implementation 'com.auth0:java-jwt:4.2.2'
+    implementation 'com.auth0:jwks-rsa:0.21.1'
 
 }
 

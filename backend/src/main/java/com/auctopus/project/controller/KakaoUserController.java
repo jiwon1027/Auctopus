@@ -74,4 +74,11 @@ public class KakaoUserController {
         return new ResponseEntity<HashMap<String, Object>>(resultMap, status);
     }
 
+    @GetMapping("/test")
+    public void fun(){
+        System.out.println("Test입니다");
+
+
+    }
+
 }
