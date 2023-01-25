@@ -23,7 +23,7 @@ public class LikeCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeCategorySeq;
-    private int userSeq;
+    private String userEmail;
     private int categorySeq;
 
 }

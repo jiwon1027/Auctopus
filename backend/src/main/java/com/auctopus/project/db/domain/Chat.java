@@ -25,7 +25,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chatSeq;
     private int ChatRoomSeq;
-    private int userSeq;
+    private String userEmail;
     private String message;
     private Timestamp date;
 

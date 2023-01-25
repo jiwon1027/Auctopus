@@ -17,13 +17,13 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "badge")
-public class Badge {
+@Table(name = "my_badge")
+public class MyBadge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int myBadgeSeq;
+    private String userEmail;
     private int badgeSeq;
-    private String name;
-    private int userSeq;
 
 }

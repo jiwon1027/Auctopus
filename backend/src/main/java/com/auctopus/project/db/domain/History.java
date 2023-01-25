@@ -1,5 +1,6 @@
 package com.auctopus.project.db.domain;
 
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,11 +24,11 @@ public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int historySeq;
-    private int userSeq;
+    private String userEmail;
     private int auctionSeq;
-    private int dealInfo;
+    private int userInfo;
     private int finalPrice;
-    private int createTime;
+    private Timestamp createTime;
     private int state;
 
 }
