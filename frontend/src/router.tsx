@@ -12,6 +12,7 @@ import SignupPage from "./pages/auth/SignupPage";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler";
+import SearchPage from "./pages/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
   { path: "/chat", element: <ChatPage /> },
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
+  { path: "/search", element: <SearchPage /> },
 ]);
 
 export default router;
