@@ -2,6 +2,8 @@ import React from "react";
 import { theme } from "@/styles/theme";
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
+import funi from "@/assets/search/funi.png";
+import tv from "@/assets/search/tv.png";
 
 interface IDummy {
   title: string;
@@ -9,8 +11,8 @@ interface IDummy {
 }
 
 const category: IDummy[] = [
-  { title: "가구", imgURL: "123" },
-  { title: "전자기기", imgURL: "123" },
+  { title: "가구", imgURL: funi },
+  { title: "전자기기", imgURL: tv },
   { title: "김태원", imgURL: "123" },
   { title: "이지원", imgURL: "123" },
   { title: "손지예", imgURL: "123" },
@@ -24,10 +26,10 @@ export default function SearchPage() {
     <CategoryContainer>
       <CategoryTitle>카테고리별 검색</CategoryTitle>
       <Grid container columnSpacing={3} rowSpacing={2}>
-        {Array.from(category).map((item, index) => (
+        {category.map((item, index) => (
           <Grid key={index}>
             <CategoryBox>
-              <CategoryImg />
+              <CategoryImg src={item.imgURL} />
               <CategoryDesc>{item.title}</CategoryDesc>
             </CategoryBox>
           </Grid>
@@ -53,7 +55,7 @@ const CategoryBox = styled.div`
   cursor: pointer;
 `;
 
-const CategoryImg = styled.div`
+const CategoryImg = styled.img`
   height: 7rem;
   width: 7rem;
   border-radius: 1rem;
