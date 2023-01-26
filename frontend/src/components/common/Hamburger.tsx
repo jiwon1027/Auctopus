@@ -12,6 +12,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -50,11 +51,12 @@ export default function Hamburger() {
 
   const list = (anchor: Anchor) => (
     <>
-      <CustomClose onClick={toggleDrawer(anchor, false)} />
-      {/* <Logo src={LogoImg} alt="logo" /> */}
+      <IconBox>
+        <CustomNotice />
+        <CustomClose onClick={toggleDrawer(anchor, false)} />
+      </IconBox>
       <ProfileBox>
         <Link to={`/profile`}>
-          {" "}
           <Profile src={ProfileImg} alt="profile" />
         </Link>
 
@@ -62,7 +64,7 @@ export default function Hamburger() {
       </ProfileBox>
 
       <Box
-        sx={{ width: 300 }}
+        sx={{ width: 280 }}
         role="presentation"
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
@@ -102,10 +104,19 @@ export default function Hamburger() {
   );
 
   return (
-    <div>
+    <>
       {(["left"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <MenuIcon onClick={toggleDrawer(anchor, true)}>{anchor}</MenuIcon>
+          <MenuIcon
+            onClick={toggleDrawer(anchor, true)}
+            sx={{
+              width: "30px",
+              height: "30px",
+              color: `${theme.colors.primary}`,
+            }}
+          >
+            {anchor}
+          </MenuIcon>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
@@ -115,10 +126,12 @@ export default function Hamburger() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 }
-
+const IconBox = styled.div`
+  display: flex;
+`;
 const ProfileBox = styled.div`
   padding: 2rem;
   display: flex;
@@ -138,6 +151,13 @@ const Profile = styled.img`
   cursor: pointer;
 `;
 
+const CustomNotice = mstyled(NotificationsNoneOutlindIcon)`
+widtH: 2.5rem;
+height: 2.5rem;
+display: flex;
+/* margin-left: auto; */
+padding: 1.5rem;
+`;
 const CustomClose = mstyled(CloseOutlinedIcon)`
 widtH: 2.5rem;
 height: 2.5rem;
