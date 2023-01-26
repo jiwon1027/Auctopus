@@ -3,17 +3,26 @@ import MuiToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
-import { Link, useLocation } from "react-router-dom";
 
-export default function MainToggleButtonGroup() {
+interface MainProps {
+  func: (value: string) => void;
+}
+
+export default function MainToggleButtonGroup(props: MainProps) {
   const [alignment, setAlignment] = React.useState("live");
 
+  /**
+   *
+   * @param event 마우스 클릭이벤트
+   * @param newAlignment null은 non-selected
+   */
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null
   ) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
+      props.func(newAlignment);
     }
   };
 
@@ -23,13 +32,9 @@ export default function MainToggleButtonGroup() {
       exclusive
       onChange={handleAlignment}
       aria-label="Platform"
-      sx={{ paddingY: 2, marginX: 4 }}
+      sx={{ paddingY: 0, marginX: 1 }}
     >
-      <ToggleButton value="live">
-        <Link style={{ textDecoration: "none" }} to="/1">
-          진행중
-        </Link>
-      </ToggleButton>
+      <ToggleButton value="live">진행중</ToggleButton>
       <ToggleButton value="nonlive">진행 예정</ToggleButton>
     </ToggleButtonGroup>
   );
@@ -37,12 +42,14 @@ export default function MainToggleButtonGroup() {
 
 const ToggleButton = mstyled(MuiToggleButton)({
   width: "17rem",
-  height: "5rem",
-  fontSize: "1.6rem",
-  borderRadius: "15px",
+  height: "4rem",
+  fontSize: "1.5rem",
+  borderRadius: "1.2rem",
   border: `solid 1.5px ${theme.colors.turtleStandard}`,
   fontWeight: `${theme.fontWeight.medium}`,
+  fontFamily: "Pretendard",
   "&.Mui-selected, &.Mui-selected:hover": {
+    fontSize: "1.5rem",
     color: "white",
     backgroundColor: `${theme.colors.turtleStandard}`,
     fontWeight: `${theme.fontWeight.medium}`,

@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Chat() {
+export default function LikesPage() {
   return (
     <>
-      <h1>Chat</h1>
+      <h1>Likes</h1>
     </>
   );
 }
