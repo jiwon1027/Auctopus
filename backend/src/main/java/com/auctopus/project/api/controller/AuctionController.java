@@ -1,8 +1,13 @@
 package com.auctopus.project.api.controller;
 
+import com.auctopus.project.api.response.AuctionListOneResponse;
+import com.auctopus.project.api.response.AuctionListResponse;
+import com.auctopus.project.api.service.AuctionImageServiceImpl;
 import com.auctopus.project.api.service.AuctionServiceImpl;
 import com.auctopus.project.db.domain.Auction;
+import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.repository.AuctionRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +32,9 @@ public class AuctionController {
 
     @Autowired
     private AuctionServiceImpl auctionServiceImpl;
+
+    @Autowired
+    private AuctionImageServiceImpl auctionImageServiceImpl;
     @Autowired
     private AuctionRepository auctionRepository;
 
@@ -62,7 +70,10 @@ public class AuctionController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getAuctionList(@RequestParam(value="word", required = false) String word, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
+    public ResponseEntity<AuctionListResponse> getAuctionList(@RequestParam(value="word", required = false) String word, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
+        // sort - 하루 남은 경매방(main), 경매임박순(startTime), 최신순(recent), 인기순(likecount)
+        // sort를 숫자로 할지, 키워드로 할지 생각해봐야할것
+        List<AuctionListOneResponse> auctionListOneResponseList = new ArrayList<>();
         List<Auction> auctionList = null;
         List<Auction> hasMoreList = null;
         Boolean hasMore = false;
@@ -77,15 +88,16 @@ public class AuctionController {
             auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
             hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
         } else {
-            //최신 등록순 (시작안한 경매방 나중에 열릴순으로 정렬)
+            //최신 등록순 (시작안한 경매방 나중에 열릴순으로 정렬) &&
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
             auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
             hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word, PageRequest.of(page+1, size, Sort.by(sort).descending()));
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-
+            List<AuctionImage> auctionImageList = auctionImageServiceImpl.getAuctionImageListByAuctionSeq(auction.getId());
+            auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+        return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, 0,auctionListOneResponseList));
     }
 }

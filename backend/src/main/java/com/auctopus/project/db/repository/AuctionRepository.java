@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     // 경매 임박 24시간 사이
-    List<Auction> findImmAuctionByTimeAsc(String todayTime, String tomorrowTime, Pageable pageable);
+    List<Auction> findImmAuctionByStartTime(String todayTime, String tomorrowTime, Pageable pageable);
 
     // 키워드(word)가 포함된 경매 오픈 전 & 경매중인 물품들
-    @Query("SELECT a FROM Auction a where (a.title like CONCAT('%', : word, '%') OR a.content like CONCAT('%', :word, '%')) AND (a.startTime > :currentTime) ORDER BY a.startTime")
-    List<Auction> findAllByWord(String word, String currentTime, Pageable pageable);
+    //@Query("SELECT a FROM Auction a where (a.title like CONCAT('%', : word, '%') OR a.content like CONCAT('%', :word, '%')) AND (a.startTime > :currentTime) ORDER BY a.startTime")
+    List<Auction> findAllByTitleContainsOrContentContains(String word, String currentTime, Pageable pageable);
 }

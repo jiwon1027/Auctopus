@@ -23,7 +23,7 @@ public class AuctionImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int auctionImageSeq;
-    int auctionSeq;
+    Long auctionSeq;
     String imageUrl;
 
 }

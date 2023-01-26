@@ -22,12 +22,12 @@ public class Auction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private int userSeq;
     private int categorySeq;
     private String title;
     private String content;
     private String startTime;
     private int price;
-
+    private int likeCount;
 }

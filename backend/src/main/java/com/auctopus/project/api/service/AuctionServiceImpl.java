@@ -24,7 +24,7 @@ public class AuctionServiceImpl implements AuctionService {
     public List<Auction> getAuctionListToday(Pageable pageable) {
         String todayTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String tomorrowTime = LocalDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        List<Auction> auctionList = auctionRepository.findImmAuctionByTimeAsc(todayTime, tomorrowTime, pageable);
+        List<Auction> auctionList = auctionRepository.findImmAuctionByStartTime(todayTime, tomorrowTime, pageable);
         return auctionList;
     }
 
@@ -35,7 +35,7 @@ public class AuctionServiceImpl implements AuctionService {
         if (word == null) {
             word = "";
         }
-        auctionList = auctionRepository.findAllByWord(word, currentTime, pageable);
+        auctionList = auctionRepository.findAllByTitleContainsOrContentContains(word, currentTime, pageable);
         return auctionList;
     }
 }
