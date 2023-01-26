@@ -4,10 +4,8 @@ import Layout from "@components/common/Layout";
 
 export default function Root() {
   return (
-    <>
-      <Layout leftIcon="turtle">
-        <ItemsList />
-      </Layout>
-    </>
+    <Layout leftIcon="turtle">
+      <ItemsList />
+    </Layout>
   );
 }
