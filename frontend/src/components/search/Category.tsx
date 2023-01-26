@@ -3,7 +3,12 @@ import { theme } from "@/styles/theme";
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
 
-const category = [
+interface IDummy {
+  title: string;
+  imgURL: string;
+}
+
+const category: IDummy[] = [
   { title: "가구", imgURL: "123" },
   { title: "전자기기", imgURL: "123" },
   { title: "김태원", imgURL: "123" },
