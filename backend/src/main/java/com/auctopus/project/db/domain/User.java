@@ -21,7 +21,6 @@ import org.hibernate.annotations.DynamicInsert;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String email;
     private String nickname;
     private String userName;

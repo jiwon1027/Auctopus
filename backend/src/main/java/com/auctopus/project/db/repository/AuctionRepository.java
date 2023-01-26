@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface AuctionRepository extends JpaRepository<Auction, Long> {
+public interface AuctionRepository extends JpaRepository<Auction, Integer> {
+
+    Optional<Auction> findByAuctionSeq(int auctionSeq);
 
 }

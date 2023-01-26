@@ -3,7 +3,6 @@ package com.auctopus.project.api.service;
 import com.auctopus.project.api.request.UserUpdateRequest;
 import com.auctopus.project.db.domain.User;
 
-
 /**
  * 유저 관련 로직 처리를 위한 서비스 구현
  */
