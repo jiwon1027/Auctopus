@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Modal from "../components/common/Modal";
-export default function Detail() {
+export default function DetailPage() {
   const [isBuyer, setIsBuyer] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const likeHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
