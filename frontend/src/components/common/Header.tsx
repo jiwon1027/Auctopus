@@ -5,8 +5,9 @@ import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
 import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Hamburger from "../common/Hamburger";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 /**
  * @param title
@@ -39,7 +40,9 @@ export default function Header(props: IProps): JSX.Element {
         return (
           <>
             <NotificationsNoneOutlinedIcon className="icon" />
-            <SearchOutlinedIcon className="icon" />
+            <Link to={"/search"}>
+              <SearchOutlinedIcon className="icon" />
+            </Link>
           </>
         );
       case "/detail":
