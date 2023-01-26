@@ -5,12 +5,15 @@ import com.auctopus.project.api.service.UserServiceImpl;
 import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.repository.UserRepository;
 import java.util.HashMap;
+import javax.persistence.PreUpdate;
 import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +57,6 @@ public class KakaoUserController {
                         .build());
             }
 
-
             resultMap.put(("token"), id_token);
             resultMap.put(("message"), "토큰 발급 완료");
             status = HttpStatus.OK;
@@ -68,10 +70,10 @@ public class KakaoUserController {
     }
 
 
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout(Authentication authentication, HttpServletRequest request){
+    @PostMapping("/login")
+    public ResponseEntity<?> login(Authentication authentication, @RequestBody User user){
 
-        System.out.println("logout Controller");
+        System.out.println("신규 유저 정보 입력");
 
         try{
             // 토큰이 이상하면 여기서 예외처리 해주면 됨
