@@ -23,8 +23,8 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
-    @Autowired
-    private AuctionImageService auctionImageService;
+//    @Autowired
+//    private AuctionImageService auctionImageService;
 
     // 수정 필요
 //    @GetMapping("/")
