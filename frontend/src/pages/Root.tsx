@@ -1,16 +1,12 @@
 import React from "react";
-import styles from "./Root.module.css";
 import ItemsList from "../components/common/ItemsList";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
+import Layout from "@components/common/Layout";
+
 export default function Root() {
   return (
-    <>
-      <div className={styles.root}>
-        <Header />
-        <ItemsList />
-        <Footer />
-      </div>
-    </>
+    <Layout leftIcon="turtle">
+      <div className=" h-12"> 필터</div>
+      <ItemsList />
+    </Layout>
   );
 }

@@ -1,26 +1,35 @@
 import React from "react";
-import styles from "./ItemsList.module.css";
 import Item from "./Item";
-import MainSelect from "@components/main/MainSelect";
+
+import styled from "styled-components";
 
 export default function ItemsList() {
   return (
     <>
-      <MainSelect />
-      <div className=" h-12"> 필터</div>
-      <div className={styles.ItemsList}>
+      <ItemList>
         <Item />
         <Item />
         <Item />
         <Item />
         <Item />
         <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-      </div>
+      </ItemList>
     </>
   );
 }
+
+const ItemList = styled.div`
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &::-webkit-scrollbar {
+    width: 0.32em;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    border-radius: 1.6em;
+  }
+`;

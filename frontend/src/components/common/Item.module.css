@@ -6,7 +6,7 @@ img {
 
 .itemBox {
   @apply rounded-lg  flex;
-  height: 6.5rem;
+  height: 10.4rem;
 }
 
 .imgBox {
