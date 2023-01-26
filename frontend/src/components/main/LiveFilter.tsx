@@ -3,7 +3,7 @@ import styled from "styled-components";
 // import InputLabel from "@mui/material/InputLabel";
 import MuiMenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
@@ -42,7 +42,7 @@ export default function LiveFilter(props: IProps) {
             color="success"
             displayEmpty
           >
-            <MenuItem value="">시청 순</MenuItem>
+            <MenuItem value="">시청순</MenuItem>
             <MenuItem value={"category"}>카테고리 순</MenuItem>
           </Select>
         ) : (
@@ -61,6 +61,12 @@ export default function LiveFilter(props: IProps) {
     </FilterBox>
   );
 }
+
+const Select = mstyled(MuiSelect)({
+  fontWeight: `${theme.fontWeight.semibold}`,
+  fontSize: "1.2rem",
+  fontFamily: "Pretendard",
+});
 
 const FilterBox = styled.div`
   display: flex;
@@ -82,5 +88,6 @@ const MenuItem = mstyled(MuiMenuItem)({
   minHeight: "10px",
   padding: "5px 12px",
   fontWeight: `${theme.fontWeight.medium}`,
-  fontSize: "1.2rem",
+  fontSize: "1.3rem",
+  fontFamily: "Pretendard",
 });

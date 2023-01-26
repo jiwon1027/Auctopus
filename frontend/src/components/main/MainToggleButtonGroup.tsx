@@ -43,11 +43,13 @@ export default function MainToggleButtonGroup(props: MainProps) {
 const ToggleButton = mstyled(MuiToggleButton)({
   width: "17rem",
   height: "4rem",
-  fontSize: "1.6rem",
+  fontSize: "1.5rem",
   borderRadius: "1.2rem",
   border: `solid 1.5px ${theme.colors.turtleStandard}`,
   fontWeight: `${theme.fontWeight.medium}`,
+  fontFamily: "Pretendard",
   "&.Mui-selected, &.Mui-selected:hover": {
+    fontSize: "1.5rem",
     color: "white",
     backgroundColor: `${theme.colors.turtleStandard}`,
     fontWeight: `${theme.fontWeight.medium}`,
