@@ -23,6 +23,6 @@ public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chatRoomSeq;
-    private int userSeq;
+    private String userEmail;
 
 }

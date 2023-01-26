@@ -23,7 +23,7 @@ public class LikeKeyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeKeywordSeq;
-    private int userSeq;
+    private String userEmail;
     private String keyword;
 
 }

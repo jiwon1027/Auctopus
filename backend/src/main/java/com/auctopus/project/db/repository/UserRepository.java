@@ -8,12 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 
+    Optional<User> findByNickname(String nickname);
 
-    User findByUserSeq(int userSeq);
-
-    User findByNickname(String nickname);
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 }

@@ -45,7 +45,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=47670895bea0b100009897c133708643"); // TODO REST_API_KEY 입력
             sb.append(
