@@ -25,6 +25,12 @@ export default function useAuth() {
       console.log(res);
       const ACCESS_TOKEN = res.data.accessToken;
       localStorage.setItem("token", ACCESS_TOKEN); //예시로 로컬에 저장함
+
+      // newUser: number | null; // 0: 기존유저, 1: 새로운유저
+      if (res.data.newUser > 0) {
+        navigate("/signup", { state: null });
+        return;
+      }
       navigate("/", { replace: true }); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
     } catch (error) {
       console.log("소셜로그인 에러", error);
@@ -47,7 +53,7 @@ export default function useAuth() {
   };
 
   const signOut = () => {
-    console.log("sign out");
+    localStorage.clear();
   };
 
   return {
