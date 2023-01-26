@@ -24,6 +24,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByNickname(String nickname) {
+        User user = userRepository.findByNickname(nickname).orElseThrow(
+                () -> new UserNotFoundException("user with email " + nickname + " not found",
+                        ErrorCode.USER_NOT_FOUND));
+        return user;
+    }
+
+    @Override
     @Transactional
     public void updateUserInfo(String email, UserUpdateRequest req) {
         User user = userRepository.findByEmail(email).orElseThrow(
@@ -45,13 +53,5 @@ public class UserServiceImpl implements UserService {
                         ErrorCode.USER_NOT_FOUND));
         userRepository.delete(user);
     }
-
-//    @Override
-//    public User getUserByNickname(String nickname) {
-//        User user = userRepository.findByNickname(nickname);
-//        System.out.println("==============================");
-//        System.out.println(user.toString());
-//        return user;
-//    }
 
 }
