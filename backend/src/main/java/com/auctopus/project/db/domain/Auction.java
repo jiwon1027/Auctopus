@@ -23,7 +23,7 @@ public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int userSeq;
+    private String email;
     private int categorySeq;
     private String title;
     private String content;
