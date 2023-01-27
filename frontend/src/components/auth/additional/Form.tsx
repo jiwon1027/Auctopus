@@ -3,13 +3,27 @@ import styled from "styled-components";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import { useNavigate } from "react-router-dom";
+import useAuth, { IUser } from "@/store/atoms/useAuth";
 
 export default function Form() {
   const addressRef = useRef(null);
   const bankAccountRef = useRef(null);
+  const navigate = useNavigate();
+  const { formState, updateUser } = useAuth();
+
+  const updateHandler = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    updateUser(target.name as keyof IUser, target.value);
+  };
+
+  const submitHandler = () => {
+    if (!formState.confirmed) return alert("필수정보를 모두 입력해주세요");
+    navigate("./additional");
+  };
 
   return (
-    <StyledForm method="POST" onSubmit={() => console.log("submit")}>
+    <StyledForm method="POST" onSubmit={submitHandler}>
       <div className="textFieldContainer">
         <TextField
           ref={addressRef}
@@ -26,6 +40,7 @@ export default function Form() {
           placeholder="배송지 주소"
           required
           name="address"
+          onChange={updateHandler}
         />
         <TextField
           ref={bankAccountRef}

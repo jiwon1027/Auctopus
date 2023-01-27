@@ -2,20 +2,48 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
 
-const userInitState = {
+interface IInterest {
+  id: string;
+  label: string;
+}
+export interface IUser {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  name: string;
+  nickname: string;
+  address?: string;
+  bankAccount?: string;
+  interests: IInterest[];
+}
+
+const InitUser: IUser = {
   email: "",
+  password: "",
+  passwordConfirm: "",
   name: "",
   nickname: "",
+  interests: [] as IInterest[],
 };
 
-const userState = atom({
-  key: "userState", // unique ID (with respect to other atoms/selectors)
-  default: userInitState, // default value (aka initial value)
+export interface IForm {
+  confirmed: boolean;
+  user: IUser;
+}
+
+const InitForm = {
+  confirmed: false,
+  user: InitUser,
+};
+
+const formDefaultState = atom({
+  key: "formDefaultState",
+  default: InitForm,
 });
 
 export default function useAuth() {
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userState);
+  const [formState, setFormState] = useRecoilState(formDefaultState);
 
   const kakaoLogin = async (code: string) => {
     try {
@@ -39,31 +67,44 @@ export default function useAuth() {
     }
   };
 
-  const signIn = () => {
-    const user = {
-      email: "example@gmail.com",
-      name: "Example Kim",
-      nickname: "example",
-    };
-    setUser(user);
-  };
+  function updateUser(
+    name: keyof IUser,
+    value: string | { id: string; label: string }[]
+  ) {
+    let isConfirmed = true;
+    for (const key in formState.user) {
+      if (key === "interests") continue;
+      const val = formState.user[key as keyof IUser] as string;
+      isConfirmed = isConfirmed && val.trim() !== "";
+    }
 
-  const signUp = () => {
+    if (name === "interests") {
+      return setFormState((prev) => {
+        prev.user["interests"] = value as IInterest[];
+        prev.confirmed = isConfirmed;
+        return prev;
+      });
+    }
+
+    setFormState((prev) => {
+      prev.user[name] = value as string;
+      return prev;
+    });
+  }
+
+  function signUp() {
     console.log("sign up");
-  };
+  }
 
-  const signOut = () => {
+  function signOut() {
     localStorage.clear();
-  };
+  }
 
   return {
-    user,
+    formState,
     kakaoLogin,
-    signIn,
+    updateUser,
     signUp,
     signOut,
   };
 }
-
-// https://localhost:8080/kakao/login?code=6kg0nLF3b5yoVhDVXUSo1w57FfeEfdk7FRkli-VE51pHwURPkIKZ8V897mT05PvV3nO18wo9dGgAAAGF58X-vg
-// https://localhost:5173/login?code=XddlBhc_J-Z64j-0w5b0knGrSDTy75X0bCNQJWnWc0rE9-MgGus2PIOiTKuFtwGwSPFVOgo9dJgAAAGF58vVJQ
