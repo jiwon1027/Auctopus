@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Hamburger from "../common/Hamburger";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { theme } from "@/styles/theme";
 import LogoImg from "@/assets/common/logo.png";
 /**
  * @param title
@@ -14,7 +13,7 @@ import LogoImg from "@/assets/common/logo.png";
  */
 export interface IProps {
   title?: string;
-  leftIcon: "none" | "back" | "turtle";
+  // leftIcon?: "none" | "back" | "turtle";
 }
 interface ILeftProps {
   pathname: string;
@@ -136,9 +135,9 @@ const StyledHeader = styled.header`
     height: 3rem;
   }
   .rightText {
-    font-weight: ${theme.fontWeight.medium};
+    font-weight: ${(props) => props.theme.fontWeight.medium};
     font-size: 1.6rem;
-    color: ${theme.colors.turtleDark};
+    color: ${(props) => props.theme.colors.turtleDark};
     width: 3rem;
   }
 `;

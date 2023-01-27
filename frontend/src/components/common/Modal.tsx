@@ -75,6 +75,12 @@ const CustomBtn2 = mstyled(Button)`
   width: 9rem;
   height: 3.7rem;
   border-radius: 10;
+  &:hover{
+    background-color: ${theme.colors.primary};
+    border: solid 2px ${theme.colors.turtleDark};
+
+    opacity: 0.6;
+  }
 `;
 const CustomTitle = mstyled(DialogTitle)`
   font-family: Pretendard;  
