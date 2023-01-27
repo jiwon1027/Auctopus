@@ -20,4 +20,5 @@ const Layout = styled.div`
   background-color: white;
   width: 39rem;
   height: 100vh;
+  margin: 0 auto;
 `;
