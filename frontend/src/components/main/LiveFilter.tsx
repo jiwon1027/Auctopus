@@ -16,7 +16,7 @@ interface IProps {
 export default function LiveFilter(props: IProps) {
   const [filterValue, setFilterValue] = React.useState("");
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
     setFilterValue(event.target.value as string);
   };
 
