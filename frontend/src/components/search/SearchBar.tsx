@@ -5,39 +5,39 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { Link, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
-  const [value, setValue] = React.useState<string>("");
+  const [searchValue, setSearchValue] = React.useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams("keyword");
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setSearchValue(event.target.value);
   };
 
-  const submitHandler = () => {
-    console.log(value);
-    // 라우터 이동해서 props로 검색어 전달?
-    // 혹은 post후, 페이지이동?
+  const handleSubmit = () => {
+    setSearchParams(searchValue);
+    navigate(`/search?${searchParams}${searchValue}`);
   };
 
   return (
     <SearchBox>
-      <ArrowBackIosIcon className="backIcon" />
-      <SearchBoxR>
+      <Link to={"/"}>
+        <ArrowBackIosIcon className="backIcon" />
+      </Link>
+      <SearchForm onSubmit={handleSubmit}>
         <InputBase
           sx={{ ml: 1, flex: 4, fontSize: 14, paddingY: 0.2 }}
           placeholder="검색어를 입력하세요."
-          value={value}
+          value={searchValue}
           onChange={handleChange}
         />
-        <IconButton
-          type="button"
-          sx={{ p: "3px" }}
-          aria-label="search"
-          onClick={submitHandler}
-        >
+        <IconButton type="submit" sx={{ p: "3px" }} aria-label="search">
           <SearchIcon className="icon" />
         </IconButton>
-      </SearchBoxR>
+      </SearchForm>
     </SearchBox>
   );
 }
@@ -45,7 +45,7 @@ export default function SearchBar() {
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0.6rem 0 1.2rem 0;
+  margin: 0.1rem 0 1.2rem 0;
 
   .backIcon {
     width: 2.4rem;
@@ -54,7 +54,7 @@ const SearchBox = styled.div`
   }
 `;
 
-const SearchBoxR = styled.div`
+const SearchForm = styled.form`
   display: flex;
   width: 95%;
   padding: 0.2rem 0.5rem;
