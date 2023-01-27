@@ -2,9 +2,9 @@ package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.response.AuctionListOneResponse;
 import com.auctopus.project.api.response.AuctionListResponse;
-import com.auctopus.project.api.service.AuctionImageServiceImpl;
-import com.auctopus.project.api.service.AuctionServiceImpl;
-import com.auctopus.project.api.service.LikeCategoryServiceImpl;
+import com.auctopus.project.api.service.AuctionImageService;
+import com.auctopus.project.api.service.AuctionService;
+import com.auctopus.project.api.service.LikeCategoryService;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.repository.AuctionRepository;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 public class SearchController {
     @Autowired
-    private AuctionServiceImpl auctionServiceImpl;
+    private AuctionService auctionService;
 
     @Autowired
-    private AuctionImageServiceImpl auctionImageServiceImpl;
+    private AuctionImageService auctionImageService;
 
     @Autowired
-    private LikeCategoryServiceImpl likeCategoryServiceImpl;
+    private LikeCategoryService likeCategoryService;
     @Autowired
     private AuctionRepository auctionRepository;
 
@@ -51,48 +51,47 @@ public class SearchController {
             // 개인 추천순! 경메 임박 & 인기순으로
             // 열리기 까지 하루 남은 경매방
             Pageable pageable = PageRequest.of(page, size);
-            auctionList = auctionServiceImpl.getAuctionListToday(pageable);
-            hasMoreList = auctionServiceImpl.getAuctionListToday(PageRequest.of(page+1,size));
+            auctionList = auctionService.getAuctionListToday(pageable);
+            hasMoreList = auctionService.getAuctionListToday(PageRequest.of(page+1,size));
         } else if ("startTime".equals(sort)) {
             // 경매 임박순 (시작안한 경매방 곧 열릴 순으로 정렬)
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-            auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
-            hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
+            auctionList = auctionService.getAuctionListByStartTime(word, pageable);
+            hasMoreList = auctionService.getAuctionListByStartTime(word,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
         } else if ("category".equals(sort)) {
-            // 내가 하고 싶은 것 : likecategory에 속한 모든 auction을 모두 포함하고 pageable 하고 싶음
-            // 근데 어떻게 하는지 모름....
+            // 내가 좋아하는 카테고리 경매방 순, likecategoryList[0]꺼
             String email = null;
             Pageable pageable = PageRequest.of(page, size);
             if (email != null) {
-                List<Long> likeCategoryList = likeCategoryServiceImpl.getLikeCategoryByEmail(email);
+                List<Long> likeCategoryList = likeCategoryService.getLikeCategoryByEmail(email);
                 if (likeCategoryList.size() != 0) {
                     Long likeCategorySeq = likeCategoryList.get(0);
-                    auctionList = auctionServiceImpl.getAuctionListByCategorySeq(likeCategorySeq, pageable);
-                    hasMoreList = auctionServiceImpl.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
+                    auctionList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, pageable);
+                    hasMoreList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
                 }
             }
             if (auctionList == null) {
                 Long likeCategorySeq = 1 + (long) (Math.random() * 14);
-                auctionList = auctionServiceImpl.getAuctionListByCategorySeq(likeCategorySeq, pageable);
-                hasMoreList = auctionServiceImpl.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
+                auctionList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, pageable);
+                hasMoreList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
             }
         } else {
             //최신 등록순 (시작안한 경매방 나중에 열릴순으로 정렬) && likeCount 순으로 정렬하기
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-            auctionList = auctionServiceImpl.getAuctionListByStartTime(word, pageable);
-            hasMoreList = auctionServiceImpl.getAuctionListByStartTime(word, PageRequest.of(page+1, size, Sort.by(sort).descending()));
+            auctionList = auctionService.getAuctionListByStartTime(word, pageable);
+            hasMoreList = auctionService.getAuctionListByStartTime(word, PageRequest.of(page+1, size, Sort.by(sort).descending()));
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageServiceImpl.getAuctionImageListByAuctionSeq(auction.getId());
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getId());
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, 0,auctionListOneResponseList));
     }
 
 
-    /// 이건 카테고리용 (이건 경매중, 경매 예정 구분 없음)
-    // 생각해보는건데 경매 종료한 것도 보여줘야하나...???? 그래서 status 가 필요하는가
+    /// 이건 카테고리용 (이건 경매중, 경매 예정, 경매 종료 구분 없음)
+    // 나중에 경매 종료한 것은 제외하기 위해 status(경매방 상태표시) 추가해야할 것 같다
     @GetMapping("/category")
     public ResponseEntity<AuctionListResponse> getAuctionListByCategorySeq(@RequestParam("categorySeq") Long categorySeq, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
         List<AuctionListOneResponse> auctionListOneResponseList = new ArrayList<>();
@@ -103,22 +102,22 @@ public class SearchController {
             // 개인 추천순! 경메 임박 & 인기순으로
             // 열리기 까지 하루 남은 경매방
             Pageable pageable = PageRequest.of(page, size);
-            auctionList = auctionServiceImpl.getAuctionListTodayAndCategorySeq(categorySeq,pageable);
-            hasMoreList = auctionServiceImpl.getAuctionListTodayAndCategorySeq(categorySeq,PageRequest.of(page+1,size));
+            auctionList = auctionService.getAuctionListTodayAndCategorySeq(categorySeq,pageable);
+            hasMoreList = auctionService.getAuctionListTodayAndCategorySeq(categorySeq,PageRequest.of(page+1,size));
         } else if ("startTime".equals(sort)) {
             // 곧 열릴 순 (시작안한 경매방 곧 열릴 순으로 정렬)
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-            auctionList = auctionServiceImpl.getAllAuctionListByCategorySeq(categorySeq, pageable);
-            hasMoreList = auctionServiceImpl.getAllAuctionListByCategorySeq(categorySeq,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
+            auctionList = auctionService.getAllAuctionListByCategorySeq(categorySeq, pageable);
+            hasMoreList = auctionService.getAllAuctionListByCategorySeq(categorySeq,PageRequest.of(page+1, size, Sort.by(sort).ascending()));
         } else {
             //최신 등록순 (가장 나중에 열릴 방) && likeCount 순으로 정렬하기
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-            auctionList = auctionServiceImpl.getAllAuctionListByCategorySeq(categorySeq, pageable);
-            hasMoreList = auctionServiceImpl.getAllAuctionListByCategorySeq(categorySeq, PageRequest.of(page+1, size, Sort.by(sort).descending()));
+            auctionList = auctionService.getAllAuctionListByCategorySeq(categorySeq, pageable);
+            hasMoreList = auctionService.getAllAuctionListByCategorySeq(categorySeq, PageRequest.of(page+1, size, Sort.by(sort).descending()));
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageServiceImpl.getAuctionImageListByAuctionSeq(auction.getId());
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getId());
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, 0,auctionListOneResponseList));

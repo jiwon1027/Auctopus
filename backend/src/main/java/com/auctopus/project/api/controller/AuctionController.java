@@ -1,19 +1,13 @@
 package com.auctopus.project.api.controller;
 
-import com.auctopus.project.api.response.AuctionListOneResponse;
-import com.auctopus.project.api.response.AuctionListResponse;
-import com.auctopus.project.api.service.AuctionImageServiceImpl;
-import com.auctopus.project.api.service.AuctionServiceImpl;
-import com.auctopus.project.api.service.LikeCategoryServiceImpl;
+import com.auctopus.project.api.service.AuctionImageService;
+import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.repository.AuctionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -32,20 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuctionController {
 
     @Autowired
-    private AuctionServiceImpl auctionServiceImpl;
+    private AuctionService auctionService;
 
     @Autowired
-    private AuctionImageServiceImpl auctionImageServiceImpl;
+    private AuctionImageService auctionImageService;
 
-    @Autowired
-    private LikeCategoryServiceImpl likeCategoryServiceImpl;
     @Autowired
     private AuctionRepository auctionRepository;
 
 
     @GetMapping("/")
     public String auction(@RequestParam(value = "id") Long id, Model model) {
-        model.addAttribute("auction", auctionServiceImpl.findAuctionById(id));
+        model.addAttribute("auction", auctionService.findAuctionById(id));
         return "/auction";
     }
 
