@@ -3,11 +3,10 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
-import { ReactComponent as Turtle } from "../../assets/badges/turtle.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Hamburger from "../common/Hamburger";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-
+import { theme } from "@/styles/theme";
 import LogoImg from "@/assets/common/logo.png";
 /**
  * @param title
@@ -55,6 +54,7 @@ const LeftComponent = (props: ILeftProps): JSX.Element => {
       return <Hamburger />;
     case "/signup":
     case "/detail":
+    case "/autobid":
       return (
         <ChevronLeftOutlinedIcon className="backIcon" onClick={props.onClick} />
       );
@@ -73,6 +73,8 @@ const RightComponent = (): JSX.Element => {
 
     case "/detail":
       return <ShareOutlinedIcon className="icon" />;
+    case "/autobid":
+      return <h1 className="rightText">다음</h1>;
     default:
       return <></>;
   }
@@ -87,7 +89,8 @@ const TitleComponent = (props: { pathname: string }): JSX.Element => {
       );
     case "/detail":
       return <h1 className="title">경매방 생성</h1>;
-
+    case "/autobid":
+      return <h1 className="title">자동입찰 설정</h1>;
     default:
       return <></>;
   }
@@ -108,13 +111,12 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   margin: 0.5rem;
   background-color: transparent;
-
+  height: 3rem;
+  align-items: center;
   .backIcon {
-    position: relative;
-    left: -2rem;
     color: ${(props) => props.theme.colors.primary};
-    width: 5rem;
-    height: 5rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .signatureIcon {
@@ -124,7 +126,7 @@ const StyledHeader = styled.header`
 
   .title {
     font-weight: bold;
-    font-size: 1.125rem;
+    font-size: 1.8rem;
     color: ${(props) => props.theme.colors.primary};
   }
 
@@ -132,5 +134,11 @@ const StyledHeader = styled.header`
     color: ${(props) => props.theme.colors.primary};
     width: 3rem;
     height: 3rem;
+  }
+  .rightText {
+    font-weight: ${theme.fontWeight.medium};
+    font-size: 1.6rem;
+    color: ${theme.colors.turtleDark};
+    width: 3rem;
   }
 `;
