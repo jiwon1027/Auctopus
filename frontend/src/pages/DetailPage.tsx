@@ -15,7 +15,7 @@ import Modal from "../components/common/Modal";
 export default function DetailPage() {
   const [isBuyer, setIsBuyer] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const likeHandler = () => {
+  const likeHandler = (event: React.MouseEvent<unknown>) => {
     setIsLiked(!isLiked);
   };
   return (
