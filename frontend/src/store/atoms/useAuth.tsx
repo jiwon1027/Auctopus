@@ -7,6 +7,7 @@ interface IInterest {
   label: string;
 }
 export interface IUser {
+  seq: number;
   email: string;
   password: string;
   passwordConfirm: string;
@@ -18,6 +19,7 @@ export interface IUser {
 }
 
 const InitUser: IUser = {
+  seq: -1,
   email: "",
   password: "",
   passwordConfirm: "",
@@ -51,12 +53,16 @@ export default function useAuth() {
         `${import.meta.env.VITE_APP_DOMAIN}/api/kakao/login?code=${code}`
       );
       console.log(res);
-      const ACCESS_TOKEN = res.data.accessToken;
-      localStorage.setItem("token", ACCESS_TOKEN); //예시로 로컬에 저장함
+      localStorage.setItem("token", res.data.id_token); //예시로 로컬에 저장함
 
       // newUser: number | null; // 0: 기존유저, 1: 새로운유저
       if (res.data.newUser > 0) {
-        navigate("/signup", { state: null });
+        setFormState((prev) => {
+          prev.user.email = res.data.userEmail;
+          prev.user.name = res.data.userName;
+          return prev;
+        });
+        navigate("/signup");
         return;
       }
       navigate("/", { replace: true }); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
@@ -87,6 +93,7 @@ export default function useAuth() {
     }
 
     setFormState((prev) => {
+      if (name === "seq") return prev;
       prev.user[name] = value as string;
       return prev;
     });
