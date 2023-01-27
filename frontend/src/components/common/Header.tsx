@@ -65,7 +65,12 @@ const LeftComponent = (props: ILeftProps): JSX.Element => {
 const RightComponent = (): JSX.Element => {
   switch (location.pathname) {
     case "/":
-      return <SearchOutlinedIcon className="icon" />;
+      return (
+        <Link to={"/search"}>
+          <SearchOutlinedIcon className="icon" />
+        </Link>
+      );
+
     case "/detail":
       return <ShareOutlinedIcon className="icon" />;
     default:

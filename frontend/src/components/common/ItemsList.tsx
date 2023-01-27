@@ -16,14 +16,14 @@ export default function ItemsList() {
       title: "구찌를 굳이?",
       price: 450000,
       viewer: 55,
-      time: "2023-01-26 12:00",
+      time: "2023-01-27 12:00",
     },
     {
       img: Image2,
       title: "에어팟 맥스",
       price: 410000,
       viewer: 15,
-      time: "2023-01-26 12:05",
+      time: "2023-01-27 12:05",
     },
   ];
 
