@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
-// import AirPods from "@/assets/autobid/AirPodsMax.png";
-// import SLine from "@/assets/autobid/SharpenLine.svg";
+import AirPods from "@/assets/autobid/AirPodsMax.png";
+import SLine from "@/assets/autobid/SharpenLine.svg";
 export default function Notice() {
   return (
     <Container>
-      {/* <ImgBox src={AirPods} alt="dummy-img" /> */}
+      <ImgBox src={AirPods} alt="dummy-img" />
       <ContentBox>
         <div className="title">Airpods Max 스페이스 그레이</div>
         <NumberBox>
           <div className="title">입찰시작가</div>
           <div className="number">100,000원</div>
         </NumberBox>
-        {/* <Line src={SLine} alt="s-line" /> */}
+        <Line src={SLine} alt="s-line" />
         <NumberBox>
           <div className="title">최소 입찰 단위</div>
           <div className="number">5,000원</div>
         </NumberBox>
-        {/* <Line src={SLine} alt="s-line" /> */}
+        <Line src={SLine} alt="s-line" />
       </ContentBox>
     </Container>
   );
