@@ -48,7 +48,7 @@ public class AuctionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putAuction(@PathVariable("id") Long id, @RequestBody Auction auction) {
+    public ResponseEntity<?> updateAuction(@PathVariable("id") Long id, @RequestBody Auction auction) {
         Auction updateAuction = auctionRepository.getReferenceById(id);
         updateAuction.setTitle(auction.getTitle());
         updateAuction.setPrice(auction.getPrice());

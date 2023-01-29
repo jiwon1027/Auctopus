@@ -83,7 +83,8 @@ public class SearchController {
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getId());
+            //List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getId());
+            List<AuctionImage> auctionImageList = null;
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, 0,auctionListOneResponseList));
