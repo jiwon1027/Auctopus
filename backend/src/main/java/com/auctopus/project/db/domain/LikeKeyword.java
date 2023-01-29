@@ -1,4 +1,4 @@
-package com.aucopus.project.db.domain;
+package com.auctopus.project.db.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class LikeKeyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeKeywordSeq;
-    private int userSeq;
+    private String email;
     private String keyword;
 
 }
