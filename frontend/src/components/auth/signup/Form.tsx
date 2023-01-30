@@ -7,11 +7,13 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useNavigate } from "react-router-dom";
-import useAuth, { IUser } from "@/store/atoms/useAuth";
+import useAuth from "@/store/atoms/useAuth";
+import { IUser } from "types/auth";
 
 export default function Form() {
   const navigate = useNavigate();
-  const { formState, updateUser } = useAuth();
+  const { formState, updateUser, confirmUser, getToken } = useAuth();
+  const isPasswordDisabled = !!getToken();
 
   const updateHandler = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -19,7 +21,7 @@ export default function Form() {
   };
 
   const submitHandler = () => {
-    if (!formState.confirmed) return alert("필수정보를 모두 입력해주세요");
+    if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
     navigate("./additional");
   };
 
@@ -58,6 +60,7 @@ export default function Form() {
         name="password"
         onChange={updateHandler}
         value={formState.user.password}
+        disabled={isPasswordDisabled}
       />
       <TextField
         className="textField"
@@ -75,6 +78,7 @@ export default function Form() {
         name="passwordConfirm"
         onChange={updateHandler}
         value={formState.user.passwordConfirm}
+        disabled={isPasswordDisabled}
       />
       <TextField
         className="textField"

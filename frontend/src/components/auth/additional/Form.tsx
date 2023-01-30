@@ -4,26 +4,28 @@ import { Button, InputAdornment, TextField } from "@mui/material";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import { useNavigate } from "react-router-dom";
-import useAuth, { IUser } from "@/store/atoms/useAuth";
+import useAuth from "@/store/atoms/useAuth";
+import { IUser } from "types/auth";
 
 export default function Form() {
   const addressRef = useRef(null);
   const bankAccountRef = useRef(null);
   const navigate = useNavigate();
-  const { formState, updateUser } = useAuth();
+  const { formState, updateUser, confirmUser } = useAuth();
 
   const updateHandler = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
     updateUser(target.name as keyof IUser, target.value);
   };
 
-  const submitHandler = () => {
-    if (!formState.confirmed) return alert("필수정보를 모두 입력해주세요");
-    navigate("./additional");
+  const submitHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
+    navigate("./category");
   };
 
   return (
-    <StyledForm method="POST" onSubmit={submitHandler}>
+    <StyledForm onSubmit={submitHandler}>
       <div className="textFieldContainer">
         <TextField
           ref={addressRef}
@@ -41,6 +43,7 @@ export default function Form() {
           required
           name="address"
           onChange={updateHandler}
+          value={formState.user.address}
         />
         <TextField
           ref={bankAccountRef}
@@ -57,10 +60,11 @@ export default function Form() {
           placeholder="거래 계좌 정보"
           required
           name="bank-account"
+          value={formState.user.bankAccount}
         />
       </div>
       <div className="btnContainer">
-        <Button variant="outlined" disableElevation type="submit">
+        <Button variant="outlined" disableElevation type="button">
           건너뛰기
         </Button>
         <Button variant="contained" disableElevation type="submit">

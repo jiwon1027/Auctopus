@@ -1,22 +1,8 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
-
-interface IInterest {
-  id: string;
-  label: string;
-}
-export interface IUser {
-  seq: number;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  name: string;
-  nickname: string;
-  address?: string;
-  bankAccount?: string;
-  interests: IInterest[];
-}
+import { IUser, IInterest, IValidated, IForm } from "types/auth";
 
 const InitUser: IUser = {
   seq: -1,
@@ -28,24 +14,36 @@ const InitUser: IUser = {
   interests: [] as IInterest[],
 };
 
-export interface IForm {
-  confirmed: boolean;
-  user: IUser;
-}
+const InitValidated: IValidated = {
+  email: false,
+  password: false,
+  passwordConfirm: false,
+  name: false,
+  nickname: false,
+  address: false,
+  bankAccount: false,
+  interests: false,
+};
 
-const InitForm = {
-  confirmed: false,
-  user: InitUser,
+const InitForm: IForm = {
+  user: { ...InitUser },
+  validated: { ...InitValidated },
 };
 
 const formDefaultState = atom({
-  key: "formDefaultState",
+  key: "formDefaultStatebjkla;sdlfj",
   default: InitForm,
 });
 
+// TODO: store User profile info into **LocalStorage**
 export default function useAuth() {
   const navigate = useNavigate();
-  const [formState, setFormState] = useRecoilState(formDefaultState);
+  const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
+  const getToken = () => localStorage.getItem("token");
+
+  useEffect(() => {
+    console.log("formState: ", formState);
+  }, [formState]);
 
   const kakaoLogin = async (code: string) => {
     try {
@@ -73,29 +71,79 @@ export default function useAuth() {
     }
   };
 
-  function updateUser(
-    name: keyof IUser,
-    value: string | { id: string; label: string }[]
-  ) {
-    let isConfirmed = true;
-    for (const key in formState.user) {
-      if (key === "interests") continue;
-      const val = formState.user[key as keyof IUser] as string;
-      isConfirmed = isConfirmed && val.trim() !== "";
+  function confirmUser() {
+    let confirmed = true;
+    for (const key in formState.validated) {
+      if (key === "address" || key === "bankAccount" || key === "interests") {
+        continue;
+      }
+      confirmed = confirmed && formState.validated[key as keyof IValidated];
     }
+    return confirmed;
+  }
 
-    if (name === "interests") {
-      return setFormState((prev) => {
-        prev.user["interests"] = value as IInterest[];
-        prev.confirmed = isConfirmed;
-        return prev;
-      });
-    }
-
+  function updateUser(name: keyof IUser, value: string | IInterest[]) {
     setFormState((prev) => {
-      if (name === "seq") return prev;
-      prev.user[name] = value as string;
-      return prev;
+      console.log("name and value: ", name, value);
+      let isValidated = true;
+      switch (name) {
+        case "email": {
+          // eslint-disable-next-line no-useless-escape
+          const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (!mailFormat.test(value as string)) {
+            isValidated = false;
+          }
+          break;
+        }
+        case "password": {
+          if (!getToken()) {
+            if ((value as string).trim() === "") {
+              isValidated = false;
+            }
+            return {
+              ...prev,
+              user: {
+                ...prev.user,
+                [name]: value as string,
+              },
+              validated: {
+                ...prev.validated,
+                [name]: isValidated,
+                passwordConfirm: prev.user.passwordConfirm === value,
+              },
+            };
+          }
+          break;
+        }
+        case "passwordConfirm": {
+          if (!getToken() && prev.user.password !== value) {
+            isValidated = false;
+          }
+          break;
+        }
+        case "name":
+        case "nickname": {
+          if ((value as string).trim() === "") isValidated = false;
+          break;
+        }
+        case "address":
+        case "bankAccount":
+        case "interests":
+        default:
+          break;
+      }
+
+      return {
+        ...prev,
+        user: {
+          ...prev.user,
+          [name]: value,
+        },
+        validated: {
+          ...prev.validated,
+          [name]: isValidated,
+        },
+      };
     });
   }
 
@@ -109,7 +157,9 @@ export default function useAuth() {
 
   return {
     formState,
+    getToken,
     kakaoLogin,
+    confirmUser,
     updateUser,
     signUp,
     signOut,
