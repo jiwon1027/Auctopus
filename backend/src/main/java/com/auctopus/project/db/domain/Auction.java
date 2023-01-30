@@ -29,6 +29,9 @@ public class Auction {
     private String content;
     private String startTime;
     private int startPrice;
+<<<<<<< HEAD
     private int likeCount;
     private String link;
+=======
+>>>>>>> 417637005a4125094c299e947be3194f384a6362
 }
