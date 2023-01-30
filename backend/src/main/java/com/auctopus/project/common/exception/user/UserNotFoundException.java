@@ -4,7 +4,7 @@ import com.auctopus.project.common.exception.code.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class UserNotFoundException extends RuntimeException{
+public class UserNotFoundException extends RuntimeException {
 
     private ErrorCode errorCode;
 

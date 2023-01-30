@@ -4,5 +4,5 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 public interface LikeCategoryService {
-    List<Long> getLikeCategoryByEmail(String email);
+    List<Integer> getLikeCategoryByEmail(String email);
 }

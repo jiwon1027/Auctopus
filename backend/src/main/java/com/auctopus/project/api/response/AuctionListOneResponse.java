@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuctionListOneResponse {
-    Long auctionSeq;
+    int auctionSeq;
     String email;
     String title;
     String startTime;
@@ -21,12 +21,12 @@ public class AuctionListOneResponse {
 
     public static AuctionListOneResponse of(Auction auction, List<AuctionImage> auctionImageList) {
         AuctionListOneResponse res = AuctionListOneResponse.builder()
-                .auctionSeq(auction.getId())
-                .email(auction.getEmail())
+                .auctionSeq(auction.getAuctionSeq())
+                .email(auction.getUserEmail())
                 .title(auction.getTitle())
                 .startTime(auction.getStartTime())
                 .likeCount(auction.getLikeCount())
-                .startPrice(auction.getPrice())
+                .startPrice(auction.getStartPrice())
                 .auctionImage(auctionImageList.get(0))
                 .build();
         return res;
