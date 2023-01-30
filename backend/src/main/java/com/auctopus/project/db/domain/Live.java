@@ -23,14 +23,13 @@ import org.hibernate.annotations.DynamicInsert;
 public class Live {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int liveSeq;
-    private int auctionSeq;
     private String userEmail;
     private Timestamp startTime;
     private Timestamp endTime;
     private int price;
     private int viewer;
+    private int participant;
     private int onAir;
 
 }

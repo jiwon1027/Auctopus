@@ -55,7 +55,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public List<Auction> getAuctionListByCategorySeq(Long likeCategorySeq, Pageable pageable) {
+    public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable) {
         List<Auction> auctionList = null;
         String currentTime = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -65,23 +65,25 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public List<Auction> getAuctionListTodayAndCategorySeq(Long categorySeq, Pageable pageable) {
-        String todayTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String tomorrowTime = LocalDateTime.now().plusDays(1)
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        List<Auction> auctionList = auctionRepository.findImmAuctionByStartTimeAndCategorySeq(
-                categorySeq, todayTime, tomorrowTime, pageable);
-        return auctionList;
+    public List<Auction> getAuctionListTodayAndCategorySeq(int categorySeq, Pageable pageable) {
+//        String todayTime = LocalDateTime.now()
+//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        String tomorrowTime = LocalDateTime.now().plusDays(1)
+//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        List<Auction> auctionList = auctionRepository.findImmAuctionByStartTimeAndCategorySeq(
+//                categorySeq, todayTime, tomorrowTime, pageable);
+//        return auctionList;
+        return null;
     }
 
     @Override
-    public List<Auction> getAllAuctionListByCategorySeq(Long categorySeq, Pageable pageable) {
+    public List<Auction> getAllAuctionListByCategorySeq(int categorySeq, Pageable pageable) {
         List<Auction> auctionList = auctionRepository.findAllAuctionByCategorySeq(categorySeq,
                 pageable);
         return auctionList;
     }
 
+    @Override
     @Transactional
     public void updateAuction(int auctionSeq, AuctionUpdateRequest req) {
         Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(

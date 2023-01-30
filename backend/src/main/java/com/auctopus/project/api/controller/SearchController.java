@@ -63,15 +63,15 @@ public class SearchController {
             String email = null;
             Pageable pageable = PageRequest.of(page, size);
             if (email != null) {
-                List<Long> likeCategoryList = likeCategoryService.getLikeCategoryByEmail(email);
+                List<Integer> likeCategoryList = likeCategoryService.getLikeCategoryByEmail(email);
                 if (likeCategoryList.size() != 0) {
-                    Long likeCategorySeq = likeCategoryList.get(0);
+                    Integer likeCategorySeq = likeCategoryList.get(0);
                     auctionList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, pageable);
                     hasMoreList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
                 }
             }
             if (auctionList == null) {
-                Long likeCategorySeq = 1 + (long) (Math.random() * 14);
+                int likeCategorySeq = 1 + (int) (Math.random() * 14);
                 auctionList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, pageable);
                 hasMoreList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
             }
@@ -94,7 +94,7 @@ public class SearchController {
     /// 이건 카테고리용 (이건 경매중, 경매 예정, 경매 종료 구분 없음)
     // 나중에 경매 종료한 것은 제외하기 위해 status(경매방 상태표시) 추가해야할 것 같다
     @GetMapping("/category")
-    public ResponseEntity<AuctionListResponse> getAuctionListByCategorySeq(@RequestParam("categorySeq") Long categorySeq, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
+    public ResponseEntity<AuctionListResponse> getAuctionListByCategorySeq(@RequestParam("categorySeq") int categorySeq, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
         List<AuctionListOneResponse> auctionListOneResponseList = new ArrayList<>();
         List<Auction> auctionList = null;
         List<Auction> hasMoreList = null;
@@ -118,7 +118,7 @@ public class SearchController {
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getId());
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, 0,auctionListOneResponseList));

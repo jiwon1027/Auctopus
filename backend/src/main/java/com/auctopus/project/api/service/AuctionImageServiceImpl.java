@@ -13,7 +13,7 @@ public class AuctionImageServiceImpl implements AuctionImageService {
     private AuctionImageRepository auctionImageRepository;
 
     @Override
-    public List<AuctionImage> getAuctionImageListByAuctionSeq(Long auctionSeq) {
+    public List<AuctionImage> getAuctionImageListByAuctionSeq(int auctionSeq) {
         List<AuctionImage> auctionImageList = auctionImageRepository.findByAuctionSeq(auctionSeq)
                 .orElse(null);
         return auctionImageList;

@@ -15,10 +15,10 @@ public class LikeCategoryServiceImpl implements LikeCategoryService{
     private LikeCategoryRepository likeCategoryRepository;
 
     @Override
-    public List<Long> getLikeCategoryByEmail(String email) {
+    public List<Integer> getLikeCategoryByEmail(String email) {
         // User의 likeCategory 들을 email을 통해 가져옴
-        List<Long> UserCategoryList = new ArrayList<>();
-        List<LikeCategory> likeCategoryList = likeCategoryRepository.findAllByEmail(email);
+        List<Integer> UserCategoryList = new ArrayList<>();
+        List<LikeCategory> likeCategoryList = likeCategoryRepository.findAllByUserEmail(email);
         for(LikeCategory likeCategory : likeCategoryList) {
             UserCategoryList.add(likeCategory.getCategorySeq());
         }
