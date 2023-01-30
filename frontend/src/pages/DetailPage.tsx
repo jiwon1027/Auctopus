@@ -11,7 +11,7 @@ import { theme } from "@/styles/theme";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Modal from "../components/common/Modal";
+import Modal from "../components/detail/Modal";
 export default function DetailPage() {
   const [isBuyer, setIsBuyer] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
