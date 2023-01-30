@@ -17,8 +17,6 @@ public enum ErrorCode {
     LIVE_NOT_FOUND(404,"LIVE_ERR-404","해당 라이브를 찾을 수 없습니다.");
 
     // 경매방 관련 오류
-    AUCTION_NOT_FOUND(404, "AUCTION_ERR_404", "해당 경매방을 찾을 수 없습니다.");
-
     private int state;
     private String message;
     private String errorCode;

@@ -24,19 +24,14 @@ public class Live {
 
     @Id
     private int liveSeq;
-<<<<<<< HEAD
-=======
     private int auctionSeq;
->>>>>>> 417637005a4125094c299e947be3194f384a6362
     private String userEmail;
     private Timestamp startTime;
     private Timestamp endTime;
     private int price;
     private int viewer;
-<<<<<<< HEAD
     private int participant;
-=======
->>>>>>> 417637005a4125094c299e947be3194f384a6362
+
     private int onAir;
 
 }
