@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const [searchParams, setSearchParams] = useSearchParams("keyword");
+  const [searchParams] = useSearchParams("keyword");
   const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +18,7 @@ export default function SearchBar() {
   };
 
   const handleSubmit = () => {
-    setSearchParams(searchValue);
-    navigate(`/search?${searchParams}${searchValue}`);
+    navigate(`/result?${searchParams}${searchValue}`);
   };
 
   return (
