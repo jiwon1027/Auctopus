@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilState, useResetRecoilState } from "recoil";
 import { IUser, IInterest, IValidated, IForm } from "types/auth";
 
 const InitUser: IUser = {
@@ -11,6 +10,8 @@ const InitUser: IUser = {
   passwordConfirm: "",
   name: "",
   nickname: "",
+  address: "",
+  bankAccount: "",
   interests: [] as IInterest[],
 };
 
@@ -35,17 +36,17 @@ const formDefaultState = atom({
   default: InitForm,
 });
 
-// TODO: store User profile info into **LocalStorage**
 export default function useAuth() {
   const navigate = useNavigate();
   const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
   const getToken = () => localStorage.getItem("token");
 
-  useEffect(() => {
-    console.log("formState: ", formState);
-  }, [formState]);
+  // debug formState
+  // useEffect(() => {
+  //   console.log("formState: ", formState);
+  // }, [formState]);
 
-  const kakaoLogin = async (code: string) => {
+  async function kakaoLogin(code: string) {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_DOMAIN}/api/kakao/login?code=${code}`
@@ -63,14 +64,27 @@ export default function useAuth() {
         navigate("/signup");
         return;
       }
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: res.data.userEmail,
+          name: res.data.userName,
+        })
+      );
       navigate("/", { replace: true }); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
     } catch (error) {
       console.log("소셜로그인 에러", error);
       window.alert("로그인에 실패하였습니다.");
       navigate("/login", { replace: true }); // 로그인 실패하면 로그인화면으로 돌려보냄
     }
-  };
+  }
 
+  /**
+   * 회원가입하는 유저가 필수 정보를 모두 입력했는지 확인한다
+   * @remarks 주소, 계좌번호, 그리고 관심 카테고리는 선택항목이다
+   * @returns confirmed
+   */
   function confirmUser() {
     let confirmed = true;
     for (const key in formState.validated) {
@@ -82,9 +96,20 @@ export default function useAuth() {
     return confirmed;
   }
 
+  /**
+   * 회원가입하는 유저의 정보를 업데이트한다
+   * @remarks 주소, 계좌번호, 그리고 관심 카테고리는 선택항목이다
+   * @param name input 태그의 name attribute
+   * @param value 값
+   *
+   * @example
+   * ```
+   * updateUser("nickname", "개구쟁이 싸피");
+   * updateUser("interests", [{ id: "123", label: "신발"}]);
+   * ```
+   */
   function updateUser(name: keyof IUser, value: string | IInterest[]) {
     setFormState((prev) => {
-      console.log("name and value: ", name, value);
       let isValidated = true;
       switch (name) {
         case "email": {
@@ -147,6 +172,11 @@ export default function useAuth() {
     });
   }
 
+  // FIXME: not tested at all
+  function resetFormState() {
+    useResetRecoilState(formDefaultState);
+  }
+
   function signUp() {
     console.log("sign up");
   }
@@ -161,6 +191,7 @@ export default function useAuth() {
     kakaoLogin,
     confirmUser,
     updateUser,
+    resetFormState,
     signUp,
     signOut,
   };

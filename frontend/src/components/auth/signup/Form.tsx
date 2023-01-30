@@ -22,7 +22,7 @@ export default function Form() {
 
   const submitHandler = () => {
     if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
-    navigate("./additional");
+    navigate("/signup/additional");
   };
 
   return (

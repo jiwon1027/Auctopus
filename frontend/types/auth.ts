@@ -5,14 +5,14 @@ export interface IUser {
   passwordConfirm: string;
   name: string;
   nickname: string;
-  address?: string;
-  bankAccount?: string;
+  address: string;
+  bankAccount: string;
   interests: IInterest[];
 }
 
 export interface IInterest {
-  id: string;
-  label: string;
+  readonly id: string;
+  readonly label: string;
 }
 
 export interface IValidated {

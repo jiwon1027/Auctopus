@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
@@ -7,9 +7,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
 import { IUser } from "types/auth";
 
+// FIXME: "Form submission canceled because the form is not connected"
 export default function Form() {
-  const addressRef = useRef(null);
-  const bankAccountRef = useRef(null);
   const navigate = useNavigate();
   const { formState, updateUser, confirmUser } = useAuth();
 
@@ -21,16 +20,14 @@ export default function Form() {
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
-    navigate("./category");
+    navigate("/signup/category");
   };
 
   return (
     <StyledForm onSubmit={submitHandler}>
       <div className="textFieldContainer">
         <TextField
-          ref={addressRef}
           className="textField"
-          // label="Email"
           variant="outlined"
           InputProps={{
             startAdornment: (
@@ -40,15 +37,12 @@ export default function Form() {
             ),
           }}
           placeholder="배송지 주소"
-          required
           name="address"
           onChange={updateHandler}
           value={formState.user.address}
         />
         <TextField
-          ref={bankAccountRef}
           className="textField"
-          // label="Email"
           variant="outlined"
           InputProps={{
             startAdornment: (
@@ -58,13 +52,13 @@ export default function Form() {
             ),
           }}
           placeholder="거래 계좌 정보"
-          required
-          name="bank-account"
+          name="bankAccount"
+          onChange={updateHandler}
           value={formState.user.bankAccount}
         />
       </div>
       <div className="btnContainer">
-        <Button variant="outlined" disableElevation type="button">
+        <Button variant="outlined" disableElevation type="submit">
           건너뛰기
         </Button>
         <Button variant="contained" disableElevation type="submit">
