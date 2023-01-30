@@ -5,7 +5,6 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Hamburger from "../common/Hamburger";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import LogoImg from "@/assets/common/logo.png";
 /**
  * @param title

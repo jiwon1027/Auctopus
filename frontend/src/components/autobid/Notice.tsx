@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
@@ -34,10 +34,9 @@ const ContentBox = styled.div`
 const CustomHelpIcon = mstyled(HelpOutlineOutlinedIcon)`
     width: 2rem;
     height: 2rem;
-`; // color: ${(props) => props.theme.colors.primary}
+`;
 
 const Container = styled.div`
-  /* height: 5.5rem; */
   background-color: rgba(167, 201, 87, 0.3);
   display: flex;
   flex-direction: column;

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import React from "react";
 import styled from "styled-components";
-import { styled as mstyled } from "@mui/material/styles";
 import AirPods from "@/assets/autobid/AirPodsMax.png";
 import SLine from "@/assets/autobid/SharpenLine.svg";
 export default function Notice() {
