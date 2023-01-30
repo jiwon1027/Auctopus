@@ -6,7 +6,7 @@ import SearchBar from "@components/search/SearchBar";
 
 export default function SearchPage() {
   return (
-    <Layout leftIcon="turtle">
+    <Layout leftIcon="none">
       <SearchBar />
       <Category />
       <RecentSearches />
