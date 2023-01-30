@@ -10,7 +10,11 @@ import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
   const [searchParams] = useSearchParams("keyword");
-  const [searchValue, setSearchValue] = React.useState<string>("");
+  const [searchValue, setSearchValue] = React.useState<string>(
+    searchParams.get("keyword") === null
+      ? ""
+      : (searchParams.get("keyword") as string)
+  );
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +23,11 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (searchValue === "") {
+      alert("검색어를 입력하세요.");
+      return;
+    }
     searchParams.set("keyword", searchValue);
-    // 검색창에서 재 검색시 redirect되는 문제 수정해야함
     navigate(`/result?${searchParams}`);
   };
 
