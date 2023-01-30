@@ -5,33 +5,42 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
-  const [searchValue, setSearchValue] = React.useState<string>("");
   const [searchParams] = useSearchParams("keyword");
+  const [searchValue, setSearchValue] = React.useState<string>(
+    searchParams.get("keyword") === null
+      ? ""
+      : (searchParams.get("keyword") as string)
+  );
   const navigate = useNavigate();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
-  const handleSubmit = () => {
-    navigate(`/result?${searchParams}${searchValue}`);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchValue === "") {
+      alert("검색어를 입력하세요.");
+      return;
+    }
+    searchParams.set("keyword", searchValue);
+    navigate(`/result?${searchParams}`);
   };
 
   return (
     <SearchBox>
-      <Link to={"/"}>
-        <ArrowBackIosIcon className="backIcon" />
-      </Link>
+      <ArrowBackIosIcon className="backIcon" onClick={() => navigate(-1)} />
       <SearchForm onSubmit={handleSubmit}>
         <InputBase
           sx={{ ml: 1, flex: 4, fontSize: 14, paddingY: 0.2 }}
           placeholder="검색어를 입력하세요."
           value={searchValue}
           onChange={handleChange}
+          autoFocus
         />
         <IconButton type="submit" sx={{ p: "3px" }} aria-label="search">
           <SearchIcon className="icon" />
