@@ -10,18 +10,15 @@ import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const [searchParams, setSearchParams] = useSearchParams("keyword");
+  const [searchParams] = useSearchParams("keyword");
   const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
-  // search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=123
-  // https://ohou.se/productions/feed?query=123&search_affect_type=Typing
+
   const handleSubmit = () => {
     navigate(`/result?${searchParams}${searchValue}`);
-    console.log(searchParams);
-    console.log(searchValue);
   };
 
   return (

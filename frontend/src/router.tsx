@@ -12,7 +12,8 @@ import SignupPage from "./pages/auth/SignupPage";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler";
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./pages/search/SearchPage";
+import ResultPage from "./pages/search/ResultPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
+  { path: "/result", element: <ResultPage /> },
 ]);
 
 export default router;
