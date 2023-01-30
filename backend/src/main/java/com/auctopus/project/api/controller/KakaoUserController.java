@@ -23,45 +23,44 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class KakaoUserController {
     /*
-    * 카카오 callback
-    * 이거 원래 redict_url로 보내고 code를 받는건 FE에서 하는건데 지금 test용으로 그냥 BE에서 작성 중
-    * code에서 나온 결과물로 email, nickname 조회가능 (from. kakao server)
-    * */
+     * 카카오 callback
+     * 이거 원래 redict_url로 보내고 code를 받는건 FE에서 하는건데 지금 test용으로 그냥 BE에서 작성 중
+     * code에서 나온 결과물로 email, nickname 조회가능 (from. kakao server)
+     * */
 
     private KakaoUserServiceImpl kakaoUserServiceimpl;
     private UserRepository userRepository;
     private UserServiceImpl userServiceImpl;
 
     @GetMapping("/login")
-    public ResponseEntity<HashMap<String, Object>> kakaoLogin(@RequestParam String code){
+    public ResponseEntity<HashMap<String, Object>> kakaoLogin(@RequestParam String code) {
         HashMap<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
 
-        try{
+        try {
             // 인가코드 받아서 토큰 발급
-            System.out.println("code : " +code);
+            System.out.println("code : " + code);
             HashMap<String, Object> tokenInfo = kakaoUserServiceimpl.getKakaoAccessToken(code);
 
             String access_token = (String) tokenInfo.get("access_token");
             String id_token = (String) tokenInfo.get("id_token");
 
             // 발급받은 access_token 받아서 kakaoUserInfo(email, nickname) 가져오기
-            System.out.println("id_token : "+ id_token);
-            HashMap<String, Object> kakaoUserInfo= kakaoUserServiceimpl.getKakaoUserInfo(access_token);
+            System.out.println("id_token : " + id_token);
+            HashMap<String, Object> kakaoUserInfo = kakaoUserServiceimpl.getKakaoUserInfo(
+                    access_token);
 
             // email이 현재 DB에 저장있지 않으면 DB에 저장
-            if(userRepository.findByEmail((String)kakaoUserInfo.get("email")) == null){
-                userRepository.save(User.builder()
-                        .email((String) kakaoUserInfo.get("email"))
-                        .nickname((String) kakaoUserInfo.get("nickname"))
-                        .build());
+            if (userRepository.findByEmail((String) kakaoUserInfo.get("email")) == null) {
+                userRepository.save(User.builder().email((String) kakaoUserInfo.get("email"))
+                        .nickname((String) kakaoUserInfo.get("nickname")).build());
             }
 
             resultMap.put(("token"), id_token);
             resultMap.put(("message"), "토큰 발급 완료");
             status = HttpStatus.OK;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             resultMap.put(("message"), e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -71,20 +70,19 @@ public class KakaoUserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(Authentication authentication, @RequestBody User user){
+    public ResponseEntity<?> login(Authentication authentication, @RequestBody User user) {
 
         System.out.println("신규 유저 정보 입력");
 
-        try{
+        try {
             // 토큰이 이상하면 여기서 예외처리 해주면 됨
             System.out.println("Data 1 : " + authentication.getPrincipal()); //닉네임
             System.out.println("Data 2 : " + authentication.getCredentials()); //이메일
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             System.out.println("에러발생@@@@@@@@@@@@@@@@@");
         }
-
 
         return null;
     }

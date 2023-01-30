@@ -19,10 +19,11 @@ import org.hibernate.annotations.DynamicInsert;
 @DynamicInsert
 @Table(name = "like_category")
 public class LikeCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeCategorySeq;
-    private String email;
-    private Long categorySeq;
+    private String userEmail;
+    private int categorySeq;
 
 }

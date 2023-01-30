@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface AuctionRepository extends JpaRepository<Auction, Long> {
+public interface AuctionRepository extends JpaRepository<Auction, Integer> {
+
+    Optional<Auction> findByAuctionSeq(int auctionSeq);
 
     // 경매 임박 24시간 사이
 
