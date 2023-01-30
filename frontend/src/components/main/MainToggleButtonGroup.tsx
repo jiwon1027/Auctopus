@@ -5,12 +5,11 @@ import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 
 interface MainProps {
-  func: (value: string) => void;
+  live: "live" | "nonLive";
+  onClick: () => void;
 }
 
 export default function MainToggleButtonGroup(props: MainProps) {
-  const [alignment, setAlignment] = React.useState("live");
-
   /**
    *
    * @param event 마우스 클릭이벤트
@@ -18,24 +17,23 @@ export default function MainToggleButtonGroup(props: MainProps) {
    */
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
+    newAlignment: "live" | "nonLive"
   ) => {
     if (newAlignment !== null) {
-      setAlignment(newAlignment);
-      props.func(newAlignment);
+      props.onClick();
     }
   };
 
   return (
     <ToggleButtonGroup
-      value={alignment}
+      value={props.live}
       exclusive
       onChange={handleAlignment}
       aria-label="Platform"
       sx={{ paddingTop: 1, marginX: 1 }}
     >
       <ToggleButton value="live">진행중</ToggleButton>
-      <ToggleButton value="nonlive">진행 예정</ToggleButton>
+      <ToggleButton value="nonLive">진행 예정</ToggleButton>
     </ToggleButtonGroup>
   );
 }
