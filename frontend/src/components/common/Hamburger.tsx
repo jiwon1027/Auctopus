@@ -18,8 +18,32 @@ import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
-import { theme } from "@/styles/theme";
-type Anchor = "top" | "left" | "bottom" | "right";
+
+export default function Hamburger() {
+  const [toggle, setToggle] = React.useState(false);
+
+  const toggleDrawer = () => {
+    setToggle((prev) => !prev);
+  };
+
+  return (
+    <>
+      <MenuIcon
+        onClick={toggleDrawer}
+        sx={{
+          width: "30px",
+          height: "30px",
+        }}
+        color="primary"
+      >
+        left
+      </MenuIcon>
+      <Drawer anchor="left" open={toggle} onClose={toggleDrawer}>
+        <ListComponent onClick={toggleDrawer} />
+      </Drawer>
+    </>
+  );
+}
 
 const navItems = [
   { value: "메인 화면", uri: "/" },
@@ -27,33 +51,13 @@ const navItems = [
   { value: "찜 목록", uri: "/likes" },
   { value: "내 프로필", uri: "/profile" },
 ];
-export default function Hamburger() {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
 
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
-  const list = (anchor: Anchor) => (
+function ListComponent(props: { onClick: () => void }) {
+  return (
     <>
       <IconBox>
         <CustomNotice />
-        <CustomClose onClick={toggleDrawer(anchor, false)} />
+        <CustomClose onClick={props.onClick} />
       </IconBox>
       <ProfileBox>
         <Link to={`/profile`}>
@@ -66,35 +70,28 @@ export default function Hamburger() {
       <Box
         sx={{ width: 280 }}
         role="presentation"
-        onClick={toggleDrawer(anchor, false)}
-        onKeyDown={toggleDrawer(anchor, false)}
+        onClick={props.onClick}
+        onKeyDown={props.onClick}
       >
         <Divider />
         <List>
-          {navItems.map((obj, index) => (
+          {navItems.map((obj) => (
             <ListItem key={obj.value} disablePadding>
-              <ListItemButton key={index} component={Link} to={obj.uri}>
-                <ListItemIcon key={index}>
-                  {index % 2 != 0 ? (
-                    obj.value === "채팅" ? (
-                      <CustomText />
-                    ) : (
-                      <CustomAccount />
-                    )
-                  ) : obj.value == "메인 화면" ? (
-                    <CustomHome />
-                  ) : (
-                    <CustomFavorite />
-                  )}
+              <ListItemButton component={Link} to={obj.uri}>
+                <ListItemIcon>
+                  {obj.uri === "/" && <CustomHome color="primary" />}
+                  {obj.uri === "/chat" && <CustomText color="primary" />}
+                  {obj.uri === "/likes" && <CustomFavorite color="primary" />}
+                  {obj.uri === "/profile" && <CustomAccount color="primary" />}
                 </ListItemIcon>
-                <CustomListText>{obj.value}</CustomListText>
+                <CustomListText color="primary">{obj.value}</CustomListText>
               </ListItemButton>
             </ListItem>
           ))}
           <Divider />
           <ListItemButton>
             <ListItemIcon>
-              <CustomLogout />.
+              <CustomLogout color="info" />.
             </ListItemIcon>
             <CustomListTextL>로그 아웃</CustomListTextL>
           </ListItemButton>
@@ -102,33 +99,8 @@ export default function Hamburger() {
       </Box>
     </>
   );
-
-  return (
-    <>
-      {(["left"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <MenuIcon
-            onClick={toggleDrawer(anchor, true)}
-            sx={{
-              width: "30px",
-              height: "30px",
-              color: `${theme.colors.primary}`,
-            }}
-          >
-            {anchor}
-          </MenuIcon>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
-    </>
-  );
 }
+
 const IconBox = styled.div`
   display: flex;
 `;
@@ -143,7 +115,7 @@ const ProfileBox = styled.div`
     margin: 1.2rem 0;
     font-family: Pretendard;
     text-align: center;
-    font-weight: ${theme.fontWeight.semibold};
+    font-weight: ${(props) => props.theme.fontWeight.semibold};
   }
 `;
 const Profile = styled.img`
@@ -152,14 +124,14 @@ const Profile = styled.img`
 `;
 
 const CustomNotice = mstyled(NotificationsNoneOutlindIcon)`
-widtH: 2.5rem;
+width: 2.5rem;
 height: 2.5rem;
 display: flex;
 /* margin-left: auto; */
 padding: 1.5rem;
 `;
 const CustomClose = mstyled(CloseOutlinedIcon)`
-widtH: 2.5rem;
+width: 2.5rem;
 height: 2.5rem;
 display: flex;
 margin-left: auto;
@@ -167,46 +139,41 @@ padding: 1.5rem;
 `;
 
 const CustomHome = mstyled(HomeOutlinedIcon)`
-width: 2.5rem;
-height: 2.5rem;
-  color: ${theme.colors.turtleDark};
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 1rem;
   `;
 const CustomText = mstyled(ChatOutlinedIcon)`
-width: 2.5rem;
-height: 2.5rem;
-  color: ${theme.colors.turtleDark};
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 1rem;
 `;
 const CustomFavorite = mstyled(FavoriteBorderIcon)`
-width: 2.5rem;
-height: 2.5rem;
-  color: ${theme.colors.turtleDark};
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 1rem;
 `;
 const CustomAccount = mstyled(AssignmentIndOutlinedIcon)`
-width: 2.5rem;
-height: 2.5rem;
-  color: ${theme.colors.turtleDark};
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 1rem;
 `;
 
 const CustomListText = styled.div`
   font-size: 1.8rem;
-  font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.turtleDark};
+  font-weight: ${(props) => props.theme.fontWeight.extraBold};
+  color: ${(props) => props.theme.colors.turtleDark};
   font-family: Pretendard;
 `;
 const CustomListTextL = styled.div`
   font-size: 1.8rem;
-  font-weight: ${theme.fontWeight.extraBold};
-  color: ${theme.colors.greyStandard};
+  font-weight: ${(props) => props.theme.fontWeight.extraBold};
+  color: ${(props) => props.theme.colors.greyStandard};
   font-family: Pretendard;
 `;
 
 const CustomLogout = mstyled(ExitToAppOutlinedIcon)`
-width: 2.5rem;
-height: 2.5rem;
-  color: ${theme.colors.greyStandard};
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 1rem;
 `;
