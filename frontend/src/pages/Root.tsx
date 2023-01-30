@@ -3,6 +3,7 @@ import ItemsList from "../components/common/ItemsList";
 import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import LiveFilter from "@components/main/LiveFilter";
+import FloatingButton from "@components/main/FloatingButton";
 import Image1 from "@/assets/detail/dummy.svg";
 import Image2 from "@/assets/main/airpodsImg.jpg";
 
@@ -43,6 +44,7 @@ export default function Root() {
       <MainToggleButtonGroup live={live} onClick={changeLive} />
       <LiveFilter isLive={live === "live"} />
       <ItemsList liveAuction={liveAuction} isLive={live === "live"} />
+      <FloatingButton />
     </Layout>
   );
 }

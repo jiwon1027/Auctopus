@@ -5,12 +5,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const [searchParams] = useSearchParams("keyword");
+  const [searchParams, setSearchParams] = useSearchParams("keyword");
   const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,14 +18,13 @@ export default function SearchBar() {
   };
 
   const handleSubmit = () => {
-    navigate(`/result?${searchParams}${searchValue}`);
+    searchParams.set("keyword", searchValue);
+    navigate(`/result?${searchParams}`);
   };
 
   return (
     <SearchBox>
-      <Link to={"/"}>
-        <ArrowBackIosIcon className="backIcon" />
-      </Link>
+      <ArrowBackIosIcon className="backIcon" onClick={() => navigate(-1)} />
       <SearchForm onSubmit={handleSubmit}>
         <InputBase
           sx={{ ml: 1, flex: 4, fontSize: 14, paddingY: 0.2 }}
