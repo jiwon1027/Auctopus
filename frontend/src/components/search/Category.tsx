@@ -2,8 +2,14 @@ import React from "react";
 import { theme } from "@/styles/theme";
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
-import funi from "@/assets/search/funi.png";
-import tv from "@/assets/search/tv.png";
+import img1 from "@/assets/category/001.png";
+import img2 from "@/assets/category/002.png";
+import img3 from "@/assets/category/003.png";
+import img4 from "@/assets/category/004.png";
+import img5 from "@/assets/category/005.png";
+import img6 from "@/assets/category/006.png";
+import img7 from "@/assets/category/007.png";
+import img8 from "@/assets/category/008.png";
 
 interface IDummy {
   title: string;
@@ -11,14 +17,14 @@ interface IDummy {
 }
 
 const category: IDummy[] = [
-  { title: "가구", imgURL: funi },
-  { title: "전자기기", imgURL: tv },
-  { title: "김태원", imgURL: "123" },
-  { title: "이지원", imgURL: "123" },
-  { title: "손지예", imgURL: "123" },
-  { title: "정상기", imgURL: "123" },
-  { title: "우상빈", imgURL: "123" },
-  { title: "변유정", imgURL: "123" },
+  { title: "전자기기", imgURL: img1 },
+  { title: "패션잡화", imgURL: img2 },
+  { title: "도서음반", imgURL: img3 },
+  { title: "완구문구", imgURL: img4 },
+  { title: "뷰티미용", imgURL: img5 },
+  { title: "인테리어", imgURL: img6 },
+  { title: "생활용품", imgURL: img7 },
+  { title: "기타", imgURL: img8 },
 ];
 
 export default function SearchPage() {

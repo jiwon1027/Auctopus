@@ -9,16 +9,18 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
+  const [searchParams] = useSearchParams("keyword");
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const [searchParams, setSearchParams] = useSearchParams("keyword");
   const navigate = useNavigate();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     searchParams.set("keyword", searchValue);
+    // 검색창에서 재 검색시 redirect되는 문제 수정해야함
     navigate(`/result?${searchParams}`);
   };
 
@@ -31,6 +33,7 @@ export default function SearchBar() {
           placeholder="검색어를 입력하세요."
           value={searchValue}
           onChange={handleChange}
+          autoFocus
         />
         <IconButton type="submit" sx={{ p: "3px" }} aria-label="search">
           <SearchIcon className="icon" />
