@@ -1,53 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import LiveItem from "../main/LiveItem";
 import NonLiveItem from "../main/NonLiveItem";
-import LiveFilter from "@components/main/LiveFilter";
 import styled from "styled-components";
-import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
-import Image1 from "@/assets/detail/dummy.svg";
-import Image2 from "@/assets/main/airpodsImg.jpg";
 
-export default function ItemsList() {
-  const [isLive, setIsLive] = useState("live");
+interface IProps {
+  isLive: boolean;
+  liveAuction: {
+    img: string;
+    title: string;
+    price: number;
+    viewer: number;
+    time: string;
+  }[];
+}
 
-  const liveAuction = [
-    {
-      img: Image1,
-      title: "구찌를 굳이?",
-      price: 450000,
-      viewer: 55,
-      time: "2023-01-27 12:00",
-    },
-    {
-      img: Image2,
-      title: "에어팟 맥스",
-      price: 410000,
-      viewer: 15,
-      time: "2023-01-27 12:05",
-    },
-  ];
-
-  const changeisLive = (value: string) => {
-    setIsLive(value);
-  };
+export default function ItemsList({ isLive, liveAuction }: IProps) {
   return (
-    <>
-      <MainToggleButtonGroup func={changeisLive} />
-      <LiveFilter live={isLive} />
-      {isLive === "live" ? (
-        <ItemList>
-          {liveAuction.map((item, index) => (
-            <LiveItem key={index} item={item} />
-          ))}
-        </ItemList>
-      ) : (
-        <ItemList>
-          {liveAuction.map((item, index) => (
-            <NonLiveItem key={index} item={item} />
-          ))}
-        </ItemList>
+    <ItemList>
+      {liveAuction.map((item, index) =>
+        isLive ? (
+          <LiveItem key={index} item={item} />
+        ) : (
+          <NonLiveItem key={index} item={item} />
+        )
       )}
-    </>
+    </ItemList>
   );
 }
 
