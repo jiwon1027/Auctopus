@@ -17,6 +17,8 @@ public class AuctionListOneResponse {
     String startTime;
     int likeCount;
     int startPrice;
+    int state;
+
     AuctionImage auctionImage;
 
     public static AuctionListOneResponse of(Auction auction, List<AuctionImage> auctionImageList) {

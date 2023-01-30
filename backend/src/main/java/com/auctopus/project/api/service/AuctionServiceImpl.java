@@ -31,17 +31,6 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public List<Auction> getAuctionListToday(Pageable pageable) {
-        String todayTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String tomorrowTime = LocalDateTime.now().plusDays(1)
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        List<Auction> auctionList = auctionRepository.findAuctionByStartTime(todayTime,
-                tomorrowTime, pageable);
-        return auctionList;
-    }
-
-    @Override
     public List<Auction> getAuctionListByStartTime(String word, Pageable pageable) {
         List<Auction> auctionList = null;
         String currentTime = LocalDateTime.now()
@@ -64,24 +53,6 @@ public class AuctionServiceImpl implements AuctionService {
         return auctionList;
     }
 
-    @Override
-    public List<Auction> getAuctionListTodayAndCategorySeq(int categorySeq, Pageable pageable) {
-//        String todayTime = LocalDateTime.now()
-//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        String tomorrowTime = LocalDateTime.now().plusDays(1)
-//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        List<Auction> auctionList = auctionRepository.findImmAuctionByStartTimeAndCategorySeq(
-//                categorySeq, todayTime, tomorrowTime, pageable);
-//        return auctionList;
-        return null;
-    }
-
-    @Override
-    public List<Auction> getAllAuctionListByCategorySeq(int categorySeq, Pageable pageable) {
-        List<Auction> auctionList = auctionRepository.findAllAuctionByCategorySeq(categorySeq,
-                pageable);
-        return auctionList;
-    }
 
     @Override
     @Transactional

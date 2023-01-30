@@ -31,4 +31,5 @@ public class Auction {
     private int startPrice;
     private int likeCount;
     private String link;
+    private int state;
 }

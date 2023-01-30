@@ -12,15 +12,11 @@ import org.springframework.data.domain.Pageable;
 public interface AuctionService {
 
 
-    List<Auction> getAuctionListToday(Pageable pageable);
+   // List<Auction> getAuctionListToday(Pageable pageable);
 
     List<Auction> getAuctionListByStartTime(String word, Pageable pageable);
 
     List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable);
-
-    List<Auction> getAuctionListTodayAndCategorySeq(int categorySeq, Pageable pageable);
-
-    List<Auction> getAllAuctionListByCategorySeq(int categorySeq, Pageable pageable);
 
     // 한 개의 경매방 정보 보기
     Auction getAuction(int auctionSeq);

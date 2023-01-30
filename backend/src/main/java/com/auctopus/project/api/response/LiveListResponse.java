@@ -4,15 +4,17 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 @Builder
-public class AuctionListResponse {
+public class LiveListResponse {
     Boolean hasMore;
-    Long categorySeq;
-    List<AuctionListOneResponse> resList;
-    public static AuctionListResponse of(Boolean hasMore, long categorySeq,List<AuctionListOneResponse> resList) {
-        AuctionListResponse res = AuctionListResponse.builder()
+    int categorySeq;
+    List<LiveListOneResponse> resList;
+
+    public static LiveListResponse of(Boolean hasMore, int categorySeq, List<LiveListOneResponse> resList) {
+        LiveListResponse res = LiveListResponse.builder()
                 .hasMore(hasMore)
                 .categorySeq(categorySeq)
                 .resList(resList)
