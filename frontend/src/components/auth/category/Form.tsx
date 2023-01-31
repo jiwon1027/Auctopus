@@ -6,14 +6,14 @@ import { IInterest } from "types/auth";
 import { useNavigate } from "react-router-dom";
 
 const DUMMY_DATA: IInterest[] = [
-  { id: "1", label: "전자 기기" },
-  { id: "2", label: "전자 음향 기기" },
-  { id: "3", label: "고래 상어" },
-  { id: "4", label: "옷" },
-  { id: "5", label: "한정판 슈즈" },
-  { id: "6", label: "애플" },
-  { id: "7", label: "고래 상어" },
-  { id: "8", label: "애플" },
+  { id: "1", label: "전자기기" },
+  { id: "2", label: "패션잡화" },
+  { id: "3", label: "도서음반" },
+  { id: "4", label: "완구문구" },
+  { id: "5", label: "뷰티미용" },
+  { id: "6", label: "인테리어" },
+  { id: "7", label: "생활용품" },
+  { id: "8", label: "기타" },
 ];
 
 export default function Form() {

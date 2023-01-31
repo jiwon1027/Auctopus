@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export default function NonLiveItem(props: IProps) {
-  function getTime(time: string) {
+  const getTime = (time: string) => {
     const dDate = new Date(time);
     const month = dDate.getMonth() + 1;
     const day = dDate.getDate();
@@ -22,7 +22,7 @@ export default function NonLiveItem(props: IProps) {
 
     const remainTime = `${month}월 ${day}일 ${hour}시 `;
     return remainTime;
-  }
+  };
   return (
     <>
       <ItemBox>

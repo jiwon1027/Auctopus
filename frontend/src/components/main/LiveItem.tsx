@@ -15,7 +15,7 @@ interface IProps {
 }
 
 export default function LiveItem(props: IProps) {
-  function getTime(time: string) {
+  const getTime = (time: string) => {
     const masTime = new Date(time).getTime();
     const todayTime = new Date().getTime();
 
@@ -26,7 +26,7 @@ export default function LiveItem(props: IProps) {
     //
     const remainTime = 60 - diffMin;
     return remainTime;
-  }
+  };
   return (
     <>
       <ItemBox>
