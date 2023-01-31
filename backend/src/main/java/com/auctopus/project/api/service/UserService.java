@@ -14,10 +14,9 @@ public interface UserService {
     User getUserByNickname(String nickname);
 
     // 회원 정보 수정
-
     void updateUserInfo(String email, UserUpdateRequest req);
-    // 회원 정보 삭제(DB에서)
 
+    // 회원 정보 삭제(DB에서)
     void deleteUser(String email);
 
 }

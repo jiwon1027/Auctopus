@@ -29,7 +29,7 @@ public class Auction {
     private String content;
     private String startTime;
     private int startPrice;
-    private int likeCount;
     private String link;
+    private int likeCount;
     private int state;
 }

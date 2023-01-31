@@ -21,12 +21,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
-    private KakaoUserService kakaoUserService;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService, KakaoUserService kakaoUserService) {
+    public SecurityConfig(@Lazy UserService userService) {
         this.userService = userService;
-        this.kakaoUserService = kakaoUserService;
     }
 
 
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(),
-                        userService,kakaoUserService)); //인증필터 거쳐야함, 유효성 검사 Filter
+                        userService)); //인증필터 거쳐야함, 유효성 검사 Filter
 
 
         /*

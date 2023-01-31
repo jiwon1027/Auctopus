@@ -53,12 +53,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
     private UserService userService;
-    private KakaoUserService kakaoUserService;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserService userService, KakaoUserService kakaoUserService) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserService userService) {
         super(authenticationManager);
         this.userService = userService;
-        this.kakaoUserService = kakaoUserService;
     }
 
 
@@ -80,13 +78,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         try {
             // If header is present, try grab user principal from database and perform authorization
-            if (kakaoUserService.validationIdToken(idToken)){
-                Authentication authentication = getAuthentication(idToken);
-                // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            System.out.println("validationIdToken 통과");
+            Authentication authentication = getAuthentication(idToken);
+            // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             return;
         }
 
@@ -119,17 +117,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             System.out.println(email);
 
 
-
             if (!nickname.equals("null") && !email.equals("null")){
-                User user_nickname = userService.getUserByNickname(nickname);
-                User user_email = userService.getUser(email);
 
-                if (user_nickname != null  && user_email != null){
-                    UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(nickname, email);
-                    jwtAuthentication.setDetails(new User());
+                System.out.println("jwtAuthentication 설정=================");
+                UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(nickname, email);
+                jwtAuthentication.setDetails(new User());
 
-                    return jwtAuthentication;
-                }
+                return jwtAuthentication;
             }
 
         } catch (Exception e) {

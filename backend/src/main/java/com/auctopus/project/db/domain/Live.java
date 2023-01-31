@@ -1,10 +1,7 @@
 package com.auctopus.project.db.domain;
 
-
 import java.sql.Timestamp;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,6 +26,7 @@ public class Live {
     private Timestamp startTime;
     private Timestamp endTime;
     private int price;
+    private String highestBidder;
     private int viewer;
     private int participant;
 
