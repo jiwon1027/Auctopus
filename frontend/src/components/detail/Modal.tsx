@@ -196,4 +196,5 @@ const CustomizedButton = mstyled(Button)`
   width: 12.1rem;
   height: 4.8rem;
   border-radius: 10;
+  margin-top: 1.3rem;
 `;
