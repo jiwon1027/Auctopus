@@ -38,6 +38,7 @@ const formDefaultState = atom({
 
 export default function useAuth() {
   const navigate = useNavigate();
+  const resetRecoilState = useResetRecoilState(formDefaultState);
   const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
   const getToken = () => localStorage.getItem("token");
 
@@ -172,9 +173,8 @@ export default function useAuth() {
     });
   }
 
-  // FIXME: not tested at all
   function resetFormState() {
-    useResetRecoilState(formDefaultState);
+    resetRecoilState();
   }
 
   function signUp() {

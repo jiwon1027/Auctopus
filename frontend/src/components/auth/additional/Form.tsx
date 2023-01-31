@@ -58,7 +58,7 @@ export default function Form() {
         />
       </div>
       <div className="btnContainer">
-        <Button variant="outlined" disableElevation type="submit">
+        <Button variant="outlined" disableElevation type="button">
           건너뛰기
         </Button>
         <Button variant="contained" disableElevation type="submit">
