@@ -8,16 +8,33 @@ import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import axios from "axios";
 
 interface IProps {
   isLive: boolean;
+  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
 }
 
 export default function LiveFilter(props: IProps) {
-  const [filterValue, setFilterValue] = React.useState("");
+  const [filterValue, setFilterValue] = React.useState("main");
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value as string;
     setFilterValue(event.target.value as string);
+    getAuctionList(value);
+  };
+
+  const getAuctionList = (value: string) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_SERVER_DOMAIN
+        }/api/search?page=0&size=20&sort=${value}`
+      )
+      .then((res) => {
+        const data = res.data.resList;
+        props.setAuctionList(data);
+      });
   };
 
   return (
@@ -42,8 +59,9 @@ export default function LiveFilter(props: IProps) {
             color="success"
             displayEmpty
           >
-            <MenuItem value="">시청순</MenuItem>
-            <MenuItem value={"category"}>카테고리 순</MenuItem>
+            <MenuItem value="main">시청자순</MenuItem>
+            <MenuItem value="category">카테고리순</MenuItem>
+            <MenuItem value="startTime">최신순</MenuItem>
           </Select>
         ) : (
           <Select
@@ -53,8 +71,9 @@ export default function LiveFilter(props: IProps) {
             color="success"
             displayEmpty
           >
-            <MenuItem value="">좋아요 순</MenuItem>
-            <MenuItem value={"category"}>카테고리 순</MenuItem>
+            <MenuItem value="main">좋아요순</MenuItem>
+            <MenuItem value="category">카테고리순</MenuItem>
+            <MenuItem value="startTime">최신순</MenuItem>
           </Select>
         )}
       </FormControl>

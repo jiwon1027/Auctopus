@@ -5,19 +5,13 @@ import styled from "styled-components";
 
 interface IProps {
   isLive: boolean;
-  liveAuction: {
-    img: string;
-    title: string;
-    price: number;
-    viewer: number;
-    time: string;
-  }[];
+  liveAuction: IAuction[];
 }
 
 export default function ItemsList({ isLive, liveAuction }: IProps) {
   return (
     <ItemList>
-      {liveAuction.map((item, index) =>
+      {liveAuction.map((item: IAuction, index: number) =>
         isLive ? (
           <LiveItem key={index} item={item} />
         ) : (

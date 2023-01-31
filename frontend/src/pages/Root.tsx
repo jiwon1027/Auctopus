@@ -1,31 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemsList from "../components/common/ItemsList";
 import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import LiveFilter from "@components/main/LiveFilter";
 import FloatingButton from "@components/main/FloatingButton";
-import Image1 from "@/assets/detail/dummy.svg";
-import Image2 from "@/assets/main/airpodsImg.jpg";
-
-const liveAuction: IAuction[] = [
-  {
-    img: Image1,
-    title: "구찌를 굳이?",
-    price: 450000,
-    viewer: 55,
-    time: "2023-01-27 12:00",
-  },
-  {
-    img: Image2,
-    title: "에어팟 맥스",
-    price: 410000,
-    viewer: 15,
-    time: "2023-01-27 12:05",
-  },
-];
+import axios from "axios";
 
 export default function Root() {
   const [live, setLive] = useState<"live" | "nonLive">("live");
+  const [auctionList, setAuctionList] = useState<IAuction[]>([]);
+  const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
+
+  useEffect(() => {
+    axios
+      .get(`${VITE_SERVER_DOMAIN}/api/search?page=0&size=20&sort=main`)
+      .then((res) => {
+        const data = res.data.resList;
+        setAuctionList(data);
+      });
+  }, []);
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
@@ -41,8 +34,8 @@ export default function Root() {
         live={live}
         onClick={changeLive}
       />
-      <LiveFilter isLive={live === "live"} />
-      <ItemsList liveAuction={liveAuction} isLive={live === "live"} />
+      <LiveFilter isLive={live === "live"} setAuctionList={setAuctionList} />
+      <ItemsList liveAuction={auctionList} isLive={live === "live"} />
       <FloatingButton />
     </Layout>
   );
