@@ -30,6 +30,9 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
+    @Autowired
+    private AuctionRepository auctionRepository;
+
 //    @Autowired
 //    private AuctionImageService auctionImageService;
 
@@ -39,13 +42,12 @@ public class AuctionController {
 //        model.addAttribute("auction", auctionService.findAuctionById(id));
 //        return "/auction";
 
-//    @PostMapping
-//    public ResponseEntity<?> createAuction(@RequestPart("auction")AuctionCreateRequest auctionCreateRequest, @RequestPart List<MultipartFile> auctionImageList) {
-//        String userEmail = null;
-//        Auction auction = auctionService.createAuction(userEmail, auctionCreateRequest,auctionImageList);
-//
-//        return new ResponseEntity<>("{}", HttpStatus.CREATED);
-//    }
+    @PostMapping
+    public ResponseEntity<?> registerAuction(@RequestBody Auction auction) {
+        auctionRepository.save(auction);
+        return new ResponseEntity<>("{}", HttpStatus.CREATED);
+    }
+
 
     @GetMapping("/{auctionSeq}")
     public ResponseEntity<?> auction(@PathVariable("auctionSeq") int auctionSeq) {
