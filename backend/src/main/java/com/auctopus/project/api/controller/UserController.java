@@ -2,7 +2,6 @@ package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.request.UserUpdateRequest;
 import com.auctopus.project.api.service.UserService;
-import com.auctopus.project.api.service.UserServiceImpl;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.common.exception.user.UserNotFoundException;
 import com.auctopus.project.db.domain.User;
@@ -58,3 +57,4 @@ public class UserController {
 
     }
 }
+

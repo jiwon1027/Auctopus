@@ -1,6 +1,5 @@
 package com.auctopus.project.db.domain;
 
-import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,20 +15,13 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "live")
-public class Live {
+@Table(name = "live_viewer")
+public class LiveViewer {
 
     @Id
-    private int liveSeq;
-    private int auctionSeq;
     private String userEmail;
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private int price;
-    private String highestBidder;
-    private int viewer;
-    private int participant;
-
-    private int onAir;
+    private int liveSeq;
+    private int autoPrice;
+    private int state;
 
 }
