@@ -17,7 +17,6 @@ public interface AuctionService {
     List<Auction> getAuctionListByStartTime(String word, Pageable pageable);
 
     List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable);
-
     // 한 개의 경매방 정보 보기
     Auction getAuction(int auctionSeq);
 

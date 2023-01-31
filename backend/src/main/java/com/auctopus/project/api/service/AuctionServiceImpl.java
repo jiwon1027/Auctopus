@@ -48,7 +48,7 @@ public class AuctionServiceImpl implements AuctionService {
         List<Auction> auctionList = null;
         String currentTime = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        auctionList = auctionRepository.findAllByStartTimeAndCategorySeq(likeCategorySeq,
+        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq,
                 currentTime, pageable);
         return auctionList;
     }

@@ -21,10 +21,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     List<Auction> findAllByTitleContainsOrContentContains(@Param("word")String word, @Param("currentTime")String currentTime,
             Pageable pageable);
 
-    @Query("SELECT a FROM Auction a JOIN LikeCategory lc ON a.userEmail = lc.userEmail where lc.categorySeq = :categorySeq AND a.startTime > :currentTime")
-    List<Auction> findAllByStartTimeAndCategorySeq(@Param("categorySeq")int categorySeq, @Param("currentTime")String currentTime,
+    @Query("SELECT a FROM Auction a WHERE a.categorySeq = :categorySeq AND a.startTime > :currentTime")
+    List<Auction> findAuctionByCategorySeq(@Param("categorySeq")int categorySeq, @Param("currentTime")String currentTime,
             Pageable pageable);
-
-
 
 }

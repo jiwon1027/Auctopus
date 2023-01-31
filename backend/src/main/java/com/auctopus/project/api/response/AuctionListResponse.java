@@ -9,9 +9,9 @@ import lombok.Setter;
 @Builder
 public class AuctionListResponse {
     Boolean hasMore;
-    Long categorySeq;
+    int categorySeq;
     List<AuctionListOneResponse> resList;
-    public static AuctionListResponse of(Boolean hasMore, long categorySeq,List<AuctionListOneResponse> resList) {
+    public static AuctionListResponse of(Boolean hasMore, int categorySeq,List<AuctionListOneResponse> resList) {
         AuctionListResponse res = AuctionListResponse.builder()
                 .hasMore(hasMore)
                 .categorySeq(categorySeq)

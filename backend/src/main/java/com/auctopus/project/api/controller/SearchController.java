@@ -63,7 +63,7 @@ public class SearchController {
     // 카테고리 순이면 userSeq 가 필요하다
     @GetMapping("")
     public ResponseEntity<AuctionListResponse> getAuctionListBySort(@RequestParam(value="word", required = false) String word, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sort") String sort) {
-        // sort - 인기순(main), 카테고리순(category), 최신순 (startTime)
+        // sort - 인기순(main), 카테고리순(category), 최신순(startTime)
         // sort를 숫자로 할지, 키워드로 할지 생각해봐야할것
 
         // 관심 카테고리는 유저/비유저(or 관심 카테고리 없을때) 나눠서& userSeq 정보 필요
@@ -90,7 +90,7 @@ public class SearchController {
                 }
             }
             if (auctionList == null) {
-                likeCategorySeq = 1 + (int) (Math.random() * 14);
+                likeCategorySeq = 1 + (int) (Math.random() * 8);
                 auctionList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, pageable);
                 hasMoreList = auctionService.getAuctionListByCategorySeq(likeCategorySeq, PageRequest.of(page+1, size));
             }
@@ -102,10 +102,11 @@ public class SearchController {
         }
         if (hasMoreList.size() != 0) hasMore = true;
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
-            //List<AuctionImage> auctionImageList = null;
+            //List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+            List<AuctionImage> auctionImageList = null;
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
         }
+        System.out.println(likeCategorySeq);
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, likeCategorySeq,auctionListOneResponseList));
     }
 
