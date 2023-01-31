@@ -17,7 +17,8 @@ public class AuctionListOneResponse {
     String startTime;
     int likeCount;
     int startPrice;
-    AuctionImage auctionImage;
+    int state;
+//    AuctionImage auctionImage;
 
     public static AuctionListOneResponse of(Auction auction, List<AuctionImage> auctionImageList) {
         AuctionListOneResponse res = AuctionListOneResponse.builder()
@@ -27,7 +28,7 @@ public class AuctionListOneResponse {
                 .startTime(auction.getStartTime())
                 .likeCount(auction.getLikeCount())
                 .startPrice(auction.getStartPrice())
-                .auctionImage(auctionImageList.get(0))
+//                .auctionImage(auctionImageList.get(0))
                 .build();
         return res;
     }

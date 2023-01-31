@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeCategoryRepository extends JpaRepository<LikeCategory, Integer> {
-
     List<LikeCategory> findAllByUserEmail(String userEmail);
 }
