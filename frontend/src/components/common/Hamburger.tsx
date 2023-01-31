@@ -58,8 +58,8 @@ function ListComponent(props: { onClick: () => void }) {
       <IconBox>
         <Link to={`/noti`}>
           <CustomNotice />
-          <CustomClose onClick={props.onClick} />
         </Link>
+        <CustomClose onClick={props.onClick} />
       </IconBox>
       <ProfileBox>
         <Link to={`/profile`}>
