@@ -77,6 +77,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         try {
             // If header is present, try grab user principal from database and perform authorization
+
             Authentication authentication = getAuthentication(idToken);
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -108,6 +109,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String nickname = String.valueOf(jwt.getClaims().get("nickname")).replace("\"","");
             String email = String.valueOf(jwt.getClaims().get("email")).replace("\"","");
 
+            System.out.println("=================토큰 정보 디코딩=================");
             System.out.println(nickname);
             System.out.println(email);
 

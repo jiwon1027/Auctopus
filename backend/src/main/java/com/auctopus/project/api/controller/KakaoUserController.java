@@ -100,6 +100,7 @@ public class KakaoUserController {
             System.out.println("Data 1 : " + authentication.getPrincipal()); //닉네임
             System.out.println("Data 2 : " + authentication.getCredentials()); //이메일
 
+
             userRepository.save(User.builder()
                             .userName(user.getUserName())
                             .account(user.getAccount())
