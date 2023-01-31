@@ -112,7 +112,8 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   margin: 0.5rem;
   background-color: transparent;
-  height: 3rem;
+  /* height: 3rem;
+  요녀석이 문제다! */
   align-items: center;
   .backIcon {
     color: ${(props) => props.theme.colors.primary};

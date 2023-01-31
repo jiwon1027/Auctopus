@@ -3,8 +3,6 @@ import Layout from "@components/common/Layout";
 import ItemsList from "@components/common/ItemsList";
 import ResultFilter from "@components/result/ResultFilter";
 import SearchBar from "@components/search/SearchBar";
-import Image1 from "@/assets/detail/dummy.svg";
-import Image2 from "@/assets/main/airpodsImg.jpg";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -23,6 +21,7 @@ export default function ResultPage() {
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
 
   useEffect(() => {
+    // 카테고리일떄, 검색어 검색일떄 나누었는데 리팩토리 가능할듯
     axios
       .get(
         keywordQuery !== null
@@ -35,14 +34,13 @@ export default function ResultPage() {
       )
       .then((res) => {
         const data = res.data.resList;
-        console.log(data);
         setAuctionList(data);
       });
   }, []);
 
   return (
     <Layout leftIcon="none">
-      <SearchBar />
+      <SearchBar setAuctionList={setAuctionList} />
       {keywordQuery !== null ? (
         <ResultText>
           검색어&lsquo;
@@ -56,11 +54,16 @@ export default function ResultPage() {
           &rsquo;카테고리에 대한 검색결과입니다.
         </ResultText>
       )}
-      <ResultFilter
-        setAuctionList={setAuctionList}
-        live={live}
-        onClick={changeLive}
-      />
+      {auctionList.length === 0 ? (
+        <></>
+      ) : (
+        <ResultFilter
+          setAuctionList={setAuctionList}
+          live={live}
+          onClick={changeLive}
+        />
+      )}
+
       <ItemsList liveAuction={auctionList} isLive={live === "live"} />
     </Layout>
   );

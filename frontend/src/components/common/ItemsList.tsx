@@ -11,11 +11,16 @@ interface IProps {
 export default function ItemsList({ isLive, liveAuction }: IProps) {
   return (
     <ItemList>
-      {liveAuction.map((item: IAuction, index: number) =>
-        isLive ? (
-          <LiveItem key={index} item={item} />
-        ) : (
-          <NonLiveItem key={index} item={item} />
+      {/* 검색결과 없을시, 출력 */}
+      {liveAuction.length === 0 ? (
+        <NoResult>이런! 검색결과가 없읍니다.</NoResult>
+      ) : (
+        liveAuction.map((item: IAuction, index: number) =>
+          isLive ? (
+            <LiveItem key={index} item={item} />
+          ) : (
+            <NonLiveItem key={index} item={item} />
+          )
         )
       )}
     </ItemList>
@@ -30,10 +35,17 @@ const ItemList = styled.div`
   flex-direction: column;
 
   &::-webkit-scrollbar {
-    width: 0.32em;
+    display: none;
+    width: 0.3rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: lightgrey;
     border-radius: 1.6em;
   }
+`;
+
+const NoResult = styled.h1`
+  flex: 1;
+  text-align: center;
+  padding-top: 20rem;
 `;
