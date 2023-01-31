@@ -1,6 +1,6 @@
 import React from "react";
 import { theme } from "@/styles/theme";
-// import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
 import img1 from "@/assets/category/001.png";
 import img2 from "@/assets/category/002.png";
@@ -31,7 +31,7 @@ export default function SearchPage() {
   return (
     <CategoryContainer>
       <CategoryTitle>카테고리별 검색</CategoryTitle>
-      {/* <Grid container columnSpacing={3} rowSpacing={2}>
+      <Grid container columnSpacing={3} rowSpacing={2}>
         {category.map((item, index) => (
           <Grid key={index}>
             <CategoryBox>
@@ -40,7 +40,7 @@ export default function SearchPage() {
             </CategoryBox>
           </Grid>
         ))}
-      </Grid> */}
+      </Grid>
     </CategoryContainer>
   );
 }
