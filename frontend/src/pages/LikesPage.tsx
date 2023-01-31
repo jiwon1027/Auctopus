@@ -7,13 +7,6 @@ import Image2 from "@/assets/main/airpodsImg.jpg";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
 
-interface IAuction {
-  img: string;
-  title: string;
-  price: number;
-  viewer: number;
-  time: string;
-}
 
 const liveAuction: IAuction[] = [
   {

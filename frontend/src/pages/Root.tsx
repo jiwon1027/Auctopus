@@ -7,14 +7,6 @@ import FloatingButton from "@components/main/FloatingButton";
 import Image1 from "@/assets/detail/dummy.svg";
 import Image2 from "@/assets/main/airpodsImg.jpg";
 
-interface IAuction {
-  img: string;
-  title: string;
-  price: number;
-  viewer: number;
-  time: string;
-}
-
 const liveAuction: IAuction[] = [
   {
     img: Image1,
