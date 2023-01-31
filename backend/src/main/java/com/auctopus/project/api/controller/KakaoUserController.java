@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/kakao")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class KakaoUserController {
     /*
      * 카카오 callback
