@@ -59,7 +59,7 @@ public class KakaoUserController {
             if (userRepository.findByEmail((String) kakaoUserInfo.get("email")).isEmpty()) {
                 resultMap.put("nickname", null);
                 resultMap.put("userEmail", null);
-                resultMap.put("newUser", 0);
+                resultMap.put("newUser", 1);
 
 //                userRepository.save(User.builder()
 //                        .email((String) kakaoUserInfo.get("email"))
@@ -70,7 +70,7 @@ public class KakaoUserController {
             else{
                 resultMap.put("nickname", kakaoUserInfo.get("nickname"));
                 resultMap.put("userEmail", kakaoUserInfo.get("email"));
-                resultMap.put("newUser", 1);
+                resultMap.put("newUser", 0);
             }
 
             resultMap.put(("token"), id_token);
