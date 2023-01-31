@@ -50,10 +50,25 @@ public class KakaoUserController {
             HashMap<String, Object> kakaoUserInfo = kakaoUserServiceimpl.getKakaoUserInfo(
                     access_token);
 
+            System.out.println((String) kakaoUserInfo.get("email"));
+            System.out.println((String) kakaoUserInfo.get("nickname"));
+
             // email이 현재 DB에 저장있지 않으면 DB에 저장
-            if (userRepository.findByEmail((String) kakaoUserInfo.get("email")) == null) {
-                userRepository.save(User.builder().email((String) kakaoUserInfo.get("email"))
-                        .nickname((String) kakaoUserInfo.get("nickname")).build());
+            if (userRepository.findByEmail((String) kakaoUserInfo.get("email")).isEmpty()) {
+                resultMap.put("username", null);
+                resultMap.put("userEmail", null);
+                resultMap.put("newUser", 0);
+
+//                userRepository.save(User.builder()
+//                        .email((String) kakaoUserInfo.get("email"))
+//                        .nickname((String)kakaoUserInfo.get("nickname"))
+//                        .build());
+
+            }
+            else{
+                resultMap.put("username", kakaoUserInfo.get("nickname"));
+                resultMap.put("userEmail", kakaoUserInfo.get("email"));
+                resultMap.put("newUser", 1);
             }
 
             resultMap.put(("token"), id_token);
@@ -75,12 +90,22 @@ public class KakaoUserController {
         System.out.println("신규 유저 정보 입력");
 
         try {
-            // 토큰이 이상하면 여기서 예외처리 해주면 됨
+            System.out.println(user.toString());
+
             System.out.println("Data 1 : " + authentication.getPrincipal()); //닉네임
             System.out.println("Data 2 : " + authentication.getCredentials()); //이메일
 
-        } catch (Exception e) {
+            userRepository.save(User.builder()
+                            .userName(user.getUserName())
+                            .account(user.getAccount())
+                            .address(user.getAddress())
+                            .bankCode(user.getBankCode())
+                            .email((String)authentication.getPrincipal())
+                            .nickname((String) authentication.getCredentials())
+                    .build());
 
+
+        } catch (Exception e) {
             System.out.println("에러발생@@@@@@@@@@@@@@@@@");
         }
 
