@@ -1,7 +1,14 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { requestForSignup, sendAuthCode } from "@/api/auth";
+import { redirect, useNavigate } from "react-router-dom";
 import { atom, useRecoilState, useResetRecoilState } from "recoil";
-import { IUser, IInterest, IValidated, IForm } from "types/auth";
+import {
+  IUser,
+  IInterest,
+  IValidated,
+  IForm,
+  IResSocialLogin,
+} from "types/auth";
+import { setHeaderToken } from "@/api/api";
 
 const InitUser: IUser = {
   seq: -1,
@@ -49,35 +56,39 @@ export default function useAuth() {
 
   async function kakaoLogin(code: string) {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_APP_DOMAIN}/api/kakao/login?code=${code}`
-      );
+      const res = await sendAuthCode(code);
       console.log(res);
-      localStorage.setItem("token", res.data.id_token); //예시로 로컬에 저장함
+      const resData: IResSocialLogin = res.data;
+      signIn(resData);
 
       // newUser: number | null; // 0: 기존유저, 1: 새로운유저
-      if (res.data.newUser > 0) {
+      if (resData.newUser > 0) {
         setFormState((prev) => {
-          prev.user.email = res.data.userEmail;
-          prev.user.name = res.data.userName;
-          return prev;
+          return {
+            ...prev,
+            user: {
+              ...prev.user,
+              email: resData.userEmail,
+              nickname: resData.nickname,
+            },
+            validated: {
+              ...prev.validated,
+              password: true,
+              passwordConfirm: true,
+              nickname: true,
+              email: true,
+            },
+          };
         });
         navigate("/signup");
         return;
       }
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: res.data.userEmail,
-          name: res.data.userName,
-        })
-      );
-      navigate("/", { replace: true }); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
+      redirect("/");
     } catch (error) {
       console.log("소셜로그인 에러", error);
       window.alert("로그인에 실패하였습니다.");
-      navigate("/login", { replace: true }); // 로그인 실패하면 로그인화면으로 돌려보냄
+      redirect("/login");
     }
   }
 
@@ -177,8 +188,31 @@ export default function useAuth() {
     resetRecoilState();
   }
 
-  function signUp() {
-    console.log("sign up");
+  function signIn(resData: IResSocialLogin) {
+    localStorage.setItem("token", resData.token);
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        email: resData.userEmail,
+        nickname: resData.nickname,
+      })
+    );
+    setHeaderToken(resData.token);
+  }
+
+  async function signUp() {
+    try {
+      const res = await requestForSignup(getToken(), formState.user);
+      if (res.status === 200) {
+        resetFormState();
+        localStorage.clear();
+        redirect("/login");
+      } else {
+        throw new Error("회원가입 에러");
+      }
+    } catch (error) {
+      redirect("/error");
+    }
   }
 
   function signOut() {

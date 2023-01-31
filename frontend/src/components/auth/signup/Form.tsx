@@ -20,7 +20,8 @@ export default function Form() {
     updateUser(target.name as keyof IUser, target.value);
   };
 
-  const submitHandler = () => {
+  const submitHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
     navigate("/signup/additional");
   };

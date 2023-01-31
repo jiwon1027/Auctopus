@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Button, Chip, Stack } from "@mui/material";
 import useAuth from "@/store/atoms/useAuth";
 import { IInterest } from "types/auth";
-import { useNavigate } from "react-router-dom";
 
 const DUMMY_DATA: IInterest[] = [
   { id: "1", label: "전자기기" },
@@ -17,8 +16,7 @@ const DUMMY_DATA: IInterest[] = [
 ];
 
 export default function Form() {
-  const navigate = useNavigate();
-  const { formState, updateUser, confirmUser, resetFormState } = useAuth();
+  const { formState, updateUser, confirmUser, signUp } = useAuth();
 
   const chipHandler = (data: IInterest) => {
     const interests = [...formState.user.interests];
@@ -33,13 +31,13 @@ export default function Form() {
     updateUser("interests", interests);
   };
 
-  const submitHandler = (e: React.SyntheticEvent) => {
+  const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
+    if (!confirmUser()) {
+      return alert("필수정보를 모두 입력해주세요");
+    }
 
-    // TODO: fetch a request and check that this user is signed up completely :)
-    resetFormState();
-    navigate("/login");
+    signUp();
   };
 
   return (

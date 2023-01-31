@@ -17,6 +17,12 @@ export default function Form() {
     updateUser(target.name as keyof IUser, target.value);
   };
 
+  const skipHandler = () => {
+    updateUser("address", "");
+    updateUser("bankAccount", "");
+    navigate("/signup/category");
+  };
+
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
@@ -58,7 +64,12 @@ export default function Form() {
         />
       </div>
       <div className="btnContainer">
-        <Button variant="outlined" disableElevation type="button">
+        <Button
+          variant="outlined"
+          disableElevation
+          type="button"
+          onClick={skipHandler}
+        >
           건너뛰기
         </Button>
         <Button variant="contained" disableElevation type="submit">
