@@ -8,14 +8,6 @@ import Image2 from "@/assets/main/airpodsImg.jpg";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-interface IAuction {
-  img: string;
-  title: string;
-  price: number;
-  viewer: number;
-  time: string;
-}
-
 const liveAuction: IAuction[] = [
   {
     img: Image1,

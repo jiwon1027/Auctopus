@@ -7,14 +7,6 @@ import FloatingButton from "@components/main/FloatingButton";
 import Image1 from "@/assets/detail/dummy.svg";
 import Image2 from "@/assets/main/airpodsImg.jpg";
 
-interface IAuction {
-  img: string;
-  title: string;
-  price: number;
-  viewer: number;
-  time: string;
-}
-
 const liveAuction: IAuction[] = [
   {
     img: Image1,
@@ -41,7 +33,14 @@ export default function Root() {
 
   return (
     <Layout leftIcon="turtle">
-      <MainToggleButtonGroup live={live} onClick={changeLive} />
+      <MainToggleButtonGroup
+        text={{
+          left: "진행중",
+          right: "진행예정",
+        }}
+        live={live}
+        onClick={changeLive}
+      />
       <LiveFilter isLive={live === "live"} />
       <ItemsList liveAuction={liveAuction} isLive={live === "live"} />
       <FloatingButton />
