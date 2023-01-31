@@ -1,5 +1,6 @@
 package com.auctopus.project.config;
 
+import com.auctopus.project.api.service.KakaoUserService;
 import com.auctopus.project.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +21,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
+    private KakaoUserService kakaoUserService;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService) {
+    public SecurityConfig(@Lazy UserService userService, KakaoUserService kakaoUserService) {
         this.userService = userService;
+        this.kakaoUserService = kakaoUserService;
     }
 
 
@@ -36,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(),
-                        userService)); //인증필터 거쳐야함, 유효성 검사 Filter
+                        userService,kakaoUserService)); //인증필터 거쳐야함, 유효성 검사 Filter
 
 
         /*

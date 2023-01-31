@@ -55,21 +55,19 @@ public class KakaoUserController {
             System.out.println((String) kakaoUserInfo.get("email"));
             System.out.println((String) kakaoUserInfo.get("nickname"));
 
+            resultMap.put("nickname", kakaoUserInfo.get("nickname"));
+            resultMap.put("userEmail", kakaoUserInfo.get("email"));
+
             // email이 현재 DB에 저장있지 않으면 DB에 저장
             if (userRepository.findByEmail((String) kakaoUserInfo.get("email")).isEmpty()) {
-                resultMap.put("nickname", null);
-                resultMap.put("userEmail", null);
                 resultMap.put("newUser", 1);
 
 //                userRepository.save(User.builder()
 //                        .email((String) kakaoUserInfo.get("email"))
 //                        .nickname((String)kakaoUserInfo.get("nickname"))
 //                        .build());
-
             }
             else{
-                resultMap.put("nickname", kakaoUserInfo.get("nickname"));
-                resultMap.put("userEmail", kakaoUserInfo.get("email"));
                 resultMap.put("newUser", 0);
             }
 

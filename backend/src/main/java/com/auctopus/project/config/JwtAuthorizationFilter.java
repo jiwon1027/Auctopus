@@ -1,5 +1,6 @@
 package com.auctopus.project.config;
 
+import com.auctopus.project.api.service.KakaoUserService;
 import com.auctopus.project.api.service.UserService;
 import com.auctopus.project.api.service.UserServiceImpl;
 import com.auctopus.project.db.domain.User;
@@ -52,10 +53,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
     private UserService userService;
+    private KakaoUserService kakaoUserService;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserService userService) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserService userService, KakaoUserService kakaoUserService) {
         super(authenticationManager);
         this.userService = userService;
+        this.kakaoUserService = kakaoUserService;
     }
 
 
@@ -77,10 +80,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         try {
             // If header is present, try grab user principal from database and perform authorization
+            if (kakaoUserService.validationIdToken(idToken)){
+                Authentication authentication = getAuthentication(idToken);
+                // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
-            Authentication authentication = getAuthentication(idToken);
-            // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception ex) {
             return;
         }
