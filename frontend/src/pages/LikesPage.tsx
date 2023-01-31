@@ -1,9 +1,6 @@
 import React from "react";
+import Layout from "@components/common/Layout";
 
 export default function LikesPage() {
-  return (
-    <>
-      <h1>Likes</h1>
-    </>
-  );
+  return <Layout leftIcon="none">123</Layout>;
 }

@@ -32,6 +32,11 @@ const liveAuction: IAuction[] = [
   },
 ];
 
+const toggleText = {
+  left: "진행중",
+  right: "진행예정",
+};
+
 export default function Root() {
   const [live, setLive] = useState<"live" | "nonLive">("live");
 
@@ -41,7 +46,11 @@ export default function Root() {
 
   return (
     <Layout leftIcon="turtle">
-      <MainToggleButtonGroup live={live} onClick={changeLive} />
+      <MainToggleButtonGroup
+        text={toggleText}
+        live={live}
+        onClick={changeLive}
+      />
       <LiveFilter isLive={live === "live"} />
       <ItemsList liveAuction={liveAuction} isLive={live === "live"} />
       <FloatingButton />
