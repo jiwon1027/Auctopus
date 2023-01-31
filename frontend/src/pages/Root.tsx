@@ -9,11 +9,14 @@ import axios from "axios";
 export default function Root() {
   const [live, setLive] = useState<"live" | "nonLive">("live");
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
-  const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
 
   useEffect(() => {
     axios
-      .get(`${VITE_SERVER_DOMAIN}/api/search?page=0&size=20&sort=main`)
+      .get(
+        `${
+          import.meta.env.VITE_SERVER_DOMAIN
+        }/api/search?page=0&size=20&sort=main`
+      )
       .then((res) => {
         const data = res.data.resList;
         setAuctionList(data);
