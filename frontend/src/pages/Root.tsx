@@ -32,11 +32,6 @@ const liveAuction: IAuction[] = [
   },
 ];
 
-const toggleText = {
-  left: "진행중",
-  right: "진행예정",
-};
-
 export default function Root() {
   const [live, setLive] = useState<"live" | "nonLive">("live");
 
@@ -47,7 +42,10 @@ export default function Root() {
   return (
     <Layout leftIcon="turtle">
       <MainToggleButtonGroup
-        text={toggleText}
+        text={{
+          left: "진행중",
+          right: "진행예정",
+        }}
         live={live}
         onClick={changeLive}
       />
