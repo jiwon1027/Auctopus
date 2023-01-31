@@ -45,6 +45,7 @@ const router = createBrowserRouter([
     path: "/detail",
     element: <DetailPage />,
   },
+
   { path: "/chat", element: <ChatPage /> },
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
