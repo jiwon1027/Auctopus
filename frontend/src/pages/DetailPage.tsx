@@ -31,23 +31,21 @@ export default function DetailPage() {
   };
 
   return (
-    <>
-      <Container>
-        <ImgBox>
-          <Link to={"/"}>
-            <CustomizeIcon />
-          </Link>
-          <img src={DummyImg} alt="dummy-img" />
-        </ImgBox>
-        <Profile
-          isLiked={isLiked}
-          detailData={dummy.detailData}
-          likeHandler={likeHandler}
-        />
-        <Content detailData={dummy.detailData} />
-        <ButtonBox isBuyer={dummy.isBuyer} detailData={dummy.detailData} />
-      </Container>
-    </>
+    <Container>
+      <ImgBox>
+        <Link to={"/"}>
+          <CustomizeIcon />
+        </Link>
+        <img src={DummyImg} alt="dummy-img" />
+      </ImgBox>
+      <Profile
+        isLiked={isLiked}
+        detailData={dummy.detailData}
+        likeHandler={likeHandler}
+      />
+      <Content detailData={dummy.detailData} />
+      <ButtonBox isBuyer={dummy.isBuyer} detailData={dummy.detailData} />
+    </Container>
   );
 }
 

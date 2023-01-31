@@ -53,6 +53,7 @@ const LeftComponent = (props: ILeftProps): JSX.Element => {
     case "/signup":
     case "/detail":
     case "/autobid":
+    case "/noti":
       return (
         <ChevronLeftOutlinedIcon className="backIcon" onClick={props.onClick} />
       );
@@ -89,6 +90,8 @@ const TitleComponent = (props: { pathname: string }): JSX.Element => {
       return <h1 className="title">경매방 생성</h1>;
     case "/autobid":
       return <h1 className="title">자동입찰 설정</h1>;
+    case "/noti":
+      return <h1 className="title">알림함</h1>;
     default:
       return <></>;
   }

@@ -56,7 +56,9 @@ function ListComponent(props: { onClick: () => void }) {
   return (
     <>
       <IconBox>
-        <CustomNotice />
+        <Link to={`/noti`}>
+          <CustomNotice />
+        </Link>
         <CustomClose onClick={props.onClick} />
       </IconBox>
       <ProfileBox>

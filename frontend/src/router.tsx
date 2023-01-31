@@ -14,7 +14,7 @@ import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler";
 import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
-
+import NotificationPage from "./pages/NotificationPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
     path: "/detail",
     element: <DetailPage />,
   },
-
+  { path: "/noti", element: <NotificationPage /> },
   { path: "/chat", element: <ChatPage /> },
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
