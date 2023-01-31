@@ -83,7 +83,7 @@ public class KakaoUserController {
         return new ResponseEntity<HashMap<String, Object>>(resultMap, status);
     }
 
-
+    @CrossOrigin("*")
     @PostMapping("/login")
     public ResponseEntity<?> login(Authentication authentication, @RequestBody User user) {
 
