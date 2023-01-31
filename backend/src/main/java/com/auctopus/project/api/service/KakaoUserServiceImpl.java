@@ -49,7 +49,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=47670895bea0b100009897c133708643"); // TODO REST_API_KEY 입력
             sb.append(
-                    "&redirect_uri=https://localhost:8080/kakao/login"); // TODO 인가코드 받은 redirect_uri 입력
+                    "&redirect_uri=http://localhost:8080/api/kakao/login"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
