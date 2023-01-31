@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/kakao")
 @AllArgsConstructor
-@CrossOrigin("*")
 public class KakaoUserController {
     /*
      * 카카오 callback
@@ -34,8 +33,8 @@ public class KakaoUserController {
     private UserRepository userRepository;
     private UserServiceImpl userServiceImpl;
 
-    @GetMapping("/login")
     @CrossOrigin("*")
+    @GetMapping("/login")
     public ResponseEntity<HashMap<String, Object>> kakaoLogin(@RequestParam String code) {
         HashMap<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
@@ -84,7 +83,7 @@ public class KakaoUserController {
         return new ResponseEntity<HashMap<String, Object>>(resultMap, status);
     }
 
-
+    @CrossOrigin("*")
     @PostMapping("/login")
     public ResponseEntity<?> login(Authentication authentication, @RequestBody User user) {
 
