@@ -21,17 +21,17 @@ public class LiveServiceImpl implements LiveService {
 
     @Override
     @Transactional
-    public void creataLive(int auctionSeq, String userEmail) {
-        Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
+    public void createLive(int liveSeq) {
+        Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
-                        "auction with auctionSeq " + auctionSeq + " not found",
+                        "auction with liveSeq " + liveSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
         Timestamp auctionTime = Timestamp.valueOf(auction.getStartTime());
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = auctionTime.before(currTime) ? currTime : auctionTime;
         Live live = Live.builder()
-                .liveSeq(auctionSeq)
-                .userEmail(userEmail)
+                .liveSeq(liveSeq)
+                .userEmail(auction.getUserEmail())
                 .startTime(startTime)
                 .endTime(Timestamp.valueOf(auctionTime.toLocalDateTime().plusHours(1)))
                 .price(auction.getStartPrice())
@@ -41,7 +41,7 @@ public class LiveServiceImpl implements LiveService {
 
     // 한 개의 라이브 정보 보기
     @Override
-    public Live getLive(int liveSeq) {
+    public Live getLiveInfo(int liveSeq) {
         Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));

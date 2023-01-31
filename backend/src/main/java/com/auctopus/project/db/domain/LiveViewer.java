@@ -1,8 +1,6 @@
 package com.auctopus.project.db.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,19 +15,13 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "auction")
-public class Auction {
+@Table(name = "live_viewer")
+public class LiveViewer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int auctionSeq;
     private String userEmail;
-    private int categorySeq;
-    private String title;
-    private String content;
-    private String startTime;
-    private int startPrice;
-    private String link;
-    private int likeCount;
+    private int liveSeq;
+    private int autoPrice;
     private int state;
+
 }
