@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuctionUpdateRequest {
 
+    int auctionSeq;
     int categorySeq;
     String title;
     String content;

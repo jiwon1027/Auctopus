@@ -1,5 +1,6 @@
 package com.auctopus.project.api.service;
 
+import com.auctopus.project.api.request.AuctionCreateRequest;
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.db.domain.Auction;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Pageable;
  */
 
 public interface AuctionService {
-
     // 시청자 수로 sort한 경매 리스트 목록
     List<Auction> getAuctionListByViewer(String word, int state);
 
@@ -27,12 +27,16 @@ public interface AuctionService {
 
 
 
+    // 새로운 경매방 생성
+    void createAuction(AuctionCreateRequest req);
+
+    // 경매방 정보 수정
+    void updateAuction(AuctionUpdateRequest req);
+
+    // 경매방 정보 삭제
+    void deleteAuction(int auctionSeq);
+
     // 한 개의 경매방 정보 보기
     Auction getAuction(int auctionSeq);
 
-    // 경매방 정보 수정
-    void updateAuction(int auctionSeq, AuctionUpdateRequest req);
-    // 경매방 정보 삭제
-
-    void deleteAuction(int auctionSeq);
 }

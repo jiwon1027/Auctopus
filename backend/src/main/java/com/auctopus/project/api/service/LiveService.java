@@ -10,6 +10,9 @@ public interface LiveService {
     // 라이브 시작(생성)
     void createLive(int liveSeq);
 
+    // 라이브 종료(삭제)
+    void deleteLive(int liveSeq);
+
     // 라이브 정보 가져오기
     Live getLiveInfo(int liveSeq);
 
