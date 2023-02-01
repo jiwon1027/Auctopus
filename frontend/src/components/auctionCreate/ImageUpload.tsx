@@ -1,9 +1,9 @@
-import { theme } from "@/styles/theme";
-import React from "react";
-import styled from "styled-components";
-import ImageIcon from "@mui/icons-material/Image";
-import AddIcon from "@mui/icons-material/Add";
-import { styled as mstyled } from "@mui/material/styles";
+import { theme } from '@/styles/theme';
+import React from 'react';
+import styled from 'styled-components';
+import ImageIcon from '@mui/icons-material/Image';
+import AddIcon from '@mui/icons-material/Add';
+import { styled as mstyled } from '@mui/material/styles';
 export default function ImageUpload() {
   return (
     <Container>
@@ -12,25 +12,43 @@ export default function ImageUpload() {
         <CustomAddIcon />
       </UploadBox>
 
-      {/* <UploadBox>
+      <UploadBox>
         <CustomImageIcon />
         <CustomAddIcon />
-      </UploadBox> */}
+      </UploadBox>
+
+      <UploadBox>
+        <CustomImageIcon />
+        <CustomAddIcon />
+      </UploadBox>
+      <UploadBox>
+        <CustomImageIcon />
+        <CustomAddIcon />
+      </UploadBox>
     </Container>
   );
 }
 
 const Container = styled.div`
-  border-bottom: 3px solid gray;
-  margin-top: 2.7rem;
-  /* width: 80%; */
-  display: flex;
+  overflow: scroll;
+  /* height: 5rem; */
+  color: #112031;
+  border: 1px solid #000;
+  /* 가로 스크롤 */
   overflow: auto;
   white-space: nowrap;
-  /* overflow: scroll; */
-  :-webkit-scrollbar {
+  border-bottom: 3px solid gray;
+  margin-top: 2.7rem;
+  width: 30rem;
+  height: 15rem;
+  display: flex;
+  /* white-space: nowrap;
+  overflow: scroll;
+  overflow: auto;
+  white-space: nowrap; */
+  /* :-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const UploadBox = styled.div`

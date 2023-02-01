@@ -1,13 +1,116 @@
-import React from "react";
-import styled from "styled-components";
-import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Box from "@mui/material/Box";
-import { styled as mstyled } from "@mui/material/styles";
+import React from 'react';
+import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import { styled as mstyled } from '@mui/material/styles';
+
+export default function Content() {
+  return (
+    <>
+      <CustomTextField id="fullWidth" variant="outlined" placeholder="경매방 제목" />
+      {/* select */}
+      <Box sx={{ minWidth: 120, marginTop: 2, border: 'solid 1px #386641', borderRadius: 1 }}>
+        <FormControl fullWidth>
+          <InputLabel
+            id="demo-simple-select-label"
+            style={{
+              fontSize: 16,
+              fontFamily: 'Pretendard',
+              color: '#D2D2D2',
+            }}
+          >
+            카테고리
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            // value={age}
+            label="category"
+            // onChange={handleChange}
+          >
+            <MenuItem value={10}>전자기기</MenuItem>
+            <MenuItem value={20}>패션/잡화</MenuItem>
+            <MenuItem value={30}>도서/음반</MenuItem>
+            <MenuItem value={40}>완구/문구</MenuItem>
+            <MenuItem value={50}>뷰티/미용</MenuItem>
+            <MenuItem value={60}>인테리어</MenuItem>
+            <MenuItem value={70}>생활용품</MenuItem>
+            <MenuItem value={80}>기타</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
+      <PriceWrapper>
+        <CustomPriceField
+          id="outlined-basic"
+          variant="outlined"
+          placeholder="가격 ( 입찰 시작가)"
+        />
+        <CustomPriceField id="outlined-basic" variant="outlined" placeholder="가격 ( 입찰 단위 )" />
+      </PriceWrapper>
+      <CustomTextArea aria-label="minimum height" minRows={15} placeholder="상품 상세 내용" />
+    </>
+  );
+}
+
+const CustomTextField = mstyled(TextField)`
+  margin-top: 2rem;
+  font-family: Pretendard;
+  width: 100%;   
+  font-weight: bold;
+  color: #D2D2D2;
+  border: solid 1px #386641;
+  border-radius: 0.5rem;
+
+
+  input{
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+`;
+
+const PriceWrapper = styled.div`
+  margin-top: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+`;
+const CustomPriceField = mstyled(TextField)`
+  font-family: Pretendard;
+  border: solid 1px #386641;
+  border-radius: 0.5rem;
+  width: 48%;   
+  font-weight: bold;
+  color: #D2D2D2;
+  input{
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+`;
+const CustomTextArea = mstyled(TextareaAutosize)`
+    width: 33rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1.3rem;
+    border: solid 1px #386641;
+    border-radius: 0.5rem;
+    outline-color: solid 2px gray;
+    ::placeholder {
+      color: #D2D2D2;
+    }
+    :focus{
+      outline: none !important;
+        border-color: gray;
+        box-shadow: 0 0 5px  #D2D2D2;
+    }
+`;
 
 /* const categories = [
   {
@@ -44,73 +147,3 @@ import { styled as mstyled } from "@mui/material/styles";
   },
 ];
  */
-export default function Content() {
-  return (
-    <Container>
-      <CustomTextField id="fullWidth" variant="outlined" placeholder="123" />
-      {/* select */}
-      <Box sx={{ minWidth: 120, marginTop: 2 }}>
-        <FormControl fullWidth>
-          <InputLabel
-            id="demo-simple-select-label"
-            style={{
-              fontSize: 16,
-              fontFamily: "Pretendard",
-              color: "#D2D2D2",
-            }}
-          >
-            카테고리
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            // value={age}
-            label="category"
-            // onChange={handleChange}
-          >
-            <MenuItem value={10}>전자기기</MenuItem>
-            <MenuItem value={20}>패션/잡화</MenuItem>
-            <MenuItem value={30}>도서/음반</MenuItem>
-            <MenuItem value={40}>완구/문구</MenuItem>
-            <MenuItem value={50}>뷰티/미용</MenuItem>
-            <MenuItem value={60}>인테리어</MenuItem>
-            <MenuItem value={70}>생활용품</MenuItem>
-            <MenuItem value={80}>기타</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <CustomTextArea
-        aria-label="minimum height"
-        minRows={15}
-        placeholder="상품 상세 내용"
-      />
-    </Container>
-  );
-}
-
-const Container = styled.div``;
-const CustomTextField = mstyled(TextField)`
-  margin-top: 2rem;
-  font-family: Pretendard;
-  width: 100%;   
-  font-weight: bold;
-  color: #D2D2D2;
-  input{
-    font-weight: bold;
-    font-size: 1.6rem;
-    padding: 1rem;
-  }
-
-`;
-
-const CustomTextArea = mstyled(TextareaAutosize)`
-    width: 33rem;
-    padding: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #D2D2D2;
-    margin-top: 1rem;
-    border: solid 1px #386641;
-    border-radius: 1rem;
-
-`;
