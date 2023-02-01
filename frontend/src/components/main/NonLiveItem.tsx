@@ -2,15 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import img1 from "@/assets/main/airpodsImg.jpg";
 
 interface IProps {
-  item: {
-    img: string /* HTMLImageElement */;
-    title: string;
-    price: number;
-    viewer: number;
-    time: string;
-  };
+  item: IAuction;
 }
 
 export default function NonLiveItem(props: IProps) {
@@ -27,24 +22,24 @@ export default function NonLiveItem(props: IProps) {
     <>
       <ItemBox>
         <div className="imgBox">
-          <img src={props.item.img} alt="image" />
+          <img src={img1} alt="image" />
           <div className="liveBox">
             <FavoriteIcon color="error" sx={{ fontSize: 15 }} />
-            <div className="liveBoxDesc">{props.item.viewer}명</div>
+            <div className="liveBoxDesc">{props.item.likeCount}명</div>
           </div>
         </div>
         <div className="infoBox">
           <div className="infoTitle">{props.item.title}</div>
           <div className="infoTimeBox">
             <div className="infoTimeDesc">경매 시작일</div>
-            <div className="infoTime">{getTime(props.item.time)}</div>
+            <div className="infoTime">{getTime(props.item.startTime)}</div>
           </div>
 
           <div className="infoPriceBox">
             <div className="infoPriceDesc">입찰 시작가</div>
             <div className="infoPrice">
               {/* 자릿수 콤마 */}
-              {props.item.price
+              {props.item.startPrice
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               원

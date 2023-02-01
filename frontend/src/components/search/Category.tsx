@@ -10,31 +10,42 @@ import img5 from "@/assets/category/005.png";
 import img6 from "@/assets/category/006.png";
 import img7 from "@/assets/category/007.png";
 import img8 from "@/assets/category/008.png";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-interface IDummy {
+interface IData {
   title: string;
   imgURL: string;
+  value: number;
 }
 
-const category: IDummy[] = [
-  { title: "전자기기", imgURL: img1 },
-  { title: "패션잡화", imgURL: img2 },
-  { title: "도서음반", imgURL: img3 },
-  { title: "완구문구", imgURL: img4 },
-  { title: "뷰티미용", imgURL: img5 },
-  { title: "인테리어", imgURL: img6 },
-  { title: "생활용품", imgURL: img7 },
-  { title: "기타", imgURL: img8 },
+const category: IData[] = [
+  { title: "전자기기", imgURL: img1, value: 1 },
+  { title: "패션잡화", imgURL: img2, value: 2 },
+  { title: "도서음반", imgURL: img3, value: 3 },
+  { title: "완구문구", imgURL: img4, value: 4 },
+  { title: "뷰티미용", imgURL: img5, value: 5 },
+  { title: "인테리어", imgURL: img6, value: 6 },
+  { title: "생활용품", imgURL: img7, value: 7 },
+  { title: "기타", imgURL: img8, value: 8 },
 ];
 
-export default function SearchPage() {
+export default function Category() {
+  const [searchParams] = useSearchParams("category");
+  const navigate = useNavigate();
+  const onClickEvent = (index: number, category: string) => {
+    const categoryNum = index + 1;
+    searchParams.set("categoryNum", categoryNum.toString());
+    searchParams.set("category", category);
+    navigate(`/result?${searchParams}`);
+  };
+
   return (
     <CategoryContainer>
       <CategoryTitle>카테고리별 검색</CategoryTitle>
       <Grid container columnSpacing={3} rowSpacing={2}>
         {category.map((item, index) => (
           <Grid key={index}>
-            <CategoryBox>
+            <CategoryBox onClick={() => onClickEvent(index, item.title)}>
               <CategoryImg src={item.imgURL} />
               <CategoryDesc>{item.title}</CategoryDesc>
             </CategoryBox>

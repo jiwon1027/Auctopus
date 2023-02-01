@@ -7,8 +7,13 @@ import { theme } from "@/styles/theme";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
-export default function SearchBar() {
+interface IProps {
+  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
+}
+
+export default function SearchBar(props: IProps) {
   const [searchParams] = useSearchParams("keyword");
   const [searchValue, setSearchValue] = React.useState<string>(
     searchParams.get("keyword") === null
@@ -16,6 +21,19 @@ export default function SearchBar() {
       : (searchParams.get("keyword") as string)
   );
   const navigate = useNavigate();
+
+  const getAuctionList = (value: string) => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_SERVER_DOMAIN
+        }/api/search?word=${value}&page=0&size=20&sort=main`
+      )
+      .then((res) => {
+        const data = res.data.resList;
+        props.setAuctionList(data);
+      });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -29,6 +47,7 @@ export default function SearchBar() {
     }
     searchParams.set("keyword", searchValue);
     navigate(`/result?${searchParams}`);
+    getAuctionList(searchValue);
   };
 
   return (

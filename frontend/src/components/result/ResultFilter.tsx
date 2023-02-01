@@ -7,6 +7,7 @@ import { styled as mstyled } from "@mui/material/styles";
 interface MainProps {
   live: "live" | "nonLive";
   onClick: () => void;
+  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
 }
 
 export default function ResultFilter(props: MainProps) {
@@ -15,6 +16,7 @@ export default function ResultFilter(props: MainProps) {
     value: string
   ) => {
     props.onClick();
+    // TODO: state별로 API 설정할 것
   };
 
   return (

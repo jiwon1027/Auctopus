@@ -1,7 +1,9 @@
 interface IAuction {
-  img: string;
+  auctionSeq: number;
+  email: string;
   title: string;
-  price: number;
-  viewer: number;
-  time: string;
+  startTime: string;
+  likeCount: number;
+  startPrice: number;
+  state: number;
 }

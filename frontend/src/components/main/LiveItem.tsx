@@ -3,15 +3,10 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CircleIcon from "@mui/icons-material/Circle";
+import img1 from "@/assets/main/airpodsImg.jpg";
 
 interface IProps {
-  item: {
-    img: string /* HTMLImageElement */;
-    title: string;
-    price: number;
-    viewer: number;
-    time: string;
-  };
+  item: IAuction;
 }
 
 export default function LiveItem(props: IProps) {
@@ -31,17 +26,17 @@ export default function LiveItem(props: IProps) {
     <>
       <ItemBox>
         <div className="imgBox">
-          <img src={props.item.img} alt="image" />
+          <img src={img1} alt="image" />
           <div className="liveBox">
             <CircleIcon color="error" sx={{ fontSize: 15 }} />
-            <div className="liveBoxDesc">{props.item.viewer}명</div>
+            <div className="liveBoxDesc">{props.item.likeCount}명</div>
           </div>
         </div>
         <div className="infoBox">
           <div className="infoTitle">{props.item.title}</div>
           <div className="infoTimeBox">
             <div className="infoTimeDesc">경매 종료까지</div>
-            <div className="infoTime">{getTime(props.item.time)}분</div>
+            <div className="infoTime">{getTime(props.item.startTime)}분</div>
             <AccessTimeIcon color="error" sx={{ fontSize: 20 }} />
           </div>
 
@@ -49,7 +44,7 @@ export default function LiveItem(props: IProps) {
             <div className="infoPriceDesc">현재 입찰가</div>
             <div className="infoPrice">
               {/* 자릿수 콤마 */}
-              {props.item.price
+              {props.item.startPrice
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               원
