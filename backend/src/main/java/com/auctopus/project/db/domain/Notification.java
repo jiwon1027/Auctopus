@@ -17,13 +17,14 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor
 @Builder
 @DynamicInsert
-@Table(name = "like_keyword")
-public class LikeKeyword {
+@Table(name = "notification")
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int likeKeywordSeq;
+    private int notificationSeq;
     private String userEmail;
-    private String keyword;
+    private String representativeImageUrl;
+    private String message;
 
 }

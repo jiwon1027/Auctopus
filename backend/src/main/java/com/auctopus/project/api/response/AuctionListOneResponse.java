@@ -2,6 +2,7 @@ package com.auctopus.project.api.response;
 
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class AuctionListOneResponse {
     int auctionSeq;
     String email;
     String title;
-    String startTime;
+    Timestamp startTime;
     int likeCount;
     int startPrice;
     int state;

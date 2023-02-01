@@ -3,6 +3,7 @@ package com.auctopus.project.api.response;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.domain.User;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class AuctionResponse {
     String title;
     String content;
     int categorySeq;
-    String startTime;
+    Timestamp startTime;
     int startPrice;
     List<AuctionImage> auctionImageList;
 

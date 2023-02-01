@@ -26,7 +26,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new AuctionNotFoundException(
                         "auction with liveSeq " + liveSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
-        Timestamp auctionTime = Timestamp.valueOf(auction.getStartTime());
+        Timestamp auctionTime = auction.getStartTime();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = auctionTime.before(currTime) ? currTime : auctionTime;
         Live live = Live.builder()

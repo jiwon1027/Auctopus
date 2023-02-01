@@ -26,8 +26,8 @@ public class UserController {
 
     // 회원 정보 조회
     @GetMapping()
-    public ResponseEntity<?> getUser(String email) {
-        User user = userService.getUser(email);
+    public ResponseEntity<?> getUser(String userEmail) {
+        User user = userService.getUser(userEmail);
         if (user == null)
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -46,12 +46,12 @@ public class UserController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> deleteUser(String email) {
-        User user = userService.getUser(email);
+    public ResponseEntity<?> deleteUser(String userEmail) {
+        User user = userService.getUser(userEmail);
         if (user == null)
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         else {
-            userService.deleteUser(email);
+            userService.deleteUser(userEmail);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
