@@ -1,5 +1,6 @@
 package com.auctopus.project.api.controller;
 
+import com.auctopus.project.api.request.AuctionCreateRequest;
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.api.service.CategoryService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,28 +36,15 @@ public class AuctionController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/{auctionSeq}")
-    public ResponseEntity<?> auction(@PathVariable("auctionSeq") int auctionSeq) {
-        Auction auction = auctionService.getAuction(auctionSeq);
-        User user = userService.getUser(auction.getUserEmail());
-        if (auction == null)
-            throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
-        Map<String, Object> res = new HashMap<>();
-        res.put("profileUrl", user.getProfileUrl());
-        res.put("nickname", user.getNickname());
-        res.put("userEmail", auction.getUserEmail());
-        res.put("category", categoryService.getCategoryName(auction.getCategorySeq()));
-        res.put("title", auction.getTitle());
-        res.put("content", auction.getContent());
-        res.put("startTime", auction.getStartTime());
-        res.put("startPrice", auction.getStartPrice());
-        res.put("likeCount", auction.getLikeCount());
-        res.put("state", auction.getState());
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    @PostMapping()
+    public ResponseEntity<?> registerAuction(@RequestBody AuctionCreateRequest req) {
+        auctionService.createAuction(req);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @PatchMapping()
-    public ResponseEntity<?> putAuction(@RequestBody AuctionUpdateRequest req) {
+    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateRequest req) {
         Auction auction = auctionService.getAuction(req.getAuctionSeq());
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
@@ -75,4 +64,27 @@ public class AuctionController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
+
+
+    @GetMapping("/{auctionSeq}")
+    public ResponseEntity<?> getAuctionInfo(@PathVariable("auctionSeq") int auctionSeq) {
+        Auction auction = auctionService.getAuction(auctionSeq);
+        User user = userService.getUser(auction.getUserEmail());
+        if (auction == null)
+            throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
+        Map<String, Object> res = new HashMap<>();
+        res.put("profileUrl", user.getProfileUrl());
+        res.put("nickname", user.getNickname());
+        res.put("userEmail", auction.getUserEmail());
+        res.put("category", categoryService.getCategoryName(auction.getCategorySeq()));
+        res.put("title", auction.getTitle());
+        res.put("content", auction.getContent());
+        res.put("startTime", auction.getStartTime());
+        res.put("startPrice", auction.getStartPrice());
+        res.put("likeCount", auction.getLikeCount());
+        res.put("state", auction.getState());
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+
 }
