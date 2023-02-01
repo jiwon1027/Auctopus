@@ -2,6 +2,7 @@ import React from "react";
 import LiveItem from "../main/LiveItem";
 import NonLiveItem from "../main/NonLiveItem";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IProps {
   isLive: boolean;
