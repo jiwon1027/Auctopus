@@ -4,27 +4,45 @@ import styled from 'styled-components';
 import ImageIcon from '@mui/icons-material/Image';
 import AddIcon from '@mui/icons-material/Add';
 import { styled as mstyled } from '@mui/material/styles';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
+
 export default function ImageUpload() {
+  const [images, setImages] = React.useState([]);
+  const maxNumber = 10;
+
+  const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
+    // console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
   return (
     <Container>
-      <UploadBox>
-        <CustomImageIcon />
-        <CustomAddIcon />
-      </UploadBox>
-
-      <UploadBox>
-        <CustomImageIcon />
-        <CustomAddIcon />
-      </UploadBox>
-
-      <UploadBox>
-        <CustomImageIcon />
-        <CustomAddIcon />
-      </UploadBox>
-      <UploadBox>
-        <CustomImageIcon />
-        <CustomAddIcon />
-      </UploadBox>
+      <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber}>
+        {({
+          imageList,
+          onImageUpload,
+          // onImageRemoveAll,
+          onImageUpdate,
+          onImageRemove,
+          // isDragging,
+          dragProps,
+        }) => (
+          <div className="upload__image-wrapper">
+            <UploadBox>
+              <CustomImageIcon />
+              <CustomAddIcon onClick={onImageUpload} {...dragProps} />
+            </UploadBox>
+            {imageList.map((image, index) => (
+              <div key={index} className="image-item">
+                <img src={image.dataURL} alt="" width="100" />
+                <div className="image-item__btn-wrapper">
+                  <button onClick={() => onImageUpdate(index)}>Update</button>
+                  <button onClick={() => onImageRemove(index)}>Remove</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </ImageUploading>
     </Container>
   );
 }
@@ -42,6 +60,7 @@ const Container = styled.div`
   width: 30rem;
   height: 15rem;
   display: flex;
+  flex-direction: row;
   /* white-space: nowrap;
   overflow: scroll;
   overflow: auto;
