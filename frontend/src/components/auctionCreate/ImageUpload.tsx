@@ -22,7 +22,7 @@ export default function ImageUpload() {
 
 const Container = styled.div`
   border-bottom: 3px solid gray;
-  margin-top: 3.7rem;
+  margin-top: 2.7rem;
   /* width: 80%; */
   display: flex;
   overflow: auto;
