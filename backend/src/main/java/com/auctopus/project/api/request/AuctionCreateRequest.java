@@ -1,5 +1,6 @@
 package com.auctopus.project.api.request;
 
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AuctionCreateRequest {
     String title;
     String content;
-    String startTime;
+    Timestamp startTime;
     int startPrice;
     int categorySeq;
 }

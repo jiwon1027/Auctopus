@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("live")
+@CrossOrigin("*")
 public class LiveController {
 
     @Autowired
@@ -61,7 +63,7 @@ public class LiveController {
         res.put("endTime", live.getEndTime());
         res.put("price", live.getPrice());
         res.put("viewer", live.getViewer());
-        res.put("paricipant", live.getParticipant());
+        res.put("participant", live.getParticipant());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

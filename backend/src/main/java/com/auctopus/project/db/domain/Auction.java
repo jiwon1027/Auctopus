@@ -1,5 +1,6 @@
 package com.auctopus.project.db.domain;
 
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Auction {
     private int categorySeq;
     private String title;
     private String content;
-    private String startTime;
+    private Timestamp startTime;
     private int startPrice;
     private String link;
     private int likeCount;

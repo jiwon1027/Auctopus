@@ -21,7 +21,6 @@ public class Live {
 
     @Id
     private int liveSeq;
-    private int auctionSeq;
     private String userEmail;
     private Timestamp startTime;
     private Timestamp endTime;
@@ -29,7 +28,6 @@ public class Live {
     private String highestBidder;
     private int viewer;
     private int participant;
-
     private int onAir;
 
 }
