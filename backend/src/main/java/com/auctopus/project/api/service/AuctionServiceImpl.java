@@ -20,7 +20,28 @@ public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-
+    //    @Override
+//    public List<Auction> getAuctionListByStartTime(String word, Pageable pageable) {
+//        List<Auction> auctionList = null;
+//        String currentTime = LocalDateTime.now()
+//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        if (word == null) {
+//            word = "";
+//        }
+//        auctionList = auctionRepository.findAllByTitleContainsOrContentContains(word, currentTime,
+//                pageable);
+//        return auctionList;
+//    }
+//
+//    @Override
+//    public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable) {
+//        List<Auction> auctionList = null;
+//        String currentTime = LocalDateTime.now()
+//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq,
+//                currentTime, pageable);
+//        return auctionList;
+//    }
     @Override
     public Auction getAuction(int auctionSeq) {
         Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
@@ -30,26 +51,56 @@ public class AuctionServiceImpl implements AuctionService {
         return auction;
     }
 
+
     @Override
-    public List<Auction> getAuctionListByStartTime(String word, Pageable pageable) {
+    public List<Auction> getAuctionListByViewer(String word, int state) {
         List<Auction> auctionList = null;
         String currentTime = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         if (word == null) {
             word = "";
         }
-        auctionList = auctionRepository.findAllByTitleContainsOrContentContains(word, currentTime,
-                pageable);
+
+        auctionList = auctionRepository.findAllAuctionByViewer(word, currentTime, state);
+
+
         return auctionList;
     }
 
     @Override
-    public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable) {
+    public List<Auction> getAuctionListByLikecount(String word, int state) {
         List<Auction> auctionList = null;
         String currentTime = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq,
-                currentTime, pageable);
+        if (word == null) {
+            word = "";
+        }
+        auctionList = auctionRepository.findAllAuctionByLikeCount(word, currentTime, state);
+
+        return auctionList;
+
+    }
+
+    @Override
+    public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, int state) {
+        List<Auction> auctionList = null;
+
+        String currentTime = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq, currentTime, state);
+
+        return auctionList;
+    }
+
+    @Override
+    public List<Auction> getAuctionListByTime(int state) {
+        List<Auction> auctionList = null;
+
+        String currentTime = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        auctionList = auctionRepository.findAllAuctionByStartTime(currentTime, state);
+
         return auctionList;
     }
 

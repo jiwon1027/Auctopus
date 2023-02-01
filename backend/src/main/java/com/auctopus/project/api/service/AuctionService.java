@@ -11,12 +11,22 @@ import org.springframework.data.domain.Pageable;
 
 public interface AuctionService {
 
+    // 시청자 수로 sort한 경매 리스트 목록
+    List<Auction> getAuctionListByViewer(String word, int state);
 
-   // List<Auction> getAuctionListToday(Pageable pageable);
+    // 좋아요 수로 sort한 경매 리스트 목록
+    List<Auction> getAuctionListByLikecount(String word, int state);
 
-    List<Auction> getAuctionListByStartTime(String word, Pageable pageable);
 
-    List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable);
+    // 카테고리(관심)별 경매리스트
+    List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, int state);
+
+
+    // 시간별 경매리스트
+    List<Auction> getAuctionListByTime(int state);
+
+
+
     // 한 개의 경매방 정보 보기
     Auction getAuction(int auctionSeq);
 
