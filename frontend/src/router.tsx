@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     element: <CategoryInfoPage />,
   },
   {
-    path: "/detail",
+    path: "/detail/:auctionSeq",
     element: <DetailPage />,
   },
   { path: "/noti", element: <NotificationPage /> },

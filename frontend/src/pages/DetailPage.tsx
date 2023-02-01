@@ -1,33 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DummyImg from "@/assets/detail/dummy.svg";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { styled as mstyled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
+import axios from "axios";
+
+// type auctionParams = {
+//   auctionSeq: number;
+// };
+
+const dummyObject = {
+  auctionSeq: 1,
+  userEmail: "bbbnndd",
+  categorySeq: 1,
+  title: "더미",
+  content: "팔아요",
+  startTime: "2023-02-02 12:12:12",
+  startPrice: 200000,
+  link: "dfdfdfdf",
+  likeCount: 20000,
+  state: 0,
+};
 
 export default function DetailPage() {
+  const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
+  const [data, setData] = useState<IAuctionInfo>(dummyObject);
   const likeHandler = (event: React.MouseEvent<unknown>) => {
     setIsLiked((prev) => !prev);
   };
+
+  useEffect(() => {
+    axios.get(`${VITE_SERVER_DOMAIN}/api/auction/1`).then((res) => {
+      const resData = res.data;
+      setData(resData);
+    });
+  }, []);
   const dummy = {
     isBuyer: true,
     isLiked: false,
-    detailData: {
-      auctionSeq: 1,
-      // imageList: [],
-      userSeq: 1,
-      categorySeq: 1,
-      title: "프라다 팔아여",
-      content: "블라블라 와구와구",
-      startTime: "2023-02-14 16:44:22",
-      startPrice: 10000,
-      likeCount: 147,
-      isReady: 0,
-    },
   };
 
   return (
@@ -38,13 +53,9 @@ export default function DetailPage() {
         </Link>
         <img src={DummyImg} alt="dummy-img" />
       </ImgBox>
-      <Profile
-        isLiked={isLiked}
-        detailData={dummy.detailData}
-        likeHandler={likeHandler}
-      />
-      <Content detailData={dummy.detailData} />
-      <ButtonBox isBuyer={dummy.isBuyer} detailData={dummy.detailData} />
+      <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
+      <Content auctionInfo={data} />
+      <ButtonBox isBuyer={dummy.isBuyer} auctionInfo={data} />
     </Container>
   );
 }

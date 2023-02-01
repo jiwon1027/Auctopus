@@ -8,20 +8,9 @@ import { styled as mstyled } from "@mui/material/styles";
 
 interface IProps {
   isBuyer: boolean;
-  detailData: {
-    auctionSeq: number;
-    // imageList: FileList;
-    userSeq: number;
-    categorySeq: number;
-    title: string;
-    content: string;
-    startTime: string;
-    startPrice: number;
-    likeCount: number;
-    isReady: number;
-  };
+  auctionInfo: IAuctionInfo;
 }
-export default function ButtonBox({ isBuyer, detailData }: IProps) {
+export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const [isTime, setIsTime] = useState(true);
 
   // setOpen에 대한 로직 - 실시간 구현시 마저 구현
@@ -54,7 +43,7 @@ export default function ButtonBox({ isBuyer, detailData }: IProps) {
           <span>입찰 시작가</span>
         </div>
         <div className="timeLeft">
-          {detailData.startPrice
+          {auctionInfo.startPrice
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           원
@@ -64,7 +53,7 @@ export default function ButtonBox({ isBuyer, detailData }: IProps) {
         {!isTime ? (
           <>
             <div className="time-left">
-              {getRemainTime(detailData.startTime)}후 입장 가능
+              {getRemainTime(auctionInfo.startTime)}후 입장 가능
             </div>
             <DisableButton>입장하기</DisableButton>
           </>
@@ -80,7 +69,7 @@ export default function ButtonBox({ isBuyer, detailData }: IProps) {
           <AccessTimeIcon color="disabled" sx={{ fontSize: 20 }} />
           <span>경매시작까지</span>
         </div>
-        <div className="timeLeft">{getRemainTime(detailData.startTime)}</div>
+        <div className="timeLeft">{getRemainTime(auctionInfo.startTime)}</div>
       </div>
       <div className="buttonBox">
         <CustomizedButton>입장하기</CustomizedButton>

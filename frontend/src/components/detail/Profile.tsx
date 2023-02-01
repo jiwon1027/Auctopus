@@ -7,21 +7,10 @@ import { theme } from "@/styles/theme";
 
 interface IProps {
   isLiked: boolean;
-  detailData: {
-    auctionSeq: number;
-    // imageList: FileList;
-    userSeq: number;
-    categorySeq: number;
-    title: string;
-    content: string;
-    startTime: string;
-    startPrice: number;
-    likeCount: number;
-    isReady: number;
-  };
+  auctionInfo: IAuctionInfo;
   likeHandler: (event: React.MouseEvent<unknown>) => void;
 }
-export default function Profile({ isLiked, detailData, likeHandler }: IProps) {
+export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
   return (
     <ProfileBox>
       <div className="profileIconBox">
@@ -46,7 +35,7 @@ export default function Profile({ isLiked, detailData, likeHandler }: IProps) {
           />
         )}
         <div className="likesCount">
-          {isLiked ? detailData.likeCount + 1 : detailData.likeCount}
+          {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
         </div>
       </div>
     </ProfileBox>
