@@ -23,15 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/kakao")
 @AllArgsConstructor
 public class KakaoUserController {
-    /*
-     * 카카오 callback
-     * 이거 원래 redict_url로 보내고 code를 받는건 FE에서 하는건데 지금 test용으로 그냥 BE에서 작성 중
-     * code에서 나온 결과물로 email, nickname 조회가능 (from. kakao server)
-     * */
+
+    // TODO : bootJar 해야됨
 
     private KakaoUserServiceImpl kakaoUserServiceimpl;
     private UserRepository userRepository;
-    private UserServiceImpl userServiceImpl;
 
     @CrossOrigin("*")
     @GetMapping("/login")
@@ -58,6 +54,7 @@ public class KakaoUserController {
             resultMap.put("nickname", kakaoUserInfo.get("nickname"));
             resultMap.put("userEmail", kakaoUserInfo.get("email"));
 
+            // TODO : db에 저장되어있지만 토큰은 없을 때 테스트 해야됨
             // email이 현재 DB에 저장있지 않으면 DB에 저장
             if (userRepository.findByEmail((String) kakaoUserInfo.get("email")).isEmpty()) {
                 resultMap.put("newUser", 1);
@@ -98,7 +95,6 @@ public class KakaoUserController {
             System.out.println("Data 1 : " + authentication.getPrincipal()); //닉네임
             System.out.println("Data 2 : " + authentication.getCredentials()); //이메일
 
-
             userRepository.save(User.builder()
                             .userName(user.getUserName())
                             .account(user.getAccount())
@@ -108,7 +104,7 @@ public class KakaoUserController {
                             .nickname((String) authentication.getPrincipal())
                     .build());
 
-            resultMap.put("userName", authentication.getPrincipal());
+            resultMap.put("userName", user.getUserName());
             resultMap.put("userEmail", authentication.getCredentials());
             status = HttpStatus.OK;
             resultMap.put(("message"), "회원 저장");
