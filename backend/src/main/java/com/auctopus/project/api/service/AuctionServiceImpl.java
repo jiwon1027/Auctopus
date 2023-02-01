@@ -56,7 +56,8 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @Transactional
-    public void updateAuction(int auctionSeq, AuctionUpdateRequest req) {
+    public void updateAuction(AuctionUpdateRequest req) {
+        int auctionSeq = req.getAuctionSeq();
         Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + auctionSeq + " not found",

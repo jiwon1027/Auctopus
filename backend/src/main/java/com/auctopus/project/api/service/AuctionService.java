@@ -21,7 +21,7 @@ public interface AuctionService {
     Auction getAuction(int auctionSeq);
 
     // 경매방 정보 수정
-    void updateAuction(int auctionSeq, AuctionUpdateRequest req);
+    void updateAuction(AuctionUpdateRequest req);
     // 경매방 정보 삭제
 
     void deleteAuction(int auctionSeq);

@@ -2,8 +2,11 @@ package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.api.service.AuctionService;
+import com.auctopus.project.api.service.CategoryService;
+import com.auctopus.project.api.service.UserService;
 import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
+import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.domain.Auction;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,24 +29,38 @@ public class AuctionController {
 
     @Autowired
     private AuctionService auctionService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/{auctionSeq}")
     public ResponseEntity<?> auction(@PathVariable("auctionSeq") int auctionSeq) {
         Auction auction = auctionService.getAuction(auctionSeq);
+        User user = userService.getUser(auction.getUserEmail());
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
-        Map<String, Object> map = new HashMap<>();
-        return new ResponseEntity<>(auction, HttpStatus.OK);
+        Map<String, Object> res = new HashMap<>();
+        res.put("profileUrl", user.getProfileUrl());
+        res.put("nickname", user.getNickname());
+        res.put("userEmail", auction.getUserEmail());
+        res.put("category", categoryService.getCategoryName(auction.getCategorySeq()));
+        res.put("title", auction.getTitle());
+        res.put("content", auction.getContent());
+        res.put("startTime", auction.getStartTime());
+        res.put("startPrice", auction.getStartPrice());
+        res.put("likeCount", auction.getLikeCount());
+        res.put("state", auction.getState());
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PatchMapping("/{auctionSeq}")
-    public ResponseEntity<?> putAuction(@PathVariable("auctionSeq") int auctionSeq,
-            @RequestBody AuctionUpdateRequest req) {
-        Auction auction = auctionService.getAuction(auctionSeq);
+    @PatchMapping()
+    public ResponseEntity<?> putAuction(@RequestBody AuctionUpdateRequest req) {
+        Auction auction = auctionService.getAuction(req.getAuctionSeq());
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
-            auctionService.updateAuction(auctionSeq, req);
+            auctionService.updateAuction(req);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
