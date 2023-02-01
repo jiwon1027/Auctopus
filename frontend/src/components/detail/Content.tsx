@@ -3,26 +3,15 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 interface IProps {
-  detailData: {
-    auctionSeq: number;
-    // imageList: FileList;
-    userSeq: number;
-    categorySeq: number;
-    title: string;
-    content: string;
-    startTime: string;
-    startPrice: number;
-    likeCount: number;
-    isReady: number;
-  };
+  auctionInfo: IAuctionInfo;
 }
 
-export default function Content({ detailData }: IProps) {
+export default function Content({ auctionInfo }: IProps) {
   return (
     <ContentBox>
-      <div className="contentTitle">{detailData.title}</div>
-      <div className="contentCataegory">{detailData.categorySeq}</div>
-      <div className="contentDescription">{detailData.content}</div>
+      <div className="contentTitle">{auctionInfo.title}</div>
+      <div className="contentCataegory">{auctionInfo.categorySeq}</div>
+      <div className="contentDescription">{auctionInfo.content}</div>
     </ContentBox>
   );
 }
