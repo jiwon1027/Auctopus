@@ -24,7 +24,7 @@ public class LiveServiceImpl implements LiveService {
     public void createLive(int liveSeq) {
         Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
-                        "auction with liveSeq " + liveSeq + " not found",
+                        "auction with auctionSeq " + liveSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
         Timestamp auctionTime = auction.getStartTime();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
@@ -37,6 +37,27 @@ public class LiveServiceImpl implements LiveService {
                 .price(auction.getStartPrice())
                 .build();
         liveRepository.save(live);
+
+        // 경매방의 state를 진행중(2)로 바꾸어주자
+        auction.setState(2);
+        auctionRepository.save(auction);
+    }
+
+    @Override
+    @Transactional
+    public void deleteLive(int liveSeq) {
+        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
+                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
+                        ErrorCode.LIVE_NOT_FOUND));
+        liveRepository.delete(live);
+
+        // 경매방의 state를 끝(3)로 바꾸어주자
+        Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
+                () -> new AuctionNotFoundException(
+                        "auction with auctionSeq " + liveSeq + " not found",
+                        ErrorCode.AUCTION_NOT_FOUND));
+        auction.setState(3);
+        auctionRepository.save(auction);
     }
 
     // 한 개의 라이브 정보 보기
