@@ -29,7 +29,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     @Query("SELECT a FROM Auction a WHERE a.categorySeq = :categorySeq AND a.startTime > :currentTime AND a.state = :state")
     List<Auction> findAuctionByCategorySeq(@Param("categorySeq")int categorySeq, @Param("currentTime")String currentTime, @Param("state") int state);
 
-    @Query("SELECT a FROM Auction a WHERE a.startTime > :currentTime AND a.state = :state")
-    List<Auction> findAllAuctionByStartTime(@Param("currentTime")String currentTime, @Param("state") int state);
+    // state에 따라 시작시간 순서로 정렬
+    @Query("SELECT a FROM Auction a WHERE a.state = :state ORDER BY a.startTime"  )
+    List<Auction> findAllAuctionByStartTime(@Param("state") int state);
 
 }

@@ -137,10 +137,7 @@ public class AuctionServiceImpl implements AuctionService {
     public List<Auction> getAuctionListByTime(int state) {
         List<Auction> auctionList = null;
 
-        String currentTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        auctionList = auctionRepository.findAllAuctionByStartTime(currentTime, state);
+        auctionList = auctionRepository.findAllAuctionByStartTime(state);
 
         return auctionList;
     }

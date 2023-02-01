@@ -1,22 +1,14 @@
 package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.response.AuctionListOneResponse;
-import com.auctopus.project.api.response.AuctionListResponse;
-import com.auctopus.project.api.response.LiveListOneResponse;
-import com.auctopus.project.api.response.LiveListResponse;
 import com.auctopus.project.api.service.AuctionImageService;
 import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.api.service.LikeCategoryService;
 import com.auctopus.project.db.domain.Auction;
-import com.auctopus.project.db.domain.AuctionImage;
-import com.auctopus.project.db.domain.Live;
 import com.auctopus.project.db.repository.AuctionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -158,10 +150,9 @@ public class SearchController {
 //            List<AuctionImage> auctionImageList = null;
 //            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
 
-
             auctionListOneResponseList.add(AuctionListOneResponse.of(auction, auctionImageList));
         }
-
+//        return List<AuctionListResponse>
         return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, likeCategorySeq, auctionListOneResponseList));
     }
 
@@ -170,18 +161,21 @@ public class SearchController {
     /// 이건 카테고리용 (이건 경매중, 경매 예정, 경매 종료 구분 없음)
     // 나중에 경매 종료한 것은 제외하기 위해 status(경매방 상태표시) 추가해야할 것 같다
     @GetMapping("/category")
-    public ResponseEntity<AuctionListResponse> getAuctionListByCategorySeq(@RequestParam("category") int categorySeq, @RequestParam("state") int state {
-        List<AuctionListOneResponse> auctionListOneResponseList = new ArrayList<>();
-        List<Auction> auctionList = null;
-        Boolean hasMore = false;
-        auctionList = auctionService.getAuctionListByCategorySeq(categorySeq, state);
+    public ResponseEntity<AuctionListResponse> getAuctionListByCategorySeq(@RequestParam("category") int categorySeq, @RequestParam("state") int state) {
+//        List<AuctionListOneResponse> auctionListOneResponseList = new ArrayList<>();
+//        List<Auction> auctionList = null;
+//        Boolean hasMore = false;
+//        auctionList = auctionService.getAuctionListByCategorySeq(categorySeq, state);
+//
+//        for (Auction auction : auctionList) {
+//            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+//            auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
+//        }
+//        return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, categorySeq,auctionListOneResponseList));
 
-        for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
-            auctionListOneResponseList.add(AuctionListOneResponse.of(auction,auctionImageList));
-        }
-        return ResponseEntity.status(200).body(AuctionListResponse.of(hasMore, categorySeq,auctionListOneResponseList));
+        return null;
     }
+
 
 
 
