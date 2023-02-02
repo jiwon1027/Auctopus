@@ -16,7 +16,7 @@ import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
 import OpenviduPage from "@/pages/liveAuction/OpenviduPage";
-
+import AuctionCreatePage from "./pages/AuctionCreatePage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/detail/:auctionSeq",
     element: <DetailPage />,
+  },
+  {
+    path: "/createAuction",
+    element: <AuctionCreatePage />,
   },
   { path: "/noti", element: <NotificationPage /> },
   { path: "/chat", element: <ChatPage /> },
