@@ -60,8 +60,8 @@ export default function LiveFilter(props: IProps) {
             displayEmpty
           >
             <MenuItem value="main">시청자순</MenuItem>
-            <MenuItem value="category">카테고리순</MenuItem>
             <MenuItem value="startTime">최신순</MenuItem>
+            <MenuItem value="category">관심 카테고리</MenuItem>
           </Select>
         ) : (
           <Select
@@ -72,8 +72,8 @@ export default function LiveFilter(props: IProps) {
             displayEmpty
           >
             <MenuItem value="main">좋아요순</MenuItem>
-            <MenuItem value="category">카테고리순</MenuItem>
             <MenuItem value="startTime">최신순</MenuItem>
+            <MenuItem value="category">관심 카테고리</MenuItem>
           </Select>
         )}
       </FormControl>

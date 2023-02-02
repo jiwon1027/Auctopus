@@ -2,26 +2,27 @@ import React from "react";
 import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import ItemsList from "@components/common/ItemsList";
-import Image1 from "@/assets/detail/dummy.svg";
-import Image2 from "@/assets/main/airpodsImg.jpg";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
 
-
 const liveAuction: IAuction[] = [
   {
-    img: Image1,
-    title: "구찌를 굳이?",
-    price: 450000,
-    viewer: 55,
-    time: "2023-01-27 12:00",
+    auctionSeq: 1,
+    email: "BIBI@naver.com",
+    title: "내 찜이야",
+    startTime: "2023-01-27 12:05",
+    likeCount: 200,
+    startPrice: 500000,
+    state: 0,
   },
   {
-    img: Image2,
-    title: "에어팟 맥스",
-    price: 410000,
-    viewer: 15,
-    time: "2023-01-27 12:05",
+    auctionSeq: 2,
+    email: "ㅓㅑㅓㅑ@naver.com",
+    title: "내 찜이야",
+    startTime: "2023-01-28 16:10",
+    likeCount: 100,
+    startPrice: 300000,
+    state: 0,
   },
 ];
 

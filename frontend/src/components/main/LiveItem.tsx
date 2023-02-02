@@ -4,12 +4,15 @@ import { theme } from "@/styles/theme";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CircleIcon from "@mui/icons-material/Circle";
 import img1 from "@/assets/main/airpodsImg.jpg";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   item: IAuction;
 }
 
 export default function LiveItem(props: IProps) {
+  const navigate = useNavigate();
+
   const getTime = (time: string) => {
     const masTime = new Date(time).getTime();
     const todayTime = new Date().getTime();
@@ -22,9 +25,13 @@ export default function LiveItem(props: IProps) {
     const remainTime = 60 - diffMin;
     return remainTime;
   };
+
+  const moveToDetail = () => {
+    navigate(`/detail/${props.item.auctionSeq}`);
+  };
   return (
     <>
-      <ItemBox>
+      <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
           <img src={img1} alt="image" />
           <div className="liveBox">

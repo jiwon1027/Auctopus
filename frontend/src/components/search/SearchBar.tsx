@@ -31,6 +31,7 @@ export default function SearchBar(props: IProps) {
       )
       .then((res) => {
         const data = res.data.resList;
+        // if (data.length === 0) return;
         props.setAuctionList(data);
       });
   };
