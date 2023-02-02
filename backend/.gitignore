@@ -1,7 +1,12 @@
 HELP.md
 .gradle
-!build/libs/project-0.0.1-SNAPSHOT.jar
-build/
+
+build/classes
+build/generated
+build/resources
+build/tmp
+build/bootJarMainClassName
+
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
