@@ -5,6 +5,9 @@ import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.db.repository.AuctionRepository;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +38,7 @@ public class AuctionServiceImpl implements AuctionService {
                 .categorySeq(req.getCategorySeq())
                 .title(req.getTitle())
                 .content(req.getContent())
-                .startTime(req.getStartTime())
+                .startTime(Timestamp.valueOf(req.getStartTime()))
                 .startPrice(req.getStartPrice())
                 .link("")
                 .build();
@@ -53,7 +56,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setCategorySeq(req.getCategorySeq());
         auction.setTitle(req.getTitle());
         auction.setContent(req.getContent());
-        auction.setStartTime(req.getStartTime());
+        auction.setStartTime(Timestamp.valueOf(req.getStartTime()));
         auction.setStartPrice(req.getStartPrice());
         auctionRepository.save(auction);
     }

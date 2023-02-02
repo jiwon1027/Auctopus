@@ -19,7 +19,7 @@ public class AuctionCreateRequest {
     int categorySeq;
     String title;
     String content;
-    Timestamp startTime;
+    String startTime;
     int startPrice;
 
 }

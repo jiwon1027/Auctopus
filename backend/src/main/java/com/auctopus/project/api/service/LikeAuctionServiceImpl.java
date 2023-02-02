@@ -53,7 +53,7 @@ public class LikeAuctionServiceImpl implements LikeAuctionService {
 
     @Override
     public List<Auction> getLikeAuctionList(String userEmail) {
-        List<LikeAuction> likeAuctionList = likeAuctionRepository.findByUserEmail(userEmail);
+        List<LikeAuction> likeAuctionList = likeAuctionRepository.findLikeAuctionListByUserEmail(userEmail);
         List<Auction> auctionList = new ArrayList<>();
         for (LikeAuction likeauction : likeAuctionList) {
             int auctionSeq = likeauction.getAuctionSeq();
