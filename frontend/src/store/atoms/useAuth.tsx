@@ -188,6 +188,10 @@ export default function useAuth() {
     resetRecoilState();
   }
 
+  /**
+   * 로그인하면 토큰, 유저정보를 로컬 저장소에 저장하고, axios 헤더에 토큰 세팅한다
+   * @param resData 카카오 로그인하고나서 넘어온 response 데이터
+   */
   function signIn(resData: IResSocialLogin) {
     localStorage.setItem("token", resData.token);
     localStorage.setItem(
@@ -202,7 +206,7 @@ export default function useAuth() {
 
   async function signUp() {
     try {
-      const res = await requestForSignup(getToken(), formState.user);
+      const res = await requestForSignup(formState.user);
       if (res.status === 200) {
         resetFormState();
         localStorage.clear();

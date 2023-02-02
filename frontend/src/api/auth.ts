@@ -7,7 +7,7 @@ export const sendAuthCode = async (code: string) => {
   return await instance.get( `${URL}/api/kakao/login?code=${code}`);
 }
 
-export const requestForSignup = async (token: string | null, user: IUser) => {
+export const requestForSignup = async (user: IUser) => {
   const reqData: IReqSocialSignup = {
     account: user.bankAccount,
     address: user.address,
@@ -15,9 +15,5 @@ export const requestForSignup = async (token: string | null, user: IUser) => {
     profileUrl: "",
     userName: user.name,
   };
-  return await instance.post(`${URL}/api/kakao/login`, reqData, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
+  return await instance.post(`${URL}/api/kakao/login`, reqData);
 }
