@@ -13,10 +13,7 @@ export default function Calendar({
   data: IAuctionCreate;
   onChange: (name: string, value: string) => void;
 }) {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs());
-
   const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue);
     onChange("startTime", newValue?.toString() as string);
   };
 

@@ -25,9 +25,6 @@ export default function Content({
     console.log(target);
     onChange(target.name, target.value);
   };
-  // const updateHandler = (e: React.ChangeEvent) => {
-  //   onChange(e.target.name, e.target.value as string);
-  // };
 
   return (
     <>

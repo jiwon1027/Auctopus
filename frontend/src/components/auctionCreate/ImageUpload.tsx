@@ -7,15 +7,11 @@ import { styled as mstyled } from "@mui/material/styles";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { Button } from "@mui/material";
-import { flexbox } from "@mui/system";
 export default function ImageUpload() {
   const [images, setImages] = React.useState([]);
   const maxNumber = 10;
 
-  const onChange = (
-    imageList: ImageListType
-    // addUpdateIndex: number[] | undefined
-  ) => {
+  const onChange = (imageList: ImageListType) => {
     setImages(imageList as never[]);
   };
   return (
@@ -29,15 +25,12 @@ export default function ImageUpload() {
         {({
           imageList,
           onImageUpload,
-          // onImageRemoveAll,
           onImageUpdate,
           onImageRemove,
-          // isDragging,
           dragProps,
         }) => (
           <>
             <UploadBox onClick={onImageUpload} {...dragProps}>
-              {/* <CustomImageIcon /> */}
               <CloudUploadOutlinedIcon onClick={onImageUpload} {...dragProps} />
               upload
             </UploadBox>
@@ -146,15 +139,4 @@ const UploadBox = styled.div`
   border-radius: 20;
   overflow: hidden;
   box-shadow: 5rem green;
-`;
-
-const CustomImageIcon = mstyled(ImageIcon)`
-  width: 5.5rem;
-  height: 5.5rem;
-  color: ${theme.colors.turtleDark};
-`;
-const CustomAddIcon = mstyled(AddIcon)`
-  width: 4rem;
-  height: 4rem;
-  color: ${theme.colors.turtleDark};
 `;
