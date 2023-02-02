@@ -9,9 +9,9 @@ import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import axios from "axios";
 
-// type auctionParams = {
-//   auctionSeq: number;
-// };
+type auctionParams = {
+  auctionSeq: number;
+};
 
 const dummyObject = {
   auctionSeq: 1,
@@ -33,12 +33,14 @@ export default function DetailPage() {
   const likeHandler = (event: React.MouseEvent<unknown>) => {
     setIsLiked((prev) => !prev);
   };
+  const { auctionSeq } = useParams();
 
   useEffect(() => {
-    axios.get(`${VITE_SERVER_DOMAIN}/api/auction/1`).then((res) => {
+    axios.get(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`).then((res) => {
       const resData = res.data;
       setData(resData);
     });
+    console.log(auctionSeq);
   }, []);
   const dummy = {
     isBuyer: true,
