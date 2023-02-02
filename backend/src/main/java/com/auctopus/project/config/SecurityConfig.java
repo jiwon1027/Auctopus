@@ -2,6 +2,7 @@ package com.auctopus.project.config;
 
 import com.auctopus.project.api.service.KakaoUserService;
 import com.auctopus.project.api.service.UserService;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,9 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.addAllowedOrigin("*");
-//        configuration.addAllowedOrigin("http://localhost:3000");
-//        configuration.addAllowedOrigin("https://test.ssafy.io:3000");
-//        configuration.addAllowedOrigin("https://test.ssafy.io");
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://i8a704.p.ssafy.io");
+        configuration.addAllowedOrigin("https://i8a704.p.ssafy.io");
         configuration.setAllowCredentials(true); // 내서버가 응답을 하면 json을 js에서 처리할 수 있게 함
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
@@ -73,4 +74,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return source;
     }
+
 }

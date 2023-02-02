@@ -5,11 +5,8 @@ import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.db.repository.AuctionRepository;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.auctopus.project.db.domain.Auction;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,28 +18,6 @@ public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-    //    @Override
-//    public List<Auction> getAuctionListByStartTime(String word, Pageable pageable) {
-//        List<Auction> auctionList = null;
-//        String currentTime = LocalDateTime.now()
-//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        if (word == null) {
-//            word = "";
-//        }
-//        auctionList = auctionRepository.findAllByTitleContainsOrContentContains(word, currentTime,
-//                pageable);
-//        return auctionList;
-//    }
-//
-//    @Override
-//    public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, Pageable pageable) {
-//        List<Auction> auctionList = null;
-//        String currentTime = LocalDateTime.now()
-//                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq,
-//                currentTime, pageable);
-//        return auctionList;
-//    }
     @Override
     public Auction getAuction(int auctionSeq) {
         Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
@@ -94,52 +69,67 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public List<Auction> getAuctionListByViewer(String word, int state) {
+    public List<Auction> getMyAuctionListByEmail(String email) {
         List<Auction> auctionList = null;
-        String currentTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        if (word == null) {
-            word = "";
-        }
-
-        auctionList = auctionRepository.findAllAuctionByViewer(word, currentTime, state);
-
-
+        auctionList = auctionRepository.findAllAuctionByEmail(email);
+        return auctionList;
+    }
+    @Override
+    public List<Auction> getAuctionListByViewer(int state) {
+        List<Auction> auctionList = null;
+        auctionList = auctionRepository.findAllAuctionByViewer(state);
         return auctionList;
     }
 
     @Override
-    public List<Auction> getAuctionListByLikecount(String word, int state) {
+    public List<Auction> getAuctionListByLikeCount(int state) {
         List<Auction> auctionList = null;
-        String currentTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        if (word == null) {
-            word = "";
-        }
-        auctionList = auctionRepository.findAllAuctionByLikeCount(word, currentTime, state);
-
+        auctionList = auctionRepository.findAllAuctionByLikeCount(state);
         return auctionList;
-
     }
 
     @Override
     public List<Auction> getAuctionListByCategorySeq(int likeCategorySeq, int state) {
         List<Auction> auctionList = null;
-
-        String currentTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq, currentTime, state);
-
+        auctionList = auctionRepository.findAuctionByCategorySeq(likeCategorySeq, state);
         return auctionList;
     }
 
     @Override
     public List<Auction> getAuctionListByTime(int state) {
         List<Auction> auctionList = null;
-
         auctionList = auctionRepository.findAllAuctionByStartTime(state);
-
         return auctionList;
     }
 
+    // 검색 경매
+    @Override
+    public List<Auction> getAuctionListByViewerAndWord(String word, int state) {
+        List<Auction> auctionList = null;
+        auctionList = auctionRepository.findAllAuctionByViewerAndWord(word, state);
+        return auctionList;
+    }
+
+    @Override
+    public List<Auction> getAuctionListByLikeCountAndWord(String word, int state) {
+        List<Auction> auctionList = null;
+        auctionList = auctionRepository.findAllAuctionByLikeCountAndWord(word, state);
+        return auctionList;
+    }
+
+
+    // 카테고리 경매
+    @Override
+    public List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state) {
+        List<Auction> auctionList = null;
+        auctionList = auctionRepository.findAllAuctionByViewerAndCategory(categorySeq, state);
+        return auctionList;
+    }
+
+    @Override
+    public List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state) {
+        List<Auction> auctionList = null;
+        auctionList = auctionRepository.findAllAuctionByLikeCountAndCategory(categorySeq, state);
+        return auctionList;
+    }
 }

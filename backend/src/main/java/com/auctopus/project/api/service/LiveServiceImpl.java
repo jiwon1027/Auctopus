@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LiveServiceImpl implements LiveService {
-
     @Autowired
     private AuctionRepository auctionRepository;
+    @Autowired
     private LiveRepository liveRepository;
 
     @Override
@@ -46,9 +46,7 @@ public class LiveServiceImpl implements LiveService {
     @Override
     @Transactional
     public void deleteLive(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        Live live = liveRepository.findByLiveSeq(liveSeq);
         liveRepository.delete(live);
 
         // 경매방의 state를 끝(3)로 바꾸어주자
@@ -63,46 +61,37 @@ public class LiveServiceImpl implements LiveService {
     // 한 개의 라이브 정보 보기
     @Override
     public Live getLiveInfo(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        System.out.println("여기왔어요!!!");
+        Live live = liveRepository.findByLiveSeq(liveSeq);
+        System.out.println(live);
         return live;
     }
 
     @Override
     @Transactional
     public void increaseViewer(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        Live live = liveRepository.findByLiveSeq(liveSeq);
         live.setViewer(live.getViewer() + 1);
     }
 
     @Override
     @Transactional
     public void decreaseViewer(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        Live live = liveRepository.findByLiveSeq(liveSeq);
         live.setViewer(live.getViewer() - 1);
     }
 
     @Override
     @Transactional
     public void increaseParticipant(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        Live live = liveRepository.findByLiveSeq(liveSeq);
         live.setParticipant(live.getParticipant() + 1);
     }
 
     @Override
     @Transactional
     public void decreaseParticipant(int liveSeq) {
-        Live live = liveRepository.findByLiveSeq(liveSeq).orElseThrow(
-                () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
-                        ErrorCode.LIVE_NOT_FOUND));
+        Live live = liveRepository.findByLiveSeq(liveSeq);
         live.setParticipant(live.getParticipant() - 1);
     }
-
 }
