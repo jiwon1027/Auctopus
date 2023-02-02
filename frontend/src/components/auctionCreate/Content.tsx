@@ -1,27 +1,60 @@
-import React from 'react';
-import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import { styled as mstyled } from '@mui/material/styles';
+import React from "react";
+import styled from "styled-components";
+import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Box from "@mui/material/Box";
+import { styled as mstyled } from "@mui/material/styles";
 
-export default function Content() {
+export default function Content({
+  data,
+  onChange,
+}: {
+  data: IAuctionCreate;
+  onChange: (name: string, value: string) => void;
+}) {
+  const updateHandler = (e: SelectChangeEvent) => {
+    onChange(e.target.name, e.target.value as string);
+  };
+
+  const updateTextHandler = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement;
+    console.log(target);
+    onChange(target.name, target.value);
+  };
+  // const updateHandler = (e: React.ChangeEvent) => {
+  //   onChange(e.target.name, e.target.value as string);
+  // };
+
   return (
     <>
-      <CustomTextField id="fullWidth" variant="outlined" placeholder="경매방 제목" />
+      <CustomTextField
+        id="fullWidth"
+        variant="outlined"
+        placeholder="경매방 제목"
+        value={data.title}
+        name="title"
+        onChange={updateTextHandler}
+      />
       {/* select */}
-      <Box sx={{ minWidth: 120, marginTop: 2, border: 'solid 1px #386641', borderRadius: 1 }}>
+      <Box
+        sx={{
+          minWidth: 120,
+          marginTop: 2,
+          border: "solid 1px #386641",
+          borderRadius: 1,
+        }}
+      >
         <FormControl fullWidth>
           <InputLabel
             id="demo-simple-select-label"
             style={{
               fontSize: 16,
-              fontFamily: 'Pretendard',
-              color: '#D2D2D2',
+              fontFamily: "Pretendard",
+              color: "#D2D2D2",
             }}
           >
             카테고리
@@ -29,9 +62,10 @@ export default function Content() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
             label="category"
-            // onChange={handleChange}
+            name="categorySeq"
+            onChange={updateHandler}
+            value={data.categorySeq?.toString()}
           >
             <MenuItem value={10}>전자기기</MenuItem>
             <MenuItem value={20}>패션/잡화</MenuItem>
@@ -50,10 +84,24 @@ export default function Content() {
           id="outlined-basic"
           variant="outlined"
           placeholder="가격 ( 입찰 시작가)"
+          name="startPrice"
+          value={data.startPrice}
+          onChange={updateTextHandler}
         />
-        <CustomPriceField id="outlined-basic" variant="outlined" placeholder="가격 ( 입찰 단위 )" />
+        <CustomPriceField
+          id="outlined-basic"
+          variant="outlined"
+          placeholder="가격 ( 입찰 단위 )"
+        />
       </PriceWrapper>
-      <CustomTextArea aria-label="minimum height" minRows={15} placeholder="상품 상세 내용" />
+      <CustomTextArea
+        aria-label="minimum height"
+        minRows={15}
+        placeholder="상품 상세 내용"
+        name="content"
+        value={data.content}
+        onChange={updateTextHandler}
+      />
     </>
   );
 }
