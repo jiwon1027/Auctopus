@@ -6,7 +6,7 @@ import SearchBar from "@components/search/SearchBar";
 
 export default function SearchPage() {
   return (
-    <Layout leftIcon="none">
+    <Layout>
       <SearchBar
         setAuctionList={() => {
           console.log("TODO: dummy function");

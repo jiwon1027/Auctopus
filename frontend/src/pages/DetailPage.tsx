@@ -9,10 +9,6 @@ import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import axios from "axios";
 
-type auctionParams = {
-  auctionSeq: number;
-};
-
 const dummyObject = {
   auctionSeq: 1,
   userEmail: "bbbnndd",
@@ -30,7 +26,7 @@ export default function DetailPage() {
   const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
   const [data, setData] = useState<IAuctionInfo>(dummyObject);
-  const likeHandler = (event: React.MouseEvent<unknown>) => {
+  const likeHandler = () => {
     setIsLiked((prev) => !prev);
   };
   const { auctionSeq } = useParams();

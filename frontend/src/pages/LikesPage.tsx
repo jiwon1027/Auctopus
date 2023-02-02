@@ -33,7 +33,7 @@ export default function LikesPage() {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
   };
   return (
-    <Layout leftIcon="none">
+    <Layout>
       <ProfileBox>
         <Profile src={ProfileImg} alt="profile" />
         <span className="profileTitle">정개미님의 관심목록</span>
