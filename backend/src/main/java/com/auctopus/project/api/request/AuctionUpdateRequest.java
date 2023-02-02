@@ -18,5 +18,6 @@ public class AuctionUpdateRequest {
     String content;
     String startTime;
     int startPrice;
+    int bidUnit;
 
 }

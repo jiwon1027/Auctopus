@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface LiveRepository extends JpaRepository<Live, Integer> {
 
-    Live findByLiveSeq(int liveSeq);
+    Optional<Live> findByLiveSeq(int liveSeq);
 
 }

@@ -6,8 +6,6 @@ import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.db.repository.AuctionRepository;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,15 +31,10 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     @Transactional
     public void createAuction(AuctionCreateRequest req) {
-        Auction auction = Auction.builder()
-                .userEmail(req.getUserEmail())
-                .categorySeq(req.getCategorySeq())
-                .title(req.getTitle())
-                .content(req.getContent())
-                .startTime(Timestamp.valueOf(req.getStartTime()))
-                .startPrice(req.getStartPrice())
-                .link("")
-                .build();
+        Auction auction = Auction.builder().userEmail(req.getUserEmail())
+                .categorySeq(req.getCategorySeq()).title(req.getTitle()).content(req.getContent())
+                .startTime(Timestamp.valueOf(req.getStartTime())).startPrice(req.getStartPrice())
+                .bidUnit(req.getBidUnit()).link("").build();
         auctionRepository.save(auction);
     }
 
@@ -58,7 +51,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setContent(req.getContent());
         auction.setStartTime(Timestamp.valueOf(req.getStartTime()));
         auction.setStartPrice(req.getStartPrice());
-        auctionRepository.save(auction);
+        auction.setBidUnit(req.getBidUnit());
     }
 
     @Override
@@ -77,6 +70,7 @@ public class AuctionServiceImpl implements AuctionService {
         auctionList = auctionRepository.findAllAuctionByEmail(email);
         return auctionList;
     }
+
     @Override
     public List<Auction> getAuctionListByViewer(int state) {
         List<Auction> auctionList = null;

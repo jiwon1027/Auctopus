@@ -29,9 +29,10 @@ public class LiveViewerServiceImpl implements LiveViewerService {
     }
 
     @Override
-    public LiveViewer getLiveViewer(String userEmail) {
+    @Transactional
+    public void updateViewerState(String userEmail) {
         LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
-        return liveViewer;
+        liveViewer.setState(1);
     }
 
     @Override
@@ -40,4 +41,11 @@ public class LiveViewerServiceImpl implements LiveViewerService {
         LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
         liveViewerRepository.delete(liveViewer);
     }
+
+    @Override
+    public LiveViewer getLiveViewer(String userEmail) {
+        LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
+        return liveViewer;
+    }
+
 }

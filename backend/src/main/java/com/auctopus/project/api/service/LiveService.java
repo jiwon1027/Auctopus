@@ -12,6 +12,9 @@ public interface LiveService {
     // 라이브 시작(생성)
     void createLive(int liveSeq);
 
+    // 최고 응찰자 정보 갱신
+    void updateTopBidderInfo(String userEmail, int liveSeq, int price);
+
     // 라이브 종료(삭제)
     void deleteLive(int liveSeq);
 
