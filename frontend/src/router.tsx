@@ -15,6 +15,8 @@ import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler"
 import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
+import OpenviduPage from "@/pages/liveAuction/OpenviduPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +57,7 @@ const router = createBrowserRouter([
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
   { path: "/result", element: <ResultPage /> },
+  // { path: "/openvidu", element: <OpenviduPage /> },
 ]);
 
 export default router;
