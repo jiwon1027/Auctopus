@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+!build/libs/project-0.0.1-SNAPSHOT.jar
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
