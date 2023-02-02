@@ -5,13 +5,19 @@ import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.domain.User;
 import java.sql.Timestamp;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuctionResponse {
 
     int auctionSeq;
@@ -19,7 +25,7 @@ public class AuctionResponse {
     String nickname;
     String title;
     String content;
-    int categorySeq;
+    int category;
     Timestamp startTime;
     int startPrice;
     List<AuctionImage> auctionImageList;
@@ -31,7 +37,7 @@ public class AuctionResponse {
                 .nickname(user.getNickname())
                 .title(auction.getTitle())
                 .content(auction.getContent())
-                .categorySeq(auction.getCategorySeq())
+                .category(auction.getCategorySeq())
                 .startTime(auction.getStartTime())
                 .startPrice(auction.getStartPrice())
                 .auctionImageList(auctionImageList)

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,23 +27,25 @@ public class LikedController {
     private LikeAuctionService likeAuctionService;
 
     @PostMapping()
-    public ResponseEntity<?> registerLikeAuction(@RequestBody String userEmail,
+    public ResponseEntity<?> registerLikeAuction(Authentication authentication,
             @RequestBody int auctionSeq) {
+        String userEmail = (String) authentication.getCredentials();
         likeAuctionService.creatLikeAuction(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> cancelLikeAuction(@RequestBody String userEmail,
+    public ResponseEntity<?> cancelLikeAuction(Authentication authentication,
             @RequestBody int auctionSeq) {
+        String userEmail = (String) authentication.getCredentials();
         likeAuctionService.deleteLikeAuction(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<?> getLikeAuctionList(@RequestBody String userEmail) {
+    public ResponseEntity<?> getLikeAuctionList(Authentication authentication) {
+        String userEmail = (String) authentication.getCredentials();
         List<Auction> likeAuctionList = likeAuctionService.getLikeAuctionList(userEmail);
         return new ResponseEntity<>(likeAuctionList, HttpStatus.OK);
     }
-
 }

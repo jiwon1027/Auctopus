@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Category findByCategorySeq(int categorySeq);
+    Category findByCategoryName(String categoryName);
 }

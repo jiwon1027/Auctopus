@@ -2,6 +2,7 @@ package com.auctopus.project.api.response;
 
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
+import com.auctopus.project.db.domain.Live;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.Builder;
@@ -18,11 +19,14 @@ public class AuctionListResponse {
     Timestamp startTime;
     int likeCount;
     int startPrice;
+    int viewer;
+    int price;
     int state;
+
 
 //    AuctionImage auctionImage;
 
-    public static AuctionListResponse of(Auction auction, List<AuctionImage> auctionImageList) {
+    public static AuctionListResponse of(Auction auction, int liveViewer, int livePrice, List<AuctionImage> auctionImageList) {
         AuctionListResponse res = AuctionListResponse.builder()
                 .auctionSeq(auction.getAuctionSeq())
                 .email(auction.getUserEmail())
@@ -30,9 +34,10 @@ public class AuctionListResponse {
                 .startTime(auction.getStartTime())
                 .likeCount(auction.getLikeCount())
                 .startPrice(auction.getStartPrice())
+                .viewer(liveViewer)
+                .price(livePrice)
                 .state(auction.getState())
                 //                .auctionImage(auctionImageList.get(0))
-
                 .build();
         return res;
     }

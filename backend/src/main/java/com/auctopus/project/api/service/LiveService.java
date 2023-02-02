@@ -1,6 +1,8 @@
 package com.auctopus.project.api.service;
 
+import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.Live;
+import java.util.List;
 
 /**
  * 실시간 경매방 관련 로직 처리를 위한 서비스 구현
@@ -27,4 +29,5 @@ public interface LiveService {
 
     // 입찰자 퇴장
     void decreaseParticipant(int liveSeq);
+
 }
