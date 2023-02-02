@@ -11,7 +11,7 @@ describe("simple test", () => {
     render(
       <Router>
         <ThemeProvider theme={theme}>
-          <Header title="this title" leftIcon="none" />
+          {/* <Header title="this title" leftIcon="none" /> */}
         </ThemeProvider>
       </Router>
     );

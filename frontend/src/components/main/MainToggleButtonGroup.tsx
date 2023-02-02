@@ -34,7 +34,7 @@ export default function MainToggleButtonGroup(props: MainProps) {
       exclusive
       onChange={handleAlignment}
       aria-label="Platform"
-      sx={{ paddingTop: 1, marginX: 1 }}
+      sx={{ paddingTop: 1, marginX: "auto" }}
     >
       <ToggleButton value="live">{props.text.left}</ToggleButton>
       <ToggleButton value="nonLive">{props.text.right}</ToggleButton>

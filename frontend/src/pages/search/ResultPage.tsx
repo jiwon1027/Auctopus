@@ -39,7 +39,7 @@ export default function ResultPage() {
   }, []);
 
   return (
-    <Layout leftIcon="none">
+    <Layout>
       <SearchBar setAuctionList={setAuctionList} />
       {keywordQuery !== null ? (
         <ResultText>

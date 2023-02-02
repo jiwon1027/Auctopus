@@ -5,8 +5,11 @@ import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import LiveFilter from "@components/main/LiveFilter";
 import FloatingButton from "@components/main/FloatingButton";
 import axios from "axios";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useNavigate } from "react-router-dom";
 
 export default function Root() {
+  const navigate = useNavigate();
   const [live, setLive] = useState<"live" | "nonLive">("live");
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
 
@@ -27,8 +30,12 @@ export default function Root() {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
   };
 
+  const RightComponent = (
+    <SearchOutlinedIcon className="icon" onClick={() => navigate("/search")} />
+  );
+
   return (
-    <Layout leftIcon="turtle">
+    <Layout right={RightComponent}>
       <MainToggleButtonGroup
         text={{
           left: "진행중",

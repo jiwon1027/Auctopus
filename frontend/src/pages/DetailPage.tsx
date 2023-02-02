@@ -3,7 +3,7 @@ import DummyImg from "@/assets/detail/dummy.svg";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { styled as mstyled } from "@mui/material/styles";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
@@ -30,7 +30,7 @@ export default function DetailPage() {
   const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
   const [data, setData] = useState<IAuctionInfo>(dummyObject);
-  const likeHandler = (event: React.MouseEvent<unknown>) => {
+  const likeHandler = () => {
     setIsLiked((prev) => !prev);
   };
   const { auctionSeq } = useParams();

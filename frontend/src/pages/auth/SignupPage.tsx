@@ -5,7 +5,7 @@ import Title from "@components/auth/signup/Title";
 
 export default function SignupPage() {
   return (
-    <Layout leftIcon="back">
+    <Layout>
       <Title />
       <Form />
     </Layout>
