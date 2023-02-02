@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 @CrossOrigin("*")
 public class SearchController {
+
     @Autowired
     private AuctionService auctionService;
 
@@ -40,7 +41,9 @@ public class SearchController {
     // authentication는 최신 검색기록 때문에 필요해서 param에 넣음(보류)
     // 검색창에 경매 검색 했을 때
     @GetMapping()
-    public ResponseEntity<List<AuctionListResponse>> getAuctionListByWord(@Nullable Authentication authentication, @RequestParam String word, @RequestParam int state){
+    public ResponseEntity<List<AuctionListResponse>> getAuctionListByWord(
+            @Nullable Authentication authentication, @RequestParam String word,
+            @RequestParam int state) {
         List<Auction> auctionList = null;
 
         if (state == 1) { // 시청자 수(Live - viewer)로 sort
@@ -56,9 +59,13 @@ public class SearchController {
             if (state == 1) {
                 System.out.println(auction.getAuctionSeq());
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());
-                auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(),live.getPrice(), auctionImageList));
+                auctionListResponseList.add(
+                        AuctionListResponse.of(auction, live.getViewer(), live.getCurrentPrice(),
+                                auctionImageList));
             } else {
-                auctionListResponseList.add(AuctionListResponse.of(auction, 0,auction.getStartPrice(), auctionImageList));
+                auctionListResponseList.add(
+                        AuctionListResponse.of(auction, 0, auction.getStartPrice(),
+                                auctionImageList));
             }
         }
         return new ResponseEntity<>(auctionListResponseList, HttpStatus.OK);
@@ -67,7 +74,8 @@ public class SearchController {
 
     // 검색창에 카테고리 네모박스(8개 있는거) 클릭했을 때
     @GetMapping("/category")
-    public ResponseEntity<List<AuctionListResponse>> getAuctionListByCategory(@RequestParam("category") String category, @RequestParam("state") int state) {
+    public ResponseEntity<List<AuctionListResponse>> getAuctionListByCategory(
+            @RequestParam("category") String category, @RequestParam("state") int state) {
         List<Auction> auctionList = null;
         int categorySeq = categoryService.getCategorySeq(category);
         if (state == 1) { // 시청자 수(Live - viewer)로 sort
@@ -82,7 +90,7 @@ public class SearchController {
             if (state == 1) {
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());
                 auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(),
-                        live.getPrice(), auctionImageList));
+                        live.getCurrentPrice(), auctionImageList));
             } else {
                 auctionListResponseList.add(AuctionListResponse.of(auction, 0,
                         auction.getStartPrice(), auctionImageList));

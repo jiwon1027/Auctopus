@@ -96,6 +96,7 @@ public class AuctionController {
         res.put("content", auction.getContent());
         res.put("startTime", auction.getStartTime());
         res.put("startPrice", auction.getStartPrice());
+        res.put("bidUnit", auction.getBidUnit());
         res.put("likeCount", auction.getLikeCount());
         res.put("state", auction.getState());
         return new ResponseEntity<>(res, HttpStatus.OK);
@@ -156,7 +157,7 @@ public class AuctionController {
             List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
             if (state == 1) {
                 live = liveService.getLiveInfo(auction.getAuctionSeq());
-                auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(), live.getPrice(),auctionImageList));
+                auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(), live.getCurrentPrice(),auctionImageList));
             } else {
                 auctionListResponseList.add(AuctionListResponse.of(auction, 0, auction.getStartPrice(),auctionImageList));
             }

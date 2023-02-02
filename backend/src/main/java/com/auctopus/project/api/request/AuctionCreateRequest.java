@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +20,6 @@ public class AuctionCreateRequest {
     String content;
     String startTime;
     int startPrice;
+    int bidUnit;
 
 }
