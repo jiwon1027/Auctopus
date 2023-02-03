@@ -15,7 +15,6 @@ import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
 import AuctionCreatePage from "./pages/AuctionCreatePage";
-import OpenviduPage from "./pages/liveAuction/OpenviduPage";
 import App from "./pages/liveAuction/App";
 
 const router = createBrowserRouter([
