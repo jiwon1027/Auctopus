@@ -23,8 +23,7 @@ public class AuctionListResponse {
     int price;
     int state;
 
-
-//    AuctionImage auctionImage;
+    AuctionImage auctionImage;
 
     public static AuctionListResponse of(Auction auction, int liveViewer, int livePrice, List<AuctionImage> auctionImageList) {
         AuctionListResponse res = AuctionListResponse.builder()
@@ -37,7 +36,7 @@ public class AuctionListResponse {
                 .viewer(liveViewer)
                 .price(livePrice)
                 .state(auction.getState())
-                //                .auctionImage(auctionImageList.get(0))
+                .auctionImage(auctionImageList.get(0))
                 .build();
         return res;
     }

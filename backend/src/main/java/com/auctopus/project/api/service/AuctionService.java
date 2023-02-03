@@ -4,6 +4,7 @@ import com.auctopus.project.api.request.AuctionCreateRequest;
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.db.domain.Auction;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 경매방 관련 로직 처리를 위한 서비스 구현
@@ -36,7 +37,7 @@ public interface AuctionService {
     List<Auction> getMyAuctionListByEmail(String email);
 
     // 새로운 경매방 생성
-    void createAuction(AuctionCreateRequest req);
+    Auction createAuction(String userEmail, AuctionCreateRequest req, List<MultipartFile> multipartFileList);
 
     // 경매방 정보 수정
     void updateAuction(AuctionUpdateRequest req);

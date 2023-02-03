@@ -13,13 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @Builder
 public class AuctionCreateRequest {
-
-    String userEmail;
     int categorySeq;
     String title;
     String content;
-    String startTime;
+    Timestamp startTime;
     int startPrice;
     int bidUnit;
-
 }
