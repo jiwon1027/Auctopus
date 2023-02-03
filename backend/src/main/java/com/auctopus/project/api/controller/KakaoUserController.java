@@ -50,9 +50,12 @@ public class KakaoUserController {
 
             System.out.println((String) kakaoUserInfo.get("email"));
             System.out.println((String) kakaoUserInfo.get("nickname"));
+            System.out.println((String) kakaoUserInfo.get("profile_image"));
 
             resultMap.put("nickname", kakaoUserInfo.get("nickname"));
             resultMap.put("userEmail", kakaoUserInfo.get("email"));
+            resultMap.put("profile_image", kakaoUserInfo.get("profile_image"));
+
 
             // TODO : db에 저장되어있지만 토큰은 없을 때 테스트 해야됨
             // email이 현재 DB에 저장있지 않으면 DB에 저장

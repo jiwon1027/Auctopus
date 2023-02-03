@@ -66,6 +66,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
+
 //            System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
@@ -142,13 +143,18 @@ public class KakaoUserServiceImpl implements KakaoUserService {
                         .get("email").getAsString();
             }
 
+            String profile_image = element.getAsJsonObject().get("properties").getAsJsonObject()
+                    .get("profile_image").getAsString();
+            System.out.println("----------------------------");
+            System.out.println(profile_image);
+
 //            System.out.println("id : " + id);
 //            System.out.println("email : " + email);
 //            System.out.println("nickname : " + nickname);
 
             kakaoUserInfo.put("email", email);
             kakaoUserInfo.put("nickname", nickname);
-
+            kakaoUserInfo.put("profile_image", profile_image);
             br.close();
 
         } catch (IOException e) {
