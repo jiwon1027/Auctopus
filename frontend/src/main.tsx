@@ -9,6 +9,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { normalize } from "styled-normalize";
 import { theme } from "@/styles/theme";
 import { RecoilRoot } from "recoil";
+import registerServiceWorker from "./registerServiceWorker";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -35,3 +36,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </ThemeProvider>
   </React.StrictMode>
 );
+
+registerServiceWorker();

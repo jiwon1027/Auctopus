@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import ChatPage from "./pages/ChatPage";
@@ -15,8 +14,9 @@ import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler"
 import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
-import OpenviduPage from "@/pages/liveAuction/OpenviduPage";
 import AuctionCreatePage from "./pages/AuctionCreatePage";
+import App from "./pages/liveAuction/App";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
   { path: "/result", element: <ResultPage /> },
-  // { path: "/openvidu", element: <OpenviduPage /> },
+  { path: "/openvidu", element: <App /> },
 ]);
 
 export default router;
