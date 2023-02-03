@@ -1,55 +1,53 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import "regenerator-runtime/runtime";
 import OpenViduSession from "openvidu-react";
 import axios from "axios";
-import styled from "styled-components";
 
 const APPLICATION_SERVER_URL = "http://localhost:5000/";
 
 export default function AppFunc() {
-  const [session, setSession] = useState(undefined);
-  const [mySessionId, setMySessionId] = useState("SessionA");
-  const [myUserName, setMyUserName] = useState("SangGi");
-  const [token, setToken] = useState();
+  const [state, setState] = useState({
+    session: undefined,
+    mySessionId: "SessionA",
+    myUserName: "OpenVidu_User_" + Math.floor(Math.random() * 100),
+    token: undefined,
+  });
 
-  const handlerJoinSessionEvent = () => {
+  function handlerJoinSessionEvent() {
     console.log("Join session");
-  };
+  }
 
-  const handlerLeaveSessionEvent = () => {
+  function handlerLeaveSessionEvent() {
     console.log("Leave session");
-    setSession(undefined);
-  };
+    setState((prev) => ({ ...prev, session: undefined }));
+  }
 
-  const handlerErrorEvent = () => {
+  function handlerErrorEvent() {
     console.log("Leave session");
-  };
+  }
 
-  const handleChangeSessionId = (e) => {
-    // TODO : event onChange type set
-    setMySessionId(e.target.value);
-  };
+  function handleChangeSessionId(e) {
+    setState((prev) => ({ ...prev, mySessionId: e.target.value }));
+  }
 
-  const handleChangeUserName = (e) => {
-    // TODO : event onChange type set
-    setMyUserName(e.target.value);
-  };
+  function handleChangeUserName(e) {
+    setState((prev) => ({ ...prev, myUserName: e.target.value }));
+  }
 
-  const joinSession = async (event) => {
+  async function joinSession(event) {
     event.preventDefault();
-    if (mySessionId && myUserName) {
+    if (state.mySessionId && state.myUserName) {
       const token = await getToken();
-      setToken(token);
-      setSession(true);
+      setState((prev) => ({ ...prev, token, session: true }));
     }
-  };
+  }
 
-  const getToken = async () => {
-    const sessionId = await createSession(mySessionId);
+  async function getToken() {
+    const sessionId = await createSession(state.mySessionId);
     return await createToken(sessionId);
-  };
+  }
 
-  const createSession = async (sessionId) => {
+  async function createSession(sessionId) {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions",
       { customSessionId: sessionId },
@@ -57,12 +55,10 @@ export default function AppFunc() {
         headers: { "Content-Type": "application/json" },
       }
     );
-
-    console.log(response);
     return response.data; // The sessionId
-  };
+  }
 
-  const createToken = async (sessionId) => {
+  async function createToken(sessionId) {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       {},
@@ -71,21 +67,21 @@ export default function AppFunc() {
       }
     );
     return response.data; // The token
-  };
+  }
 
   return (
     <div>
-      {session === undefined ? (
-        <SessionBox>
+      {state.session === undefined ? (
+        <div id="join">
           <div id="join-dialog">
-            <h1> 입장하기 </h1>
+            <h1> Join a video session </h1>
             <form onSubmit={joinSession}>
               <p>
                 <label>Participant: </label>
                 <input
                   type="text"
                   id="userName"
-                  value={myUserName}
+                  value={state.myUserName}
                   onChange={handleChangeUserName}
                   required
                 />
@@ -95,7 +91,7 @@ export default function AppFunc() {
                 <input
                   type="text"
                   id="sessionId"
-                  value={mySessionId}
+                  value={state.mySessionId}
                   onChange={handleChangeSessionId}
                   required
                 />
@@ -105,43 +101,20 @@ export default function AppFunc() {
               </p>
             </form>
           </div>
-        </SessionBox>
+        </div>
       ) : (
-        <SessionBox>
+        <div id="session">
           <OpenViduSession
             id="opv-session"
-            sessionName={mySessionId}
-            user={myUserName}
-            token={token}
+            sessionName={state.mySessionId}
+            user={state.myUserName}
+            token={state.token}
             joinSession={handlerJoinSessionEvent}
             leaveSession={handlerLeaveSessionEvent}
             error={handlerErrorEvent}
           />
-        </SessionBox>
+        </div>
       )}
     </div>
   );
 }
-
-const SessionBox = styled.div`
-  position: absolute;
-  margin: auto;
-  top: 100px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 390px;
-  height: 70%;
-
-  .MuiButtonBase-root {
-    width: 150px;
-  }
-
-  .MuiSvgIcon-root {
-    color: red;
-  }
-
-  .buttonsContent {
-    height: 250px;
-  }
-`;

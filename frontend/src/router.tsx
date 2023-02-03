@@ -16,6 +16,7 @@ import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
 import AuctionCreatePage from "./pages/AuctionCreatePage";
 import OpenviduPage from "./pages/liveAuction/OpenviduPage";
+import App from "./pages/liveAuction/App";
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
   { path: "/result", element: <ResultPage /> },
-  { path: "/openvidu", element: <OpenviduPage /> },
+  { path: "/openvidu", element: <App /> },
 ]);
 
 export default router;
