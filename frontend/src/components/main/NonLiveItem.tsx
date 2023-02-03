@@ -1,32 +1,49 @@
 import React from "react";
-import Image from "@/assets/airpodsImg.jpg";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CircleIcon from "@mui/icons-material/Circle";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import img1 from "@/assets/main/airpodsImg.jpg";
 
-export default function Item() {
+interface IProps {
+  item: IAuction;
+}
+
+export default function NonLiveItem(props: IProps) {
+  const getTime = (time: string) => {
+    const dDate = new Date(time);
+    const month = dDate.getMonth() + 1;
+    const day = dDate.getDate();
+    const hour = dDate.getHours();
+
+    const remainTime = `${month}월 ${day}일 ${hour}시 `;
+    return remainTime;
+  };
   return (
     <>
       <ItemBox>
         <div className="imgBox">
-          <img src={Image} alt="image" />
+          <img src={img1} alt="image" />
           <div className="liveBox">
-            <CircleIcon color="error" sx={{ fontSize: 15 }} />
-            <div className="liveBoxDesc">25명</div>
+            <FavoriteIcon color="error" sx={{ fontSize: 15 }} />
+            <div className="liveBoxDesc">{props.item.likeCount}명</div>
           </div>
         </div>
         <div className="infoBox">
-          <div className="infoTitle">Airpods Max 다크</div>
+          <div className="infoTitle">{props.item.title}</div>
           <div className="infoTimeBox">
-            <div className="infoTimeDesc">라이브 종료까지</div>
-            <div className="infoTime">57분</div>
-            <AccessTimeIcon color="error" sx={{ fontSize: 20 }} />
+            <div className="infoTimeDesc">경매 시작일</div>
+            <div className="infoTime">{getTime(props.item.startTime)}</div>
           </div>
 
           <div className="infoPriceBox">
             <div className="infoPriceDesc">입찰 시작가</div>
-            <div className="infoPrice">300,000원</div>
+            <div className="infoPrice">
+              {/* 자릿수 콤마 */}
+              {props.item.startPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              원
+            </div>
           </div>
         </div>
       </ItemBox>
@@ -40,6 +57,7 @@ const ItemBox = styled.div`
   margin-bottom: 0.8rem;
   display: flex;
   height: 10.4rem;
+  cursor: pointer;
 
   img {
     border-radius: 0.8rem;
@@ -80,29 +98,28 @@ const ItemBox = styled.div`
 
   .infoTimeBox {
     display: flex;
+    flex-direction: column;
     margin-top: 0.5rem;
-    justify-content: flex-end;
+    align-items: flex-end;
   }
 
   .infoTimeDesc {
     padding-top: 0.4rem;
-    padding-right: 0.8rem;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   .infoTime {
     display: flex;
     padding-top: 0.16rem;
     font-weight: 700;
-    color: #d32f2f;
-    font-size: 14px;
+    color: ${theme.colors.turtleDark};
+    font-size: 1.8rem;
   }
 
   .infoPriceBox {
     display: flex;
     justify-content: flex-end;
-    margin-top: 2.8rem;
-    color: ${theme.colors.turtleDark};
+    margin-top: 1.8rem;
   }
 
   .infoPriceDesc {
@@ -113,7 +130,7 @@ const ItemBox = styled.div`
   }
 
   .infoPrice {
-    color: ${theme.colors.turtleDark};
+    color: ${theme.colors.greyDark};
     font-weight: ${theme.fontWeight.bold};
     font-size: 18px;
   }

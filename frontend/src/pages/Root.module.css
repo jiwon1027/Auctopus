@@ -1,7 +1,0 @@
-body {
-  @apply bg-slate-300;
-}
-
-.root {
-  @apply bg-slate-50 container max-w-screen-sm mx-auto;
-}

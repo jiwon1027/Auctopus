@@ -5,7 +5,7 @@ import React from "react";
 
 export default function AdditionalInfoPage() {
   return (
-    <Layout leftIcon="back">
+    <Layout>
       <Title />
       <AdditionalForm />
     </Layout>

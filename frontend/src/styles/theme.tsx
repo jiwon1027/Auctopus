@@ -36,5 +36,8 @@ export const mtheme = createTheme({
     secondary: {
       main: "#A7C957",
     },
+    info: {
+      main: "#8E8E8E",
+    },
   },
 });

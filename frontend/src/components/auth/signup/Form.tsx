@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -7,67 +7,23 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useNavigate } from "react-router-dom";
-
-const userInitState = {
-  email: "",
-  password: "",
-  passwordConfirm: "",
-  name: "",
-  nickname: "",
-};
-
-type ACTIONTYPE =
-  | { type: "update"; payload: { name: string; value: string } } // check that it is not empty
-  | { type: "updateEmail"; payload: { name: string; value: string } } // check that it is not duplicated
-  | { type: "updatePassword"; payload: { name: string; value: string } } // check that it complies with regex
-  | { type: "updatePasswordConfirm"; payload: { name: string; value: string } } // check that it is the same as password
-  | { type: "submit" };
-
-function reducer(state: typeof userInitState, action: ACTIONTYPE) {
-  switch (action.type) {
-    case "update":
-    case "updateEmail":
-    case "updatePassword":
-    case "updatePasswordConfirm":
-      return { ...state, [action.payload.name]: action.payload.value };
-    case "submit":
-      // TODO: check sanity before "submit"
-      return state;
-    default:
-      return state;
-  }
-}
+import useAuth from "@/store/atoms/useAuth";
+import { IUser } from "types/auth";
 
 export default function Form() {
   const navigate = useNavigate();
-  const [state, dispatch] = useReducer(reducer, userInitState);
+  const { formState, updateUser, confirmUser, getToken } = useAuth();
+  const isPasswordDisabled = !!getToken();
 
   const updateHandler = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
-    const name = target.name;
-    const value = target.value;
-
-    switch (name) {
-      case "name":
-      case "nickname":
-        return dispatch({ type: "update", payload: { name, value } });
-      case "email":
-        return dispatch({ type: "updateEmail", payload: { name, value } });
-      case "password":
-        return dispatch({ type: "updatePassword", payload: { name, value } });
-      case "passwordConfirm":
-        return dispatch({
-          type: "updatePasswordConfirm",
-          payload: { name, value },
-        });
-      default:
-        throw new Error();
-    }
+    updateUser(target.name as keyof IUser, target.value);
   };
 
-  const submitHandler = () => {
-    dispatch({ type: "submit" });
-    navigate("./additional");
+  const submitHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!confirmUser()) return alert("필수정보를 모두 입력해주세요");
+    navigate("/signup/additional");
   };
 
   return (
@@ -86,8 +42,8 @@ export default function Form() {
         placeholder="example@gmail.com"
         required
         name="email"
-        onChange={(e) => updateHandler(e)}
-        value={state.email}
+        onChange={updateHandler}
+        value={formState.user.email}
       />
       <TextField
         className="textField"
@@ -103,8 +59,9 @@ export default function Form() {
         placeholder="비밀번호"
         required
         name="password"
-        onChange={(e) => updateHandler(e)}
-        value={state.password}
+        onChange={updateHandler}
+        value={formState.user.password}
+        disabled={isPasswordDisabled}
       />
       <TextField
         className="textField"
@@ -120,8 +77,9 @@ export default function Form() {
         placeholder="비밀번호 확인"
         required
         name="passwordConfirm"
-        onChange={(e) => updateHandler(e)}
-        value={state.passwordConfirm}
+        onChange={updateHandler}
+        value={formState.user.passwordConfirm}
+        disabled={isPasswordDisabled}
       />
       <TextField
         className="textField"
@@ -137,8 +95,8 @@ export default function Form() {
         placeholder="이름"
         required
         name="name"
-        onChange={(e) => updateHandler(e)}
-        value={state.name}
+        onChange={updateHandler}
+        value={formState.user.name}
       />
       <TextField
         className="textField"
@@ -154,8 +112,8 @@ export default function Form() {
         placeholder="닉네임"
         required
         name="nickname"
-        onChange={(e) => updateHandler(e)}
-        value={state.nickname}
+        onChange={updateHandler}
+        value={formState.user.nickname}
       />
       <Button variant="contained" disableElevation type="submit">
         Next

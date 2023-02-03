@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Chat() {
+export default function ChatPage() {
   return (
     <>
       <h1>Chat</h1>

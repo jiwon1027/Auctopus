@@ -6,7 +6,7 @@ import SocialLogin from "@components/auth/login/SocialLogin";
 
 export default function LoginPage() {
   return (
-    <Layout leftIcon="none">
+    <Layout>
       <Title />
       <Form />
       <SocialLogin />
