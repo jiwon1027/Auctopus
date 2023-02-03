@@ -14,6 +14,10 @@ import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler"
 import SearchPage from "./pages/search/SearchPage";
 import ResultPage from "./pages/search/ResultPage";
 import NotificationPage from "./pages/NotificationPage";
+<<<<<<< HEAD
+=======
+// import OpenviduPage from "@/pages/liveAuction/OpenviduPage";
+>>>>>>> 1d7b503 (✨ feat: get kakao profile img & localStorage img)
 import AuctionCreatePage from "./pages/AuctionCreatePage";
 import App from "./pages/liveAuction/App";
 

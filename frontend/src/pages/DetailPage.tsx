@@ -8,28 +8,26 @@ import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import axios from "axios";
+import Container from "@mui/material/Container";
+import dayjs from "dayjs";
 
-const dummyObject = {
-  auctionSeq: 1,
-  userEmail: "bbbnndd",
-  categorySeq: 1,
-  title: "더미",
-  content: "팔아요",
-  startTime: "2023-02-02 12:12:12",
-  startPrice: 200000,
-  link: "dfdfdfdf",
-  likeCount: 20000,
+const initData = {
+  auctionSeq: 0,
+  userEmail: "",
+  categorySeq: 0,
+  title: "",
+  content: "",
+  startTime: dayjs().toString(),
+  startPrice: 0,
+  link: "",
+  likeCount: 0,
   state: 0,
+  profileUrl: "",
+  nickname: "",
 };
 
-interface IUserData {
-  name: string;
-  email: string;
-  profileUrl?: string;
-}
-
 const initUserData = {
-  name: "",
+  nickname: "",
   email: "",
   profileUrl: "",
 };
@@ -38,8 +36,9 @@ export default function DetailPage() {
   const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
   const [isBuyer, setIsBuyer] = useState(false);
-  const [data, setData] = useState<IAuctionInfo>(dummyObject);
+  const [data, setData] = useState<IAuctionInfo>(initData);
   const [userData, setUserData] = useState<IUserData>(initUserData);
+
   const likeHandler = () => {
     setIsLiked((prev) => !prev);
   };
@@ -53,8 +52,10 @@ export default function DetailPage() {
     axios.get(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`).then((res) => {
       const resData = res.data;
       setData(resData);
+      console.log(resData);
       const user = JSON.parse(localStorage.getItem("user") || "");
       setUserData(user);
+      console.log(user);
       user.email === resData.userEmail ? setIsBuyer(true) : setIsBuyer(false);
     });
 
@@ -62,20 +63,15 @@ export default function DetailPage() {
   }, []);
 
   return (
-    <Container>
+    <CustomContainer disableGutters={true}>
       <ImgBox>
         <CustomizeIcon onClick={movePrev} />
         <img src={DummyImg} alt="dummy-img" />
       </ImgBox>
-      <Profile
-        isLiked={isLiked}
-        auctionInfo={data}
-        userInfo={userData}
-        likeHandler={likeHandler}
-      />
+      <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
       <Content auctionInfo={data} />
       <ButtonBox isBuyer={isBuyer} auctionInfo={data} />
-    </Container>
+    </CustomContainer>
   );
 }
 
@@ -88,14 +84,15 @@ const CustomizeIcon = mstyled(ArrowBackIosIcon)`
   margin-left: 1.9rem;
 `;
 
-const Container = styled.div`
+const CustomContainer = mstyled(Container)`
   background-color: white;
   margin-left: auto;
   margin-right: auto;
-  width: 390px;
   height: 100vh;
   display: flex;
+  flex:1;
   flex-direction: column;
+  display: flex;
   justify-content: space-between;
   position: relative;
 `;

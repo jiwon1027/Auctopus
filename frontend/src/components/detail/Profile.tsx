@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { theme } from "@/styles/theme";
 
 interface IProps {
@@ -14,11 +13,17 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
   return (
     <ProfileBox>
       <div className="profileIconBox">
-        <AccountCircleIcon color="disabled" sx={{ fontSize: 50 }} />
+        <ProfileImg>
+          <img
+            className="image"
+            src={auctionInfo.profileUrl}
+            alt="profile-image"
+          />
+        </ProfileImg>
       </div>
       <div className="infoBox">
-        <div className="infoTitle">정개미</div>
-        <div className="infoBadge">거북이 수호자</div>
+        <div className="infoTitle">{auctionInfo.nickname}</div>
+        <div className="infoBadge">{auctionInfo.userEmail}</div>
       </div>
       <div className="likes">
         {isLiked ? (
@@ -41,6 +46,18 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
     </ProfileBox>
   );
 }
+
+const ProfileImg = styled.div`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 70%;
+  overflow: hidden;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 const ProfileBox = styled.div`
   height: 10%;
   padding: 0.5rem;
