@@ -23,7 +23,9 @@ public class LikeAuctionServiceImpl implements LikeAuctionService {
     @Override
     @Transactional
     public void creatLikeAuction(String userEmail, int auctionSeq) {
-        LikeAuction likeAuction = LikeAuction.builder().userEmail(userEmail).auctionSeq(auctionSeq)
+        LikeAuction likeAuction = LikeAuction.builder()
+                .userEmail(userEmail)
+                .auctionSeq(auctionSeq)
                 .build();
         likeAuctionRepository.save(likeAuction);
 
@@ -53,7 +55,8 @@ public class LikeAuctionServiceImpl implements LikeAuctionService {
 
     @Override
     public List<Auction> getLikeAuctionList(String userEmail) {
-        List<LikeAuction> likeAuctionList = likeAuctionRepository.findLikeAuctionListByUserEmail(userEmail);
+        List<LikeAuction> likeAuctionList = likeAuctionRepository.findLikeAuctionListByUserEmail(
+                userEmail);
         List<Auction> auctionList = new ArrayList<>();
         for (LikeAuction likeauction : likeAuctionList) {
             int auctionSeq = likeauction.getAuctionSeq();
