@@ -73,7 +73,7 @@ export default function Form() {
           건너뛰기
         </Button>
         <Button variant="contained" disableElevation type="submit">
-          완료
+          다음
         </Button>
       </div>
     </StyledForm>

@@ -84,11 +84,11 @@ export default function useAuth() {
         return;
       }
 
-      redirect("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.log("소셜로그인 에러", error);
       window.alert("로그인에 실패하였습니다.");
-      redirect("/login");
+      navigate("/login", { replace: true });
     }
   }
 
@@ -208,9 +208,10 @@ export default function useAuth() {
     try {
       const res = await requestForSignup(formState.user);
       if (res.status === 200) {
+        alert("회원가입을 완료했습니다");
         resetFormState();
         localStorage.clear();
-        redirect("/login");
+        navigate("/login", { replace: true });
       } else {
         throw new Error("회원가입 에러");
       }
