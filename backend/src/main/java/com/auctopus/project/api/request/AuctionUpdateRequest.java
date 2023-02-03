@@ -16,7 +16,7 @@ public class AuctionUpdateRequest {
     int categorySeq;
     String title;
     String content;
-    String startTime;
+    Timestamp startTime;
     int startPrice;
     int bidUnit;
 

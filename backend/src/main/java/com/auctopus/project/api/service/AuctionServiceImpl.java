@@ -4,6 +4,8 @@ import com.auctopus.project.api.request.AuctionCreateRequest;
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
+import com.auctopus.project.db.domain.AuctionImage;
+import com.auctopus.project.db.repository.AuctionImageRepository;
 import com.auctopus.project.db.repository.AuctionRepository;
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.auctopus.project.db.domain.Auction;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -18,6 +21,10 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Autowired
     private AuctionRepository auctionRepository;
+    @Autowired
+    private AuctionImageRepository auctionImageRepository;
+    @Autowired
+    S3FileService s3FileService;
 
     @Override
     public Auction getAuction(int auctionSeq) {
@@ -30,12 +37,42 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @Transactional
-    public void createAuction(AuctionCreateRequest req) {
-        Auction auction = Auction.builder().userEmail(req.getUserEmail())
-                .categorySeq(req.getCategorySeq()).title(req.getTitle()).content(req.getContent())
-                .startTime(Timestamp.valueOf(req.getStartTime())).startPrice(req.getStartPrice())
-                .bidUnit(req.getBidUnit()).link("").build();
+    public Auction createAuction(String userEmail, AuctionCreateRequest req, List<MultipartFile> multipartFileList) {
+        Auction auction = Auction.builder()
+                .userEmail(userEmail)
+                .categorySeq(req.getCategorySeq())
+                .title(req.getTitle())
+                .content(req.getContent())
+                .startTime(req.getStartTime())
+                .startPrice(req.getStartPrice())
+                .bidUnit(req.getBidUnit())
+                .link("https://i8a704.p.ssafy.io/")
+                .build();
         auctionRepository.save(auction);
+
+        //auction = auctionRepository.findFirstByUserEmail(userEmail);
+        System.out.println(auction);
+        if (multipartFileList == null) {
+            auctionImageRepository.save(AuctionImage.builder()
+                    .auctionSeq(auction.getAuctionSeq())
+                    .imageUrl("https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus-basic.jpg")
+                    .build());
+        } else {
+            try {
+                System.out.println("여기 왔다");
+                List<String> imageUrlList = s3FileService.uploadAuctionImage(multipartFileList, auction.getAuctionSeq());
+                for (String imageUrl : imageUrlList) {
+                    AuctionImage auctionImage = AuctionImage.builder()
+                            .auctionSeq(auction.getAuctionSeq())
+                            .imageUrl(imageUrl)
+                            .build();
+                    auctionImageRepository.save(auctionImage);
+                }
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+        return auction;
     }
 
     @Override
@@ -49,7 +86,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setCategorySeq(req.getCategorySeq());
         auction.setTitle(req.getTitle());
         auction.setContent(req.getContent());
-        auction.setStartTime(Timestamp.valueOf(req.getStartTime()));
+        auction.setStartTime(req.getStartTime());
         auction.setStartPrice(req.getStartPrice());
         auction.setBidUnit(req.getBidUnit());
     }

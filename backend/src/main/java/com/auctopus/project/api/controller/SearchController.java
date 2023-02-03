@@ -32,6 +32,10 @@ public class SearchController {
     private AuctionService auctionService;
 
     @Autowired
+    private AuctionImageService auctionImageService;
+
+
+    @Autowired
     private LiveService liveService;
 
     @Autowired
@@ -54,8 +58,8 @@ public class SearchController {
         List<AuctionListResponse> auctionListResponseList = new ArrayList<>();
         System.out.println(auctionList);
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = null;
-//            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+//            List<AuctionImage> auctionImageList = null;
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
             if (state == 1) {
                 System.out.println(auction.getAuctionSeq());
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());
@@ -85,8 +89,8 @@ public class SearchController {
         }
         List<AuctionListResponse> auctionListResponseList = new ArrayList<>();
         for (Auction auction : auctionList) {
-            List<AuctionImage> auctionImageList = null;
-//            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+            //List<AuctionImage> auctionImageList = null;
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
             if (state == 1) {
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());
                 auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(),

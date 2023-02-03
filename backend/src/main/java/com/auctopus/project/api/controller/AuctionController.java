@@ -3,6 +3,7 @@ package com.auctopus.project.api.controller;
 import com.auctopus.project.api.request.AuctionCreateRequest;
 import com.auctopus.project.api.request.AuctionUpdateRequest;
 import com.auctopus.project.api.response.AuctionListResponse;
+import com.auctopus.project.api.response.AuctionResponse;
 import com.auctopus.project.api.service.AuctionImageService;
 import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.api.service.CategoryService;
@@ -33,7 +34,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auction")
@@ -52,9 +55,13 @@ public class AuctionController {
     private LikeCategoryService likeCategoryService;
 
     @PostMapping()
-    public ResponseEntity<?> registerAuction(@RequestBody AuctionCreateRequest req) {
-        auctionService.createAuction(req);
-        return new ResponseEntity<>(req, HttpStatus.OK);
+    public ResponseEntity<?> registerAuction(Authentication authentication, @RequestPart("auctionReq")AuctionCreateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = (String) authentication.getCredentials();
+        Auction auction = auctionService.createAuction(email, req, auctionImageList);
+        if (auction == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(auction, HttpStatus.OK);
     }
 
 
@@ -80,26 +87,13 @@ public class AuctionController {
         }
     }
 
-
     // 경매 상세정보
     @GetMapping("/{auctionSeq}")
     public ResponseEntity<?> getAuctionInfo(@PathVariable("auctionSeq") int auctionSeq) {
         Auction auction = auctionService.getAuction(auctionSeq);
         User user = userService.getUser(auction.getUserEmail());
-
-        Map<String, Object> res = new HashMap<>();
-        res.put("profileUrl", user.getProfileUrl());
-        res.put("nickname", user.getNickname());
-        res.put("userEmail", auction.getUserEmail());
-        res.put("category", auction.getCategorySeq());
-        res.put("title", auction.getTitle());
-        res.put("content", auction.getContent());
-        res.put("startTime", auction.getStartTime());
-        res.put("startPrice", auction.getStartPrice());
-        res.put("bidUnit", auction.getBidUnit());
-        res.put("likeCount", auction.getLikeCount());
-        res.put("state", auction.getState());
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auctionSeq);
+        return ResponseEntity.status(200).body(AuctionResponse.of(auction, user, auctionImageList));
     }
 
     // 나의 경매 예정 리스트(state=0)
