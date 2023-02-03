@@ -21,15 +21,13 @@ public class Live {
 
     @Id
     private int liveSeq;
-    private int auctionSeq;
     private String userEmail;
     private Timestamp startTime;
     private Timestamp endTime;
-    private int price;
-    private String highestBidder;
+    private int currentPrice;
+    private int bidUnit;
+    private String topBidder;
     private int viewer;
     private int participant;
-
-    private int onAir;
 
 }

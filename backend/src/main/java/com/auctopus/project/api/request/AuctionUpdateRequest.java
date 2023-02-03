@@ -1,5 +1,6 @@
 package com.auctopus.project.api.request;
 
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuctionUpdateRequest {
 
+    int auctionSeq;
     int categorySeq;
     String title;
     String content;
     String startTime;
     int startPrice;
+    int bidUnit;
 
 }
