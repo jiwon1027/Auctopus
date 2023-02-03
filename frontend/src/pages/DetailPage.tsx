@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DummyImg from "@/assets/detail/dummy.svg";
+import DummyImg from "@/assets/main/airpodsImg.jpg";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { styled as mstyled } from "@mui/material/styles";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
@@ -22,38 +22,59 @@ const dummyObject = {
   state: 0,
 };
 
+interface IUserData {
+  name: string;
+  email: string;
+  profileUrl?: string;
+}
+
+const initUserData = {
+  name: "",
+  email: "",
+  profileUrl: "",
+};
+
 export default function DetailPage() {
   const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
+  const [isBuyer, setIsBuyer] = useState(false);
   const [data, setData] = useState<IAuctionInfo>(dummyObject);
+  const [userData, setUserData] = useState<IUserData>(initUserData);
   const likeHandler = () => {
     setIsLiked((prev) => !prev);
   };
   const { auctionSeq } = useParams();
+  const navigate = useNavigate();
+  const movePrev = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     axios.get(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`).then((res) => {
       const resData = res.data;
       setData(resData);
+      const user = JSON.parse(localStorage.getItem("user") || "");
+      setUserData(user);
+      user.email === resData.userEmail ? setIsBuyer(true) : setIsBuyer(false);
     });
+
     console.log(auctionSeq);
   }, []);
-  const dummy = {
-    isBuyer: true,
-    isLiked: false,
-  };
 
   return (
     <Container>
       <ImgBox>
-        <Link to={"/"}>
-          <CustomizeIcon />
-        </Link>
+        <CustomizeIcon onClick={movePrev} />
         <img src={DummyImg} alt="dummy-img" />
       </ImgBox>
-      <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
+      <Profile
+        isLiked={isLiked}
+        auctionInfo={data}
+        userInfo={userData}
+        likeHandler={likeHandler}
+      />
       <Content auctionInfo={data} />
-      <ButtonBox isBuyer={dummy.isBuyer} auctionInfo={data} />
+      <ButtonBox isBuyer={isBuyer} auctionInfo={data} />
     </Container>
   );
 }

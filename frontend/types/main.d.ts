@@ -29,3 +29,9 @@ interface IAuctionCreate {
   startTime: string;
   startPrice: number;
 }
+
+interface IUserData {
+  name: string;
+  email: string;
+  profileUrl?: string;
+}

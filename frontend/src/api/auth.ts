@@ -1,11 +1,13 @@
 import instance from "./api";
-import {  IReqSocialSignup, IUser } from "types/auth";
+import { IReqSocialSignup, IResSocialLogin, IUser } from "types/auth";
 
 const URL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const sendAuthCode = async (code: string) => {
-  return await instance.get( `${URL}/api/kakao/login?code=${code}`);
-}
+  return await instance.get<IResSocialLogin>(
+    `${URL}/api/kakao/login?code=${code}`
+  );
+};
 
 export const requestForSignup = async (user: IUser) => {
   const reqData: IReqSocialSignup = {
@@ -16,4 +18,4 @@ export const requestForSignup = async (user: IUser) => {
     userName: user.name,
   };
   return await instance.post(`${URL}/api/kakao/login`, reqData);
-}
+};
