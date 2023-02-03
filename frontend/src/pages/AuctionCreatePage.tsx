@@ -1,6 +1,6 @@
 import ImageUpload from "@components/auctionCreate/ImageUpload";
 import Layout from "@components/common/Layout";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Content from "@components/auctionCreate/Content";
 import { Button } from "@mui/material";
 import Calendar from "@components/auctionCreate/Calendar";
@@ -44,7 +44,7 @@ export default function AuctionCreate() {
   };
 
   return (
-    <Layout leftIcon="none">
+    <Layout>
       <ImageUpload />
       <Content
         data={data}
