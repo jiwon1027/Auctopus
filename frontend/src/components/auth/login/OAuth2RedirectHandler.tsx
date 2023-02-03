@@ -11,7 +11,7 @@ const OAuth2RedirectHandler = () => {
 
   useEffect(() => {
     if (isLoading) {
-      setIsLoading(!isLoading);
+      setIsLoading(false);
     } else {
       kakaoLogin(code);
     }
