@@ -3,6 +3,7 @@ import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { theme } from "@/styles/theme";
+import { IUser } from "types/auth";
 
 interface IProps {
   isLiked: boolean;

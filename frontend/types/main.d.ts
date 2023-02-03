@@ -28,3 +28,9 @@ interface IUserData {
   email: string;
   profileUrl: string;
 }
+
+interface IUserData {
+  name: string;
+  email: string;
+  profileUrl?: string;
+}
