@@ -1,6 +1,5 @@
 import React, { Component, useState } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import "regenerator-runtime/runtime";
 import OpenViduSession from "openvidu-react";
 import axios from "axios";
 import styled from "styled-components";
@@ -19,36 +18,29 @@ export default function AppFunc() {
 
   const handlerLeaveSessionEvent = () => {
     console.log("Leave session");
-    // TODO : find session
-    // this.setState({
-    //   session: undefined,
-    // });
+    setSession(undefined);
   };
 
   const handlerErrorEvent = () => {
     console.log("Leave session");
   };
 
-  const handleChangeSessionId = (e: any) => {
+  const handleChangeSessionId = (e) => {
     // TODO : event onChange type set
     setMySessionId(e.target.value);
   };
 
-  const handleChangeUserName = (e: any) => {
+  const handleChangeUserName = (e) => {
     // TODO : event onChange type set
     setMyUserName(e.target.value);
   };
 
-  const joinSession = async (event: any) => {
+  const joinSession = async (event) => {
     event.preventDefault();
     if (mySessionId && myUserName) {
       const token = await getToken();
-      // TODO : what is state.session?
-      // this.setState({
-      //   token: token,
-      //   session: true,
-      // });
       setToken(token);
+      setSession(true);
     }
   };
 
@@ -57,7 +49,7 @@ export default function AppFunc() {
     return await createToken(sessionId);
   };
 
-  const createSession = async (sessionId: string) => {
+  const createSession = async (sessionId) => {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions",
       { customSessionId: sessionId },
@@ -70,7 +62,7 @@ export default function AppFunc() {
     return response.data; // The sessionId
   };
 
-  const createToken = async (sessionId: string) => {
+  const createToken = async (sessionId) => {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       {},
