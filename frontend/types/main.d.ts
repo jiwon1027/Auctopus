@@ -30,7 +30,7 @@ interface IUserData {
 }
 
 interface IUserData {
-  name: string;
+  nickname: string;
   email: string;
-  profileUrl?: string;
+  profileUrl: string;
 }

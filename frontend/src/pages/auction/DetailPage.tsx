@@ -26,14 +26,8 @@ const initData = {
   nickname: "",
 };
 
-interface IUserData {
-  name: string;
-  email: string;
-  profileUrl?: string;
-}
-
 const initUserData = {
-  name: "",
+  nickname: "",
   email: "",
   profileUrl: "",
 };
@@ -44,6 +38,7 @@ export default function DetailPage() {
   const [isBuyer, setIsBuyer] = useState(false);
   const [data, setData] = useState<IAuctionInfo>(initData);
   const [userData, setUserData] = useState<IUserData>(initUserData);
+
   const likeHandler = () => {
     setIsLiked((prev) => !prev);
   };
@@ -57,8 +52,10 @@ export default function DetailPage() {
     axios.get(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`).then((res) => {
       const resData = res.data;
       setData(resData);
+      console.log(resData);
       const user = JSON.parse(localStorage.getItem("user") || "");
       setUserData(user);
+      console.log(user);
       user.email === resData.userEmail ? setIsBuyer(true) : setIsBuyer(false);
     });
 

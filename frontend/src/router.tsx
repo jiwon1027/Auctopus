@@ -11,9 +11,10 @@ import SignupPage from "./pages/auth/SignupPage";
 import AdditionalInfoPage from "./pages/auth/AdditionalInfoPage";
 import CategoryInfoPage from "./pages/auth/CategoryInfoPage";
 import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler";
-import SearchPage from "./pages/auction/SearchPage";
-import NotificationPage from "./pages/auction//NotificationPage";
-import AuctionCreatePage from "./pages/auction/AuctionCreatePage";
+import SearchPage from "./pages/search/SearchPage";
+import ResultPage from "./pages/search/ResultPage";
+import NotificationPage from "./pages/NotificationPage";
+import AuctionCreatePage from "./pages/AuctionCreatePage";
 import App from "./pages/liveAuction/App";
 import BiddingPage from "./pages/auction/BiddingPage";
 
