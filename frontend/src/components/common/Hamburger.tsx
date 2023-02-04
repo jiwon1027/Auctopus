@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import ProfileImg from "@/assets/common/profile.png";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -14,7 +13,7 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
@@ -37,7 +36,7 @@ export default function Hamburger() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "");
     setUserData(user);
-  });
+  }, []);
   const toggleDrawer = () => {
     setToggle((prev) => !prev);
   };

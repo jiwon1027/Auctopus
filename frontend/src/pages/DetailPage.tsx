@@ -26,18 +26,11 @@ const initData = {
   nickname: "",
 };
 
-const initUserData = {
-  nickname: "",
-  email: "",
-  profileUrl: "",
-};
-
 export default function DetailPage() {
   const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
   const [isBuyer, setIsBuyer] = useState(false);
   const [data, setData] = useState<IAuctionInfo>(initData);
-  const [userData, setUserData] = useState<IUserData>(initUserData);
 
   const likeHandler = () => {
     setIsLiked((prev) => !prev);
@@ -54,8 +47,6 @@ export default function DetailPage() {
       setData(resData);
       console.log(resData);
       const user = JSON.parse(localStorage.getItem("user") || "");
-      setUserData(user);
-      console.log(user);
       user.email === resData.userEmail ? setIsBuyer(true) : setIsBuyer(false);
     });
 
