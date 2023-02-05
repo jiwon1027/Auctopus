@@ -30,6 +30,7 @@ interface IAuctionCreate {
   content: string;
   startTime: string;
   startPrice: number;
+  bidUnit: 0;
 }
 
 interface IUserData {

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Layout from "@components/common/Layout";
-import ItemsList from "@components/common/ItemsList";
-import ResultFilter from "@components/result/ResultFilter";
-import SearchBar from "@components/search/SearchBar";
-import { useSearchParams } from "react-router-dom";
-import styled from "styled-components";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import Layout from '@components/common/Layout';
+import ItemsList from '@components/common/ItemsList';
+import ResultFilter from '@components/result/ResultFilter';
+import SearchBar from '@components/search/SearchBar';
+import { useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
 
 export default function ResultPage() {
   const [searchParams] = useSearchParams();
-  const keywordQuery = searchParams.get("keyword");
-  const categoryQuery = searchParams.get("category");
-  const categoryNumQuery = searchParams.get("categoryNum");
+  const keywordQuery = searchParams.get('keyword');
+  const categoryQuery = searchParams.get('category');
+  const categoryNumQuery = searchParams.get('categoryNum');
 
-  const [live, setLive] = useState<"live" | "nonLive">("live");
+  const [live, setLive] = useState<'live' | 'nonLive'>('live');
   const changeLive = () => {
-    setLive((prev) => (prev === "live" ? "nonLive" : "live"));
+    setLive(prev => (prev === 'live' ? 'nonLive' : 'live'));
   };
 
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
@@ -25,14 +25,12 @@ export default function ResultPage() {
     axios
       .get(
         keywordQuery !== null
-          ? `${
-              import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search?word=${keywordQuery}&page=0&size=20&sort=main`
+          ? `${import.meta.env.VITE_SERVER_DOMAIN}/api/search?word=${keywordQuery}&state=0`
           : `${
               import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search/category?categorySeq=${categoryNumQuery}&page=0&size=20`
+            }/api/search/category?category=${categoryNumQuery}&state=0`,
       )
-      .then((res) => {
+      .then(res => {
         const data = res.data.resList;
         setAuctionList(data);
       });
@@ -57,14 +55,10 @@ export default function ResultPage() {
       {auctionList.length === 0 ? (
         <></>
       ) : (
-        <ResultFilter
-          setAuctionList={setAuctionList}
-          live={live}
-          onClick={changeLive}
-        />
+        <ResultFilter setAuctionList={setAuctionList} live={live} onClick={changeLive} />
       )}
 
-      <ItemsList liveAuction={auctionList} isLive={live === "live"} />
+      <ItemsList liveAuction={auctionList} isLive={live === 'live'} />
     </Layout>
   );
 }
