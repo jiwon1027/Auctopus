@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("live")
-@CrossOrigin("*")
 public class LiveController {
 
     @Autowired
@@ -35,7 +34,7 @@ public class LiveController {
 
     // 자동 경매 시스템 사용자 중에 가장 높은 금액을 제시한 사람을 저장할 Map
     Map<Integer, Object[]> allLiveTopAutoBidder = new HashMap<>();
-
+    @CrossOrigin("*")
     @PostMapping("/open")
     public ResponseEntity<?> openLive(int auctionSeq) {
         liveService.createLive(auctionSeq);
@@ -44,7 +43,7 @@ public class LiveController {
         allLiveTopAutoBidder.put(auctionSeq, info);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @PostMapping("/enter")
     public ResponseEntity<?> enterLive(@RequestBody LiveEnterRequest req) {
         liveViewerService.createLiveViewer(req);
@@ -69,7 +68,7 @@ public class LiveController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @PostMapping("/bid")
     public ResponseEntity<?> bidNewPrice(@RequestBody int liveSeq, @RequestBody String userEmail,
             @RequestBody int newPrice) {
@@ -96,7 +95,7 @@ public class LiveController {
         res.put("currentPrice", newTopPrice);
         return new ResponseEntity<>(userEmail, HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @PostMapping("/exit")
     public ResponseEntity<?> exitLive(@RequestBody int liveSeq, @RequestBody String userEmail) {
         liveViewerService.deleteLiveViewer(userEmail);
@@ -105,7 +104,7 @@ public class LiveController {
             liveService.decreaseParticipant(liveSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @GetMapping("/{liveSeq}")
     public ResponseEntity<?> getLiveInfo(@PathVariable("liveSeq") int liveSeq) {
         Live live = liveService.getLiveInfo(liveSeq);
@@ -113,7 +112,7 @@ public class LiveController {
             throw new LiveNotFoundException("라이브를 찾을 수 없습니다.", ErrorCode.LIVE_NOT_FOUND);
         return new ResponseEntity<>(live, HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @DeleteMapping("/{liveSeq}")
     public ResponseEntity<?> closeLive(@PathVariable("liveSeq") int liveSeq) {
         liveService.deleteLive(liveSeq);

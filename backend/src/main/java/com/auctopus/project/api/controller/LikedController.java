@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/liked")
-@CrossOrigin("*")
+
 public class LikedController {
 
     @Autowired
     private LikeAuctionService likeAuctionService;
-
+    @CrossOrigin("*")
     @PostMapping()
     public ResponseEntity<?> registerLikeAuction(Authentication authentication,
             @RequestBody int auctionSeq) {
@@ -33,7 +33,7 @@ public class LikedController {
         likeAuctionService.creatLikeAuction(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @DeleteMapping()
     public ResponseEntity<?> cancelLikeAuction(Authentication authentication,
             @RequestBody int auctionSeq) {
@@ -41,7 +41,7 @@ public class LikedController {
         likeAuctionService.deleteLikeAuction(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @GetMapping()
     public ResponseEntity<?> getLikeAuctionList(Authentication authentication) {
         String userEmail = (String) authentication.getCredentials();

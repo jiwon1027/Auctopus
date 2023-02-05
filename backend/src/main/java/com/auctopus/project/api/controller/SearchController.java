@@ -44,6 +44,7 @@ public class SearchController {
 
     // authentication는 최신 검색기록 때문에 필요해서 param에 넣음(보류)
     // 검색창에 경매 검색 했을 때
+    @CrossOrigin("*")
     @GetMapping()
     public ResponseEntity<List<AuctionListResponse>> getAuctionListByWord(
             @Nullable Authentication authentication, @RequestParam String word,
@@ -77,6 +78,7 @@ public class SearchController {
 
 
     // 검색창에 카테고리 네모박스(8개 있는거) 클릭했을 때
+    @CrossOrigin("*")
     @GetMapping("/category")
     public ResponseEntity<List<AuctionListResponse>> getAuctionListByCategory(
             @RequestParam("category") String category, @RequestParam("state") int state) {

@@ -25,6 +25,7 @@ public class UserController {
     private UserService userService;
 
     // 회원 정보 조회
+    @CrossOrigin("*")
     @GetMapping()
     public ResponseEntity<?> getUser(String userEmail) {
         User user = userService.getUser(userEmail);
@@ -32,7 +33,7 @@ public class UserController {
             throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @PatchMapping()
     public ResponseEntity<?> updateUserInfo(String email,
             @RequestBody UserUpdateRequest req) {
@@ -44,7 +45,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
-
+    @CrossOrigin("*")
     @DeleteMapping()
     public ResponseEntity<?> deleteUser(String userEmail) {
         User user = userService.getUser(userEmail);
