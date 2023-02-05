@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface AuctionRepository extends JpaRepository<Auction, Integer> {
 
     Optional<Auction> findByAuctionSeq(int auctionSeq);
+
+    Optional<Auction> findByUserEmailAndAuctionSeq(String userEmail, int auctionSeq);
     Auction findFirstByUserEmail(String userEmail);
     // 시청자수로 sort
     @Query("SELECT distinct a FROM Auction a JOIN Live l on l.liveSeq = a.auctionSeq where a.state = :state ORDER BY l.viewer desc")

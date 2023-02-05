@@ -66,23 +66,28 @@ public class AuctionController {
 
 
     @PatchMapping()
-    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateRequest req) {
-        Auction auction = auctionService.getAuction(req.getAuctionSeq());
+    public ResponseEntity<?> updateAuction(Authentication authentication, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = (String) authentication.getCredentials();
+        Auction auction = auctionService.updateAuction(email, req);
+        auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
-            auctionService.updateAuction(req);
+            auction = auctionService.updateAuction(email, req);
+            auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{auctionSeq}")
-    public ResponseEntity<?> deleteAuction(@PathVariable("auctionSeq") int auctionSeq) {
+    public ResponseEntity<?> deleteAuction(Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
+        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(auctionSeq);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
             auctionService.deleteAuction(auctionSeq);
+            auctionImageService.deleteAuctionImageList(auctionSeq);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }

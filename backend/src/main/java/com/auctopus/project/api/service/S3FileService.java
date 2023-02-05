@@ -2,6 +2,7 @@ package com.auctopus.project.api.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.auctopus.project.db.repository.UserRepository;
@@ -23,30 +24,6 @@ public class S3FileService {
 
     @Autowired
     AmazonS3Client amazonS3Client;
-    @Autowired
-    UserRepository userRepository;
-
-//    public String uploadProfileImage(MultipartFile multipartFile, String userEmail) throws Exception {
-//        String originalName = createFileName(multipartFile.getOriginalFilename());
-//        long size = multipartFile.getSize();
-//        String extension = originalName.substring(originalName.lastIndexOf("."));
-//        List<String> filename_extension = new ArrayList<>(Arrays.asList(".jpeg", ".JPEG", "jpg", ".JPG", ".png", ".PNG"));
-//        if (!filename_extension.contains(extension)) {
-//            return "fail";
-//        }
-//
-//        ObjectMetadata objectMetadata = new ObjectMetadata();
-//        objectMetadata.setContentType(multipartFile.getContentType());
-//        objectMetadata.setContentLength(size);
-//
-//        amazonS3Client.putObject(
-//                new PutObjectRequest(bucket + "/profile", originalName, multipartFile.getInputStream(), objectMetadata)
-//                        .withCannedAcl(CannedAccessControlList.PublicRead)
-//        );
-//        String imagePath = amazonS3Client.getUrl(bucket + "/profile", originalName).toString().substring(30);
-//        userRepository.updateProfileUrl(userEmail, imagePath);
-//        return imagePath;
-//    }
 
     public List<String> uploadAuctionImage(List<MultipartFile> multipartFiles, int auctionSeq) throws Exception {
         List<String> imagePathList = new ArrayList<>();
@@ -65,6 +42,10 @@ public class S3FileService {
             imagePathList.add(imagePath);
         }
         return imagePathList;
+    }
+
+    public void deleteFileName(String fileName) {
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 
     private String createFileName(String fileName) {

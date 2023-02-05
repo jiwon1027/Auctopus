@@ -50,8 +50,6 @@ public class AuctionServiceImpl implements AuctionService {
                 .build();
         auctionRepository.save(auction);
 
-        //auction = auctionRepository.findFirstByUserEmail(userEmail);
-        System.out.println(auction);
         if (multipartFileList == null) {
             auctionImageRepository.save(AuctionImage.builder()
                     .auctionSeq(auction.getAuctionSeq())
@@ -59,7 +57,6 @@ public class AuctionServiceImpl implements AuctionService {
                     .build());
         } else {
             try {
-                System.out.println("여기 왔다");
                 List<String> imageUrlList = s3FileService.uploadAuctionImage(multipartFileList, auction.getAuctionSeq());
                 for (String imageUrl : imageUrlList) {
                     AuctionImage auctionImage = AuctionImage.builder()
@@ -77,9 +74,9 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @Transactional
-    public void updateAuction(AuctionUpdateRequest req) {
+    public Auction updateAuction(String userEmail, AuctionUpdateRequest req) {
         int auctionSeq = req.getAuctionSeq();
-        Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
+        Auction auction = auctionRepository.findByUserEmailAndAuctionSeq(userEmail, auctionSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + auctionSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
@@ -89,6 +86,8 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setStartTime(req.getStartTime());
         auction.setStartPrice(req.getStartPrice());
         auction.setBidUnit(req.getBidUnit());
+        auctionRepository.save(auction);
+        return auction;
     }
 
     @Override

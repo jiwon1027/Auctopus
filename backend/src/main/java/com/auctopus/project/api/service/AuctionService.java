@@ -40,7 +40,7 @@ public interface AuctionService {
     Auction createAuction(String userEmail, AuctionCreateRequest req, List<MultipartFile> multipartFileList);
 
     // 경매방 정보 수정
-    void updateAuction(AuctionUpdateRequest req);
+    Auction updateAuction(String userEmail, AuctionUpdateRequest req);
 
     // 경매방 정보 삭제
     void deleteAuction(int auctionSeq);
