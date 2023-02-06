@@ -1,6 +1,5 @@
 package com.auctopus.project.api.service;
 
-import com.auctopus.project.api.request.LiveEnterRequest;
 import com.auctopus.project.db.domain.LiveViewer;
 
 /**
@@ -9,7 +8,7 @@ import com.auctopus.project.db.domain.LiveViewer;
 public interface LiveViewerService {
 
     // 경매 시청자 입장(생성)
-    void createLiveViewer(LiveEnterRequest req);
+    void createLiveViewer(String userEmail, int liveSeq, int autoPrice);
 
     // 시청자(viewer)이던 사람이 입찰
     void updateViewerState(String userEmail);

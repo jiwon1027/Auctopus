@@ -32,9 +32,9 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
     @Autowired
     private TaskScheduler taskScheduler;
-    private Map<String, ScheduledFuture> map = new HashMap<>();
     @Autowired
     private JavaMailSender mailSender;
+    private Map<String, ScheduledFuture> map = new HashMap<>();
 
 
     @Override
@@ -46,9 +46,6 @@ public class NotificationServiceImpl implements NotificationService {
         // 지정된 시간에 실행될 Runnable 설정해준다
         Timestamp mailTime = Timestamp.valueOf(
                 auction.getStartTime().toLocalDateTime().minusMinutes(10));
-        System.out.println(mailTime);
-        System.out.println(mailTime);
-        System.out.println(mailTime);
         ScheduledFuture<?> future = taskScheduler.schedule(new SendNotification(userEmail, auction),
                 mailTime);
         String key = userEmail + auctionSeq;
@@ -57,13 +54,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void cancelNotification(String userEmail, int auctionSeq) {
-        Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
-                () -> new AuctionNotFoundException(
-                        "auction with auctionSeq " + auctionSeq + " not found",
-                        ErrorCode.AUCTION_NOT_FOUND));
         String key = userEmail + auctionSeq;
-        ScheduledFuture future = map.remove(key);
+        ScheduledFuture future = map.get(key);
         future.cancel(true);
+        map.remove(key);
     }
 
     @Override
@@ -73,7 +67,6 @@ public class NotificationServiceImpl implements NotificationService {
         mail.setFrom("auctopus");
         mail.setSubject("[Auctopus] 찜해놓은 경매의 라이브 오픈 안내 드립니다.");
         mail.setText(message);
-        System.out.println(mail);
         mailSender.send(mail);
     }
 
@@ -104,10 +97,6 @@ public class NotificationServiceImpl implements NotificationService {
 
         private String userEmail;
         private Auction auction;
-
-        public void main(String[] args) {
-            System.out.println("자 드가자~ㄴ");
-        }
 
         // 지정된 시간이 되면 run 메소드 안의 내용이 실행한다.
         @Override

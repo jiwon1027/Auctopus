@@ -82,6 +82,11 @@ public class AuctionServiceImpl implements AuctionService {
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + auctionSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
+
+        // 시작 시간을 변경했다면 찜하기를 눌러놓은 모든 사람의 10분 전 알림 예약 시간을 변경해야 한다.
+//        if (!auction.getStartTime().equals(req.getStartTime())) {
+//            notificationRepository.change
+//        }
         auction.setCategorySeq(req.getCategorySeq());
         auction.setTitle(req.getTitle());
         auction.setContent(req.getContent());
