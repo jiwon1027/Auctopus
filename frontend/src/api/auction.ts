@@ -1,5 +1,5 @@
 import instance from "./api";
-import { IAuction } from "types/auction";
+import { IAuction, IReqSearch } from "types/auction";
 
 const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
 
@@ -18,18 +18,12 @@ export const getAuctions = async (data: IReqAuction) => {
   );
 };
 
-interface IReqSearch {
-  word: string | null;
-  category: string | null;
-  state: number;
-}
-// FIXME: UTF-8 and &nullstate
 export const getAuctionsByQuery = async (data: IReqSearch) => {
-  let query = "?";
-  if (data.word || data.category) {
-    query += data.word && `word=${data.word}&`;
-    query += data.category && `category=${data.category}&`;
-    query += `state=${data.state}`;
-  }
-  return await instance.get(`${VITE_SERVER_DOMAIN}/api/search${query}`);
+  return await instance.get(`${VITE_SERVER_DOMAIN}/api/search`, {
+    params: {
+      word: data.word,
+      category: data.category,
+      state: data.state,
+    },
+  });
 };

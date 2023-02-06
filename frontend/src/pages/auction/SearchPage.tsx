@@ -6,7 +6,7 @@ import SearchBar from "@components/search/SearchBar";
 import Category from "@components/search/Category";
 import RecentSearches from "@components/search/RecentSearches";
 import styled from "styled-components";
-import { IAuction } from "types/auction";
+import { IAuction, IReqSearch } from "types/auction";
 import { getAuctionsByQuery } from "@/api/auction";
 
 interface IResult {
@@ -26,52 +26,69 @@ export default function SearchPage() {
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
   const [result, setResult] = useState<IResult>({ ...InitResult });
 
-  const fetchAuction = useCallback(
-    async (liveChanged = live) => {
-      const res = await getAuctionsByQuery({
-        state: liveChanged === "live" ? 2 : 0,
-        word: keyword ? keyword : null,
-        category: category ? category : null,
-      });
-      setAuctionList(res.data);
-    },
-    [live, keyword, category]
-  );
-
-  const searchHandler = (liveChanged = live) => {
-    if (!keyword && !category) {
-      alert("키워드 검색 또는 카테고리를 선택해주세요");
-      return;
+  const searchHandler = async (
+    key: "keyword" | "category" | "live",
+    val: string
+  ) => {
+    const data: IReqSearch = {
+      state: live === "live" ? 2 : 0,
+      word: null,
+      category: null,
+    };
+    switch (key) {
+      case "keyword":
+        data.word = val;
+        break;
+      case "category":
+        data.category = val;
+        break;
+      case "live":
+        data.state = val === "live" ? 2 : 0;
+        break;
+      default:
+        break;
     }
 
-    fetchAuction(liveChanged);
+    const res = await getAuctionsByQuery(data);
+    setAuctionList(res?.data || []);
     setResult({
-      type: category ? "카테고리" : "키워드",
-      content: category || keyword,
+      type: key === "category" ? "카테고리" : "키워드",
+      content: val,
     });
   };
 
-  const keywordHandler = (val: string) => {
-    if (result.type) setResult({ ...InitResult });
-    setKeyword(val);
-  };
+  const keywordHandler = useCallback(
+    (val: string) => {
+      if (result.type) setResult({ ...InitResult });
+      setKeyword(val);
+    },
+    [result]
+  );
 
-  const categoryHandler = (val: string) => {
-    if (result.type) setResult({ ...InitResult });
-    setCategory(val);
-  };
+  const categoryHandler = useCallback(
+    (val: string) => {
+      if (result.type) setResult({ ...InitResult });
+      searchHandler("category", val);
+      setCategory(val);
+    },
+    [result]
+  );
 
-  const liveHandler = (val: "live" | "nonLive") => {
-    setLive(val);
-    searchHandler(val);
-  };
+  const liveHandler = useCallback(
+    (val: "live" | "nonLive") => {
+      if (result.type) setResult({ ...InitResult });
+      searchHandler("live", val);
+      setLive(val);
+    },
+    [result]
+  );
 
   return (
     <Layout>
       <SearchBar
         keyword={keyword}
         onChangeKeyword={keywordHandler}
-        onSearch={searchHandler}
+        onSearch={() => searchHandler("keyword", keyword)}
       />
       {result.type && (
         <ResultText>
@@ -82,11 +99,7 @@ export default function SearchPage() {
         <ResultFilter live={live} onChangeLive={liveHandler} />
       ) : (
         <>
-          <Category
-            category={category}
-            onChangeCategory={categoryHandler}
-            onSearch={searchHandler}
-          />
+          <Category category={category} onChangeCategory={categoryHandler} />
           <RecentSearches />
         </>
       )}

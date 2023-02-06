@@ -16,3 +16,9 @@ export interface IAuction {
     imageUrl: string;
   };
 }
+
+export interface IReqSearch {
+  word: string | null;
+  category: string | null;
+  state: number;
+}

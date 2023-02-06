@@ -31,13 +31,11 @@ const category: IData[] = [
 interface IProps {
   category: string;
   onChangeCategory: (val: string) => void;
-  onSearch: () => void;
 }
 
 export default function Category(props: IProps) {
   const onClickEvent = (title: string) => {
     props.onChangeCategory(title);
-    props.onSearch();
   };
 
   return (
