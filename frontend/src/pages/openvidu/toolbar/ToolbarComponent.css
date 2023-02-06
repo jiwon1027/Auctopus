@@ -1,16 +1,23 @@
 #header {
   color: #ffffff;
   height: 40px;
-  background-color: #386641;
+  background-color: #6a994e;
   padding: 0 14px 0 0;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 999999;
-  min-width: 400px !important;
+  /* min-width: 400px !important; */
+  display: flex;
+  justify-content: space-between;
 }
 .toolbar {
   padding: 0 !important;
+}
+#logo {
+  position: inherit;
+  left: 0;
+  margin-left: 1rem;
 }
 
 .headerLight {
@@ -26,9 +33,21 @@
   position: absolute;
   left: 0;
   right: 0;
-  min-width: 400px;
+  /* min-width: 400px; */
 }
-#navChatButton {
+
+#navNextButton {
+  right: 0;
+  font-size: 1.3rem;
+  margin-right: 1rem;
+  font-family: Pretendard;
+
+  /* font-weight: bold; */
+}
+.buttonsContent {
+  min-width: 0;
+}
+#navLeaveButton {
 }
 
 #titleContent {
@@ -40,7 +59,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   float: right;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 
 .titleContentLight {
@@ -49,7 +68,7 @@
 }
 
 #header_img {
-  max-width: 135px;
+  /* max-width: 135px; */
   margin-right: 10px;
   margin-top: 10px;
 }
@@ -74,7 +93,7 @@
 }
 
 @media only screen and (max-width: 700px) {
-  #titleContent,/* #navChatButton {
+  /* #navChatButton {
     display: none;
-  } */;
+  } */
 }

@@ -6,7 +6,7 @@ import "./ToolbarComponent.css";
 import AppBar from "@mui/material/AppBar";
 // import Toolbar from "@material-ui/core/Toolbar";
 import Toolbar from "@mui/material/Toolbar";
-
+import LogoImg from "@/assets/common/logo.png";
 import Mic from "@mui/icons-material/KeyboardVoice";
 import MicOff from "@mui/icons-material/MicOff";
 import Videocam from "@mui/icons-material/Videocam";
@@ -78,7 +78,7 @@ export default class ToolbarComponent extends Component {
               </div>
             )}
           </div>
-
+          <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} />
           <div className="buttonsContent">
             <IconButton
               color="inherit"
@@ -145,14 +145,6 @@ export default class ToolbarComponent extends Component {
             </IconButton> */}
 
             <IconButton
-              color="secondary"
-              className="navButton"
-              onClick={this.leaveSession}
-              id="navLeaveButton"
-            >
-              <PowerSettingsNew />
-            </IconButton>
-            <IconButton
               color="inherit"
               onClick={this.toggleChat}
               id="navChatButton"
@@ -162,7 +154,18 @@ export default class ToolbarComponent extends Component {
                 <QuestionAnswer />
               </Tooltip>
             </IconButton>
+            <IconButton
+              color="secondary"
+              className="navButton"
+              onClick={this.leaveSession}
+              id="navLeaveButton"
+            >
+              <PowerSettingsNew />
+            </IconButton>
           </div>
+          <IconButton color="inherit" className="navButton" id="navNextButton">
+            다음
+          </IconButton>
         </Toolbar>
       </AppBar>
     );
