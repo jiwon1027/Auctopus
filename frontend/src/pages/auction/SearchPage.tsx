@@ -1,72 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Layout from "@components/common/Layout";
 import ItemsList from "@components/common/ItemsList";
 import ResultFilter from "@components/result/ResultFilter";
 import SearchBar from "@components/search/SearchBar";
 import Category from "@components/search/Category";
 import RecentSearches from "@components/search/RecentSearches";
-import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import { IAuction } from "types/auction";
+import { getAuctionsByQuery } from "@/api/auction";
+
+interface IResult {
+  type: string;
+  content: string;
+}
+
+const InitResult: IResult = {
+  type: "",
+  content: "",
+};
 
 export default function SearchPage() {
-  const [searchParams] = useSearchParams();
-  const keywordQuery = searchParams.get("keyword");
-  const categoryQuery = searchParams.get("category");
-  const categoryNumQuery = searchParams.get("categoryNum");
-
+  const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("");
   const [live, setLive] = useState<"live" | "nonLive">("live");
-  const changeLive = () => {
-    setLive((prev) => (prev === "live" ? "nonLive" : "live"));
+  const [auctionList, setAuctionList] = useState<IAuction[]>([]);
+  const [result, setResult] = useState<IResult>({ ...InitResult });
+
+  const fetchAuction = useCallback(
+    async (liveChanged = live) => {
+      const res = await getAuctionsByQuery({
+        state: liveChanged === "live" ? 2 : 0,
+        word: keyword ? keyword : null,
+        category: category ? category : null,
+      });
+      setAuctionList(res.data);
+    },
+    [live, keyword, category]
+  );
+
+  const searchHandler = (liveChanged = live) => {
+    if (!keyword && !category) {
+      alert("키워드 검색 또는 카테고리를 선택해주세요");
+      return;
+    }
+
+    fetchAuction(liveChanged);
+    setResult({
+      type: category ? "카테고리" : "키워드",
+      content: category || keyword,
+    });
   };
 
-  const [auctionList, setAuctionList] = useState<IAuction[]>([]);
+  const keywordHandler = (val: string) => {
+    if (result.type) setResult({ ...InitResult });
+    setKeyword(val);
+  };
 
-  useEffect(() => {
-    // 카테고리일떄, 검색어 검색일떄 나누었는데 리팩토리 가능할듯
-    axios
-      .get(
-        keywordQuery !== null
-          ? `${
-              import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search?word=${keywordQuery}&state=0`
-          : `${
-              import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search/category?category=${categoryNumQuery}&state=0`
-      )
-      .then((res) => {
-        const data = res.data;
-        setAuctionList(data);
-      });
-  }, []);
+  const categoryHandler = (val: string) => {
+    if (result.type) setResult({ ...InitResult });
+    setCategory(val);
+  };
+
+  const liveHandler = (val: "live" | "nonLive") => {
+    setLive(val);
+    searchHandler(val);
+  };
 
   return (
     <Layout>
-      <SearchBar setAuctionList={setAuctionList} />
-      {keywordQuery && (
+      <SearchBar
+        keyword={keyword}
+        onChangeKeyword={keywordHandler}
+        onSearch={searchHandler}
+      />
+      {result.type && (
         <ResultText>
-          검색어&lsquo; <b>{keywordQuery}</b> &rsquo;에 대한 검색결과입니다.{" "}
-        </ResultText>
-      )}
-      {categoryQuery && (
-        <ResultText>
-          &lsquo; <b>{categoryQuery}</b> &rsquo;카테고리에 대한 검색결과입니다.
+          {`${result.type} ${result.content} 에 대한 검색결과입니다.`}
         </ResultText>
       )}
       {auctionList.length > 0 ? (
-        <ResultFilter
-          setAuctionList={setAuctionList}
-          live={live}
-          onClick={changeLive}
-        />
+        <ResultFilter live={live} onChangeLive={liveHandler} />
       ) : (
         <>
-          <Category />
+          <Category
+            category={category}
+            onChangeCategory={categoryHandler}
+            onSearch={searchHandler}
+          />
           <RecentSearches />
         </>
       )}
-      <ItemsList liveAuction={auctionList} isLive />
+      <ItemsList liveAuction={auctionList} isLive={live === "live"} />
     </Layout>
   );
 }

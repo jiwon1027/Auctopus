@@ -19,11 +19,17 @@ export const getAuctions = async (data: IReqAuction) => {
 };
 
 interface IReqSearch {
-  word: string;
+  word: string | null;
+  category: string | null;
   state: number;
 }
-export const getAuctionByWord = async (data: IReqSearch) => {
-  return await instance.get(
-    `${VITE_SERVER_DOMAIN}/api/search?word=${data.word}&state=${data.state}`
-  );
+// FIXME: UTF-8 and &nullstate
+export const getAuctionsByQuery = async (data: IReqSearch) => {
+  let query = "?";
+  if (data.word || data.category) {
+    query += data.word && `word=${data.word}&`;
+    query += data.category && `category=${data.category}&`;
+    query += `state=${data.state}`;
+  }
+  return await instance.get(`${VITE_SERVER_DOMAIN}/api/search${query}`);
 };
