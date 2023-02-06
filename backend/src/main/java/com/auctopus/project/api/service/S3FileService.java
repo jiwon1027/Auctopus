@@ -39,9 +39,6 @@ public class S3FileService {
                     new PutObjectRequest(bucket + "/auction/" + auctionSeq, originalName, multipartFile.getInputStream(), objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
             String imagePath = amazonS3Client.getUrl(bucket + "/auction/" + auctionSeq, originalName).toString();
-            System.out.println(imagePath);
-            System.out.println("이미지경로");
-            System.out.println(imagePath.substring(52));
             imagePathList.add(imagePath);
         }
         return imagePathList;
@@ -49,7 +46,6 @@ public class S3FileService {
 
     public void deleteFileName(String fileName) {
         String file = fileName.substring(52);
-        System.out.println(file);
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
     }
 

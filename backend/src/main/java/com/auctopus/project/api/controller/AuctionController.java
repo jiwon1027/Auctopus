@@ -55,9 +55,8 @@ public class AuctionController {
     private LikeCategoryService likeCategoryService;
 
     @PostMapping()
-    public ResponseEntity<?> registerAuction(@Nullable Authentication authentication, @RequestPart("auctionReq")AuctionCreateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
-//        String email = (String) authentication.getCredentials();
-        String email = "bbnt25@naver.com";
+    public ResponseEntity<?> registerAuction(Authentication authentication, @RequestPart("auctionReq")AuctionCreateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(email, req, auctionImageList);
         if (auction == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -67,9 +66,8 @@ public class AuctionController {
 
 
     @PatchMapping("/{auctionSeq}")
-    public ResponseEntity<?> updateAuction(@Nullable Authentication authentication, @PathVariable("auctionSeq") int auctionSeq, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
-        String email = "bbnt25@naver.com";
-//        String email = (String) authentication.getCredentials();
+    public ResponseEntity<?> updateAuction(Authentication authentication, @PathVariable("auctionSeq") int auctionSeq, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.updateAuction(email, auctionSeq, req);
         auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
         if (auction == null)
@@ -83,8 +81,7 @@ public class AuctionController {
 
     @DeleteMapping("/{auctionSeq}")
     public ResponseEntity<?> deleteAuction(@Nullable Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
-        String email = "bbnt25@naver.com";
-        //        String email = (String) authentication.getCredentials();
+        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(auctionSeq);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
@@ -129,7 +126,6 @@ public class AuctionController {
         if(authentication != null)
             email = (String) authentication.getCredentials();
 
-        System.out.println("=====================email : " + email);
         List<Auction> auctionList = new ArrayList<>();
         int likeCategorySeq = 0;
 

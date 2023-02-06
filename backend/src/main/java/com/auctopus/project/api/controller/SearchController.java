@@ -34,7 +34,6 @@ public class SearchController {
     @Autowired
     private AuctionImageService auctionImageService;
 
-
     @Autowired
     private LiveService liveService;
 
