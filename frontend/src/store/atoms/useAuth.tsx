@@ -20,6 +20,7 @@ const InitUser: IUser = {
   address: "",
   bankAccount: "",
   interests: [] as IInterest[],
+  profileUrl: "",
 };
 
 const InitValidated: IValidated = {
@@ -103,7 +104,12 @@ export default function useAuth() {
   function confirmUser() {
     let confirmed = true;
     for (const key in formState.validated) {
-      if (key === "address" || key === "bankAccount" || key === "interests") {
+      if (
+        key === "address" ||
+        key === "bankAccount" ||
+        key === "interests" ||
+        key === "profileUrl"
+      ) {
         continue;
       }
       confirmed = confirmed && formState.validated[key as keyof IValidated];

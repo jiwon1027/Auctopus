@@ -8,6 +8,7 @@ export interface IUser {
   address: string;
   bankAccount: string;
   interests: IInterest[];
+  profileUrl: string;
 }
 
 export interface IInterest {
