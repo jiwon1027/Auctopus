@@ -3,6 +3,7 @@ import RadioMui from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import MuiFormControlLabel from "@mui/material/FormControlLabel";
 import { styled as mstyled } from "@mui/material/styles";
+import { IAuction } from "types/auction";
 
 interface MainProps {
   live: "live" | "nonLive";

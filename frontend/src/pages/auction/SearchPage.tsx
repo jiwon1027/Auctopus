@@ -3,12 +3,14 @@ import Layout from "@components/common/Layout";
 import ItemsList from "@components/common/ItemsList";
 import ResultFilter from "@components/result/ResultFilter";
 import SearchBar from "@components/search/SearchBar";
+import Category from "@components/search/Category";
+import RecentSearches from "@components/search/RecentSearches";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { IAuction } from "types/auction";
 
-export default function ResultPage() {
+export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const keywordQuery = searchParams.get("keyword");
   const categoryQuery = searchParams.get("category");
@@ -42,23 +44,29 @@ export default function ResultPage() {
   return (
     <Layout>
       <SearchBar setAuctionList={setAuctionList} />
-      {keywordQuery ? (
+      {keywordQuery && (
         <ResultText>
           검색어&lsquo; <b>{keywordQuery}</b> &rsquo;에 대한 검색결과입니다.{" "}
         </ResultText>
-      ) : (
+      )}
+      {categoryQuery && (
         <ResultText>
           &lsquo; <b>{categoryQuery}</b> &rsquo;카테고리에 대한 검색결과입니다.
         </ResultText>
       )}
-      {auctionList.length > 0 && (
+      {auctionList.length > 0 ? (
         <ResultFilter
           setAuctionList={setAuctionList}
           live={live}
           onClick={changeLive}
         />
+      ) : (
+        <>
+          <Category />
+          <RecentSearches />
+        </>
       )}
-      <ItemsList liveAuction={auctionList} isLive={live === "live"} />
+      <ItemsList liveAuction={auctionList} isLive />
     </Layout>
   );
 }

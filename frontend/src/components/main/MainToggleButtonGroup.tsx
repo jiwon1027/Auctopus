@@ -7,6 +7,7 @@ import { theme } from "@/styles/theme";
 interface MainProps {
   live: "live" | "nonLive";
   onClick: () => void;
+  isMe?: boolean;
 }
 
 export default function MainToggleButtonGroup(props: MainProps) {
@@ -32,8 +33,12 @@ export default function MainToggleButtonGroup(props: MainProps) {
       aria-label="Platform"
       sx={{ paddingTop: 1, marginX: "auto" }}
     >
-      <ToggleButton value="live">진행중</ToggleButton>
-      <ToggleButton value="nonLive">진행예정</ToggleButton>
+      <ToggleButton value="live">
+        {props.isMe ? "내 진행 예정" : "진행중"}
+      </ToggleButton>
+      <ToggleButton value="nonLive">
+        {props.isMe ? "내 입장 예정" : "진행예정"}
+      </ToggleButton>
     </ToggleButtonGroup>
   );
 }

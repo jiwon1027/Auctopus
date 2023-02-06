@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ItemsList from "../components/common/ItemsList";
+import ItemsList from "../../components/common/ItemsList";
 import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import LiveFilter from "@components/main/LiveFilter";
