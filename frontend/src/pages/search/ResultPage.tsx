@@ -27,13 +27,13 @@ export default function ResultPage() {
         keywordQuery !== null
           ? `${
               import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search?word=${keywordQuery}&page=0&size=20&sort=main`
+            }/api/search?word=${keywordQuery}&state=0`
           : `${
               import.meta.env.VITE_SERVER_DOMAIN
-            }/api/search/category?categorySeq=${categoryNumQuery}&page=0&size=20`
+            }/api/search/category?category=${categoryNumQuery}&state=0`
       )
       .then((res) => {
-        const data = res.data.resList;
+        const data = res.data;
         setAuctionList(data);
       });
   }, []);

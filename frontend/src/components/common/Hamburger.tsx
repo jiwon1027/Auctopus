@@ -1,6 +1,6 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import ProfileImg from "@/assets/common/profile.png";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -13,15 +13,30 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
 
+const initUserData = {
+  nickname: "",
+  email: "",
+  profileUrl: "",
+};
+
+interface IList {
+  userData: IUserData;
+  onClick: () => void;
+}
 export default function Hamburger() {
   const [toggle, setToggle] = React.useState(false);
+  const [userData, setUserData] = useState<IUserData>(initUserData);
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    setUserData(user);
+  }, []);
   const toggleDrawer = () => {
     setToggle((prev) => !prev);
   };
@@ -39,7 +54,7 @@ export default function Hamburger() {
         left
       </MenuIcon>
       <Drawer anchor="left" open={toggle} onClose={toggleDrawer}>
-        <ListComponent onClick={toggleDrawer} />
+        <ListComponent userData={userData} onClick={toggleDrawer} />
       </Drawer>
     </>
   );
@@ -52,28 +67,26 @@ const navItems = [
   { value: "내 프로필", uri: "/profile" },
 ];
 
-function ListComponent(props: { onClick: () => void }) {
+function ListComponent({ userData, onClick }: IList) {
+  const navigate = useNavigate();
   return (
     <>
       <IconBox>
-        <Link to={`/noti`}>
-          <CustomNotice />
-        </Link>
-        <CustomClose onClick={props.onClick} />
+        <CustomNotice onClick={() => navigate("/noti")} />
+        <CustomClose onClick={onClick} />
       </IconBox>
       <ProfileBox>
-        <Link to={`/profile`}>
-          <Profile src={ProfileImg} alt="profile" />
-        </Link>
-
-        <span className="profileTitle">정개미님</span>
+        <Profile onClick={() => navigate("/profile")}>
+          <img className="image" src={userData.profileUrl} alt="profile" />
+        </Profile>
+        <span className="profileTitle">{userData.nickname}님</span>
       </ProfileBox>
 
       <Box
         sx={{ width: 280 }}
         role="presentation"
-        onClick={props.onClick}
-        onKeyDown={props.onClick}
+        onClick={onClick}
+        onKeyDown={onClick}
       >
         <Divider />
         <List>
@@ -106,6 +119,17 @@ function ListComponent(props: { onClick: () => void }) {
 const IconBox = styled.div`
   display: flex;
 `;
+const Profile = styled.div`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 70%;
+  overflow: hidden;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 const ProfileBox = styled.div`
   padding: 2rem;
   display: flex;
@@ -119,10 +143,6 @@ const ProfileBox = styled.div`
     text-align: center;
     font-weight: ${(props) => props.theme.fontWeight.semibold};
   }
-`;
-const Profile = styled.img`
-  width: 6rem;
-  cursor: pointer;
 `;
 
 const CustomNotice = mstyled(NotificationsNoneOutlindIcon)`

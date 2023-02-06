@@ -11,6 +11,8 @@ interface IAuction {
 interface IAuctionInfo {
   auctionSeq: number;
   userEmail: string;
+  profileUrl: string;
+  nickname: string;
   categorySeq: number;
   title: string;
   content: string;
@@ -28,4 +30,11 @@ interface IAuctionCreate {
   content: string;
   startTime: string;
   startPrice: number;
+  bidUnit: 0;
+}
+
+interface IUserData {
+  nickname: string;
+  email: string;
+  profileUrl: string;
 }

@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
-
 import { ThemeProvider as MThemeProvider } from "@mui/material/styles";
 import { mtheme } from "@/styles/theme";
 import { createGlobalStyle, ThemeProvider } from "styled-components";

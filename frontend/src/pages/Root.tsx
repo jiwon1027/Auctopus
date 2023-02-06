@@ -12,22 +12,24 @@ export default function Root() {
   const navigate = useNavigate();
   const [live, setLive] = useState<"live" | "nonLive">("live");
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
-
+  const [state, setState] = useState(0);
   useEffect(() => {
     axios
       .get(
         `${
           import.meta.env.VITE_SERVER_DOMAIN
-        }/api/search?page=0&size=20&sort=main`
+        }/api/auction/list?sort=main&state=${state}`
       )
       .then((res) => {
-        const data = res.data.resList;
+        const data = res.data;
         setAuctionList(data);
+        console.log(data);
       });
   }, []);
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
+    setState((prev) => (prev === 0 ? 1 : 0));
   };
 
   const RightComponent = (

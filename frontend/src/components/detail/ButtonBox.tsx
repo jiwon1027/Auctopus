@@ -79,8 +79,9 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
 }
 
 const ButtonWrapper = styled.div`
-  padding-top: 0;
+  /* padding-top: 0; */
   width: 50%;
+  /* background-color: yellow; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,6 +92,8 @@ const ButtonWrapper = styled.div`
   }
 `;
 const FooterBox = styled.div`
+  width: 85%;
+  margin: 0 auto;
   height: 15%;
   border-top: 1px solid ${theme.colors.greyLight};
   padding: 2.5rem 2.7rem;
@@ -114,7 +117,6 @@ const FooterBox = styled.div`
     }
   }
   .buttonBox {
-    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;

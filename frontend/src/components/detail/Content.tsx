@@ -21,6 +21,8 @@ const ContentBox = styled.div`
   display: flex;
   height: 35%;
   flex-direction: column;
+  width: 85%;
+  margin: 0 auto;
   .contentTitle {
     font-size: 2.2rem;
     font-weight: ${theme.fontWeight.bold};
