@@ -23,6 +23,10 @@ public class LikeAuctionServiceImpl implements LikeAuctionService {
     @Override
     @Transactional
     public void creatLikeAuction(String userEmail, int auctionSeq) {
+        System.out.println("여기는 왔다우!!!");
+        System.out.println(userEmail);
+        System.out.println(auctionSeq);
+
         LikeAuction likeAuction = LikeAuction.builder()
                 .userEmail(userEmail)
                 .auctionSeq(auctionSeq)

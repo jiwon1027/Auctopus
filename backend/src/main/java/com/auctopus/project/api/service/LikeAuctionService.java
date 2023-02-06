@@ -8,7 +8,6 @@ import java.util.List;
  */
 public interface LikeAuctionService {
 
-
     // 새로운 관심 경매 등록
     void creatLikeAuction(String userEmail, int auctionSeq);
 

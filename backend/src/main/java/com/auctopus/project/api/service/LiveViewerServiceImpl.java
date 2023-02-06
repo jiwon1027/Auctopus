@@ -20,7 +20,7 @@ public class LiveViewerServiceImpl implements LiveViewerService {
     @Transactional
     public void createLiveViewer(LiveEnterRequest req) {
         LiveViewer liveViewer = LiveViewer.builder()
-                .userEmail(req.getUserEmail())
+                .viewerEmail(req.getUserEmail())
                 .liveSeq(req.getLiveSeq())
                 .autoPrice(req.getAutoPrice())
                 .state(req.getAutoPrice() == 0 ? 0 : 1)
@@ -31,20 +31,20 @@ public class LiveViewerServiceImpl implements LiveViewerService {
     @Override
     @Transactional
     public void updateViewerState(String userEmail) {
-        LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
+        LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
         liveViewer.setState(1);
     }
 
     @Override
     @Transactional
     public void deleteLiveViewer(String userEmail) {
-        LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
+        LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
         liveViewerRepository.delete(liveViewer);
     }
 
     @Override
     public LiveViewer getLiveViewer(String userEmail) {
-        LiveViewer liveViewer = liveViewerRepository.findByUserEmail(userEmail).orElseThrow();
+        LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
         return liveViewer;
     }
 
