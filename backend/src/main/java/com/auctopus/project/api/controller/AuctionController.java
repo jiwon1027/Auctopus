@@ -65,24 +65,29 @@ public class AuctionController {
     }
 
 
-    @PatchMapping()
-    public ResponseEntity<?> updateAuction(@RequestBody AuctionUpdateRequest req) {
-        Auction auction = auctionService.getAuction(req.getAuctionSeq());
+    @PatchMapping("/{auctionSeq}")
+    public ResponseEntity<?> updateAuction(Authentication authentication, @PathVariable("auctionSeq") int auctionSeq, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = (String) authentication.getCredentials();
+        Auction auction = auctionService.updateAuction(email, auctionSeq, req);
+        auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
-            auctionService.updateAuction(req);
+            auction = auctionService.updateAuction(email, auctionSeq, req);
+            auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{auctionSeq}")
-    public ResponseEntity<?> deleteAuction(@PathVariable("auctionSeq") int auctionSeq) {
+    public ResponseEntity<?> deleteAuction(@Nullable Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
+        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(auctionSeq);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
             auctionService.deleteAuction(auctionSeq);
+            auctionImageService.deleteAuctionImageList(auctionSeq);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -121,7 +126,6 @@ public class AuctionController {
         if(authentication != null)
             email = (String) authentication.getCredentials();
 
-        System.out.println("=====================email : " + email);
         List<Auction> auctionList = new ArrayList<>();
         int likeCategorySeq = 0;
 
@@ -149,7 +153,7 @@ public class AuctionController {
             //List<AuctionImage> auctionImageList = null;
             Live live = null;
             List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
-            if (state == 1) {
+            if (state == 2) {
                 live = liveService.getLiveInfo(auction.getAuctionSeq());
                 auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(), live.getCurrentPrice(),auctionImageList));
             } else {
