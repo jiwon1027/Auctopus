@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import IconButton from "@mui/material/IconButton";
-import Fab from "@mui/icons-material/Abc";
-import HighlightOff from "@mui/icons-material/Abc";
-import Send from "@mui/icons-material/Abc";
+import Fab from "@mui/material/Fab";
+import HighlightOff from "@mui/icons-material/HighlightOff";
+import Send from "@mui/icons-material/Send";
 
 import "./ChatComponent.css";
 import Tooltip from "@mui/material/Tooltip";
@@ -82,7 +83,9 @@ export default class ChatComponent extends Component {
       try {
         this.chatScroll.current.scrollTop =
           this.chatScroll.current.scrollHeight;
-      } catch (err) {}
+      } catch (err) {
+        console.log("error In scrollTobottom");
+      }
     }, 20);
   }
 
@@ -142,7 +145,6 @@ export default class ChatComponent extends Component {
               value={this.state.message}
               onChange={this.handleChange}
               onKeyPress={this.handlePressKey}
-              q
             />
             <Tooltip title="Send message">
               <Fab size="small" id="sendButton" onClick={this.sendMessage}>

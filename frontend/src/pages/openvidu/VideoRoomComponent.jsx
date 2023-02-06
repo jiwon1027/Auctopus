@@ -240,8 +240,8 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
-      myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
+      mySessionId: "경매방이름",
+      myUserName: "유저" + Math.floor(Math.random() * 100),
       localUser: undefined,
     });
     if (this.props.leaveSession) {

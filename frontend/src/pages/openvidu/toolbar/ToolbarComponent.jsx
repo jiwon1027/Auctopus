@@ -11,14 +11,9 @@ import Mic from "@mui/icons-material/KeyboardVoice";
 import MicOff from "@mui/icons-material/MicOff";
 import Videocam from "@mui/icons-material/Videocam";
 import VideocamOff from "@mui/icons-material/VideocamOff";
-import Fullscreen from "@mui/icons-material/Abc";
-import FullscreenExit from "@mui/icons-material/Abc";
 import SwitchVideoIcon from "@mui/icons-material/SwitchVideo";
-import PictureInPicture from "@mui/icons-material/Abc";
-import ScreenShare from "@mui/icons-material/Abc";
-import StopScreenShare from "@mui/icons-material/Abc";
-import Tooltip from "@mui/icons-material/Abc";
-import PowerSettingsNew from "@mui/icons-material/Abc";
+import Tooltip from "@mui/material/Tooltip";
+import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
@@ -77,7 +72,6 @@ export default class ToolbarComponent extends Component {
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
           <div id="navSessionInfo">
-            이미지 자리
             {this.props.sessionId && (
               <div id="titleContent">
                 <span id="session-title">{mySessionId}</span>
@@ -112,7 +106,7 @@ export default class ToolbarComponent extends Component {
               )}
             </IconButton>
 
-            <IconButton
+            {/* <IconButton
               color="inherit"
               className="navButton"
               onClick={this.screenShare}
@@ -122,13 +116,13 @@ export default class ToolbarComponent extends Component {
               ) : (
                 <ScreenShare />
               )}
-            </IconButton>
+            </IconButton> */}
 
-            {localUser !== undefined && localUser.isScreenShareActive() && (
+            {/* {localUser !== undefined && localUser.isScreenShareActive() && (
               <IconButton onClick={this.stopScreenShare} id="navScreenButton">
                 <StopScreenShare color="secondary" />
               </IconButton>
-            )}
+            )} */}
 
             <IconButton
               color="inherit"
@@ -137,7 +131,8 @@ export default class ToolbarComponent extends Component {
             >
               <SwitchVideoIcon />
             </IconButton>
-            <IconButton
+
+            {/* <IconButton 
               color="inherit"
               className="navButton"
               onClick={this.toggleFullscreen}
@@ -147,7 +142,8 @@ export default class ToolbarComponent extends Component {
               ) : (
                 <Fullscreen />
               )}
-            </IconButton>
+            </IconButton> */}
+
             <IconButton
               color="secondary"
               className="navButton"
