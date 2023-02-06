@@ -93,6 +93,9 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   background-color: white;
   align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
   .backIcon {
     color: ${(props) => props.theme.colors.primary};
     width: 3rem;

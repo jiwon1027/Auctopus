@@ -1,13 +1,3 @@
-interface IAuction {
-  auctionSeq: number;
-  email: string;
-  title: string;
-  startTime: string;
-  likeCount: number;
-  startPrice: number;
-  state: number;
-}
-
 interface IAuctionInfo {
   auctionSeq: number;
   userEmail: string;

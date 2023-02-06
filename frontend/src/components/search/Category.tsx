@@ -10,7 +10,6 @@ import img5 from "@/assets/category/005.png";
 import img6 from "@/assets/category/006.png";
 import img7 from "@/assets/category/007.png";
 import img8 from "@/assets/category/008.png";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface IData {
   title: string;
@@ -29,14 +28,14 @@ const category: IData[] = [
   { title: "기타", imgURL: img8, value: 8 },
 ];
 
-export default function Category() {
-  const [searchParams] = useSearchParams("category");
-  const navigate = useNavigate();
-  const onClickEvent = (index: number, category: string) => {
-    const categoryNum = index + 1;
-    searchParams.set("categoryNum", categoryNum.toString());
-    searchParams.set("category", category);
-    navigate(`/result?${searchParams}`);
+interface IProps {
+  category: string;
+  onChangeCategory: (val: string) => void;
+}
+
+export default function Category(props: IProps) {
+  const onClickEvent = (title: string) => {
+    props.onChangeCategory(title);
   };
 
   return (
@@ -45,7 +44,7 @@ export default function Category() {
       <Grid container columnSpacing={3} rowSpacing={2}>
         {category.map((item, index) => (
           <Grid key={index}>
-            <CategoryBox onClick={() => onClickEvent(index, item.title)}>
+            <CategoryBox onClick={() => onClickEvent(item.title)}>
               <CategoryImg src={item.imgURL} />
               <CategoryDesc>{item.title}</CategoryDesc>
             </CategoryBox>

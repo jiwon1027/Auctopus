@@ -8,33 +8,23 @@ import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
-import axios from "axios";
+import { IFilter } from "types/auction";
 
 interface IProps {
   isLive: boolean;
-  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
+  filterValue: string;
+  handleFilter: (filter: IFilter) => void;
 }
 
 export default function LiveFilter(props: IProps) {
-  const [filterValue, setFilterValue] = React.useState("main");
+  React.useEffect(() => {
+    if (!props.isLive && props.filterValue === "main") {
+      props.handleFilter("like");
+    }
+  }, [props.isLive]);
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as string;
-    setFilterValue(event.target.value as string);
-    getAuctionList(value);
-  };
-
-  const getAuctionList = (value: string) => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_SERVER_DOMAIN
-        }/api/search?page=0&size=20&sort=${value}`
-      )
-      .then((res) => {
-        const data = res.data.resList;
-        props.setAuctionList(data);
-      });
+    props.handleFilter(event.target.value as IFilter);
   };
 
   return (
@@ -51,31 +41,18 @@ export default function LiveFilter(props: IProps) {
         </FilterBoxLeft>
       )}
       <FormControl variant="standard" sx={{ minWidth: 80, height: 25 }}>
-        {props.isLive ? (
-          <Select
-            id="demo-simple-select-standard"
-            onChange={handleChange}
-            value={filterValue}
-            color="success"
-            displayEmpty
-          >
-            <MenuItem value="main">시청자순</MenuItem>
-            <MenuItem value="startTime">최신순</MenuItem>
-            <MenuItem value="category">관심 카테고리</MenuItem>
-          </Select>
-        ) : (
-          <Select
-            id="demo-simple-select-standard"
-            onChange={handleChange}
-            value={filterValue}
-            color="success"
-            displayEmpty
-          >
-            <MenuItem value="main">좋아요순</MenuItem>
-            <MenuItem value="startTime">최신순</MenuItem>
-            <MenuItem value="category">관심 카테고리</MenuItem>
-          </Select>
-        )}
+        <Select
+          id="demo-simple-select-standard"
+          onChange={handleChange}
+          value={props.filterValue}
+          color="success"
+          displayEmpty
+        >
+          <MenuItem value="like">좋아요순</MenuItem>
+          <MenuItem value="startTime">최신순</MenuItem>
+          <MenuItem value="category">관심 카테고리</MenuItem>
+          {props.isLive && <MenuItem value="main">시청자순</MenuItem>}
+        </Select>
       </FormControl>
     </FilterBox>
   );

@@ -4,6 +4,7 @@ import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import ItemsList from "@components/common/ItemsList";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
+import { IAuction } from "types/auction";
 
 const liveAuction: IAuction[] = [
   {
@@ -14,6 +15,8 @@ const liveAuction: IAuction[] = [
     likeCount: 200,
     startPrice: 500000,
     state: 0,
+    viewer: 0,
+    price: 0,
   },
   {
     auctionSeq: 2,
@@ -23,6 +26,8 @@ const liveAuction: IAuction[] = [
     likeCount: 100,
     startPrice: 300000,
     state: 0,
+    viewer: 0,
+    price: 0,
   },
 ];
 
@@ -38,11 +43,7 @@ export default function LikesPage() {
         <Profile src={ProfileImg} alt="profile" />
         <span className="profileTitle">정개미님의 관심목록</span>
       </ProfileBox>
-      <MainToggleButtonGroup
-        text={{ left: "내 진행 예정", right: "내 입장 예정" }}
-        live={live}
-        onClick={changeLive}
-      />
+      <MainToggleButtonGroup isMe live={live} onClick={changeLive} />
       <MarginBox />
       <ItemsList liveAuction={liveAuction} isLive={live === "live"} />
     </Layout>
