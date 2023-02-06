@@ -119,10 +119,10 @@ export default class ChatComponent extends Component {
                     : " right")
                 }
               >
-                <canvas
+                <cavas
                   id={"userImg-" + i}
-                  width="60"
-                  height="60"
+                  width="30"
+                  height="30"
                   className="user-img"
                 />
                 <div className="msg-detail">
@@ -130,7 +130,7 @@ export default class ChatComponent extends Component {
                     <p> {data.nickname}</p>
                   </div>
                   <div className="msg-content">
-                    <span className="triangle" />
+                    {/* <span className="triangle" /> */}
                     <p className="text">{data.message}</p>
                   </div>
                 </div>

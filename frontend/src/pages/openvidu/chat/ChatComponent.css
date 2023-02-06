@@ -3,11 +3,11 @@
   z-index: 0;
   width: 100%;
   height: 100%;
+  background-color: #a7c957;
 }
 
 #chatToolbar {
   height: 30px;
-  background-color: #3d3d3d;
   box-sizing: border-box;
   font-weight: bold;
   font-size: 14px;
@@ -16,6 +16,7 @@
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   color: #ffffff;
+  /* background-color: #a7c957; */
 }
 
 #closeButton {
@@ -25,7 +26,7 @@
 }
 
 #chatComponent {
-  background-color: #b8b8b8;
+  background-color: white;
   position: absolute;
   z-index: 99999;
   top: 0;
@@ -47,12 +48,14 @@
 .message {
   position: relative;
   padding: 7px 0;
+  border: solid 2px pink;
 }
 .user-img {
   position: absolute;
   border-radius: 45px;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
+  margin: auto;
   top: 15px;
 }
 
@@ -67,9 +70,12 @@
 }
 
 .msg-info p {
-  font-size: 0.8em;
+  font-size: 1.2rem;
   color: #000000;
-  font-style: italic;
+  margin-bottom: 0.1rem;
+  font-family: Pretendard;
+
+  /* font-style: italic; */
 }
 
 .msg-content {
@@ -80,6 +86,7 @@
   color: #000000;
   width: auto;
   max-width: 80%;
+  /* font-family: Pretendard; */
 }
 
 span.triangle {
@@ -99,23 +106,37 @@ span.triangle {
 }
 
 /* Start message from other user */
-
+#remoteUsers {
+  margin-top: 1.2rem;
+  width: 95%;
+  font-family: Prentendard;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
 .message > .left .msg-detail .msg-info {
   text-align: left;
 }
 
 .message.left .msg-detail {
   padding-left: 65px;
+  margin-left: 2rem;
 }
 
 .message.left .user-img {
   left: -5px;
   border: 1px solid #f0f0f094;
+  border: solid 2px blue;
+  margin-left: 2rem;
 }
 
 .message.left .msg-detail .msg-content {
   background-color: #f0f0f0;
   float: left;
+  padding: 1rem;
+  margin-top: 0.2rem;
+  font-family: Pretendard;
 }
 .message.left .msg-detail .msg-content span.triangle {
   background-color: #f0f0f0;
@@ -130,21 +151,30 @@ span.triangle {
 
 .message.right .msg-detail .msg-info {
   text-align: right;
+  font-family: Pretendard;
 }
 .message.right .user-img {
-  right: -5px;
-  border: 1px solid #c8ffe8ab;
+  right: 0;
+  /* margin-bottom: 1rem; */
+  /* margin-right: auto; */
+  /* flex-direction: row-reverse; */
+  /* display: flex; */
+  border: 2px solid green;
+  /* border: solid 2px red; */
 }
 
 .message.right .msg-detail .msg-content {
   background-color: #c8ffe8;
   float: right;
+  padding: 1rem;
+  margin-top: 0.2rem;
+  font-family: Pretendard;
 }
 .message.right .msg-detail .msg-content span.triangle {
   background-color: #c8ffe8;
   border-bottom-width: 0;
   border-left-width: 0;
-  right: -5px;
+  /* right: -5px; */
 }
 
 /* End my messages */
@@ -171,14 +201,14 @@ span.triangle {
 }
 
 #sendButton {
-  background-color: #81e9b0;
+  background-color: white;
   position: absolute;
   right: 10px;
   top: 0;
   bottom: 0;
   margin: auto;
-  border: 1px solid #7ae2a9;
   box-shadow: none !important;
+  color: green;
 }
 #sendButton {
   margin-left: 3px !important;
