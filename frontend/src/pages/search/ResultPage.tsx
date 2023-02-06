@@ -6,6 +6,7 @@ import SearchBar from "@components/search/SearchBar";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import { IAuction } from "types/auction";
 
 export default function ResultPage() {
   const [searchParams] = useSearchParams();

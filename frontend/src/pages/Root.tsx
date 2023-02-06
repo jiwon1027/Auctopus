@@ -4,9 +4,10 @@ import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import LiveFilter from "@components/main/LiveFilter";
 import FloatingButton from "@components/main/FloatingButton";
-import axios from "axios";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
+import { getAuctions } from "@/api/auction";
+import { IAuction, IReqType } from "types/auction";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -14,17 +15,13 @@ export default function Root() {
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
   const [state, setState] = useState(0);
   useEffect(() => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_SERVER_DOMAIN
-        }/api/auction/list?sort=main&state=${state}`
-      )
-      .then((res) => {
-        const data = res.data;
-        setAuctionList(data);
-        console.log(data);
-      });
+    const fetchAuction = async (type?: IReqType) => {
+      // example: const res = await getAuctions({ sort: "like", state: 0 });
+      const res = await getAuctions(requestType(type));
+      setAuctionList(res.data);
+    };
+
+    fetchAuction();
   }, []);
 
   const changeLive = () => {
@@ -51,4 +48,19 @@ export default function Root() {
       <FloatingButton />
     </Layout>
   );
+}
+
+function requestType(type?: IReqType) {
+  switch (type) {
+    case "like":
+      return { sort: type, state: 0 };
+    case "startByCategory":
+    case "startByStartTime":
+      return { sort: type, state: 0 };
+    case "onGoingByCategory":
+    case "onGoingByStartTime":
+      return { sort: type, state: 2 };
+    default:
+      return { sort: "main", state: 2 };
+  }
 }

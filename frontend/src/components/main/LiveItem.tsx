@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CircleIcon from "@mui/icons-material/Circle";
-import img1 from "@/assets/main/airpodsImg.jpg";
 import { useNavigate } from "react-router-dom";
+import { IAuction } from "types/auction";
 
 interface IProps {
   item: IAuction;
@@ -33,7 +33,7 @@ export default function LiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img src={img1} alt="image" />
+          <img src={props.item.auctionImage.imageUrl} alt="image" />
           <div className="liveBox">
             <CircleIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>
