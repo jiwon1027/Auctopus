@@ -124,7 +124,7 @@ export default class ToolbarComponent extends Component {
               </IconButton>
             )} */}
 
-            <IconButton
+            <IconButton                                                                                                                                         
               color="inherit"
               className="navButton"
               onClick={this.switchCamera}

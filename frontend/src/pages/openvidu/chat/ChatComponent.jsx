@@ -34,6 +34,7 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
         });
+        console.log(123414);
         const document = window.document;
         setTimeout(() => {
           const userImg = document.getElementById(
@@ -100,8 +101,8 @@ export default class ChatComponent extends Component {
         <div id="chatComponent" style={styleChat}>
           <div id="chatToolbar">
             <span>
-              {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT
+              {this.props.user.getStreamManager().stream.session.sessionId}의
+              채팅방
             </span>
             <IconButton id="closeButton" onClick={this.close}>
               <HighlightOff color="secondary" />
@@ -147,7 +148,7 @@ export default class ChatComponent extends Component {
               onKeyPress={this.handlePressKey}
             />
             <Tooltip title="Send message">
-              <Fab size="small" id="sendButton" onClick={this.sendMessage}>
+              <Fab size="small" id="sendButton">
                 <Send />
               </Fab>
             </Tooltip>

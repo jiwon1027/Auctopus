@@ -13,6 +13,7 @@ import ToolbarComponent from "./toolbar/ToolbarComponent";
 
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = "http://localhost:5000/";
+// const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 
@@ -26,7 +27,7 @@ class VideoRoomComponent extends Component {
       : "AuctionSeq";
     let userName = this.props.user
       ? this.props.user
-      : "happy" + Math.floor(Math.random() * 100);
+      : "유저" + Math.floor(Math.random() * 100);
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -35,7 +36,7 @@ class VideoRoomComponent extends Component {
       session: undefined,
       localUser: undefined,
       subscribers: [],
-      chatDisplay: "none",
+      chatDisplay: "",
       currentVideoDevice: undefined,
     };
 
@@ -217,9 +218,9 @@ class VideoRoomComponent extends Component {
       () => {
         if (this.state.localUser) {
           this.sendSignalUserChanged({
+            nickname: this.state.localUser.getNickname(),
             isAudioActive: this.state.localUser.isAudioActive(),
             isVideoActive: this.state.localUser.isVideoActive(),
-            nickname: this.state.localUser.getNickname(),
             isScreenShareActive: this.state.localUser.isScreenShareActive(),
           });
         }
@@ -240,7 +241,7 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "경매방이름",
+      mySessionId: "경매방",
       myUserName: "유저" + Math.floor(Math.random() * 100),
       localUser: undefined,
     });
@@ -299,6 +300,8 @@ class VideoRoomComponent extends Component {
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
+      console.log("I'm subscriber@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      console.log(subscriber);
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
@@ -565,12 +568,10 @@ class VideoRoomComponent extends Component {
           leaveSession={this.leaveSession}
           toggleChat={this.toggleChat}
         />
-
         {/* <DialogExtensionComponent
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
         /> */}
-
         <div id="layout" className="bounds">
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
