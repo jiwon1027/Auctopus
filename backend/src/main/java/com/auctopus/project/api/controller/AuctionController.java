@@ -55,8 +55,9 @@ public class AuctionController {
     private LikeCategoryService likeCategoryService;
 
     @PostMapping()
-    public ResponseEntity<?> registerAuction(Authentication authentication, @RequestPart("auctionReq")AuctionCreateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
-        String email = (String) authentication.getCredentials();
+    public ResponseEntity<?> registerAuction(@Nullable Authentication authentication, @RequestPart("auctionReq")AuctionCreateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+//        String email = (String) authentication.getCredentials();
+        String email = "bbnt25@naver.com";
         Auction auction = auctionService.createAuction(email, req, auctionImageList);
         if (auction == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -65,23 +66,25 @@ public class AuctionController {
     }
 
 
-    @PatchMapping()
-    public ResponseEntity<?> updateAuction(Authentication authentication, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
-        String email = (String) authentication.getCredentials();
-        Auction auction = auctionService.updateAuction(email, req);
+    @PatchMapping("/{auctionSeq}")
+    public ResponseEntity<?> updateAuction(@Nullable Authentication authentication, @PathVariable("auctionSeq") int auctionSeq, @RequestPart("auctionReq")AuctionUpdateRequest req, @RequestPart(value="images",required = false) List<MultipartFile> auctionImageList) {
+        String email = "bbnt25@naver.com";
+//        String email = (String) authentication.getCredentials();
+        Auction auction = auctionService.updateAuction(email, auctionSeq, req);
         auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
         else {
-            auction = auctionService.updateAuction(email, req);
+            auction = auctionService.updateAuction(email, auctionSeq, req);
             auctionImageService.updateAuctionImageList(auction.getAuctionSeq(), auctionImageList);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{auctionSeq}")
-    public ResponseEntity<?> deleteAuction(Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
-        String email = (String) authentication.getCredentials();
+    public ResponseEntity<?> deleteAuction(@Nullable Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
+        String email = "bbnt25@naver.com";
+        //        String email = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(auctionSeq);
         if (auction == null)
             throw new AuctionNotFoundException("경매방을 찾을 수 없습니다.", ErrorCode.AUCTION_NOT_FOUND);
@@ -154,7 +157,7 @@ public class AuctionController {
             //List<AuctionImage> auctionImageList = null;
             Live live = null;
             List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
-            if (state == 1) {
+            if (state == 2) {
                 live = liveService.getLiveInfo(auction.getAuctionSeq());
                 auctionListResponseList.add(AuctionListResponse.of(auction, live.getViewer(), live.getCurrentPrice(),auctionImageList));
             } else {

@@ -24,14 +24,14 @@ public interface AuctionService {
     List<Auction> getAuctionListByTime(int state);
 
     // word
-    List<Auction> getAuctionListByViewerAndWord(String word, int state);
+    List<Auction> getAuctionListByViewerAndWordOrCategorySeq(String word, int categorySeq, int state);
 
-    List<Auction> getAuctionListByLikeCountAndWord(String word, int state);
+    List<Auction> getAuctionListByLikeCountAndWordOrCategorySeq(String word, int categorySeq, int state);
 
     // category
-    List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state);
-
-    List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state);
+//    List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state);
+//
+//    List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state);
 
     // 내 판매 예정 경매방 리스트
     List<Auction> getMyAuctionListByEmail(String email);
@@ -40,7 +40,7 @@ public interface AuctionService {
     Auction createAuction(String userEmail, AuctionCreateRequest req, List<MultipartFile> multipartFileList);
 
     // 경매방 정보 수정
-    Auction updateAuction(String userEmail, AuctionUpdateRequest req);
+    Auction updateAuction(String userEmail, int auctionSeq, AuctionUpdateRequest req);
 
     // 경매방 정보 삭제
     void deleteAuction(int auctionSeq);

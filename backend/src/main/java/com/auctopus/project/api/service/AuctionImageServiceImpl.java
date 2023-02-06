@@ -28,7 +28,7 @@ public class AuctionImageServiceImpl implements AuctionImageService {
     public void updateAuctionImageList(int auctionSeq, List<MultipartFile> auctionImageList) {
         List<AuctionImage> auctionImageListDelete = auctionImageRepository.findByAuctionSeq(auctionSeq).get();
         for (AuctionImage auctionImage : auctionImageListDelete) {
-            s3FileService.deleteFileName(auctionImage.getImageUrl().substring(1));
+            s3FileService.deleteFileName(auctionImage.getImageUrl());
         }
         auctionImageRepository.deleteAllByAuctionSeq(auctionSeq);
         if (auctionImageList == null) {
@@ -55,6 +55,10 @@ public class AuctionImageServiceImpl implements AuctionImageService {
     @Override
     @Transactional
     public void deleteAuctionImageList(int auctionSeq) {
+        List<AuctionImage> auctionImageListDelete = auctionImageRepository.findByAuctionSeq(auctionSeq).get();
+        for (AuctionImage auctionImage : auctionImageListDelete) {
+            s3FileService.deleteFileName(auctionImage.getImageUrl());
+        }
         auctionImageRepository.deleteAllByAuctionSeq(auctionSeq);
     }
 }

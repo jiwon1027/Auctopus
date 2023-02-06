@@ -74,8 +74,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     @Transactional
-    public Auction updateAuction(String userEmail, AuctionUpdateRequest req) {
-        int auctionSeq = req.getAuctionSeq();
+    public Auction updateAuction(String userEmail, int auctionSeq, AuctionUpdateRequest req) {
         Auction auction = auctionRepository.findByUserEmailAndAuctionSeq(userEmail, auctionSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + auctionSeq + " not found",
@@ -137,32 +136,34 @@ public class AuctionServiceImpl implements AuctionService {
 
     // 검색 경매
     @Override
-    public List<Auction> getAuctionListByViewerAndWord(String word, int state) {
+    public List<Auction> getAuctionListByViewerAndWordOrCategorySeq(String word, int categorySeq, int state) {
         List<Auction> auctionList = null;
-        auctionList = auctionRepository.findAllAuctionByViewerAndWord(word, state);
+        if (categorySeq == 0) auctionList = auctionRepository.findAllAuctionByViewerAndWord(word, state);
+        else auctionList =  auctionRepository.findAllAuctionByViewerAndCategory(categorySeq, state);
         return auctionList;
     }
 
     @Override
-    public List<Auction> getAuctionListByLikeCountAndWord(String word, int state) {
+    public List<Auction> getAuctionListByLikeCountAndWordOrCategorySeq(String word,int categorySeq, int state) {
         List<Auction> auctionList = null;
-        auctionList = auctionRepository.findAllAuctionByLikeCountAndWord(word, state);
+        if (categorySeq == 0) auctionList = auctionRepository.findAllAuctionByLikeCountAndWord(word, state);
+        else auctionList = auctionRepository.findAllAuctionByLikeCountAndCategory(categorySeq, state);
         return auctionList;
     }
 
 
     // 카테고리 경매
-    @Override
-    public List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state) {
-        List<Auction> auctionList = null;
-        auctionList = auctionRepository.findAllAuctionByViewerAndCategory(categorySeq, state);
-        return auctionList;
-    }
-
-    @Override
-    public List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state) {
-        List<Auction> auctionList = null;
-        auctionList = auctionRepository.findAllAuctionByLikeCountAndCategory(categorySeq, state);
-        return auctionList;
-    }
+//    @Override
+//    public List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state) {
+//        List<Auction> auctionList = null;
+//        auctionList = auctionRepository.findAllAuctionByViewerAndCategory(categorySeq, state);
+//        return auctionList;
+//    }
+//
+//    @Override
+//    public List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state) {
+//        List<Auction> auctionList = null;
+//        auctionList = auctionRepository.findAllAuctionByLikeCountAndCategory(categorySeq, state);
+//        return auctionList;
+//    }
 }
