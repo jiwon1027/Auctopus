@@ -7,26 +7,33 @@ import FloatingButton from "@components/main/FloatingButton";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 import { getAuctions } from "@/api/auction";
-import { IAuction, IReqType } from "types/auction";
+import { IAuction, IFilter } from "types/auction";
 
 export default function Root() {
   const navigate = useNavigate();
   const [live, setLive] = useState<"live" | "nonLive">("live");
+  const [filterValue, setFilterValue] = useState<IFilter>("like");
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
   const [state, setState] = useState(0);
   useEffect(() => {
-    const fetchAuction = async (type?: IReqType) => {
-      // example: const res = await getAuctions({ sort: "like", state: 0 });
-      const res = await getAuctions(requestType(type));
+    const fetchAuction = async () => {
+      const res = await getAuctions({
+        sort: filterValue,
+        state: live === "live" ? 2 : 0,
+      });
       setAuctionList(res.data);
     };
 
     fetchAuction();
-  }, []);
+  }, [live, filterValue]);
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
     setState((prev) => (prev === 0 ? 1 : 0));
+  };
+
+  const handleFilter = (filter: IFilter) => {
+    setFilterValue(filter);
   };
 
   const RightComponent = (
@@ -35,32 +42,14 @@ export default function Root() {
 
   return (
     <Layout right={RightComponent}>
-      <MainToggleButtonGroup
-        text={{
-          left: "진행중",
-          right: "진행예정",
-        }}
-        live={live}
-        onClick={changeLive}
+      <MainToggleButtonGroup live={live} onClick={changeLive} />
+      <LiveFilter
+        isLive={live === "live"}
+        filterValue={filterValue}
+        handleFilter={handleFilter}
       />
-      <LiveFilter isLive={live === "live"} setAuctionList={setAuctionList} />
       <ItemsList liveAuction={auctionList} isLive={live === "live"} />
       <FloatingButton />
     </Layout>
   );
-}
-
-function requestType(type?: IReqType) {
-  switch (type) {
-    case "like":
-      return { sort: type, state: 0 };
-    case "startByCategory":
-    case "startByStartTime":
-      return { sort: type, state: 0 };
-    case "onGoingByCategory":
-    case "onGoingByStartTime":
-      return { sort: type, state: 2 };
-    default:
-      return { sort: "main", state: 2 };
-  }
 }

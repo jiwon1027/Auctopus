@@ -13,7 +13,6 @@ interface IReqAuction {
 }
 
 export const getAuctions = async (data: IReqAuction) => {
-  console.log("req data: ", data);
   return await instance.get<IAuction[]>(
     `${VITE_SERVER_DOMAIN}/api/auction/list?sort=${data.sort}&state=${data.state}`
   );

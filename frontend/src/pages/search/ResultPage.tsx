@@ -42,29 +42,22 @@ export default function ResultPage() {
   return (
     <Layout>
       <SearchBar setAuctionList={setAuctionList} />
-      {keywordQuery !== null ? (
+      {keywordQuery ? (
         <ResultText>
-          검색어&lsquo;
-          <b>{keywordQuery}</b>
-          &rsquo;에 대한 검색결과입니다.
+          검색어&lsquo; <b>{keywordQuery}</b> &rsquo;에 대한 검색결과입니다.{" "}
         </ResultText>
       ) : (
         <ResultText>
-          &lsquo;
-          <b>{categoryQuery}</b>
-          &rsquo;카테고리에 대한 검색결과입니다.
+          &lsquo; <b>{categoryQuery}</b> &rsquo;카테고리에 대한 검색결과입니다.
         </ResultText>
       )}
-      {auctionList.length === 0 ? (
-        <></>
-      ) : (
+      {auctionList.length > 0 && (
         <ResultFilter
           setAuctionList={setAuctionList}
           live={live}
           onClick={changeLive}
         />
       )}
-
       <ItemsList liveAuction={auctionList} isLive={live === "live"} />
     </Layout>
   );

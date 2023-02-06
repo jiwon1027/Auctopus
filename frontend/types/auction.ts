@@ -1,10 +1,4 @@
-export type IReqType =
-  | "main"
-  | "like"
-  | "startByCategory"
-  | "onGoingByCategory"
-  | "startByStartTime"
-  | "onGoingByStartTime";
+export type IFilter = "main" | "like" | "category" | "startTime";
 
 export interface IAuction {
   auctionSeq: number;
