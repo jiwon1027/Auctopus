@@ -141,7 +141,8 @@ export default class ChatComponent extends Component {
               id="chatInput"
               value={this.state.message}
               onChange={this.handleChange}
-              onKeyPress={this.handlePressKey}q  
+              onKeyPress={this.handlePressKey}
+              q
             />
             <Tooltip title="Send message">
               <Fab size="small" id="sendButton" onClick={this.sendMessage}>
