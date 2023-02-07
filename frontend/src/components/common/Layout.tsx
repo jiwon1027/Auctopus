@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import Container from "@mui/material/Container";
 import { styled as mstyled } from "@mui/system";
 import Header from "@components/common/Header";
-import styled from "styled-components";
 
 interface IProps {
   right?: JSX.Element;
@@ -35,21 +34,15 @@ interface IProps {
  */
 export default function Layout(props: IProps) {
   return (
-    <StyledLayout>
+    <StyledContainer maxWidth="md">
       <Header right={props.right} />
-      <StyledContainer maxWidth="md">{props.children}</StyledContainer>
-    </StyledLayout>
+      {props.children}
+    </StyledContainer>
   );
 }
 
-const StyledLayout = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
-
 const StyledContainer = mstyled(Container)`
-  flex: 1;
+  height: 100vh;
   background-color: white;
   display: flex;
   flex-direction: column;

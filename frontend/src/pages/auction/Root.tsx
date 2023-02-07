@@ -14,7 +14,7 @@ export default function Root() {
   const [live, setLive] = useState<"live" | "nonLive">("live");
   const [filterValue, setFilterValue] = useState<IFilter>("like");
   const [auctionList, setAuctionList] = useState<IAuction[]>([]);
-  const [state, setState] = useState(0);
+
   useEffect(() => {
     const fetchAuction = async () => {
       const res = await getAuctions({
@@ -29,7 +29,6 @@ export default function Root() {
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
-    setState((prev) => (prev === 0 ? 1 : 0));
   };
 
   const handleFilter = (filter: IFilter) => {
