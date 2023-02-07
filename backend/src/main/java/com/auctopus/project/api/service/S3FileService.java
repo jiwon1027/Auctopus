@@ -46,7 +46,7 @@ public class S3FileService {
 
     public void deleteFileName(String fileName) {
         String file = fileName.substring(52);
-        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
+        if (!file.equals("auctopus_basic.png"))amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
     }
 
     private String createFileName(String fileName) {
