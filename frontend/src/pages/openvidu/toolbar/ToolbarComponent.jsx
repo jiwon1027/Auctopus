@@ -17,6 +17,7 @@ import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
+const isBuyer = true;
 
 export default class ToolbarComponent extends Component {
   constructor(props) {
@@ -68,6 +69,8 @@ export default class ToolbarComponent extends Component {
   render() {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
+    console.log("@@@@@@@@@@ LOCAL USER @@@@@@@@@@@@@");
+    console.log(localUser);
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
@@ -86,7 +89,9 @@ export default class ToolbarComponent extends Component {
               id="navMicButton"
               onClick={this.micStatusChanged}
             >
-              {localUser !== undefined && localUser.isAudioActive() ? (
+              {isBuyer ? (
+                <MicOff color="secondary" />
+              ) : localUser !== undefined && localUser.isAudioActive() ? (
                 <Mic />
               ) : (
                 <MicOff color="secondary" />
@@ -99,7 +104,9 @@ export default class ToolbarComponent extends Component {
               id="navCamButton"
               onClick={this.camStatusChanged}
             >
-              {localUser !== undefined && localUser.isVideoActive() ? (
+              {isBuyer ? (
+                <VideocamOff color="secondary" />
+              ) : localUser !== undefined && localUser.isVideoActive() ? (
                 <Videocam />
               ) : (
                 <VideocamOff color="secondary" />
@@ -124,7 +131,7 @@ export default class ToolbarComponent extends Component {
               </IconButton>
             )} */}
 
-            <IconButton                                                                                                                                         
+            <IconButton
               color="inherit"
               className="navButton"
               onClick={this.switchCamera}

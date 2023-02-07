@@ -16,6 +16,7 @@ const APPLICATION_SERVER_URL = "http://localhost:5000/";
 // const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
+const isBuyer = true;
 
 function withRouter(Component) {
   // eslint-disable-next-line react/display-name
@@ -33,6 +34,7 @@ class VideoRoomComponent extends Component {
       ? this.props.sessionName
       : "AuctionSeq";
     let userName = this.props.user ? this.props.user : obj.nickname;
+
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -43,6 +45,11 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "",
       currentVideoDevice: undefined,
+
+      // 추가
+      videoEnabled: false,
+      audioEnabled: false,
+      isBuyer: true,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -65,6 +72,11 @@ class VideoRoomComponent extends Component {
   componentDidMount() {
     const location = this.props.locations;
     console.log(location);
+
+    // 추가
+    this.videoControll = this.videoControll.bind(this);
+    this.audioControll = this.audioControll.bind(this);
+    console.log("############ componentdidmount ###############");
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
       minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
@@ -100,6 +112,8 @@ class VideoRoomComponent extends Component {
   }
 
   joinSession() {
+    console.log("############ joinSession ###############");
+
     this.OV = new OpenVidu();
 
     this.setState(
@@ -114,6 +128,8 @@ class VideoRoomComponent extends Component {
   }
 
   async connectToSession() {
+    console.log("############ connectToSession ###############");
+
     if (this.props.token !== undefined) {
       console.log("token received: ", this.props.token);
       this.connect(this.props.token);
@@ -166,13 +182,14 @@ class VideoRoomComponent extends Component {
   }
 
   async connectWebCam() {
+    console.log("############ connectToWebCam ###############");
+
     await this.OV.getUserMedia({
       audioSource: undefined,
       videoSource: undefined,
     });
     var devices = await this.OV.getDevices();
     var videoDevices = devices.filter((device) => device.kind === "videoinput");
-
     let publisher = this.OV.initPublisher(undefined, {
       audioSource: undefined,
       videoSource: videoDevices[0].deviceId,
@@ -198,6 +215,7 @@ class VideoRoomComponent extends Component {
     localUser.setConnectionId(this.state.session.connection.connectionId);
     localUser.setScreenShareActive(false);
     localUser.setStreamManager(publisher);
+    localUser.setIsBuyer(isBuyer);
     this.subscribeToUserChanged();
     this.subscribeToStreamDestroyed();
     this.sendSignalUserChanged({
@@ -218,6 +236,8 @@ class VideoRoomComponent extends Component {
   }
 
   updateSubscribers() {
+    console.log("############# update subscribers ###########");
+
     var subscribers = this.remotes;
     this.setState(
       {
@@ -258,14 +278,20 @@ class VideoRoomComponent extends Component {
     }
   }
   camStatusChanged() {
-    localUser.setVideoActive(!localUser.isVideoActive());
+    console.log("############# camStatusChanged ###########");
+    isBuyer
+      ? localUser.setVideoActive(false)
+      : localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
     this.sendSignalUserChanged({ isVideoActive: localUser.isVideoActive() });
     this.setState({ localUser: localUser });
   }
 
   micStatusChanged() {
-    localUser.setAudioActive(!localUser.isAudioActive());
+    console.log("############# micStatusChanged ###########");
+    isBuyer
+      ? localUser.setAudioActive(false)
+      : localUser.setAudioActive(!localUser.isAudioActive());
     localUser.getStreamManager().publishAudio(localUser.isAudioActive());
     this.sendSignalUserChanged({ isAudioActive: localUser.isAudioActive() });
     this.setState({ localUser: localUser });
@@ -295,6 +321,8 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToStreamCreated() {
+    console.log("############# subscribeToStreamChanged ###########");
+
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
       // var subscribers = this.state.subscribers;
@@ -308,7 +336,6 @@ class VideoRoomComponent extends Component {
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
-      console.log("I'm subscriber@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       console.log(subscriber);
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
@@ -322,6 +349,8 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToStreamDestroyed() {
+    console.log("############ subscribeToStreamDestroyed ################");
+
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
@@ -335,6 +364,8 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToUserChanged() {
+    console.log("############ subscribeToUserchanged ################");
+
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
@@ -410,6 +441,8 @@ class VideoRoomComponent extends Component {
   }
 
   async switchCamera() {
+    console.log("############ switchCamera ################");
+
     try {
       const devices = await this.OV.getDevices();
       var videoDevices = devices.filter(
@@ -557,12 +590,26 @@ class VideoRoomComponent extends Component {
       this.hasBeenUpdated = false;
     }
   }
+  // 추가
+  videoControll() {
+    this.setState({ videoEnabled: !this.state.publisher.stream.videoActive });
+    this.state.publisher?.publishVideo(
+      !this.state.publisher.stream.videoActive
+    );
+  }
 
   useLocation() {
     const location = useLocation();
     console.log(location);
   }
 
+  audioControll() {
+    console.log(this.state.publisher.stream);
+    this.setState({ audioEnabled: !this.state.publisher.stream.audioActive });
+    this.state.publisher?.publishAudio(
+      !this.state.publisher.stream.audioActive
+    );
+  }
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
@@ -589,7 +636,8 @@ class VideoRoomComponent extends Component {
         /> */}
         <div id="layout" className="bounds">
           {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
+            localUser.getStreamManager() !== undefined &&
+            localUser.getIsBuyer() == false && (
               <div className="OT_root OT_publisher custom-class" id="localUser">
                 <StreamComponent
                   user={localUser}
@@ -597,6 +645,7 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
+
           {this.state.subscribers.map((sub, i) => (
             <div
               key={i}
@@ -609,6 +658,7 @@ class VideoRoomComponent extends Component {
               />
             </div>
           ))}
+
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div

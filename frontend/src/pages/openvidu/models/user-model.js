@@ -41,7 +41,9 @@ class UserModel {
   getStreamManager() {
     return this.streamManager;
   }
-
+  getIsBuyer() {
+    return this.isBuyer;
+  }
   isLocal() {
     return this.type === "local";
   }
@@ -75,6 +77,9 @@ class UserModel {
     if ((type === "local") | (type === "remote")) {
       this.type = type;
     }
+  }
+  setIsBuyer(isBuyer) {
+    this.isBuyer = isBuyer;
   }
 }
 
