@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface LiveViewerRepository extends JpaRepository<LiveViewer, String> {
 
-    Optional<LiveViewer> findByUserEmail(String userEmail);
+    Optional<LiveViewer> findByViewerEmail(String userEmail);
 }

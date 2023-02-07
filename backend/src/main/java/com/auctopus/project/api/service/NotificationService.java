@@ -11,6 +11,9 @@ public interface NotificationService {
     // 라이브 시작 10분 전에 보낼 알림 예약하기
     void scheduleNotification(String userEmail, int auctionSeq);
 
+    // 라이브 시작 10분 전에 보낼 알림 예약 취소하기
+    void cancelNotification(String userEmail, int auctionSeq);
+
     // 사용자에게 이메일 보내기
     void sendEmail(String userEmail, String message);
 

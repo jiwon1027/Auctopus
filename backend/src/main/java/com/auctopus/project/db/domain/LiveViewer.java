@@ -19,7 +19,7 @@ import org.hibernate.annotations.DynamicInsert;
 public class LiveViewer {
 
     @Id
-    private String userEmail;
+    private String viewerEmail;
     private int liveSeq;
     private int autoPrice;
     private int state;
