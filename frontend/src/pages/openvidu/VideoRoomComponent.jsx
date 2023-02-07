@@ -71,11 +71,10 @@ class VideoRoomComponent extends Component {
   }
   componentDidMount() {
     const location = this.props.locations;
-    console.log(location);
+    console.log("&&&&&&&& 콤포디만트 &&&&&&&&&");
+    console.log(location.state);
 
     // 추가
-    this.videoControll = this.videoControll.bind(this);
-    this.audioControll = this.audioControll.bind(this);
     console.log("############ componentdidmount ###############");
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -591,25 +590,14 @@ class VideoRoomComponent extends Component {
     }
   }
   // 추가
-  videoControll() {
-    this.setState({ videoEnabled: !this.state.publisher.stream.videoActive });
-    this.state.publisher?.publishVideo(
-      !this.state.publisher.stream.videoActive
-    );
-  }
 
   useLocation() {
     const location = useLocation();
+    console.log("&&&&&&&& 유로케 &&&&&&&&&");
+
     console.log(location);
   }
 
-  audioControll() {
-    console.log(this.state.publisher.stream);
-    this.setState({ audioEnabled: !this.state.publisher.stream.audioActive });
-    this.state.publisher?.publishAudio(
-      !this.state.publisher.stream.audioActive
-    );
-  }
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
