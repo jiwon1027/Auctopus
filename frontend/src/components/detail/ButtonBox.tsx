@@ -11,6 +11,7 @@ interface IProps {
   isBuyer: boolean;
   auctionInfo: IAuctionInfo;
 }
+
 export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const navigate = useNavigate();
   const [isTime, setIsTime] = useState(true);
@@ -41,13 +42,11 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const sendDataRouter = () => {
     navigate(`/live/${auctionInfo.auctionSeq}`, {
       state: {
-        isSeller: false,
+        userState: "seller",
         auctionInfo: auctionInfo,
       },
     });
   };
-
-  /* common state ? 상품 제목, isBuyer */
 
   return isBuyer ? (
     // 구매자 => 모달 => 수동입찰, 경매장 입장 눌렀을때 이동, common state랑 자동 입찰 단위 props전달
@@ -73,7 +72,7 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
             <DisableButton>입장하기</DisableButton>
           </>
         ) : (
-          <Modal />
+          <Modal auctionInfo={auctionInfo} />
         )}
       </ButtonWrapper>
     </FooterBox>

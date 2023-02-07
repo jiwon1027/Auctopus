@@ -24,6 +24,7 @@ const initData = {
   state: 0,
   profileUrl: "",
   nickname: "",
+  bidUnit: 0,
 };
 
 export default function DetailPage() {

@@ -6,16 +6,21 @@ import ChatComponent from "./chat/ChatComponent";
 // import DialogExtensionComponent from "./dialog-extension/DialogExtension";
 import StreamComponent from "./stream/StreamComponent";
 import "./VideoRoomComponent.css";
-
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
+import { useLocation } from "react-router-dom";
 
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = "http://localhost:5000/";
 // const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
+
+function withRouter(Component) {
+  // eslint-disable-next-line react/display-name
+  return (props) => <Component {...props} locations={useLocation()} />;
+}
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -55,8 +60,11 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
+    this.useLocation = this.useLocation.bind(this);
   }
   componentDidMount() {
+    const location = this.props.locations;
+    console.log(location);
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
       minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
@@ -550,6 +558,11 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  useLocation() {
+    const location = useLocation();
+    console.log(location);
+  }
+
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
@@ -657,4 +670,4 @@ class VideoRoomComponent extends Component {
     return response.data; // The token
   }
 }
-export default VideoRoomComponent;
+export default withRouter(VideoRoomComponent);
