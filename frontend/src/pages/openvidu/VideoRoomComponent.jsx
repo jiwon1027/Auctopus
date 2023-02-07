@@ -241,8 +241,8 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "경매방",
-      myUserName: "유저" + Math.floor(Math.random() * 100),
+      mySessionId: "",
+      myUserName: "" + Math.floor(Math.random() * 100),
       localUser: undefined,
     });
     if (this.props.leaveSession) {
@@ -305,6 +305,8 @@ class VideoRoomComponent extends Component {
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
+      console.log("@@@@@@@@@@@@remotes@@@@@@@@@@@@@");
+      console.log(this.remotes);
       if (this.localUserAccessAllowed) {
         this.updateSubscribers();
       }

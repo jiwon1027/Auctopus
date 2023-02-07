@@ -34,7 +34,6 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
         });
-        console.log(123414);
         const document = window.document;
         setTimeout(() => {
           const userImg = document.getElementById(
@@ -120,7 +119,7 @@ export default class ChatComponent extends Component {
                     : " right")
                 }
               >
-                <cavas
+                <canvas
                   id={"userImg-" + i}
                   width="30"
                   height="30"

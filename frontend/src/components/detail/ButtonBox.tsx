@@ -5,12 +5,14 @@ import { theme } from "@/styles/theme";
 import { Button } from "@mui/material";
 import Modal from "@/components/detail/Modal";
 import { styled as mstyled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   isBuyer: boolean;
   auctionInfo: IAuctionInfo;
 }
 export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
+  const navigate = useNavigate();
   const [isTime, setIsTime] = useState(true);
 
   // setOpen에 대한 로직 - 실시간 구현시 마저 구현
@@ -35,7 +37,20 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
     const format = remainDate.toTimeString().split(" ")[0];
     return remainDate.getDate() + "일" + " " + format;
   }
+
+  const sendDataRouter = () => {
+    navigate(`/live/${auctionInfo.auctionSeq}`, {
+      state: {
+        isSeller: false,
+        auctionInfo: auctionInfo,
+      },
+    });
+  };
+
+  /* common state ? 상품 제목, isBuyer */
+
   return isBuyer ? (
+    // 구매자 => 모달 => 수동입찰, 경매장 입장 눌렀을때 이동, common state랑 자동 입찰 단위 props전달
     <FooterBox>
       <div className="timeBox">
         <div className="timephrase">
@@ -63,6 +78,7 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
       </ButtonWrapper>
     </FooterBox>
   ) : (
+    // 판매자 => 입장하기 누르면 common state
     <FooterBox>
       <div className="timeBox">
         <div className="timephrase">
@@ -72,7 +88,9 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
         <div className="timeLeft">{getRemainTime(auctionInfo.startTime)}</div>
       </div>
       <div className="buttonBox">
-        <CustomizedButton>입장하기</CustomizedButton>
+        <CustomizedButton onClick={() => sendDataRouter()}>
+          라이브 시작
+        </CustomizedButton>
       </div>
     </FooterBox>
   );

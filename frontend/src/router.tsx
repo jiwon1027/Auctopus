@@ -34,7 +34,8 @@ const router = createBrowserRouter([
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
-  { path: "/openvidu", element: <App /> },
+  { path: "/result", element: <ResultPage /> },
+  { path: "/live/:auctionSeq", element: <VideoRoomComponent /> },
 ]);
 
 export default router;

@@ -47,7 +47,7 @@ function ChildModal() {
             <CustomContentText>5000원</CustomContentText>
           </MinBidBox>
           <InputBox>
-            <CustomInput placeholder="300,000" />
+            <CustomInput aria-label="none" placeholder="300,000" />
             <span>원</span>
           </InputBox>
           <ButtonWrapper>

@@ -58,10 +58,10 @@ class UserModel {
     this.screenShareActive = isScreenShareActive;
   }
   setStreamManager(streamManager) {
-    if (streamManager.remote) {
+    /* if (streamManager.remote) {
       this.setAudioActive(false);
       this.setVideoActive(false);
-    }
+    } */
     this.streamManager = streamManager;
   }
 
