@@ -73,6 +73,8 @@ const TitleComponent = (props: { pathname: string }): JSX.Element => {
       return <h1 className="title">자동입찰 설정</h1>;
     case "/createAuction":
       return <h1 className="title">경매방 생성</h1>;
+    case "/detail/:auctionSeq/bidding":
+      return <h1 className="title">언해피의 경매</h1>;
     default:
       return <></>;
   }
