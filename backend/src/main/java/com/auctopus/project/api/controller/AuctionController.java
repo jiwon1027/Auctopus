@@ -74,9 +74,14 @@ public class AuctionController {
     }
 
     @DeleteMapping("/{auctionSeq}")
+<<<<<<< HEAD
     public ResponseEntity<?> deleteAuction(Authentication authentication,
             @PathVariable("auctionSeq") int auctionSeq) {
         String userEmail = (String) authentication.getCredentials();
+=======
+    public ResponseEntity<?> deleteAuction(Authentication authentication, @PathVariable("auctionSeq") int auctionSeq) {
+        String email = (String) authentication.getCredentials();
+>>>>>>> 6585667 (✨ feat: vidUnit and decode)
         Auction auction = auctionService.getAuction(auctionSeq);
         if (!userEmail.equals((auction.getUserEmail())))
             return new ResponseEntity<>("삭제할 권한이 없습니다.", HttpStatus.BAD_REQUEST);

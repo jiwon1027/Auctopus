@@ -4,12 +4,13 @@ import com.auctopus.project.api.response.AuctionListResponse;
 import com.auctopus.project.api.service.AuctionImageService;
 import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.api.service.CategoryService;
-import com.auctopus.project.api.service.LikeCategoryService;
 import com.auctopus.project.api.service.LiveService;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.domain.Live;
-import com.auctopus.project.db.repository.AuctionRepository;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,14 @@ public class SearchController {
     @GetMapping()
     public ResponseEntity<List<AuctionListResponse>> getAuctionListByWordOrCategory(
             @Nullable Authentication authentication, @RequestParam(required = false) String word, @RequestParam(required=false)String category,
-            @RequestParam int state) {
+            @RequestParam int state) throws UnsupportedEncodingException {
         List<Auction> auctionList = null;
         int categorySeq = 0;
-        if (category != null) categorySeq = categoryService.getCategorySeq(category);
+        if(category != null) {
+            category = URLDecoder.decode(category,"UTF-8");
+            System.out.println(category);
+            categorySeq = categoryService.getCategorySeq(category);
+        }
         if (state == 1) { // 시청자 수(Live - viewer)로 sort
             auctionList = auctionService.getAuctionListByViewerAndWordOrCategorySeq(word, categorySeq, state);
         } else { // 좋아요(Auction - likeCount)로 sort

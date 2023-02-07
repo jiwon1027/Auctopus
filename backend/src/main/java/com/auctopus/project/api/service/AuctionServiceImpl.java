@@ -100,6 +100,12 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setStartTime(req.getStartTime());
         auction.setStartPrice(req.getStartPrice());
         auction.setBidUnit(req.getBidUnit());
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime startDateTime = auction.getStartTime().toLocalDateTime();
+        if (currentDateTime.isAfter(startDateTime)) auction.setState(1);
+        else auction.setState(0);
+
         auctionRepository.save(auction);
         return auction;
     }
