@@ -24,15 +24,15 @@ function withRouter(Component) {
 
 class VideoRoomComponent extends Component {
   constructor(props) {
+    const userL = localStorage.getItem("user");
+    var obj = JSON.parse(userL);
     super(props);
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let sessionName = this.props.sessionName
       ? this.props.sessionName
       : "AuctionSeq";
-    let userName = this.props.user
-      ? this.props.user
-      : "유저" + Math.floor(Math.random() * 100);
+    let userName = this.props.user ? this.props.user : obj.nickname;
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
