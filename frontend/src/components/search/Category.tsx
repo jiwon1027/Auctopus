@@ -20,7 +20,7 @@ interface IData {
 const category: IData[] = [
   { title: "전자기기", imgURL: img1, value: 1 },
   { title: "패션잡화", imgURL: img2, value: 2 },
-  { title: "도서음반", imgURL: img3, value: 3 },
+  { title: "도서/음반", imgURL: img3, value: 3 },
   { title: "완구문구", imgURL: img4, value: 4 },
   { title: "뷰티미용", imgURL: img5, value: 5 },
   { title: "인테리어", imgURL: img6, value: 6 },

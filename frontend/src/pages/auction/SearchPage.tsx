@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Layout from "@components/common/Layout";
 import ItemsList from "@components/common/ItemsList";
 import ResultFilter from "@components/result/ResultFilter";
@@ -32,18 +32,22 @@ export default function SearchPage() {
   ) => {
     const data: IReqSearch = {
       state: live === "live" ? 2 : 0,
-      word: null,
-      category: null,
+      word: keyword,
+      category: category,
     };
     switch (key) {
       case "keyword":
         data.word = val;
+        data.category = null;
         break;
       case "category":
         data.category = val;
+        data.word = null;
         break;
       case "live":
         data.state = val === "live" ? 2 : 0;
+        if (result.type !== "카테고리") data.category = null;
+        else data.word = null;
         break;
       default:
         break;
@@ -51,37 +55,28 @@ export default function SearchPage() {
 
     const res = await getAuctionsByQuery(data);
     setAuctionList(res?.data || []);
+
+    if (key === "live") return;
     setResult({
       type: key === "category" ? "카테고리" : "키워드",
       content: val,
     });
   };
 
-  const keywordHandler = useCallback(
-    (val: string) => {
-      if (result.type) setResult({ ...InitResult });
-      setKeyword(val);
-    },
-    [result]
-  );
+  const keywordHandler = (val: string) => {
+    if (result.type) setResult({ ...InitResult });
+    setKeyword(val);
+  };
 
-  const categoryHandler = useCallback(
-    (val: string) => {
-      if (result.type) setResult({ ...InitResult });
-      searchHandler("category", val);
-      setCategory(val);
-    },
-    [result]
-  );
+  const categoryHandler = (val: string) => {
+    searchHandler("category", val);
+    setCategory(val);
+  };
 
-  const liveHandler = useCallback(
-    (val: "live" | "nonLive") => {
-      if (result.type) setResult({ ...InitResult });
-      searchHandler("live", val);
-      setLive(val);
-    },
-    [result]
-  );
+  const liveHandler = (val: "live" | "nonLive") => {
+    searchHandler("live", val);
+    setLive(val);
+  };
 
   return (
     <Layout>
@@ -95,9 +90,8 @@ export default function SearchPage() {
           {`${result.type} ${result.content} 에 대한 검색결과입니다.`}
         </ResultText>
       )}
-      {auctionList.length > 0 ? (
-        <ResultFilter live={live} onChangeLive={liveHandler} />
-      ) : (
+      <ResultFilter live={live} onChangeLive={liveHandler} />
+      {auctionList.length === 0 && (
         <>
           <Category category={category} onChangeCategory={categoryHandler} />
           <RecentSearches />
