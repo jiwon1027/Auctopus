@@ -35,9 +35,7 @@ class VideoRoomComponent extends Component {
     // console.log(this.props.useLocations.state.userState);
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
-    const sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : "auctionSeq";
+    const sessionName = "AuctionSeq";
     let userName = this.props.user ? this.props.user : obj.nickname;
     this.remotes = [];
     this.localUserAccessAllowed = false;
@@ -202,12 +200,14 @@ class VideoRoomComponent extends Component {
     let publisher = this.OV.initPublisher(undefined, {
       audioSource: undefined,
       videoSource: videoDevices[0].deviceId,
-      publishAudio: localUser.isAudioActive(),
-      publishVideo: localUser.isVideoActive(),
+      publishAudio:
+        this.props.locations.state.userState === "seller" ? true : false,
+      publishVideo:
+        this.props.locations.state.userState === "seller" ? true : false,
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
-      isBuyer: this.props.locations.state.userState === "seller" ? false : true,
+      mirror: this.props.locations.state.userState === "seller" ? false : true,
     });
 
     if (this.state.session.capabilities.publish) {
@@ -249,12 +249,13 @@ class VideoRoomComponent extends Component {
     console.log("############# update subscribers ###########");
 
     var subscribers = this.remotes;
+    console.log(this.remotes);
     this.setState(
       {
         subscribers: subscribers,
       },
       () => {
-        if (this.state.localseUser) {
+        if (this.state.localUser) {
           this.sendSignalUserChanged({
             nickname: this.state.localUser.getNickname(),
             isAudioActive: this.state.localUser.isAudioActive(),
@@ -337,19 +338,16 @@ class VideoRoomComponent extends Component {
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
       // var subscribers = this.state.subscribers;
-      subscriber.on("streamPlaying", (e) => {
-        this.checkSomeoneShareScreen();
-        subscriber.videos[0].video.parentElement.classList.remove(
-          "custom-class"
-        );
-      });
-      console.log(subscriber);
+      console.log(event.stream.connection);
+      // 여기서 subscriber들 바이어인지 판별해야함
       const newUser = new UserModel();
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
-
-      console.log(newUser);
+      console.log(event.stream.connection.remoteOptions.streams[0].videoActive);
+      const viedeoActiveOption =
+        event.stream.connection.remoteOptions.streams[0].videoActive;
+      viedeoActiveOption ? newUser.setIsBuyer(false) : newUser.setIsBuyer(true);
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
@@ -650,7 +648,6 @@ class VideoRoomComponent extends Component {
             localUser.getStreamManager() !== undefined &&
             localUser.getIsBuyer() == false && (
               <div className="OT_root OT_publisher custom-class" id="localUser">
-                <div className="session-title">{title}</div>
                 <StreamComponent
                   user={localUser}
                   handleNickname={this.nicknameChanged}
