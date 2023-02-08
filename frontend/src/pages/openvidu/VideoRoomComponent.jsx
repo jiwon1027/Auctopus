@@ -12,11 +12,10 @@ import ToolbarComponent from "./toolbar/ToolbarComponent";
 import { useLocation } from "react-router-dom";
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = "http://localhost:5000/";
-// const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
+// const APPLICATION_SERVER_URL = "http://localhost:5000/";
+const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
-const isBuyer = true;
 
 function withRouter(Component) {
   // eslint-disable-next-line react/display-name
@@ -34,7 +33,6 @@ class VideoRoomComponent extends Component {
       ? this.props.sessionName
       : "AuctionSeq";
     let userName = this.props.user ? this.props.user : obj.nickname;
-
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -73,7 +71,13 @@ class VideoRoomComponent extends Component {
     const location = this.props.locations;
     console.log("&&&&&&&& 콤포디만트 &&&&&&&&&");
     console.log(location.state);
+    console.log(localUser);
 
+    location.state.userState === "seller"
+      ? localUser.setIsBuyer(false)
+      : localUser.setIsBuyer(true);
+
+    // location.st;
     // 추가
     console.log("############ componentdidmount ###############");
     const openViduLayoutOptions = {
@@ -214,7 +218,7 @@ class VideoRoomComponent extends Component {
     localUser.setConnectionId(this.state.session.connection.connectionId);
     localUser.setScreenShareActive(false);
     localUser.setStreamManager(publisher);
-    localUser.setIsBuyer(isBuyer);
+    // localUser.setIsBuyer(isBuyer);
     this.subscribeToUserChanged();
     this.subscribeToStreamDestroyed();
     this.sendSignalUserChanged({
@@ -278,7 +282,8 @@ class VideoRoomComponent extends Component {
   }
   camStatusChanged() {
     console.log("############# camStatusChanged ###########");
-    isBuyer
+    console.log(localUser.getStreamManager());
+    localUser.getIsBuyer()
       ? localUser.setVideoActive(false)
       : localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
@@ -288,7 +293,7 @@ class VideoRoomComponent extends Component {
 
   micStatusChanged() {
     console.log("############# micStatusChanged ###########");
-    isBuyer
+    localUser.getIsBuyer()
       ? localUser.setAudioActive(false)
       : localUser.setAudioActive(!localUser.isAudioActive());
     localUser.getStreamManager().publishAudio(localUser.isAudioActive());
@@ -602,7 +607,6 @@ class VideoRoomComponent extends Component {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
-
     return (
       <div className="container" id="container">
         <ToolbarComponent
@@ -611,6 +615,7 @@ class VideoRoomComponent extends Component {
           showNotification={this.state.messageReceived}
           camStatusChanged={this.camStatusChanged}
           micStatusChanged={this.micStatusChanged}
+          x
           screenShare={this.screenShare}
           stopScreenShare={this.stopScreenShare}
           toggleFullscreen={this.toggleFullscreen}
@@ -634,18 +639,20 @@ class VideoRoomComponent extends Component {
               </div>
             )}
 
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub}
-                streamId={sub.streamManager.stream.streamId}
-              />
-            </div>
-          ))}
+          {this.state.subscribers
+            .filter((u) => !u.isBuyer)
+            .map((sub, i) => (
+              <div
+                key={i}
+                className="OT_root OT_publisher custom-class"
+                id="remoteUsers"
+              >
+                <StreamComponent
+                  user={sub}
+                  streamId={sub.streamManager.stream.streamId}
+                />
+              </div>
+            ))}
 
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
@@ -688,7 +695,7 @@ class VideoRoomComponent extends Component {
 
   async createSession(sessionId) {
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions",
+      APPLICATION_SERVER_URL + "api/openvidu/sessions",
       { customSessionId: sessionId },
       {
         headers: { "Content-Type": "application/json" },
@@ -699,7 +706,10 @@ class VideoRoomComponent extends Component {
 
   async createToken(sessionId) {
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      APPLICATION_SERVER_URL +
+        "api/openvidu/sessions/" +
+        sessionId +
+        "/connections",
       {},
       {
         headers: { "Content-Type": "application/json" },

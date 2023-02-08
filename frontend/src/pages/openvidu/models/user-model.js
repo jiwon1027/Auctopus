@@ -6,6 +6,7 @@ class UserModel {
   nickname;
   streamManager;
   type; // 'remote' | 'local'
+  isBuyer;
 
   constructor() {
     this.connectionId = "";
@@ -16,6 +17,7 @@ class UserModel {
     this.streamManager = null;
     this.type = "local";
     // 서버에서 돌리면 remote 필요할듯?
+    this.isBuyer = true;
   }
 
   isAudioActive() {

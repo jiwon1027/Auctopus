@@ -58,6 +58,8 @@ export default class StreamComponent extends Component {
   }
 
   render() {
+    console.log("%%%% STREAM USER %%%%");
+    console.log(this.props.user);
     return (
       <div className="OT_widget-container">
         <div className="pointer nickname">

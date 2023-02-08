@@ -17,7 +17,6 @@ import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
-const isBuyer = true;
 
 export default class ToolbarComponent extends Component {
   constructor(props) {
@@ -69,8 +68,8 @@ export default class ToolbarComponent extends Component {
   render() {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
-    console.log("@@@@@@@@@@ LOCAL USER @@@@@@@@@@@@@");
-    console.log(localUser);
+    const isBuyer = localUser !== undefined ? localUser.isBuyer : true;
+
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
