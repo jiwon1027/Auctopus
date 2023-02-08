@@ -1,7 +1,7 @@
 import React from "react";
 import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Hamburger from "../common/Hamburger";
 import LogoImg from "@/assets/common/logo.png";
 /**
@@ -9,10 +9,9 @@ import LogoImg from "@/assets/common/logo.png";
  * @param leftIcon none은 없음, back은 뒤로가기 버튼, turtle은 거북이 아이콘
  */
 export interface IProps {
+  title?: string;
+  back?: boolean;
   right?: JSX.Element;
-}
-interface ILeftProps {
-  pathname: string;
 }
 /**
  * 헤더
@@ -26,60 +25,34 @@ interface ILeftProps {
  * ```
  */
 export default function Header(props: IProps): JSX.Element {
-  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <StyledHeader>
-      <LeftComponent pathname={location.pathname} />
-      <TitleComponent pathname={location.pathname} />
+      <div className="backContainer">
+        {props.back ? (
+          <ChevronLeftOutlinedIcon
+            className="backIcon"
+            onClick={() => navigate(-1)}
+          />
+        ) : (
+          <Hamburger />
+        )}
+      </div>
+      {props.title ? (
+        <h1 className="title">{props.title}</h1>
+      ) : (
+        <LogoBox onClick={() => navigate("/")}>
+          <Logo src={LogoImg} alt="logo" />
+        </LogoBox>
+      )}
       <div className="iconContainer">{props.right}</div>
     </StyledHeader>
   );
 }
-const LeftComponent = (props: ILeftProps): JSX.Element => {
-  const navigate = useNavigate();
-  const gotoPrevPage = () => navigate(-1);
 
-  switch (props.pathname) {
-    case "/":
-    case "/profile":
-      return <Hamburger />;
-    case "/signup":
-    case "/signup/additional":
-    case "/signup/category":
-    case "/detail":
-    case "/autobid":
-    case "/createAuction":
-    case "/noti":
-      return (
-        <ChevronLeftOutlinedIcon className="backIcon" onClick={gotoPrevPage} />
-      );
-    default:
-      return <></>;
-  }
-};
-
-const TitleComponent = (props: { pathname: string }): JSX.Element => {
-  switch (props.pathname) {
-    case "/":
-      return (
-        <LogoBox>
-          <Logo src={LogoImg} alt="logo" />
-        </LogoBox>
-      );
-    case "/detail":
-      return <h1 className="title">경매방 생성</h1>;
-    case "/autobid":
-      return <h1 className="title">자동입찰 설정</h1>;
-    case "/createAuction":
-      return <h1 className="title">경매방 생성</h1>;
-    case "/detail/:auctionSeq/bidding":
-      return <h1 className="title">언해피의 경매</h1>;
-    default:
-      return <></>;
-  }
-};
 const LogoBox = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,10 +71,14 @@ const StyledHeader = styled.header`
   padding-top: 1rem;
   padding-bottom: 1rem;
 
-  .backIcon {
-    color: ${(props) => props.theme.colors.primary};
-    width: 3rem;
-    height: 3rem;
+  .backContainer {
+    flex: 1;
+    text-align: start;
+    .backIcon {
+      color: ${(props) => props.theme.colors.primary};
+      width: 3rem;
+      height: 3rem;
+    }
   }
 
   .signatureIcon {
@@ -110,18 +87,19 @@ const StyledHeader = styled.header`
   }
 
   .title {
+    flex: 1;
     font-weight: bold;
     font-size: 1.8rem;
     color: ${(props) => props.theme.colors.primary};
   }
 
   .iconContainer {
-    display: flex;
+    flex: 1;
     align-items: center;
+    text-align: end;
 
     .icon {
       color: ${(props) => props.theme.colors.primary};
-      margin: 0 0.5rem;
       width: 3rem;
       height: 3rem;
     }

@@ -5,7 +5,7 @@ import Form from "@components/auth/category/Form";
 
 export default function CategoryInfoPage() {
   return (
-    <Layout>
+    <Layout back>
       <Title />
       <Form />
     </Layout>

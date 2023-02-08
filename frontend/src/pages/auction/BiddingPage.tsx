@@ -28,7 +28,7 @@ const RightComponent = (
 
 export default function BiddingPage() {
   return (
-    <Layout right={RightComponent}>
+    <Layout title="언해피의 경매" right={RightComponent}>
       <NoticeSection item={item} bidder={bidder} seller={seller} />
       <ChatSection />
       <ActionFooter />
