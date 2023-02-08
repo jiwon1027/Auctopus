@@ -4,8 +4,6 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useNavigate } from "react-router-dom";
 
 interface IProps {
   keyword: string;
@@ -14,7 +12,6 @@ interface IProps {
 }
 
 export default function SearchBar(props: IProps) {
-  const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChangeKeyword(e.target.value);
   };
@@ -26,7 +23,6 @@ export default function SearchBar(props: IProps) {
 
   return (
     <SearchBox>
-      <ArrowBackIosIcon className="backIcon" onClick={() => navigate(-1)} />
       <SearchForm onSubmit={handleSubmit}>
         <InputBase
           sx={{ ml: 1, flex: 4, fontSize: 14, paddingY: 0.2 }}

@@ -4,6 +4,8 @@ import { styled as mstyled } from "@mui/system";
 import Header from "@components/common/Header";
 
 interface IProps {
+  title?: string;
+  back?: boolean;
   right?: JSX.Element;
   children: ReactNode;
 }
@@ -35,7 +37,7 @@ interface IProps {
 export default function Layout(props: IProps) {
   return (
     <StyledContainer maxWidth="md">
-      <Header right={props.right} />
+      <Header title={props.title} back={props.back} right={props.right} />
       {props.children}
     </StyledContainer>
   );

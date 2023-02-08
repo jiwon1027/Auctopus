@@ -15,45 +15,19 @@ import SearchPage from "./pages/auction/SearchPage";
 import NotificationPage from "./pages/auction//NotificationPage";
 import AuctionCreatePage from "./pages/auction/AuctionCreatePage";
 import App from "./pages/liveAuction/App";
+import BiddingPage from "./pages/auction/BiddingPage";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/error",
-    element: <ErrorPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/oauth/callback/kakao",
-    element: <OAuth2RedirectHandler />,
-  },
-  {
-    path: "/signup",
-    element: <SignupPage />,
-  },
-  {
-    path: "/signup/additional",
-    element: <AdditionalInfoPage />,
-  },
-  {
-    path: "/signup/category",
-    element: <CategoryInfoPage />,
-  },
-  {
-    path: "/detail/:auctionSeq",
-    element: <DetailPage />,
-  },
-  {
-    path: "/createAuction",
-    element: <AuctionCreatePage />,
-  },
+  { path: "/", element: <Root />, errorElement: <ErrorPage /> },
+  { path: "/error", element: <ErrorPage /> },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/oauth/callback/kakao", element: <OAuth2RedirectHandler /> },
+  { path: "/signup", element: <SignupPage /> },
+  { path: "/signup/additional", element: <AdditionalInfoPage /> },
+  { path: "/signup/category", element: <CategoryInfoPage /> },
+  { path: "/detail/:auctionSeq", element: <DetailPage /> },
+  { path: "/detail/:auctionSeq/bidding", element: <BiddingPage /> },
+  { path: "/createAuction", element: <AuctionCreatePage /> },
   { path: "/noti", element: <NotificationPage /> },
   { path: "/chat", element: <ChatPage /> },
   { path: "/likes", element: <LikesPage /> },

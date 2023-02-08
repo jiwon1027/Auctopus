@@ -79,7 +79,7 @@ export default function SearchPage() {
   };
 
   return (
-    <Layout>
+    <Layout back>
       <SearchBar
         keyword={keyword}
         onChangeKeyword={keywordHandler}
