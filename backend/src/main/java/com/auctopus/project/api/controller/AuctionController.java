@@ -51,7 +51,7 @@ public class AuctionController {
 
     @PostMapping()
     public ResponseEntity<?> registerAuction(Authentication authentication,
-            @RequestBody AuctionCreateRequest req,
+            @RequestPart AuctionCreateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(userEmail, req, auctionImageList);
@@ -62,7 +62,7 @@ public class AuctionController {
 
     @PatchMapping()
     public ResponseEntity<?> updateAuction(Authentication authentication,
-            @RequestBody AuctionUpdateRequest req,
+            @RequestPart AuctionUpdateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(req.getAuctionSeq());
