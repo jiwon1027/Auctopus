@@ -65,7 +65,7 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
-    this.useLocation = this.useLocation.bind(this);
+    this.useLocations = this.useLocations.bind(this);
   }
   componentDidMount() {
     const location = this.props.locations;
@@ -340,7 +340,7 @@ class VideoRoomComponent extends Component {
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
-      console.log(subscriber);
+      console.log(newUser);
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
@@ -596,10 +596,9 @@ class VideoRoomComponent extends Component {
   }
   // 추가
 
-  useLocation() {
-    const location = useLocation();
-    console.log("&&&&&&&& 유로케 &&&&&&&&&");
-
+  useLocations() {
+    const location = this.props.locations;
+    console.log("@@@@유로케@@@");
     console.log(location);
   }
 

@@ -43,17 +43,32 @@ function ChildModal({ auctionInfo }: IProps) {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBiddingCost(parseInt(e.target.value));
+    const costValue = parseInt(e.target.value);
+    if (!Number.isInteger(costValue)) {
+      e.target.value = "";
+      alert("최소 입찰 단위는 숫자만 가능합니다.");
+    } else {
+      setBiddingCost(costValue);
+    }
+  };
+
+  const submitDataRouter = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendDataRouter();
   };
 
   const sendDataRouter = () => {
-    navigate(`/live/${auctionInfo.auctionSeq}`, {
-      state: {
-        userState: "nonAuto",
-        auctionInfo: auctionInfo,
-        minCost: biddingCost,
-      },
-    });
+    if (biddingCost <= auctionInfo.startPrice) {
+      alert("최대 입찰 금액은 입찰 시작가보다 낮을 수 없습니다.");
+    } else {
+      navigate(`/live/${auctionInfo.auctionSeq}`, {
+        state: {
+          userState: "auto",
+          auctionInfo: auctionInfo,
+          minCost: biddingCost,
+        },
+      });
+    }
   };
 
   return (
@@ -66,10 +81,18 @@ function ChildModal({ auctionInfo }: IProps) {
             <CustomContentText id="alert-dialog-description">
               최소 입찰 단위
             </CustomContentText>
-            <CustomContentText>{auctionInfo.bidUnit}원</CustomContentText>
+            <CustomContentText>
+              {auctionInfo.bidUnit
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              원
+            </CustomContentText>
           </MinBidBox>
-          <InputBox>
-            <CustomInput onChange={handleChange} placeholder="300,000" />
+          <InputBox onSubmit={submitDataRouter}>
+            <CustomInput
+              onChange={handleChange}
+              placeholder="자동 입찰 최대 금액"
+            />
             <span>원</span>
           </InputBox>
           <ButtonWrapper>
@@ -133,7 +156,7 @@ export default function AlertDialog({ auctionInfo }: IProps) {
   );
 }
 
-const InputBox = styled.div`
+const InputBox = styled.form`
   margin-top: 1rem;
   display: flex;
   justify-content: center;

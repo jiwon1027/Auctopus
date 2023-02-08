@@ -16,6 +16,7 @@ class UserModel {
     this.nickname = "";
     this.streamManager = null;
     this.type = "local";
+    this.isBuyer = false;
     // 서버에서 돌리면 remote 필요할듯?
     this.isBuyer = true;
   }
