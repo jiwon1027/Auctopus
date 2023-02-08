@@ -105,6 +105,7 @@ public class KakaoUserController {
                             .bankCode(user.getBankCode())
                             .email((String) authentication.getCredentials())
                             .nickname((String) authentication.getPrincipal())
+                            .profileUrl((user.getProfileUrl()))
                     .build());
 
             resultMap.put("userName", user.getUserName());
