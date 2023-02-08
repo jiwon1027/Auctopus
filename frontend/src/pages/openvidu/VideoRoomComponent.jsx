@@ -600,21 +600,26 @@ class VideoRoomComponent extends Component {
     const location = this.props.locations;
     console.log("@@@@유로케@@@");
     console.log(location);
+    return location;
   }
 
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
+    const title =
+      this.useLocations().state.auctionInfo.nickname +
+      "의 " +
+      this.useLocations().state.auctionInfo.title;
     return (
       <div className="container" id="container">
         <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
+          title={title}
           showNotification={this.state.messageReceived}
           camStatusChanged={this.camStatusChanged}
           micStatusChanged={this.micStatusChanged}
-          x
           screenShare={this.screenShare}
           stopScreenShare={this.stopScreenShare}
           toggleFullscreen={this.toggleFullscreen}

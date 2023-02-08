@@ -76,7 +76,7 @@ export default class ToolbarComponent extends Component {
           <div id="navSessionInfo">
             {this.props.sessionId && (
               <div id="titleContent">
-                <span id="session-title">{mySessionId}</span>
+                <span id="session-title">{this.props.title}</span>
               </div>
             )}
           </div>
