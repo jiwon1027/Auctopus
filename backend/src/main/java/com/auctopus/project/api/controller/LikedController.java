@@ -30,7 +30,7 @@ public class LikedController {
     @PostMapping()
     public ResponseEntity<?> registerLikeAuction(Authentication authentication,
             @RequestBody int auctionSeq) {
-        String userEmail = (String) authentication.getCredentials();
+            String userEmail = (String) authentication.getCredentials();
         likeAuctionService.creatLikeAuction(userEmail, auctionSeq);
         notificationService.scheduleNotification(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -39,9 +39,11 @@ public class LikedController {
     @CrossOrigin("*")
     @DeleteMapping()
     public ResponseEntity<?> cancelLikeAuction(Authentication authentication,
-            @RequestBody int auctionSeq) {
+            @RequestBody String tmp) {
+        int auctionSeq = Integer.parseInt(tmp);
         String userEmail = (String) authentication.getCredentials();
         likeAuctionService.deleteLikeAuction(userEmail, auctionSeq);
+        notificationService.cancelNotification(userEmail, auctionSeq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -52,4 +54,5 @@ public class LikedController {
         List<Auction> likeAuctionList = likeAuctionService.getLikeAuctionList(userEmail);
         return new ResponseEntity<>(likeAuctionList, HttpStatus.OK);
     }
+
 }

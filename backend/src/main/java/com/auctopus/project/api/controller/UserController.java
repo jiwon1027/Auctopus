@@ -2,12 +2,11 @@ package com.auctopus.project.api.controller;
 
 import com.auctopus.project.api.request.UserUpdateRequest;
 import com.auctopus.project.api.service.UserService;
-import com.auctopus.project.common.exception.code.ErrorCode;
-import com.auctopus.project.common.exception.user.UserNotFoundException;
 import com.auctopus.project.db.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,35 +26,28 @@ public class UserController {
     // 회원 정보 조회
     @CrossOrigin("*")
     @GetMapping()
-    public ResponseEntity<?> getUser(String userEmail) {
+    public ResponseEntity<?> getUserInfo(Authentication authentication) {
+        String userEmail = (String) authentication.getCredentials();
         User user = userService.getUser(userEmail);
-        if (user == null)
-            throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     @CrossOrigin("*")
     @PatchMapping()
-    public ResponseEntity<?> updateUserInfo(String email,
+    public ResponseEntity<?> updateUserInfo(Authentication authentication,
             @RequestBody UserUpdateRequest req) {
-        User user = userService.getUser(email);
-        if (user == null)
-            throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
-        else {
-            userService.updateUserInfo(email, req);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        String userEmail = (String) authentication.getCredentials();
+        userService.updateUserInfo(userEmail, req);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @CrossOrigin("*")
     @DeleteMapping()
-    public ResponseEntity<?> deleteUser(String userEmail) {
-        User user = userService.getUser(userEmail);
-        if (user == null)
-            throw new UserNotFoundException("유저를 찾을 수 없습니다.", ErrorCode.USER_NOT_FOUND);
-        else {
-            userService.deleteUser(userEmail);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
+    public ResponseEntity<?> deleteUser(Authentication authentication) {
+        String userEmail = (String) authentication.getCredentials();
+        userService.deleteUser(userEmail);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
 

@@ -21,26 +21,30 @@ import lombok.Setter;
 public class AuctionResponse {
 
     int auctionSeq;
-    String email;
+    String userEmail;
     String nickname;
     String title;
     String content;
     int category;
+    int bidUnit;
     Timestamp startTime;
     int startPrice;
+    int state;
     List<AuctionImage> auctionImageList;
 
     public static AuctionResponse of(Auction auction, User user, List<AuctionImage> auctionImageList) {
         AuctionResponse res = AuctionResponse.builder()
                 .auctionSeq(auction.getAuctionSeq())
-                .email(auction.getUserEmail())
+                .userEmail(auction.getUserEmail())
                 .nickname(user.getNickname())
                 .title(auction.getTitle())
                 .content(auction.getContent())
                 .category(auction.getCategorySeq())
+                .bidUnit(auction.getBidUnit())
                 .startTime(auction.getStartTime())
                 .startPrice(auction.getStartPrice())
                 .auctionImageList(auctionImageList)
+                .state(auction.getState())
                 .build();
         return res;
     }
