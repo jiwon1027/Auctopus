@@ -6,7 +6,7 @@ import styled from "styled-components";
 export default function ActionFooter() {
   return (
     <StyledActionFooter>
-      <TextField fullWidth id="fullWidth" />
+      <TextField fullWidth id="fullWidth" sx={{ backgroundColor: "white" }} />
       <SendOutlinedIcon
         color="secondary"
         sx={{ width: "4rem", height: "4rem", marginLeft: "2rem" }}
@@ -17,5 +17,6 @@ export default function ActionFooter() {
 
 const StyledActionFooter = styled.section`
   display: flex;
-  margin-bottom: 3rem;
+  align-items: center;
+  padding-bottom: 3rem;
 `;
