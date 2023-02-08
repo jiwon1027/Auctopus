@@ -27,11 +27,17 @@ class VideoRoomComponent extends Component {
     const userL = localStorage.getItem("user");
     var obj = JSON.parse(userL);
     super(props);
+    const honne = this.props.locations;
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+    const sessionN = honne.state.auctionInfo.auctionSeq.toString();
+    console.log(sessionN);
+    // console.log(this.props.useLocations.state.userState);
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
-    let sessionName = this.props.sessionName
+    const sessionName = this.props.sessionName
       ? this.props.sessionName
-      : "AuctionSeq";
+      : "auctionSeq";
     let userName = this.props.user ? this.props.user : obj.nickname;
     this.remotes = [];
     this.localUserAccessAllowed = false;
@@ -72,10 +78,6 @@ class VideoRoomComponent extends Component {
     console.log("&&&&&&&& 콤포디만트 &&&&&&&&&");
     console.log(location.state);
     console.log(localUser);
-
-    location.state.userState !== "seller"
-      ? localUser.setIsBuyer(false)
-      : localUser.setIsBuyer(true);
 
     // location.st;
     // 추가
@@ -124,6 +126,10 @@ class VideoRoomComponent extends Component {
         session: this.OV.initSession(),
       },
       async () => {
+        this.props.locations.state.userState === "seller"
+          ? localUser.setIsBuyer(false)
+          : localUser.setIsBuyer(true);
+
         this.subscribeToStreamCreated();
         await this.connectToSession();
       }
@@ -201,6 +207,7 @@ class VideoRoomComponent extends Component {
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
+      isBuyer: this.props.locations.state.userState === "seller" ? false : true,
     });
 
     if (this.state.session.capabilities.publish) {
@@ -247,7 +254,7 @@ class VideoRoomComponent extends Component {
         subscribers: subscribers,
       },
       () => {
-        if (this.state.localUser) {
+        if (this.state.localseUser) {
           this.sendSignalUserChanged({
             nickname: this.state.localUser.getNickname(),
             isAudioActive: this.state.localUser.isAudioActive(),
@@ -336,16 +343,19 @@ class VideoRoomComponent extends Component {
           "custom-class"
         );
       });
+      console.log(subscriber);
       const newUser = new UserModel();
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
+
       console.log(newUser);
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
       console.log("@@@@@@@@@@@@remotes@@@@@@@@@@@@@");
       console.log(this.remotes);
+
       if (this.localUserAccessAllowed) {
         this.updateSubscribers();
       }
@@ -606,12 +616,15 @@ class VideoRoomComponent extends Component {
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
+
     var chatDisplay = { display: this.state.chatDisplay };
     const title =
       this.useLocations().state.auctionInfo.nickname +
       "님의 " +
       this.useLocations().state.auctionInfo.title +
       " 경매방";
+    console.log(this.state.subscribers);
+    console.log(this.state.subscribers.filter((u) => !u.isBuyer));
     return (
       <div className="container" id="container">
         <ToolbarComponent
