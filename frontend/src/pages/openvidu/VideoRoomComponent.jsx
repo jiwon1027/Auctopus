@@ -73,7 +73,7 @@ class VideoRoomComponent extends Component {
     console.log(location.state);
     console.log(localUser);
 
-    location.state.userState === "seller"
+    location.state.userState !== "seller"
       ? localUser.setIsBuyer(false)
       : localUser.setIsBuyer(true);
 
@@ -609,8 +609,9 @@ class VideoRoomComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
     const title =
       this.useLocations().state.auctionInfo.nickname +
-      "의 " +
-      this.useLocations().state.auctionInfo.title;
+      "님의 " +
+      this.useLocations().state.auctionInfo.title +
+      " 경매방";
     return (
       <div className="container" id="container">
         <ToolbarComponent
@@ -636,13 +637,13 @@ class VideoRoomComponent extends Component {
             localUser.getStreamManager() !== undefined &&
             localUser.getIsBuyer() == false && (
               <div className="OT_root OT_publisher custom-class" id="localUser">
+                <div className="session-title">{title}</div>
                 <StreamComponent
                   user={localUser}
                   handleNickname={this.nicknameChanged}
                 />
               </div>
             )}
-
           {this.state.subscribers
             .filter((u) => !u.isBuyer)
             .map((sub, i) => (
@@ -657,7 +658,6 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             ))}
-
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div

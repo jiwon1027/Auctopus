@@ -73,13 +73,13 @@ export default class ToolbarComponent extends Component {
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
-          <div id="navSessionInfo">
+          {/* <div id="navSessionInfo">
             {this.props.sessionId && (
               <div id="titleContent">
                 <span id="session-title">{this.props.title}</span>
               </div>
             )}
-          </div>
+          </div> */}
           <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} />
           <div className="buttonsContent">
             <IconButton
