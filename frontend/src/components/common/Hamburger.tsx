@@ -115,20 +115,18 @@ function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
           ))}
           <Divider />
           {isLoggedIn ? (
-            <ListItemButton>
+            <ListItemButton onClick={onLogout}>
               <ListItemIcon>
                 <CustomLogout color="info" />.
               </ListItemIcon>
-              <CustomListTextL onClick={onLogout}>로그 아웃</CustomListTextL>
+              <CustomListTextL>로그 아웃</CustomListTextL>
             </ListItemButton>
           ) : (
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/login")}>
               <ListItemIcon>
                 <CustomLogin color="info" />.
               </ListItemIcon>
-              <CustomListTextL onClick={() => navigate("/login")}>
-                로그인
-              </CustomListTextL>
+              <CustomListTextL>로그인</CustomListTextL>
             </ListItemButton>
           )}
         </List>

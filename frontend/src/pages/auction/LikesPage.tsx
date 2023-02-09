@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import ItemsList from "@components/common/ItemsList";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
 import { IAuction } from "types/auction";
+import { getAuctionLikes } from "@/api/auction";
+import { useNavigate } from "react-router-dom";
 
-const liveAuction: IAuction[] = [
+const initLiveAuction: IAuction[] = [
   {
     auctionSeq: 1,
     email: "BIBI@naver.com",
@@ -32,7 +34,25 @@ const liveAuction: IAuction[] = [
 ];
 
 export default function LikesPage() {
-  const [live, setLive] = React.useState<"live" | "nonLive">("live");
+  const navigate = useNavigate();
+  const [live, setLive] = useState<"live" | "nonLive">("live");
+  const [liveAuction, setLiveAuction] = useState<IAuction[]>(initLiveAuction);
+
+  useEffect(() => {
+    const fetchAuctionLikes = async () => {
+      const res = await getAuctionLikes();
+      if (res.status !== 200)
+        throw new Error("Internal Server Error error (❁´◡`❁)");
+
+      setLiveAuction(res.data);
+    };
+
+    try {
+      fetchAuctionLikes();
+    } catch (error) {
+      navigate("/error");
+    }
+  }, []);
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));

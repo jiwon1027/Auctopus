@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 interface IProps {
-  auctionInfo: IAuctionInfo;
+  auctionInfo: IAuctionDetail;
 }
 
 export default function Content({ auctionInfo }: IProps) {
   return (
     <ContentBox>
       <div className="contentTitle">{auctionInfo.title}</div>
-      <div className="contentCataegory">{auctionInfo.categorySeq}</div>
+      <div className="contentCataegory">{auctionInfo.category}</div>
       <div className="contentDescription">{auctionInfo.content}</div>
     </ContentBox>
   );

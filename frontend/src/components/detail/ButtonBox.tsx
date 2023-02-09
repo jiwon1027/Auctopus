@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
@@ -9,35 +9,22 @@ import { useNavigate } from "react-router-dom";
 
 interface IProps {
   isBuyer: boolean;
-  auctionInfo: IAuctionInfo;
+  auctionInfo: IAuctionDetail;
 }
 
 export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const navigate = useNavigate();
-  const [isTime, setIsTime] = useState(true);
+  const [onTime, setOnTime] = useState(false);
+  const [remainingTime, setRemainingTime] = useState("");
 
-  // setOpen에 대한 로직 - 실시간 구현시 마저 구현
-
-  function getRemainTime(time: string) {
-    const masTime = new Date(time).getTime();
-    const now = Date.now();
-    let interval = Math.floor((masTime - now) / 1000);
-
-    const date = Math.floor(interval / (24 * 60 * 60));
-    interval -= date * 24 * 60 * 60;
-    const hour = Math.floor(interval / (60 * 60));
-    interval -= hour * 60 * 60;
-    const min = Math.floor(interval / 60);
-    const sec = Math.floor(interval - min * 60);
-
-    const remainDate = new Date();
-    remainDate.setDate(date);
-    remainDate.setHours(hour);
-    remainDate.setMinutes(min);
-    remainDate.setSeconds(sec);
-    const format = remainDate.toTimeString().split(" ")[0];
-    return remainDate.getDate() + "일" + " " + format;
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOnTime(isOnTime(auctionInfo.startTime));
+      setRemainingTime(getRemainTime(auctionInfo.startTime));
+    }, 1000);
+    console.log(auctionInfo.startTime);
+    return () => clearInterval(interval);
+  }, []);
 
   const sendDataRouter = () => {
     navigate(`/live/${auctionInfo.auctionSeq}`, {
@@ -64,7 +51,7 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
         </div>
       </div>
       <ButtonWrapper>
-        {!isTime ? (
+        {onTime ? (
           <>
             <div className="time-left">
               {getRemainTime(auctionInfo.startTime)}후 입장 가능
@@ -84,10 +71,15 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
           <AccessTimeIcon color="disabled" sx={{ fontSize: 20 }} />
           <span>경매시작까지</span>
         </div>
-        <div className="timeLeft">{getRemainTime(auctionInfo.startTime)}</div>
+        <div className="timeLeft">{remainingTime}</div>
       </div>
       <div className="buttonBox">
-        <CustomizedButton onClick={() => sendDataRouter()}>
+        <CustomizedButton
+          onClick={() => sendDataRouter()}
+          // FIXME: border-color
+          disabled={!onTime}
+          color={onTime ? "primary" : "secondary"}
+        >
           라이브 시작
         </CustomizedButton>
       </div>
@@ -95,6 +87,30 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   );
 }
 
+function isOnTime(time: string) {
+  return new Date(time).getTime() - Date.now() <= 0;
+}
+
+function getRemainTime(time: string) {
+  const masTime = new Date(time).getTime();
+  const now = Date.now();
+  let interval = Math.floor((masTime - now) / 1000);
+
+  const date = Math.floor(interval / (24 * 60 * 60));
+  interval -= date * 24 * 60 * 60;
+  const hour = Math.floor(interval / (60 * 60));
+  interval -= hour * 60 * 60;
+  const min = Math.floor(interval / 60);
+  const sec = Math.floor(interval - min * 60);
+
+  const remainDate = new Date();
+  remainDate.setDate(date);
+  remainDate.setHours(hour);
+  remainDate.setMinutes(min);
+  remainDate.setSeconds(sec);
+  const format = remainDate.toTimeString().split(" ")[0];
+  return remainDate.getDate() + "일" + " " + format;
+}
 const ButtonWrapper = styled.div`
   /* padding-top: 0; */
   width: 50%;

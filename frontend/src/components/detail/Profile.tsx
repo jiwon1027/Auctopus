@@ -3,11 +3,10 @@ import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { theme } from "@/styles/theme";
-import { IUser } from "types/auth";
 
 interface IProps {
   isLiked: boolean;
-  auctionInfo: IAuctionInfo;
+  auctionInfo: IAuctionDetail;
   likeHandler: (event: React.MouseEvent<unknown>) => void;
 }
 export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
@@ -40,9 +39,8 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
             sx={{ fontSize: 30 }}
           />
         )}
-        <div className="likesCount">
-          {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
-        </div>
+        {/* FIXME: count is changeable when click LIKE button */}
+        <div className="likesCount">{auctionInfo.likeCount}</div>
       </div>
     </ProfileBox>
   );

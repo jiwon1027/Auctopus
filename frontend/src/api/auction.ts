@@ -12,13 +12,13 @@ interface IReqAuction {
   state: number;
 }
 
-export const getAuctions = async (data: IReqAuction) => {
+export async function getAuctions(data: IReqAuction) {
   return await instance.get<IAuction[]>(
     `${VITE_SERVER_DOMAIN}/api/auction/list?sort=${data.sort}&state=${data.state}`
   );
-};
+}
 
-export const getAuctionsByQuery = async (data: IReqSearch) => {
+export async function getAuctionsByQuery(data: IReqSearch) {
   return await instance.get(`${VITE_SERVER_DOMAIN}/api/search`, {
     params: {
       word: data.word,
@@ -26,4 +26,24 @@ export const getAuctionsByQuery = async (data: IReqSearch) => {
       state: data.state,
     },
   });
-};
+}
+
+export async function getAuction(auctionSeq: string) {
+  return await instance.get<IAuctionDetail>(
+    `${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`
+  );
+}
+
+export async function getAuctionLikes() {
+  return await instance.get<IAuction[]>(`${VITE_SERVER_DOMAIN}/api/liked`);
+}
+
+export async function postAuctionLike(auctionSeq: string) {
+  return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, auctionSeq);
+}
+
+export async function deleteAuctionLike(auctionSeq: string) {
+  return await instance.delete<IAuction>(
+    `${VITE_SERVER_DOMAIN}/api/liked/${auctionSeq}`
+  );
+}
