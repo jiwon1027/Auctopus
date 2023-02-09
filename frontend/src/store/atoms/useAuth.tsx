@@ -53,7 +53,7 @@ export default function useAuth() {
   function getToken() {
     const tokenStr = localStorage.getItem("token");
     if (!tokenStr) return;
-    return JSON.parse(tokenStr);
+    return tokenStr;
   }
 
   function getUser() {
