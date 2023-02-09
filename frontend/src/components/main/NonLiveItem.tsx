@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import img1 from "@/assets/main/airpodsImg.jpg";
 import { useNavigate } from "react-router-dom";
 import { IAuction } from "types/auction";
 
@@ -31,14 +30,7 @@ export default function NonLiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img
-            src={
-              props.item.auctionImage === undefined
-                ? img1
-                : props.item.auctionImage.imageUrl
-            }
-            alt="image"
-          />
+          <img src={props.item.auctionImage.imageUrl} alt="image" />
           <div className="liveBox">
             <FavoriteIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>
@@ -86,6 +78,11 @@ const ItemBox = styled.div`
     border-radius: 0.8rem;
   }
 
+  .imgBox > img {
+    width: 100%;
+    height: 100%;
+  }
+
   .liveBox {
     display: flex;
     position: relative;
@@ -100,6 +97,8 @@ const ItemBox = styled.div`
     color: white;
     font-weight: 600;
     padding-left: 0.2rem;
+    text-shadow: -1px 0px 0px black, 1px 0px 0px black, 0px -1px 0px black,
+      0px 1px 0px black;
   }
 
   .infoBox {
