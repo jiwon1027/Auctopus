@@ -17,7 +17,7 @@ const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 
-function withRouter(Component) {
+function withRouterVideo(Component) {
   // eslint-disable-next-line react/display-name
   return (props) => <Component {...props} locations={useLocation()} />;
 }
@@ -27,15 +27,12 @@ class VideoRoomComponent extends Component {
     const userL = localStorage.getItem("user");
     var obj = JSON.parse(userL);
     super(props);
-    const honne = this.props.locations;
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    const navData = this.props.locations.state;
+    console.log(navData);
 
-    const sessionN = honne.state.auctionInfo.auctionSeq.toString();
-    console.log(sessionN);
-    // console.log(this.props.useLocations.state.userState);
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
-    const sessionName = "AuctionSeq";
+    const sessionName = navData.auctionInfo.auctionSeq.toString();
     let userName = this.props.user ? this.props.user : obj.nickname;
     this.remotes = [];
     this.localUserAccessAllowed = false;
@@ -47,7 +44,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "",
       currentVideoDevice: undefined,
-
+      detailData: navData,
       // 추가
       videoEnabled: false,
       audioEnabled: false,
@@ -72,10 +69,7 @@ class VideoRoomComponent extends Component {
     this.useLocations = this.useLocations.bind(this);
   }
   componentDidMount() {
-    const location = this.props.locations;
-    console.log("&&&&&&&& 콤포디만트 &&&&&&&&&");
-    console.log(location.state);
-    console.log(localUser);
+    console.log(this.state.detailData);
 
     // location.st;
     // 추가
@@ -606,8 +600,6 @@ class VideoRoomComponent extends Component {
 
   useLocations() {
     const location = this.props.locations;
-    console.log("@@@@유로케@@@");
-    console.log(location);
     return location;
   }
 
@@ -616,11 +608,8 @@ class VideoRoomComponent extends Component {
     const localUser = this.state.localUser;
 
     var chatDisplay = { display: this.state.chatDisplay };
-    const title =
-      this.useLocations().state.auctionInfo.nickname +
-      "님의 " +
-      this.useLocations().state.auctionInfo.title +
-      " 경매방";
+    const title = this.useLocations().state.auctionInfo.title;
+    const nickname = this.useLocations().state.auctionInfo.nickname;
     console.log(this.state.subscribers);
     console.log(this.state.subscribers.filter((u) => !u.isBuyer));
     return (
@@ -628,7 +617,7 @@ class VideoRoomComponent extends Component {
         <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
-          title={title}
+          detailData={this.state.detailData}
           showNotification={this.state.messageReceived}
           camStatusChanged={this.camStatusChanged}
           micStatusChanged={this.micStatusChanged}
@@ -676,6 +665,8 @@ class VideoRoomComponent extends Component {
               >
                 <ChatComponent
                   user={localUser}
+                  title={title}
+                  nickname={nickname}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   messageReceived={this.checkNotification}
@@ -732,4 +723,4 @@ class VideoRoomComponent extends Component {
     return response.data; // The token
   }
 }
-export default withRouter(VideoRoomComponent);
+export default withRouterVideo(VideoRoomComponent);

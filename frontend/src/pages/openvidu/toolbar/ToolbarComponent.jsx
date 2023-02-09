@@ -17,8 +17,14 @@ import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
-export default class ToolbarComponent extends Component {
+function withRouterToolbar(Component) {
+  // eslint-disable-next-line react/display-name
+  return (props) => <Component {...props} navigate={useNavigate()} />;
+}
+
+class ToolbarComponent extends Component {
   constructor(props) {
     super(props);
     this.state = { fullscreen: false };
@@ -30,6 +36,7 @@ export default class ToolbarComponent extends Component {
     this.switchCamera = this.switchCamera.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
+    this.navToAuction = this.navToAuction.bind(this);
   }
 
   micStatusChanged() {
@@ -65,6 +72,17 @@ export default class ToolbarComponent extends Component {
     this.props.toggleChat();
   }
 
+  navToAuction() {
+    const navigate = this.props.navigate;
+    navigate(`/chat/${this.props.detailData.auctionInfo.auctionSeq}`, {
+      state: {
+        auctionInfo: this.props.detailData.auctionInfo,
+        userState: this.props.detailData.userState,
+        limit: this.props.detailData.minCost,
+      },
+    });
+  }
+
   render() {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
@@ -73,13 +91,6 @@ export default class ToolbarComponent extends Component {
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
-          {/* <div id="navSessionInfo">
-            {this.props.sessionId && (
-              <div id="titleContent">
-                <span id="session-title">{this.props.title}</span>
-              </div>
-            )}
-          </div> */}
           <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} />
           <div className="buttonsContent">
             <IconButton
@@ -112,24 +123,6 @@ export default class ToolbarComponent extends Component {
               )}
             </IconButton>
 
-            {/* <IconButton
-              color="inherit"
-              className="navButton"
-              onClick={this.screenShare}
-            >
-              {localUser !== undefined && localUser.isScreenShareActive() ? (
-                <PictureInPicture />
-              ) : (
-                <ScreenShare />
-              )}
-            </IconButton> */}
-
-            {/* {localUser !== undefined && localUser.isScreenShareActive() && (
-              <IconButton onClick={this.stopScreenShare} id="navScreenButton">
-                <StopScreenShare color="secondary" />
-              </IconButton>
-            )} */}
-
             <IconButton
               color="inherit"
               className="navButton"
@@ -137,18 +130,6 @@ export default class ToolbarComponent extends Component {
             >
               <SwitchVideoIcon />
             </IconButton>
-
-            {/* <IconButton 
-              color="inherit"
-              className="navButton"
-              onClick={this.toggleFullscreen}
-            >
-              {localUser !== undefined && this.state.fullscreen ? (
-                <FullscreenExit />
-              ) : (
-                <Fullscreen />
-              )}
-            </IconButton> */}
 
             <IconButton
               color="inherit"
@@ -169,7 +150,12 @@ export default class ToolbarComponent extends Component {
               <PowerSettingsNew />
             </IconButton>
           </div>
-          <IconButton color="inherit" className="navButton" id="navNextButton">
+          <IconButton
+            onClick={this.navToAuction}
+            color="inherit"
+            className="navButton"
+            id="navNextButton"
+          >
             다음
           </IconButton>
         </Toolbar>
@@ -177,3 +163,4 @@ export default class ToolbarComponent extends Component {
     );
   }
 }
+export default withRouterToolbar(ToolbarComponent);

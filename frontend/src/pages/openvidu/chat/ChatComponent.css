@@ -9,14 +9,22 @@
 #chatToolbar {
   height: 30px;
   box-sizing: border-box;
-  font-weight: bold;
   font-size: 14px;
   text-align: center;
-  padding-top: 4px;
+  padding-top: 10px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  color: #ffffff;
   /* background-color: #a7c957; */
+}
+
+#chatToolbar > #nickname {
+  font-size: 16px;
+  font-weight: bold;
+}
+#chatToolbar > #title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #6a994e;
 }
 
 #closeButton {

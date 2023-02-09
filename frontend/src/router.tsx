@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   { path: "/detail/:auctionSeq/bidding", element: <BiddingPage /> },
   { path: "/createAuction", element: <AuctionCreatePage /> },
   { path: "/noti", element: <NotificationPage /> },
-  { path: "/chat", element: <ChatPage /> },
+  { path: "/chat/:auctionSeq", element: <ChatPage /> },
   { path: "/likes", element: <LikesPage /> },
   { path: "/profile", element: <ProfilePage /> },
   { path: "/search", element: <SearchPage /> },
