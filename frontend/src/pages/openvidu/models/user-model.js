@@ -7,6 +7,7 @@ class UserModel {
   streamManager;
   type; // 'remote' | 'local'
   isBuyer;
+  profileUrl;
 
   constructor() {
     this.connectionId = "";
@@ -17,6 +18,7 @@ class UserModel {
     this.streamManager = null;
     this.type = "local";
     this.isBuyer = true;
+    this.profileUrl = "";
     // 서버에서 돌리면 remote 필요할듯?
   }
 
@@ -45,6 +47,10 @@ class UserModel {
   }
   getIsBuyer() {
     return this.isBuyer;
+  }
+
+  getProfileUrl() {
+    return this.profileUrl;
   }
   isLocal() {
     return this.type === "local";
@@ -82,6 +88,9 @@ class UserModel {
   }
   setIsBuyer(type) {
     this.isBuyer = type;
+  }
+  setProfileUrl(profileUrl) {
+    this.profileUrl = profileUrl;
   }
 }
 

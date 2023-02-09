@@ -87,6 +87,7 @@ class ToolbarComponent extends Component {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
     const isBuyer = localUser !== undefined ? localUser.isBuyer : true;
+    console.log(this.props.detailData);
 
     return (
       <AppBar className="toolbar" id="header">
