@@ -9,10 +9,13 @@ import java.util.List;
 public interface LikeAuctionService {
 
     // 새로운 관심 경매 등록
-    void creatLikeAuction(String userEmail, int auctionSeq);
+    boolean creatLikeAuction(String userEmail, int auctionSeq);
 
     // 등록해놓은 관심 경매 관심 해제
-    void deleteLikeAuction(String userEmail, int auctionSeq);
+    boolean deleteLikeAuction(String userEmail, int auctionSeq);
+
+    // 경매를 관심 눌러놓았었는지 확인
+    boolean checkingExistence(String userEmail, int auctionSeq);
 
     // 사용자의 관심 경매 목록 가져오기
     List<Auction> getLikeAuctionList(String userEmail);
