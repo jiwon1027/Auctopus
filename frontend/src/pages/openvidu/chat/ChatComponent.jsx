@@ -34,16 +34,16 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
         });
-        const document = window.document;
-        setTimeout(() => {
-          const userImg = document.getElementById(
-            "userImg-" + (this.state.messageList.length - 1)
-          );
-          const video = document.getElementById("video-" + data.streamId);
-          const avatar = userImg.getContext("2d");
-          avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-          this.props.messageReceived();
-        }, 50);
+        // const document = window.document;
+        // setTimeout(() => {
+        //   const userImg = document.getElementById(
+        //     "userImg-" + (this.state.messageList.length - 1)
+        //   );
+        //   const video = document.getElementById("video-" + data.streamId);
+        //   const avatar = userImg.getContext("2d");
+        //   avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+        //   this.props.messageReceived();
+        // }, 50);
         this.setState({ messageList: messageList });
         this.scrollToBottom();
       });
@@ -94,15 +94,14 @@ export default class ChatComponent extends Component {
   }
 
   render() {
+    const profileUrl = JSON.parse(localStorage.getItem("user")).profileUrl;
     const styleChat = { display: this.props.chatDisplay };
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
           <div id="chatToolbar">
-            <span>
-              {this.props.user.getStreamManager().stream.session.sessionId}의
-              채팅방
-            </span>
+            <span id="nickname">{this.props.nickname}</span>님의
+            <span id="title"> {this.props.title}</span>
             <IconButton id="closeButton" onClick={this.close}>
               <HighlightOff color="secondary" />
             </IconButton>
@@ -119,8 +118,8 @@ export default class ChatComponent extends Component {
                     : " right")
                 }
               >
-                <canvas
-                  id={"userImg-" + i}
+                <img
+                  src={profileUrl}
                   width="30"
                   height="30"
                   className="user-img"
