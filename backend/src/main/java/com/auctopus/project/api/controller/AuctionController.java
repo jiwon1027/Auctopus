@@ -80,7 +80,6 @@ public class AuctionController {
     public ResponseEntity<?> deleteAuction(Authentication authentication,
             @PathVariable("auctionSeq") int auctionSeq) {
         String userEmail = (String) authentication.getCredentials();
-
         Auction auction = auctionService.getAuction(auctionSeq);
         if (!userEmail.equals((auction.getUserEmail())))
             return new ResponseEntity<>("삭제할 권한이 없습니다.", HttpStatus.BAD_REQUEST);
@@ -156,7 +155,6 @@ public class AuctionController {
         List<AuctionListResponse> auctionListResponseList = new ArrayList<>();
         System.out.println(auctionList);
         for (Auction auction : auctionList) {
-            //List<AuctionImage> auctionImageList = null;
             Live live = null;
             List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(
                     auction.getAuctionSeq());
