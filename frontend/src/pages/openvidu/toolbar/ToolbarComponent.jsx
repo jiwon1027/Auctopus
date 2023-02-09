@@ -1,0 +1,179 @@
+true; /* eslint-disable react/prop-types */
+import React, { Component } from "react";
+import "./ToolbarComponent.css";
+
+// import AppBar from "@material-ui/core/AppBar";
+import AppBar from "@mui/material/AppBar";
+// import Toolbar from "@material-ui/core/Toolbar";
+import Toolbar from "@mui/material/Toolbar";
+import LogoImg from "@/assets/common/logo.png";
+import Mic from "@mui/icons-material/KeyboardVoice";
+import MicOff from "@mui/icons-material/MicOff";
+import Videocam from "@mui/icons-material/Videocam";
+import VideocamOff from "@mui/icons-material/VideocamOff";
+import SwitchVideoIcon from "@mui/icons-material/SwitchVideo";
+import Tooltip from "@mui/material/Tooltip";
+import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
+import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
+
+import IconButton from "@mui/material/IconButton";
+
+export default class ToolbarComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { fullscreen: false };
+    this.camStatusChanged = this.camStatusChanged.bind(this);
+    this.micStatusChanged = this.micStatusChanged.bind(this);
+    this.screenShare = this.screenShare.bind(this);
+    this.stopScreenShare = this.stopScreenShare.bind(this);
+    this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.switchCamera = this.switchCamera.bind(this);
+    this.leaveSession = this.leaveSession.bind(this);
+    this.toggleChat = this.toggleChat.bind(this);
+  }
+
+  micStatusChanged() {
+    this.props.micStatusChanged();
+  }
+
+  camStatusChanged() {
+    this.props.camStatusChanged();
+  }
+
+  screenShare() {
+    this.props.screenShare();
+  }
+
+  stopScreenShare() {
+    this.props.stopScreenShare();
+  }
+
+  toggleFullscreen() {
+    this.setState({ fullscreen: !this.state.fullscreen });
+    this.props.toggleFullscreen();
+  }
+
+  switchCamera() {
+    this.props.switchCamera();
+  }
+
+  leaveSession() {
+    this.props.leaveSession();
+  }
+
+  toggleChat() {
+    this.props.toggleChat();
+  }
+
+  render() {
+    const mySessionId = this.props.sessionId;
+    const localUser = this.props.user;
+    const isBuyer = localUser !== undefined ? localUser.isBuyer : true;
+
+    return (
+      <AppBar className="toolbar" id="header">
+        <Toolbar className="toolbar">
+          {/* <div id="navSessionInfo">
+            {this.props.sessionId && (
+              <div id="titleContent">
+                <span id="session-title">{this.props.title}</span>
+              </div>
+            )}
+          </div> */}
+          <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} />
+          <div className="buttonsContent">
+            <IconButton
+              color="inherit"
+              className="navButton"
+              id="navMicButton"
+              onClick={this.micStatusChanged}
+            >
+              {isBuyer ? (
+                <MicOff color="secondary" />
+              ) : localUser !== undefined && localUser.isAudioActive() ? (
+                <Mic />
+              ) : (
+                <MicOff color="secondary" />
+              )}
+            </IconButton>
+
+            <IconButton
+              color="inherit"
+              className="navButton"
+              id="navCamButton"
+              onClick={this.camStatusChanged}
+            >
+              {isBuyer ? (
+                <VideocamOff color="secondary" />
+              ) : localUser !== undefined && localUser.isVideoActive() ? (
+                <Videocam />
+              ) : (
+                <VideocamOff color="secondary" />
+              )}
+            </IconButton>
+
+            {/* <IconButton
+              color="inherit"
+              className="navButton"
+              onClick={this.screenShare}
+            >
+              {localUser !== undefined && localUser.isScreenShareActive() ? (
+                <PictureInPicture />
+              ) : (
+                <ScreenShare />
+              )}
+            </IconButton> */}
+
+            {/* {localUser !== undefined && localUser.isScreenShareActive() && (
+              <IconButton onClick={this.stopScreenShare} id="navScreenButton">
+                <StopScreenShare color="secondary" />
+              </IconButton>
+            )} */}
+
+            <IconButton
+              color="inherit"
+              className="navButton"
+              onClick={this.switchCamera}
+            >
+              <SwitchVideoIcon />
+            </IconButton>
+
+            {/* <IconButton 
+              color="inherit"
+              className="navButton"
+              onClick={this.toggleFullscreen}
+            >
+              {localUser !== undefined && this.state.fullscreen ? (
+                <FullscreenExit />
+              ) : (
+                <Fullscreen />
+              )}
+            </IconButton> */}
+
+            <IconButton
+              color="inherit"
+              onClick={this.toggleChat}
+              id="navChatButton"
+            >
+              {this.props.showNotification && <div id="point" className="" />}
+              <Tooltip title="Chat">
+                <QuestionAnswer />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              color="secondary"
+              className="navButton"
+              onClick={this.leaveSession}
+              id="navLeaveButton"
+            >
+              <PowerSettingsNew />
+            </IconButton>
+          </div>
+          <IconButton color="inherit" className="navButton" id="navNextButton">
+            다음
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    );
+  }
+}

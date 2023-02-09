@@ -8,7 +8,6 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { normalize } from "styled-normalize";
 import { theme } from "@/styles/theme";
 import { RecoilRoot } from "recoil";
-import registerServiceWorker from "./registerServiceWorker";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -24,16 +23,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <MThemeProvider theme={mtheme}>
-        <RecoilRoot>
-          <RouterProvider router={router} />
-        </RecoilRoot>
-      </MThemeProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <MThemeProvider theme={mtheme}>
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
+    </MThemeProvider>
+  </ThemeProvider>
 );
-
-registerServiceWorker();

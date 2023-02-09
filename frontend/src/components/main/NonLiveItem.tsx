@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import img1 from "@/assets/main/airpodsImg.jpg";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   item: IAuction;
 }
 
 export default function NonLiveItem(props: IProps) {
+  const navigate = useNavigate();
+
   const getTime = (time: string) => {
     const dDate = new Date(time);
     const month = dDate.getMonth() + 1;
@@ -18,9 +21,14 @@ export default function NonLiveItem(props: IProps) {
     const remainTime = `${month}월 ${day}일 ${hour}시 `;
     return remainTime;
   };
+
+  const moveToDetail = () => {
+    navigate(`/detail/${props.item.auctionSeq}`);
+  };
+
   return (
     <>
-      <ItemBox>
+      <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
           <img src={img1} alt="image" />
           <div className="liveBox">

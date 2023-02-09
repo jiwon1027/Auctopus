@@ -24,6 +24,7 @@ const initData = {
   state: 0,
   profileUrl: "",
   nickname: "",
+  bidUnit: 0,
 };
 
 export default function DetailPage() {
@@ -47,7 +48,7 @@ export default function DetailPage() {
       setData(resData);
       console.log(resData);
       const user = JSON.parse(localStorage.getItem("user") || "");
-      user.email === resData.userEmail ? setIsBuyer(true) : setIsBuyer(false);
+      user.email === resData.userEmail ? setIsBuyer(false) : setIsBuyer(true);
     });
 
     console.log(auctionSeq);

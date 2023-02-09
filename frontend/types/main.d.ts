@@ -11,6 +11,7 @@ interface IAuctionInfo {
   link: string;
   likeCount: number;
   state: number;
+  bidUnit: number;
 }
 
 interface IAuctionCreate {
@@ -20,7 +21,7 @@ interface IAuctionCreate {
   content: string;
   startTime: string;
   startPrice: number;
-  bidUnit: 0;
+  bidUnit: number;
 }
 
 interface IUserData {

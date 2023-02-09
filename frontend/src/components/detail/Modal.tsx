@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -10,8 +10,9 @@ import { theme } from "@/styles/theme";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { OutlinedInput } from "@mui/material";
-
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,14 +25,50 @@ const style = {
   px: 4,
   pb: 3,
 };
-function ChildModal() {
-  const [open, setOpen] = React.useState(false);
+
+interface IProps {
+  auctionInfo: IAuctionInfo;
+}
+
+function ChildModal({ auctionInfo }: IProps) {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [biddingCost, setBiddingCost] = useState(0);
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const costValue = parseInt(e.target.value);
+    if (!Number.isInteger(costValue)) {
+      e.target.value = "";
+      alert("최소 입찰 단위는 숫자만 가능합니다.");
+    } else {
+      setBiddingCost(costValue);
+    }
+  };
+
+  const submitDataRouter = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendDataRouter();
+  };
+
+  const sendDataRouter = () => {
+    if (biddingCost <= auctionInfo.startPrice) {
+      alert("최대 입찰 금액은 입찰 시작가보다 낮을 수 없습니다.");
+    } else {
+      navigate(`/live/${auctionInfo.auctionSeq}`, {
+        state: {
+          userState: "auto",
+          auctionInfo: auctionInfo,
+          minCost: biddingCost,
+        },
+      });
+    }
   };
 
   return (
@@ -44,14 +81,22 @@ function ChildModal() {
             <CustomContentText id="alert-dialog-description">
               최소 입찰 단위
             </CustomContentText>
-            <CustomContentText>5000원</CustomContentText>
+            <CustomContentText>
+              {auctionInfo.bidUnit
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              원
+            </CustomContentText>
           </MinBidBox>
-          <InputBox>
-            <CustomInput placeholder="300,000" />
+          <InputBox onSubmit={submitDataRouter}>
+            <CustomInput
+              onChange={handleChange}
+              placeholder="자동 입찰 최대 금액"
+            />
             <span>원</span>
           </InputBox>
           <ButtonWrapper>
-            <CustomBtn1>경매방 입장</CustomBtn1>
+            <CustomBtn1 onClick={sendDataRouter}>경매방 입장</CustomBtn1>
             <CustomBtn2 onClick={handleClose}>취소</CustomBtn2>
           </ButtonWrapper>
         </Box>
@@ -60,7 +105,8 @@ function ChildModal() {
   );
 }
 
-export default function AlertDialog() {
+export default function AlertDialog({ auctionInfo }: IProps) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -69,6 +115,16 @@ export default function AlertDialog() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const sendDataRouter = () => {
+    handleClose();
+    navigate(`/live/${auctionInfo.auctionSeq}`, {
+      state: {
+        userState: "nonAuto",
+        auctionInfo: auctionInfo,
+      },
+    });
   };
 
   return (
@@ -92,15 +148,15 @@ export default function AlertDialog() {
           </CustomContentText>
         </DialogContent>
         <CustomActions>
-          <CustomBtn1 onClick={handleClose}>수동 입찰 사용</CustomBtn1>
-          <ChildModal />
+          <CustomBtn1 onClick={sendDataRouter}>수동 입찰 사용</CustomBtn1>
+          <ChildModal auctionInfo={auctionInfo} />
         </CustomActions>
       </CustomDialog>
     </div>
   );
 }
 
-const InputBox = styled.div`
+const InputBox = styled.form`
   margin-top: 1rem;
   display: flex;
   justify-content: center;
