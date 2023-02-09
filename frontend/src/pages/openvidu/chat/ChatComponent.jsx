@@ -24,8 +24,6 @@ export default class ChatComponent extends Component {
   }
 
   componentDidMount() {
-    const userProfile = JSON.parse(localStorage.getItem("user")).profileUrl;
-    console.log(userProfile);
     this.props.user
       .getStreamManager()
       .stream.session.on("signal:chat", (event) => {
@@ -62,7 +60,6 @@ export default class ChatComponent extends Component {
   }
 
   sendMessage() {
-    console.log(this.state.message);
     if (this.props.user && this.state.message) {
       let message = this.state.message.replace(/ +(?= )/g, "");
       if (message !== "" && message !== " ") {
@@ -98,6 +95,8 @@ export default class ChatComponent extends Component {
   render() {
     const profileUrl = JSON.parse(localStorage.getItem("user")).profileUrl;
     const styleChat = { display: this.props.chatDisplay };
+    console.log(this.state.messageList.map((data) => console.log(data)));
+    console.log(this.props.user.connectionId);
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
@@ -148,7 +147,7 @@ export default class ChatComponent extends Component {
               onKeyPress={this.handlePressKey}
             />
             <Tooltip title="Send message">
-              <Fab size="small" id="sendButton">
+              <Fab size="small" id="sendButton" onClick={this.sendMessage}>
                 <Send />
               </Fab>
             </Tooltip>

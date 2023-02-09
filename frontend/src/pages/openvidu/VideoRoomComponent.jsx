@@ -27,12 +27,20 @@ class VideoRoomComponent extends Component {
     const userL = localStorage.getItem("user");
     var obj = JSON.parse(userL);
     super(props);
+<<<<<<< HEAD
     const navData = this.props.locations.state;
     console.log(navData);
 
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     const sessionName = navData.auctionInfo.auctionSeq.toString();
+=======
+    const honne = this.props.locations;
+    const sessionN = honne.state.auctionInfo.auctionSeq.toString();
+    this.hasBeenUpdated = false;
+    this.layout = new OpenViduLayout();
+    const sessionName = sessionN;
+>>>>>>> 082d1db ( 💫 chore: separate sessions)
     let userName = this.props.user ? this.props.user : obj.nickname;
     this.remotes = [];
     this.localUserAccessAllowed = false;
