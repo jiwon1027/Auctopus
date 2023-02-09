@@ -4,6 +4,7 @@ import { theme } from "@/styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import img1 from "@/assets/main/airpodsImg.jpg";
 import { useNavigate } from "react-router-dom";
+import { IAuction } from "types/auction";
 
 interface IProps {
   item: IAuction;
@@ -30,7 +31,14 @@ export default function NonLiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img src={img1} alt="image" />
+          <img
+            src={
+              props.item.auctionImage === undefined
+                ? img1
+                : props.item.auctionImage.imageUrl
+            }
+            alt="image"
+          />
           <div className="liveBox">
             <FavoriteIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>
