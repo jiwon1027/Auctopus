@@ -22,6 +22,7 @@ public class AuctionResponse {
 
     int auctionSeq;
     String userEmail;
+    String profileUrl;
     String nickname;
     String title;
     String content;
@@ -29,6 +30,7 @@ public class AuctionResponse {
     int bidUnit;
     Timestamp startTime;
     int startPrice;
+    int likeCount;
     int state;
     List<AuctionImage> auctionImageList;
 
@@ -36,6 +38,7 @@ public class AuctionResponse {
         AuctionResponse res = AuctionResponse.builder()
                 .auctionSeq(auction.getAuctionSeq())
                 .userEmail(auction.getUserEmail())
+                .profileUrl(user.getProfileUrl())
                 .nickname(user.getNickname())
                 .title(auction.getTitle())
                 .content(auction.getContent())
@@ -44,6 +47,7 @@ public class AuctionResponse {
                 .startTime(auction.getStartTime())
                 .startPrice(auction.getStartPrice())
                 .auctionImageList(auctionImageList)
+                .likeCount(auction.getLikeCount())
                 .state(auction.getState())
                 .build();
         return res;

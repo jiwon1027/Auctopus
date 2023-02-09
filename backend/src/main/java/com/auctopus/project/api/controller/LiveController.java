@@ -34,8 +34,10 @@ public class LiveController {
 
     @CrossOrigin("*")
     @PostMapping("/open")
-    public ResponseEntity<?> openLive(Authentication authentication, int auctionSeq) {
+    public ResponseEntity<?> openLive(Authentication authentication,
+            @RequestBody Map<String, Integer> map) {
         String userEmail = (String) authentication.getCredentials();
+        int auctionSeq = map.get("auctionSeq");
         if (!userEmail.equals(auctionService.getAuction(auctionSeq).getUserEmail()))
             return new ResponseEntity<>("라이브를 생성할 권한이 없습니다.", HttpStatus.BAD_REQUEST);
         liveService.createLive(auctionSeq);
