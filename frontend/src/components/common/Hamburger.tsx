@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -11,34 +10,36 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
-
-const initUserData = {
-  nickname: "",
-  email: "",
-  profileUrl: "",
-};
+import useAuth from "@/store/atoms/useAuth";
 
 interface IList {
   userData: IUserData;
   onClick: () => void;
+  isLoggedIn: boolean;
+  onLogout: () => void;
 }
 export default function Hamburger() {
+  const { getToken, getUser, signOut } = useAuth();
   const [toggle, setToggle] = React.useState(false);
-  const [userData, setUserData] = useState<IUserData>(initUserData);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "");
-    setUserData(user);
-  }, []);
+  const isLoggedIn = !!getToken();
+  const userData = getUser();
+
   const toggleDrawer = () => {
     setToggle((prev) => !prev);
+  };
+
+  const onLogout = () => {
+    signOut();
+    alert("로그아웃했습니다");
   };
 
   return (
@@ -54,7 +55,12 @@ export default function Hamburger() {
         left
       </MenuIcon>
       <Drawer anchor="left" open={toggle} onClose={toggleDrawer}>
-        <ListComponent userData={userData} onClick={toggleDrawer} />
+        <ListComponent
+          userData={userData}
+          onClick={toggleDrawer}
+          isLoggedIn={isLoggedIn}
+          onLogout={onLogout}
+        />
       </Drawer>
     </>
   );
@@ -67,21 +73,25 @@ const navItems = [
   { value: "내 프로필", uri: "/profile" },
 ];
 
-function ListComponent({ userData, onClick }: IList) {
+function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
   const navigate = useNavigate();
+
   return (
     <>
-      <IconBox>
-        <CustomNotice onClick={() => navigate("/noti")} />
-        <CustomClose onClick={onClick} />
-      </IconBox>
-      <ProfileBox>
-        <Profile onClick={() => navigate("/profile")}>
-          <img className="image" src={userData.profileUrl} alt="profile" />
-        </Profile>
-        <span className="profileTitle">{userData.nickname}님</span>
-      </ProfileBox>
-
+      {isLoggedIn && (
+        <>
+          <IconBox>
+            <CustomNotice onClick={() => navigate("/noti")} />
+            <CustomClose onClick={onClick} />
+          </IconBox>
+          <ProfileBox>
+            <Profile onClick={() => navigate("/profile")}>
+              <img className="image" src={userData.profileUrl} alt="profile" />
+            </Profile>
+            <span className="profileTitle">{userData.nickname}님</span>
+          </ProfileBox>
+        </>
+      )}
       <Box
         sx={{ width: 280 }}
         role="presentation"
@@ -104,12 +114,23 @@ function ListComponent({ userData, onClick }: IList) {
             </ListItem>
           ))}
           <Divider />
-          <ListItemButton>
-            <ListItemIcon>
-              <CustomLogout color="info" />.
-            </ListItemIcon>
-            <CustomListTextL>로그 아웃</CustomListTextL>
-          </ListItemButton>
+          {isLoggedIn ? (
+            <ListItemButton>
+              <ListItemIcon>
+                <CustomLogout color="info" />.
+              </ListItemIcon>
+              <CustomListTextL onClick={onLogout}>로그 아웃</CustomListTextL>
+            </ListItemButton>
+          ) : (
+            <ListItemButton>
+              <ListItemIcon>
+                <CustomLogin color="info" />.
+              </ListItemIcon>
+              <CustomListTextL onClick={() => navigate("/login")}>
+                로그인
+              </CustomListTextL>
+            </ListItemButton>
+          )}
         </List>
       </Box>
     </>
@@ -194,7 +215,13 @@ const CustomListTextL = styled.div`
   font-family: Pretendard;
 `;
 
-const CustomLogout = mstyled(ExitToAppOutlinedIcon)`
+const CustomLogout = mstyled(LogoutOutlinedIcon)`
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 1rem;
+`;
+
+const CustomLogin = mstyled(LoginOutlinedIcon)`
   width: 2.5rem;
   height: 2.5rem;
   padding: 1rem;

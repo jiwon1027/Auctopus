@@ -10,7 +10,7 @@ import {
 } from "types/auth";
 import { setHeaderToken } from "@/api/api";
 
-const InitUser: IUser = {
+const initUser: IUser = {
   seq: -1,
   email: "",
   password: "",
@@ -36,7 +36,7 @@ const InitValidated: IValidated = {
 };
 
 const InitForm: IForm = {
-  user: { ...InitUser },
+  user: { ...initUser },
   validated: { ...InitValidated },
 };
 
@@ -49,7 +49,18 @@ export default function useAuth() {
   const navigate = useNavigate();
   const resetRecoilState = useResetRecoilState(formDefaultState);
   const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
-  const getToken = () => localStorage.getItem("token");
+
+  function getToken() {
+    const tokenStr = localStorage.getItem("token");
+    if (!tokenStr) return;
+    return JSON.parse(tokenStr);
+  }
+
+  function getUser() {
+    const userStr = localStorage.getItem("user");
+    if (!userStr) return initUser;
+    return JSON.parse(userStr);
+  }
 
   // debug formState
   // useEffect(() => {
@@ -237,6 +248,7 @@ export default function useAuth() {
   return {
     formState,
     getToken,
+    getUser,
     kakaoLogin,
     confirmUser,
     updateUser,
