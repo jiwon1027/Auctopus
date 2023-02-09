@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { deleteAuctionLike, getAuction, postAuctionLike } from "@/api/auction";
 import useAuth from "@/store/atoms/useAuth";
 import { theme } from "@/styles/theme";
+import Slick from "@components/detail/Slick";
 
 const initData: IAuctionDetail = {
   auctionSeq: 0,
@@ -84,6 +85,7 @@ export default function DetailPage() {
         <CustomizeIcon onClick={movePrev} />
         <img src={imgUrl} alt="dummy-img" />
       </ImgBox>
+      <Slick auctionInfo={data} />
       <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
       <Content auctionInfo={data} />
       <ButtonBox isBuyer={isBuyer} auctionInfo={data} />
