@@ -24,6 +24,8 @@ export default class ChatComponent extends Component {
   }
 
   componentDidMount() {
+    const userProfile = JSON.parse(localStorage.getItem("user")).profileUrl;
+    console.log(userProfile);
     this.props.user
       .getStreamManager()
       .stream.session.on("signal:chat", (event) => {
