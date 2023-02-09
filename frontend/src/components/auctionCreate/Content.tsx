@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import { styled as mstyled } from '@mui/material/styles';
+import React from "react";
+import styled from "styled-components";
+import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Box from "@mui/material/Box";
+import { styled as mstyled } from "@mui/material/styles";
 
 export default function Content({
   data,
@@ -41,7 +41,7 @@ export default function Content({
         sx={{
           minWidth: 120,
           marginTop: 2,
-          border: 'solid 1px #386641',
+          border: "solid 1px #386641",
           borderRadius: 1,
         }}
       >
@@ -50,8 +50,8 @@ export default function Content({
             id="demo-simple-select-label"
             style={{
               fontSize: 16,
-              fontFamily: 'Pretendard',
-              color: '#D2D2D2',
+              fontFamily: "Pretendard",
+              color: "#D2D2D2",
             }}
           >
             카테고리
@@ -159,39 +159,3 @@ const CustomTextArea = mstyled(TextareaAutosize)`
         box-shadow: 0 0 5px  #D2D2D2;
     }
 `;
-
-/* const categories = [
-  {
-    categorySeq: 1,
-    name: "전자기기",
-  },
-  {
-    categorySeq: 2,
-    name: "패션/잡화",
-  },
-  {
-    categorySeq: 3,
-    name: "도서/음반",
-  },
-  {
-    categorySeq: 4,
-    name: "완구/문구",
-  },
-  {
-    categorySeq: 5,
-    name: "뷰티/미용",
-  },
-  {
-    categorySeq: 6,
-    name: "인테리어",
-  },
-  {
-    categorySeq: 7,
-    name: "생활용품",
-  },
-  {
-    categorySeq: 8,
-    name: "기타",
-  },
-];
- */

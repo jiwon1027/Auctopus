@@ -10,7 +10,9 @@ export default function Content({ auctionInfo }: IProps) {
   return (
     <ContentBox>
       <div className="contentTitle">{auctionInfo.title}</div>
-      <div className="contentCataegory">{auctionInfo.category}</div>
+      <div className="contentCataegory">
+        {categories[auctionInfo.category - 1]?.name}
+      </div>
       <div className="contentDescription">{auctionInfo.content}</div>
     </ContentBox>
   );
@@ -37,3 +39,38 @@ const ContentBox = styled.div`
     font-size: 1.5rem;
   }
 `;
+
+const categories = [
+  {
+    categorySeq: 1,
+    name: "전자기기",
+  },
+  {
+    categorySeq: 2,
+    name: "패션/잡화",
+  },
+  {
+    categorySeq: 3,
+    name: "도서/음반",
+  },
+  {
+    categorySeq: 4,
+    name: "완구/문구",
+  },
+  {
+    categorySeq: 5,
+    name: "뷰티/미용",
+  },
+  {
+    categorySeq: 6,
+    name: "인테리어",
+  },
+  {
+    categorySeq: 7,
+    name: "생활용품",
+  },
+  {
+    categorySeq: 8,
+    name: "기타",
+  },
+];

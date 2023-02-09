@@ -16,7 +16,11 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
         <ProfileImg>
           <img
             className="image"
-            src={auctionInfo.profileUrl}
+            src={
+              auctionInfo.profileUrl !== ("01" && "")
+                ? auctionInfo.profileUrl
+                : "https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_basic.png"
+            }
             alt="profile-image"
           />
         </ProfileImg>

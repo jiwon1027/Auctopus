@@ -76,9 +76,8 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
       <div className="buttonBox">
         <CustomizedButton
           onClick={() => sendDataRouter()}
-          // FIXME: border-color
           disabled={!onTime}
-          color={onTime ? "primary" : "secondary"}
+          color={!onTime ? "primary" : "secondary"}
         >
           라이브 시작
         </CustomizedButton>
@@ -152,7 +151,9 @@ const FooterBox = styled.div`
   .buttonBox {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin: auto 0;
+    margin-left: auto;
+    color: ${theme.colors.greyDim};
     .time-left {
       flex-direction: column;
       font-size: 1.3rem;
@@ -162,13 +163,14 @@ const FooterBox = styled.div`
   }
 `;
 const CustomizedButton = mstyled(Button)`
-  border: solid 2px ${theme.colors.turtleDark};
+  border: solid 2px ${theme.colors.greyDim};
   font-size: 1.8rem;
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.colors.turtleDark};
   width: 12.1rem;
   height: 4.8rem;
   border-radius: 10;
+  
 `;
 
 const DisableButton = mstyled(Button)`

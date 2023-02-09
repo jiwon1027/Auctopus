@@ -39,7 +39,7 @@ export async function getAuctionLikes() {
 }
 
 export async function postAuctionLike(auctionSeq: string) {
-  return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, auctionSeq);
+  return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, { auctionSeq });
 }
 
 export async function deleteAuctionLike(auctionSeq: string) {
