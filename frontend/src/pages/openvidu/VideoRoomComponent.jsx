@@ -57,6 +57,7 @@ class VideoRoomComponent extends Component {
       videoEnabled: false,
       audioEnabled: false,
       isBuyer: true,
+      profileUrl: "",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -343,13 +344,19 @@ class VideoRoomComponent extends Component {
       console.log(event.stream.connection);
       // 여기서 subscriber들 바이어인지 판별해야함
       const newUser = new UserModel();
+      console.log(newUser);
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
       console.log(event.stream.connection.remoteOptions.streams[0].videoActive);
       const viedeoActiveOption =
         event.stream.connection.remoteOptions.streams[0].videoActive;
+
       viedeoActiveOption ? newUser.setIsBuyer(false) : newUser.setIsBuyer(true);
+      newUser.setProfileUrl(
+        JSON.parse(localStorage.getItem("user")).profileUrl
+      );
+
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);

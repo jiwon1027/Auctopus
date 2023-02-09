@@ -95,8 +95,8 @@ export default class ChatComponent extends Component {
   render() {
     const profileUrl = JSON.parse(localStorage.getItem("user")).profileUrl;
     const styleChat = { display: this.props.chatDisplay };
-    console.log(this.state.messageList.map((data) => console.log(data)));
-    console.log(this.props.user.connectionId);
+    // console.log(this.state.messageList.map((data) => console.log(data)));
+    // console.log(this.props.user.connectionId);
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
