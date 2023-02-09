@@ -17,31 +17,22 @@ const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 
-function withRouterVideo(Component) {
+function withRouter(Component) {
   // eslint-disable-next-line react/display-name
   return (props) => <Component {...props} locations={useLocation()} />;
 }
 
 class VideoRoomComponent extends Component {
   constructor(props) {
-    const userL = localStorage.getItem("user");
-    var obj = JSON.parse(userL);
     super(props);
-<<<<<<< HEAD
     const navData = this.props.locations.state;
-    console.log(navData);
-
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     const sessionName = navData.auctionInfo.auctionSeq.toString();
-=======
-    const honne = this.props.locations;
-    const sessionN = honne.state.auctionInfo.auctionSeq.toString();
-    this.hasBeenUpdated = false;
-    this.layout = new OpenViduLayout();
-    const sessionName = sessionN;
->>>>>>> 082d1db ( 💫 chore: separate sessions)
-    let userName = this.props.user ? this.props.user : obj.nickname;
+    let userName = this.props.user
+      ? this.props.user
+      : JSON.parse(localStorage.getItem("user")).nickname;
+
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -78,11 +69,10 @@ class VideoRoomComponent extends Component {
     this.useLocations = this.useLocations.bind(this);
   }
   componentDidMount() {
-    console.log(this.state.detailData);
+    const location = this.props.locations;
 
     // location.st;
     // 추가
-    console.log("############ componentdidmount ###############");
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
       minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
@@ -118,8 +108,6 @@ class VideoRoomComponent extends Component {
   }
 
   joinSession() {
-    console.log("############ joinSession ###############");
-
     this.OV = new OpenVidu();
 
     this.setState(
@@ -138,15 +126,11 @@ class VideoRoomComponent extends Component {
   }
 
   async connectToSession() {
-    console.log("############ connectToSession ###############");
-
     if (this.props.token !== undefined) {
-      console.log("token received: ", this.props.token);
       this.connect(this.props.token);
     } else {
       try {
         var token = await this.getToken();
-        console.log(token);
         this.connect(token);
       } catch (error) {
         console.error(
@@ -192,8 +176,6 @@ class VideoRoomComponent extends Component {
   }
 
   async connectWebCam() {
-    console.log("############ connectToWebCam ###############");
-
     await this.OV.getUserMedia({
       audioSource: undefined,
       videoSource: undefined,
@@ -249,10 +231,7 @@ class VideoRoomComponent extends Component {
   }
 
   updateSubscribers() {
-    console.log("############# update subscribers ###########");
-
     var subscribers = this.remotes;
-    console.log(this.remotes);
     this.setState(
       {
         subscribers: subscribers,
@@ -292,8 +271,6 @@ class VideoRoomComponent extends Component {
     }
   }
   camStatusChanged() {
-    console.log("############# camStatusChanged ###########");
-    console.log(localUser.getStreamManager());
     localUser.getIsBuyer()
       ? localUser.setVideoActive(false)
       : localUser.setVideoActive(!localUser.isVideoActive());
@@ -303,7 +280,6 @@ class VideoRoomComponent extends Component {
   }
 
   micStatusChanged() {
-    console.log("############# micStatusChanged ###########");
     localUser.getIsBuyer()
       ? localUser.setAudioActive(false)
       : localUser.setAudioActive(!localUser.isAudioActive());
@@ -336,19 +312,15 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToStreamCreated() {
-    console.log("############# subscribeToStreamChanged ###########");
-
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
       // var subscribers = this.state.subscribers;
-      console.log(event.stream.connection);
       // 여기서 subscriber들 바이어인지 판별해야함
       const newUser = new UserModel();
-      console.log(newUser);
       newUser.setStreamManager(subscriber);
       newUser.setConnectionId(event.stream.connection.connectionId);
       newUser.setType("remote");
-      console.log(event.stream.connection.remoteOptions.streams[0].videoActive);
+      // console.log(event.stream.connection.remoteOptions.streams[0].videoActive);
       const viedeoActiveOption =
         event.stream.connection.remoteOptions.streams[0].videoActive;
 
@@ -360,8 +332,6 @@ class VideoRoomComponent extends Component {
       const nickname = event.stream.connection.data.split("%")[0];
       newUser.setNickname(JSON.parse(nickname).clientData);
       this.remotes.push(newUser);
-      console.log("@@@@@@@@@@@@remotes@@@@@@@@@@@@@");
-      console.log(this.remotes);
 
       if (this.localUserAccessAllowed) {
         this.updateSubscribers();
@@ -370,8 +340,6 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToStreamDestroyed() {
-    console.log("############ subscribeToStreamDestroyed ################");
-
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
@@ -385,8 +353,6 @@ class VideoRoomComponent extends Component {
   }
 
   subscribeToUserChanged() {
-    console.log("############ subscribeToUserchanged ################");
-
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
@@ -462,8 +428,6 @@ class VideoRoomComponent extends Component {
   }
 
   async switchCamera() {
-    console.log("############ switchCamera ################");
-
     try {
       const devices = await this.OV.getDevices();
       var videoDevices = devices.filter(
@@ -625,8 +589,7 @@ class VideoRoomComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
     const title = this.useLocations().state.auctionInfo.title;
     const nickname = this.useLocations().state.auctionInfo.nickname;
-    console.log(this.state.subscribers);
-    console.log(this.state.subscribers.filter((u) => !u.isBuyer));
+    // console.log(this.state.subscribers);
     return (
       <div className="container" id="container">
         <ToolbarComponent
@@ -738,4 +701,4 @@ class VideoRoomComponent extends Component {
     return response.data; // The token
   }
 }
-export default withRouterVideo(VideoRoomComponent);
+export default withRouter(VideoRoomComponent);
