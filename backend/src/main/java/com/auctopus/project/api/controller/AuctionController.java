@@ -52,9 +52,8 @@ public class AuctionController {
     @CrossOrigin("*")
     @PostMapping()
     public ResponseEntity<?> registerAuction(Authentication authentication,
-            @RequestPart(value = "req") AuctionCreateRequest req,
+            @RequestBody AuctionCreateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
-//        System.out.println(auctionImageList.toString());
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(userEmail, req, auctionImageList);
         if (auction == null)
@@ -65,7 +64,7 @@ public class AuctionController {
     @CrossOrigin("*")
     @PatchMapping()
     public ResponseEntity<?> updateAuction(Authentication authentication,
-            @RequestPart(value = "req") AuctionUpdateRequest req,
+            @RequestBody AuctionUpdateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(req.getAuctionSeq());

@@ -1,5 +1,6 @@
 package com.auctopus.project.api.controller;
 
+import com.auctopus.project.api.request.LiveEnterRequest;
 import com.auctopus.project.api.service.AuctionService;
 import com.auctopus.project.api.service.LiveService;
 import com.auctopus.project.api.service.LiveViewerService;
@@ -50,9 +51,12 @@ public class LiveController {
 
     @CrossOrigin("*")
     @PostMapping("/enter")
-    public ResponseEntity<?> enterLive(Authentication authentication, @RequestBody int liveSeq,
-            @RequestBody int autoPrice) {
+    public ResponseEntity<?> enterLive(Authentication authentication,
+            @RequestBody LiveEnterRequest req) {
         String userEmail = (String) authentication.getCredentials();
+        int liveSeq = req.getLiveSeq();
+        int autoPrice = req.getAutoPrice();
+
         liveViewerService.createLiveViewer(userEmail, liveSeq, autoPrice);
         liveService.increaseViewer(liveSeq);
 

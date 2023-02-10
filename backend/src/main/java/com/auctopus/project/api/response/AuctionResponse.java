@@ -26,7 +26,7 @@ public class AuctionResponse {
     String nickname;
     String title;
     String content;
-    int category;
+    int categorySeq;
     int bidUnit;
     Timestamp startTime;
     int startPrice;
@@ -42,7 +42,7 @@ public class AuctionResponse {
                 .nickname(user.getNickname())
                 .title(auction.getTitle())
                 .content(auction.getContent())
-                .category(auction.getCategorySeq())
+                .categorySeq(auction.getCategorySeq())
                 .bidUnit(auction.getBidUnit())
                 .startTime(auction.getStartTime())
                 .startPrice(auction.getStartPrice())

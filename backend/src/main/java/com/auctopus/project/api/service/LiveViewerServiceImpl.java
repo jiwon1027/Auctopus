@@ -29,6 +29,7 @@ public class LiveViewerServiceImpl implements LiveViewerService {
     public void updateViewerState(String userEmail) {
         LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
         liveViewer.setState(1);
+        liveViewerRepository.save(liveViewer);
     }
 
     @Override

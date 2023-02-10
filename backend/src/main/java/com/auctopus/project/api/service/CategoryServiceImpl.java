@@ -17,7 +17,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Integer getCategorySeq(String categoryName) {
+    public int getCategorySeq(String categoryName) {
         Category category = categoryRepository.findByCategoryName(categoryName);
         int categorySeq = category.getCategorySeq();
         return categorySeq;

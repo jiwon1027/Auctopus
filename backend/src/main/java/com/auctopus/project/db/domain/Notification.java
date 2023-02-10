@@ -16,7 +16,7 @@ import org.hibernate.annotations.DynamicInsert;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@DynamicInsert
+@DynamicInsert // JPA insert시 null인 필드 제외
 @Table(name = "notification")
 public class Notification {
 
