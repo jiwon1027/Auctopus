@@ -8,13 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@DynamicInsert
+@DynamicInsert // JPA insert시 null인 필드 제외
+@DynamicUpdate // 변경된 컬럼만 업데이트(Patch)
 @Table(name = "user")
 public class User {
 

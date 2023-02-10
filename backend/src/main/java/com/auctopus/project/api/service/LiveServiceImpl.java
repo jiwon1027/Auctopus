@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LiveServiceImpl implements LiveService {
+
     @Autowired
     private AuctionRepository auctionRepository;
     @Autowired
@@ -66,6 +67,7 @@ public class LiveServiceImpl implements LiveService {
                         "auction with auctionSeq " + liveSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
         auction.setState(3);
+        auctionRepository.save(auction);
     }
 
     // 한 개의 라이브 정보 보기

@@ -8,9 +8,8 @@ import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.repository.AuctionImageRepository;
 import com.auctopus.project.db.repository.AuctionRepository;
-import java.util.List;
-
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +52,8 @@ public class AuctionServiceImpl implements AuctionService {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime startDateTime = auction.getStartTime().toLocalDateTime();
-        if (currentDateTime.isAfter(startDateTime)) auction.setState(1);
+        if (currentDateTime.isAfter(startDateTime))
+            auction.setState(1);
 
         auctionRepository.save(auction);
 
@@ -103,8 +103,10 @@ public class AuctionServiceImpl implements AuctionService {
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime startDateTime = auction.getStartTime().toLocalDateTime();
-        if (currentDateTime.isAfter(startDateTime)) auction.setState(1);
-        else auction.setState(0);
+        if (currentDateTime.isAfter(startDateTime))
+            auction.setState(1);
+        else
+            auction.setState(0);
 
         auctionRepository.save(auction);
         return auction;
