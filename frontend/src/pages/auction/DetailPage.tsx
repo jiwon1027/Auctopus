@@ -64,9 +64,6 @@ export default function DetailPage() {
     }
   }, []);
 
-  const movePrev = () => {
-    navigate(-1);
-  };
   const likeHandler = () => {
     if (!isLiked) {
       postAuctionLike(auctionSeq as string);
@@ -91,16 +88,6 @@ export default function DetailPage() {
     </CustomContainer>
   );
 }
-
-const CustomizeIcon = mstyled(ArrowBackIosIcon)`
-  width: 3rem;
-  height: 3rem;
-  color: white;
-  left: 0;
-  margin-top: 1.5rem;
-  margin-left: 1.9rem;
-  position: absolute;
-`;
 
 const CustomContainer = mstyled(Container)`
   background-color: white;

@@ -43,8 +43,10 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
             sx={{ fontSize: 30 }}
           />
         )}
-        {/* FIXME: count is changeable when click LIKE button */}
-        <div className="likesCount">{auctionInfo.likeCount}</div>
+
+        <div className="likesCount">
+          {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
+        </div>
       </div>
     </ProfileBox>
   );
