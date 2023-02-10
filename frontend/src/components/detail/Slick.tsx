@@ -1,54 +1,38 @@
-import React, { useMemo } from "react";
-import Slider, { Settings } from "react-slick";
+import React from "react";
+import Slider from "react-slick";
+import styled from "styled-components";
 
-interface sliderProps {
-  children: React.ReactNode;
-  className?: string;
-  autoplay?: boolean;
-  speed?: number;
-  loop?: number;
-}
-// interface itemProps {
-//   auctionImageList: [];
-// }
-// const imgList: itemProps[] = [];
-interface imgItemProps {
-  auctionImageSeq: number;
-  auctionSeq: number;
-  imageUrl: string;
+interface IProps {
+  auctionInfo: IAuctionDetail;
 }
 
-export default function Slick(
-  {
-    children,
-    className,
-    autoplay = false,
-    speed = 300,
-    loop = true,
-  }: sliderProps,
-  { auctionInfo }: imgItemProps[]
-) {
-  const settings = useMemo<Settings>(
-    () => ({
-      dots: true,
-      speed: speed,
-      slidesToShow: 1,
-      autoplay: Boolean(autoplay),
-    }),
-    [autoplay, loop, speed]
+export default function Slick({ auctionInfo }: IProps) {
+  const settings = {
+    centerMode: true,
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
+  const imageList = auctionInfo.auctionImageList;
+  console.log(imageList);
+  return (
+    <Slider {...settings}>
+      {imageList.map((item, idx) => (
+        <SliderItem key={idx}>
+          <img
+            style={{ width: "100%", height: "100%" }}
+            src={item.imageUrl}
+            alt="img"
+          />
+        </SliderItem>
+      ))}
+    </Slider>
   );
-  console.log(auctionInfo);
-  return <Slider {...settings}>{children}</Slider>;
 }
-// function Item() {
-//   return (
-//     <Slick>
-//       {items.map((item, index) => (
-//         <SliderItem key={index}>
-//           <img src={item.item} alt={item.name} />
-//         </SliderItem>
-//       ))}
-//     </Slick>
-//   );
-// }
-// //
+
+const SliderItem = styled.div`
+  width: 100%;
+  height: 31rem;
+`;

@@ -17,7 +17,7 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
           <img
             className="image"
             src={
-              auctionInfo.profileUrl !== ("01" && "")
+              auctionInfo.profileUrl !== ("01" || "")
                 ? auctionInfo.profileUrl
                 : "https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_basic.png"
             }
@@ -65,6 +65,7 @@ const ProfileBox = styled.div`
   height: 10%;
   padding: 0.5rem;
   display: flex;
+  border-top: 1px solid ${theme.colors.greyLight};
   border-bottom: 1px solid ${theme.colors.greyLight};
   .profileIconBox {
     width: 20%;

@@ -78,14 +78,13 @@ export default function DetailPage() {
   };
 
   // console.log(data.auctionImageList[0].imageUrl);
+  console.log(data.auctionImageList);
 
   return (
     <CustomContainer disableGutters={true}>
       <ImgBox>
-        <CustomizeIcon onClick={movePrev} />
-        <img src={imgUrl} alt="dummy-img" />
+        <Slick auctionInfo={data} />
       </ImgBox>
-      <Slick auctionInfo={data} />
       <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
       <Content auctionInfo={data} />
       <ButtonBox isBuyer={isBuyer} auctionInfo={data} />
@@ -97,10 +96,10 @@ const CustomizeIcon = mstyled(ArrowBackIosIcon)`
   width: 3rem;
   height: 3rem;
   color: white;
-  position: absolute;
   left: 0;
   margin-top: 1.5rem;
   margin-left: 1.9rem;
+  position: absolute;
 `;
 
 const CustomContainer = mstyled(Container)`
@@ -118,9 +117,9 @@ const CustomContainer = mstyled(Container)`
 
 const ImgBox = styled.div`
   height: 45%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
+  /* overflow: hidden; */
+  /* display: flex; */
+  /* justify-content: center; */
   /* align-items: center; */
-  background-color: ${theme.colors.greyDim};
+  background-color: white;
 `;
