@@ -11,19 +11,25 @@ export default function Calendar({
   onChange,
 }: {
   data: IAuctionCreate;
-  onChange: (name: string, value: string) => void;
+  onChange: (name: string, value: object) => void;
 }) {
-  const handleChange = (newValue: Dayjs | null) => {
-    onChange("startTime", newValue?.toString() as string);
+  const handleChange = (newValue: string | null) => {
+    console.log(revertKST(newValue?.toString() as string));
+    onChange("startTime", revertKST(newValue?.toString() as string));
   };
-
+  const revertKST = (time: string) => {
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    console.log(new Date(time + KR_TIME_DIFF));
+    return new Date(time + KR_TIME_DIFF);
+  };
   const color = "#386641";
+  console.log(revertKST(data.startTime));
   return (
     <Container>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateTimePicker
           label="경매시작날짜"
-          value={data.startTime}
+          value={revertKST(data.startTime)}
           onChange={handleChange}
           renderInput={(params) => (
             <TextField {...params} fullWidth sx={{ border: { color } }} />
