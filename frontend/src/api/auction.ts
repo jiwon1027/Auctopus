@@ -3,8 +3,13 @@ import { IAuction, IReqSearch } from "types/auction";
 
 const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
 
-export const createAuction = async (data: IAuctionCreate) => {
-  return await instance.post(`${VITE_SERVER_DOMAIN}/auction`, data);
+export const createAuction = async (data: FormData, token: string) => {
+  return await instance.post(`${VITE_SERVER_DOMAIN}/api/auction`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 interface IReqAuction {

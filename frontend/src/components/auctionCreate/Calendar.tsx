@@ -22,7 +22,7 @@ export default function Calendar({
     <Container>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateTimePicker
-          label="Date&Time picker"
+          label="경매시작날짜"
           value={data.startTime}
           onChange={handleChange}
           renderInput={(params) => (
@@ -38,4 +38,12 @@ export default function Calendar({
 const Container = styled.div`
   margin-top: 2rem;
   width: 100%;
+
+  .MuiFormLabel-root {
+    font-size: 14px;
+  }
+
+  .MuiInputBase-input {
+    font-size: 15px;
+  }
 `;

@@ -23,7 +23,7 @@ export default function Content({
 
   const updateTextHandler = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
-    console.log(target);
+    // console.log(target);
     onChange(target.name, target.value);
   };
 
@@ -53,8 +53,10 @@ export default function Content({
           name="categorySeq"
           onChange={updateHandler}
           value={data.categorySeq?.toString()}
-          defaultValue="1"
+          // defaultValue={1}
+          displayEmpty
         >
+          <MenuItem value="">카테고리를 선택하세요.</MenuItem>
           <MenuItem value={1}>전자기기</MenuItem>
           <MenuItem value={2}>패션/잡화</MenuItem>
           <MenuItem value={3}>도서/음반</MenuItem>
@@ -72,7 +74,7 @@ export default function Content({
           variant="outlined"
           placeholder="가격 ( 입찰 시작가)"
           name="startPrice"
-          value={data.startPrice}
+          // value={data.startPrice}
           onChange={updateTextHandler}
         />
         <CustomPriceField
@@ -80,7 +82,7 @@ export default function Content({
           variant="outlined"
           placeholder="가격 ( 입찰 단위 )"
           name="bidUnit"
-          value={data.bidUnit}
+          // value={data.bidUnit}
           onChange={updateTextHandler}
         />
       </PriceWrapper>
@@ -91,6 +93,7 @@ export default function Content({
         name="content"
         value={data.content}
         onChange={updateTextHandler}
+        color="primary"
       />
     </>
   );
