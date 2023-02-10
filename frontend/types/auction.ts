@@ -22,3 +22,12 @@ export interface IReqSearch {
   category: string | null;
   state: number;
 }
+
+export interface IMessage {
+  type: number; // 1: 일반 채팅, 2: bidding
+  liveSeq: number;
+  userEmail: string;
+  nickname: string;
+  message: string; // "안녕"
+  date: string;
+}
