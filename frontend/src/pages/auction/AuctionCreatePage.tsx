@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import Calendar from "@components/auctionCreate/Calendar";
 import { createAuction } from "@/api/auction";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const initObj: IAuctionCreate = {
   categorySeq: "",
@@ -22,6 +23,7 @@ interface IFile {
 }
 
 export default function AuctionCreate() {
+  const navigator = useNavigate();
   const [data, setData] = useState<IAuctionCreate>(initObj);
   const [imgFileList, setImgFileList] = useState<IFile[]>([]);
   const token = localStorage.getItem("token") || " ";
@@ -66,10 +68,11 @@ export default function AuctionCreate() {
       form.append("images", item.file);
     });
 
-    createAuction(form, token);
+    createAuction(form, token).then(() => {
+      alert("경매방 등록 성공!");
+      navigator("/");
+    });
   };
-
-  console.log(imgFileList);
 
   return (
     <Layout title="경매방 생성" back>
