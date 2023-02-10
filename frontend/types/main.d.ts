@@ -20,7 +20,7 @@ interface IAuctionDetail {
 }
 
 interface IAuctionCreate {
-  userEmail: string;
+  images?: [];
   categorySeq: string;
   title: string;
   content: string;

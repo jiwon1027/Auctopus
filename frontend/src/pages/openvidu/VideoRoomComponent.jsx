@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 
 var localUser = new UserModel();
 // const APPLICATION_SERVER_URL = "http://localhost:5000/";
-const APPLICATION_SERVER_URL = " http://i8a704.p.ssafy.io:8081/";
+const APPLICATION_SERVER_URL = "https://auctopus.store:8081/";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 

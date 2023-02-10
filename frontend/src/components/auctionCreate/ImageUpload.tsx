@@ -7,19 +7,26 @@ import { styled as mstyled } from "@mui/material/styles";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { Button } from "@mui/material";
-export default function ImageUpload() {
+export default function ImageUpload({
+  data,
+  onChange,
+}: {
+  data: IAuctionCreate;
+  onChange: (name: string, value: []) => void;
+}) {
   const [images, setImages] = React.useState([]);
   const maxNumber = 10;
 
-  const onChange = (imageList: ImageListType) => {
+  const handleChange = (imageList: ImageListType) => {
     setImages(imageList as never[]);
+    onChange("images", imageList as []);
   };
   return (
     <Container>
       <ImageUploading
         multiple
         value={images}
-        onChange={onChange}
+        onChange={handleChange}
         maxNumber={maxNumber}
       >
         {({
@@ -30,10 +37,15 @@ export default function ImageUpload() {
           dragProps,
         }) => (
           <>
-            <UploadBox onClick={onImageUpload} {...dragProps}>
-              <CloudUploadOutlinedIcon onClick={onImageUpload} {...dragProps} />
-              upload
-            </UploadBox>
+            {images.length === 0 && (
+              <UploadBox onClick={onImageUpload} {...dragProps}>
+                <CloudUploadOutlinedIcon
+                  onClick={onImageUpload}
+                  {...dragProps}
+                />
+                upload
+              </UploadBox>
+            )}
             <ImageContainer>
               <div className="upload__image-wrapper">
                 <ListBox>
@@ -44,7 +56,7 @@ export default function ImageUpload() {
                       style={{
                         marginLeft: "1.5rem",
                         backgroundColor: "white",
-                        border: "solid 1px lightgreen",
+                        border: "solid 1px green",
                         borderRadius: 10,
                         padding: "0.5rem",
                         display: "flex",
@@ -97,10 +109,10 @@ font-family: Pretendard;
 `;
 const Container = styled.div`
   padding-left: 0.5rem;
-  background-color: #98fb98;
   display: flex;
   align-items: center;
   height: 19%;
+  border-radius: 7px;
 `;
 
 const ListBox = styled.div`
@@ -139,4 +151,5 @@ const UploadBox = styled.div`
   border-radius: 20;
   overflow: hidden;
   box-shadow: 5rem green;
+  margin: 0 auto;
 `;
