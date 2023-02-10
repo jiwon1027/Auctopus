@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as SockJS from "sockjs-client";
+import SockJS from "sockjs-client/dist/sockjs";
 import Stomp, { Client } from "stompjs";
 import Layout from "@components/common/Layout";
 import { Button } from "@mui/material";
@@ -7,42 +7,19 @@ import NoticeSection from "@components/bidding/NoticeSection";
 import ChatSection from "@components/bidding/ChatSection";
 import ActionFooter from "@components/bidding/ActionFooter";
 import { IMessage } from "types/auction";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
 
-const item = {
-  name: "Airpods Max 스페이스",
-  price: 10000,
-};
-
-const seller = {
-  name: "또치",
-  startPrice: 3000,
-};
-
-const bidder = {
-  name: "정개미",
-  price: 5000,
-};
-
 export default function BidPage() {
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const { roomId } = useParams();
-  const [client, setClient] = useState<Client>();
+  const location = useLocation();
   const user = useAuth().getUser();
-  // useEffect(() => {
-  //   async function fetchMessages() {
-  //     const body = { roomId };
-  //     try {
-  //       // TODO: const response = await fetchData.post(socketApis.CHAT_HISTORY, body);
-  //       setChatList(response.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-
-  //   fetchMessages();
-  // }, [roomId]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [client, setClient] = useState<Client>();
+  const { auctionInfo, userState, limit } = location.state as {
+    auctionInfo: IAuctionDetail;
+    userState: string;
+    limit: number;
+  };
 
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/api/ws-stomp");
@@ -53,11 +30,16 @@ export default function BidPage() {
     };
     newClient.connect({}, () => {
       newClient.subscribe(
-        "/sub/chat/room/" + roomId,
+        "/sub/chat/room/" + auctionInfo.auctionSeq,
         function (message) {
+          // FIXME: messagedto
           const messagedto = JSON.parse(message.body);
-          console.log(roomId === messagedto.roomId, roomId, messagedto.roomId);
-          if (roomId === messagedto.roomId) {
+          console.log(
+            auctionInfo.auctionSeq === messagedto.roomId,
+            auctionInfo.auctionSeq,
+            messagedto.roomId
+          );
+          if (auctionInfo.auctionSeq === messagedto.roomId) {
             setMessages((prev) => [...prev, messagedto]);
           }
         },
@@ -67,21 +49,26 @@ export default function BidPage() {
       );
     });
     return () => {
+      /**
+       * 1. 판매자가 나간 경우, 서버에 말하고 모든 이들에게 메시지 남기고 모든 경매를 중지
+       * 2. 구매자가 나간 경우, 서버에 말하고 메시지 남기고 중지
+       */
       newClient.disconnect(() => {
-        /**
-         * 1. 판매자가 나간 경우, 서버에 말하고 모든 이들에게 메시지 남기고 모든 경매를 중지
-         * 2. 구매자가 나간 경우, 서버에 말하고 메시지 남기고 중지
-         */
+        if (userState === "seller") {
+          sendMessage("E10");
+        } else {
+          sendMessage("E20");
+        }
       });
     };
-  }, [roomId]);
+  }, [auctionInfo.auctionSeq]);
 
-  // FIXME: liveSeq from useParams()
+  // FIXME: type
   const sendMessage = (chat: string) => {
     const msg: IMessage = {
       type: 2,
       date: "",
-      liveSeq: -1,
+      liveSeq: auctionInfo.auctionSeq,
       message: chat,
       nickname: user.nickname,
       userEmail: user.email,
@@ -91,7 +78,11 @@ export default function BidPage() {
 
   return (
     <Layout title="언해피의 경매" right={RightComponent}>
-      <NoticeSection item={item} bidder={bidder} seller={seller} />
+      <NoticeSection
+        auction={auctionInfo}
+        limit={limit}
+        isSeller={userState === "seller"}
+      />
       <ChatSection email={user.email} messages={messages} />
       <ActionFooter onSend={sendMessage} />
     </Layout>

@@ -3,7 +3,7 @@ interface IAuctionDetail {
   userEmail: string;
   profileUrl: string;
   nickname: string;
-  category: number;
+  categorySeq: number;
   title: string;
   content: string;
   startTime: string;

@@ -33,7 +33,7 @@ export default function LiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img src={props.item.auctionImage.imageUrl} alt="image" />
+          <img src={props.item.auctionImage?.imageUrl} alt="image" />
           <div className="liveBox">
             <CircleIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>

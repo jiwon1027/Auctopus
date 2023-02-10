@@ -3,20 +3,9 @@ import styled from "styled-components";
 import airpods from "@/assets/autobid/airpodsMax.png";
 
 interface IProps {
-  item: {
-    name: string;
-    price: number;
-  };
-
-  bidder?: {
-    name: string;
-    price: number;
-  };
-
-  seller: {
-    name: string;
-    startPrice: number;
-  };
+  auction: IAuctionDetail;
+  isSeller: boolean;
+  limit?: number;
 }
 
 export default function NoticeSection(props: IProps) {
@@ -24,10 +13,15 @@ export default function NoticeSection(props: IProps) {
     <StyledNotice>
       <img src={airpods} width={95} height={95} />
       <div className="notice">
-        <div className="notice__title">{props.item.name}</div>
+        <div className="notice__title">{props.auction.title}</div>
         <div className="notice__state">
-          <div>낙찰자 {props.seller.name}</div>
-          <div>낙찰가 {props.seller.startPrice}원</div>
+          <div>시작가 {props.auction.startPrice}원</div>
+          <div>입찰 단위 {props.auction.bidUnit}</div>
+          {props.isSeller && (
+            <>
+              <div>나의 최대가 {props.limit}</div>
+            </>
+          )}
         </div>
       </div>
     </StyledNotice>

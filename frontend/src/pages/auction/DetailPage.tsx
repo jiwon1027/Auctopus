@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { styled as mstyled } from "@mui/material/styles";
 import { useNavigate, useParams } from "react-router-dom";
 import Profile from "@/components/detail/Profile";
@@ -10,13 +9,12 @@ import Container from "@mui/material/Container";
 import dayjs from "dayjs";
 import { deleteAuctionLike, getAuction, postAuctionLike, getLikesCheck } from "@/api/auction";
 import useAuth from "@/store/atoms/useAuth";
-import { theme } from "@/styles/theme";
 import Slick from "@components/detail/Slick";
 
 const initData: IAuctionDetail = {
   auctionSeq: 0,
   userEmail: "",
-  category: 0,
+  categorySeq: 0,
   title: "",
   content: "",
   startTime: dayjs().toString(),
