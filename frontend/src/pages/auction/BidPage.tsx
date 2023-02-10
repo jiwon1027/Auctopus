@@ -10,16 +10,34 @@ import { IMessage } from "types/auction";
 import { useLocation } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
 
+const initAuctionInfo: IAuctionDetail = {
+  auctionSeq: 1,
+  bidUnit: 10,
+  categorySeq: 1,
+  content: "",
+  isLiked: false,
+  likeCount: 1,
+  nickname: "멋지",
+  profileUrl: "",
+  startPrice: 100,
+  startTime: "",
+  state: 1,
+  title: "멋지의 에어팟 프로 경매~",
+  userEmail: "yegi@gmail.com",
+  auctionImageList: [],
+};
+
 export default function BidPage() {
   const location = useLocation();
   const user = useAuth().getUser();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [client, setClient] = useState<Client>();
-  const { auctionInfo, userState, limit } = location.state as {
+  const { auctionInfo, userState, limit } = (location.state as {
     auctionInfo: IAuctionDetail;
     userState: string;
-    limit: number;
-  };
+    limit?: number;
+  }) || { auctionInfo: initAuctionInfo, userState: "seller", limit: 1000 };
+  console.log("auctioninfo", auctionInfo);
 
   useEffect(() => {
     const socket = new SockJS("http://localhost:8081/api/ws-stomp");
@@ -31,7 +49,7 @@ export default function BidPage() {
     newClient.connect({}, () => {
       newClient.subscribe(
         "/sub/chat/room/" + auctionInfo.auctionSeq,
-        function (message) {
+        function (message: Stomp.Message) {
           // FIXME: messagedto
           const messagedto = JSON.parse(message.body);
           console.log(
@@ -77,7 +95,7 @@ export default function BidPage() {
   };
 
   return (
-    <Layout title="언해피의 경매" right={RightComponent}>
+    <Layout title="경매방" right={RightComponent}>
       <NoticeSection
         auction={auctionInfo}
         limit={limit}
