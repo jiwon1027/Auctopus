@@ -10,6 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 const initLiveAuction: IAuction[] = [
   {
+    auctionImage: {
+      auctionImageSeq: 0,
+      auctionSeq: 0,
+      imageUrl: "",
+    },
     auctionSeq: 1,
     email: "BIBI@naver.com",
     title: "내 찜이야",
@@ -21,6 +26,11 @@ const initLiveAuction: IAuction[] = [
     price: 0,
   },
   {
+    auctionImage: {
+      auctionImageSeq: 0,
+      auctionSeq: 0,
+      imageUrl: "",
+    },
     auctionSeq: 2,
     email: "ㅓㅑㅓㅑ@naver.com",
     title: "내 찜이야",
