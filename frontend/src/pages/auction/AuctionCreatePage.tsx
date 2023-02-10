@@ -55,7 +55,9 @@ export default function AuctionCreate() {
         data={data}
         onChange={(name: string, value: string) => handleChange(name, value)}
       />
-      <Button onClick={submitHandler}>등록해라 좋은말할때</Button>
+      <Button variant="contained" onClick={submitHandler} sx={{ marginTop: 3 }}>
+        경매 등록하기
+      </Button>
     </Layout>
   );
 }
