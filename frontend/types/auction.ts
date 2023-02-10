@@ -10,7 +10,7 @@ export interface IAuction {
   state: number;
   viewer: number;
   price: number;
-  auctionImage?: {
+  auctionImage: {
     auctionImageSeq: number;
     auctionSeq: number;
     imageUrl: string;

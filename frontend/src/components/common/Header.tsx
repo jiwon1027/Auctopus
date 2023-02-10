@@ -91,6 +91,7 @@ const StyledHeader = styled.header`
     font-weight: bold;
     font-size: 1.8rem;
     color: ${(props) => props.theme.colors.primary};
+    text-align: center;
   }
 
   .iconContainer {
