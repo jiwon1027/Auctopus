@@ -54,7 +54,7 @@ public class AuctionController {
     public ResponseEntity<?> registerAuction(Authentication authentication,
             @RequestPart(value = "req") AuctionCreateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
-        System.out.println(auctionImageList.toString());
+//        System.out.println(auctionImageList.toString());
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(userEmail, req, auctionImageList);
         if (auction == null)
