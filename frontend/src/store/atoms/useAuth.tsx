@@ -8,7 +8,7 @@ import {
   IForm,
   IResSocialLogin,
 } from "types/auth";
-import { setHeaderToken } from "@/api/api";
+// import { setHeaderToken } from "@/api/api";
 
 const initUser: IUser = {
   seq: -1,
@@ -222,7 +222,7 @@ export default function useAuth() {
         profileUrl: resData.profile_image,
       })
     );
-    setHeaderToken(resData.token);
+    // setHeaderToken(resData.token);
   }
 
   async function signUp() {
