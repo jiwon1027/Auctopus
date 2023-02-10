@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import DummyImg from "@/assets/main/airpodsImg.jpg";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { styled as mstyled } from "@mui/material/styles";
@@ -7,58 +6,81 @@ import { useNavigate, useParams } from "react-router-dom";
 import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
-import axios from "axios";
 import Container from "@mui/material/Container";
 import dayjs from "dayjs";
+import { deleteAuctionLike, getAuction, postAuctionLike } from "@/api/auction";
+import useAuth from "@/store/atoms/useAuth";
+import { theme } from "@/styles/theme";
+import Slick from "@components/detail/Slick";
 
-const initData = {
+const initData: IAuctionDetail = {
   auctionSeq: 0,
   userEmail: "",
-  categorySeq: 0,
+  category: 0,
   title: "",
   content: "",
   startTime: dayjs().toString(),
   startPrice: 0,
-  link: "",
   likeCount: 0,
-  state: 0,
+  isLiked: false,
   profileUrl: "",
+  state: 0,
   nickname: "",
   bidUnit: 0,
+  auctionImageList: [],
 };
 
 export default function DetailPage() {
-  const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
   const [isLiked, setIsLiked] = useState(false);
   const [isBuyer, setIsBuyer] = useState(false);
-  const [data, setData] = useState<IAuctionInfo>(initData);
-
-  const likeHandler = () => {
-    setIsLiked((prev) => !prev);
-  };
+  const [data, setData] = useState<IAuctionDetail>(initData);
+  const [imgUrl, setImgUrl] = useState("");
   const { auctionSeq } = useParams();
+  const { getUser } = useAuth();
   const navigate = useNavigate();
-  const movePrev = () => {
-    navigate(-1);
-  };
 
   useEffect(() => {
-    axios.get(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`).then((res) => {
-      const resData = res.data;
-      setData(resData);
-      console.log(resData);
-      const user = JSON.parse(localStorage.getItem("user") || "");
-      user.email === resData.userEmail ? setIsBuyer(false) : setIsBuyer(true);
-    });
+    const fetchAuction = async () => {
+      if (!auctionSeq) {
+        navigate("/error");
+        return;
+      }
 
-    console.log(auctionSeq);
+      const res = await getAuction(auctionSeq);
+      if (res.status !== 200)
+        return new Error("경매 정보를 가져오지 못했습니다");
+      setData(res.data);
+      setImgUrl(res.data.auctionImageList[0].imageUrl);
+      console.log(imgUrl);
+      const user = getUser();
+
+      user.email === res.data.userEmail ? setIsBuyer(false) : setIsBuyer(true);
+    };
+
+    try {
+      fetchAuction();
+    } catch (error) {
+      navigate("/error");
+    }
   }, []);
+
+  const likeHandler = () => {
+    if (!isLiked) {
+      postAuctionLike(auctionSeq as string);
+    } else {
+      deleteAuctionLike(auctionSeq as string);
+    }
+
+    setIsLiked((prev) => !prev);
+  };
+
+  // console.log(data.auctionImageList[0].imageUrl);
+  console.log(data.auctionImageList);
 
   return (
     <CustomContainer disableGutters={true}>
       <ImgBox>
-        <CustomizeIcon onClick={movePrev} />
-        <img src={DummyImg} alt="dummy-img" />
+        <Slick auctionInfo={data} />
       </ImgBox>
       <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
       <Content auctionInfo={data} />
@@ -66,15 +88,6 @@ export default function DetailPage() {
     </CustomContainer>
   );
 }
-
-const CustomizeIcon = mstyled(ArrowBackIosIcon)`
-  width: 3rem;
-  height: 3rem;
-  color: white;
-  position: absolute;
-  margin-top: 1.5rem;
-  margin-left: 1.9rem;
-`;
 
 const CustomContainer = mstyled(Container)`
   background-color: white;
@@ -91,5 +104,9 @@ const CustomContainer = mstyled(Container)`
 
 const ImgBox = styled.div`
   height: 45%;
-  overflow: hidden;
+  /* overflow: hidden; */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  background-color: white;
 `;

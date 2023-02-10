@@ -3,11 +3,10 @@ import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { theme } from "@/styles/theme";
-import { IUser } from "types/auth";
 
 interface IProps {
   isLiked: boolean;
-  auctionInfo: IAuctionInfo;
+  auctionInfo: IAuctionDetail;
   likeHandler: (event: React.MouseEvent<unknown>) => void;
 }
 export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
@@ -17,7 +16,11 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
         <ProfileImg>
           <img
             className="image"
-            src={auctionInfo.profileUrl}
+            src={
+              auctionInfo.profileUrl !== ("01" || "")
+                ? auctionInfo.profileUrl
+                : "https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_basic.png"
+            }
             alt="profile-image"
           />
         </ProfileImg>
@@ -40,6 +43,7 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
             sx={{ fontSize: 30 }}
           />
         )}
+
         <div className="likesCount">
           {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
         </div>
@@ -63,6 +67,7 @@ const ProfileBox = styled.div`
   height: 10%;
   padding: 0.5rem;
   display: flex;
+  border-top: 1px solid ${theme.colors.greyLight};
   border-bottom: 1px solid ${theme.colors.greyLight};
   .profileIconBox {
     width: 20%;

@@ -1,17 +1,22 @@
-interface IAuctionInfo {
+interface IAuctionDetail {
   auctionSeq: number;
   userEmail: string;
   profileUrl: string;
   nickname: string;
-  categorySeq: number;
+  category: number;
   title: string;
   content: string;
   startTime: string;
   startPrice: number;
-  link: string;
   likeCount: number;
   state: number;
   bidUnit: number;
+  auctionImageList: {
+    auctionImageSeq: number;
+    auctionSeq: number;
+    imageUrl: string;
+  }[];
+  isLiked: boolean;
 }
 
 interface IAuctionCreate {

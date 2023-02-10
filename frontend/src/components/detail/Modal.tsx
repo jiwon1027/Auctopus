@@ -27,7 +27,7 @@ const style = {
 };
 
 interface IProps {
-  auctionInfo: IAuctionInfo;
+  auctionInfo: IAuctionDetail;
 }
 
 function ChildModal({ auctionInfo }: IProps) {
