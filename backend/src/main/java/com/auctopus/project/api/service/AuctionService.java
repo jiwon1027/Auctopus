@@ -13,8 +13,8 @@ public interface AuctionService {
 
     // 시청자 수로 sort한 경매 리스트 목록
     List<Auction> getAuctionListByViewer(int state);
-    // 좋아요 수로 sort한 경매 리스트 목록
 
+    // 좋아요 수로 sort한 경매 리스트 목록
     List<Auction> getAuctionListByLikeCount(int state);
 
     // 카테고리(관심)별 경매리스트
@@ -29,11 +29,6 @@ public interface AuctionService {
 
     List<Auction> getAuctionListByLikeCountAndWordOrCategorySeq(String word, int categorySeq,
             int state);
-
-    // category
-//    List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state);
-//
-//    List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state);
 
     // 내 판매 예정 경매방 리스트
     List<Auction> getMyAuctionListByEmail(String email);

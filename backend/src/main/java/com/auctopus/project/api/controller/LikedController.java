@@ -6,17 +6,12 @@ import com.auctopus.project.api.service.LikeAuctionService;
 import com.auctopus.project.api.service.LiveService;
 import com.auctopus.project.api.service.NotificationService;
 import com.auctopus.project.db.domain.Auction;
-
+import com.auctopus.project.db.domain.AuctionImage;
+import com.auctopus.project.db.domain.Live;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Map;
-=======
-
-import com.auctopus.project.db.domain.AuctionImage;
-import com.auctopus.project.db.domain.Live;
->>>>>>> a057170 (ð✨ feat:category-delete-like-auction-image-add)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +36,13 @@ public class LikedController {
     @Autowired
     private NotificationService notificationService;
 
-<<<<<<< HEAD
-    @CrossOrigin("*")
-=======
     @Autowired
     private AuctionImageService auctionImageService;
 
     @Autowired
     private LiveService liveService;
 
->>>>>>> a057170 (ð✨ feat:category-delete-like-auction-image-add)
+
     @PostMapping()
     public ResponseEntity<?> registerLikeAuction(Authentication authentication,
             @RequestBody Map<String, Integer> map) {
@@ -84,12 +76,14 @@ public class LikedController {
 
     @CrossOrigin("*")
     @GetMapping()
-    public ResponseEntity<List<AuctionListResponse>> getLikeAuctionList(Authentication authentication) throws UnsupportedEncodingException {
+    public ResponseEntity<List<AuctionListResponse>> getLikeAuctionList(
+            Authentication authentication) throws UnsupportedEncodingException {
         String userEmail = (String) authentication.getCredentials();
         List<Auction> likeAuctionList = likeAuctionService.getLikeAuctionList(userEmail);
         List<AuctionListResponse> auctionLikeListResponse = new ArrayList<>();
         for (Auction auction : likeAuctionList) {
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(
+                    auction.getAuctionSeq());
             if (auction.getState() == 2) {
                 System.out.println(auction.getAuctionSeq());
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());

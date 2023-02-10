@@ -24,6 +24,7 @@ public class AuctionResponse {
     String userEmail;
     String profileUrl;
     String nickname;
+    boolean isLiked;
     String title;
     String content;
     int categorySeq;
@@ -34,12 +35,14 @@ public class AuctionResponse {
     int state;
     List<AuctionImage> auctionImageList;
 
-    public static AuctionResponse of(Auction auction, User user, List<AuctionImage> auctionImageList) {
+    public static AuctionResponse of(Auction auction, User user, boolean isLiked,
+            List<AuctionImage> auctionImageList) {
         AuctionResponse res = AuctionResponse.builder()
                 .auctionSeq(auction.getAuctionSeq())
                 .userEmail(auction.getUserEmail())
                 .profileUrl(user.getProfileUrl())
                 .nickname(user.getNickname())
+                .isLiked(isLiked)
                 .title(auction.getTitle())
                 .content(auction.getContent())
                 .categorySeq(auction.getCategorySeq())
