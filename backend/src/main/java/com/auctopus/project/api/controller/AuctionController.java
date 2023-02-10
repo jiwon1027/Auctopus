@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auction")
-@CrossOrigin("*")
+
 public class AuctionController {
 
     @Autowired
@@ -49,10 +49,12 @@ public class AuctionController {
     @Autowired
     private LikeCategoryService likeCategoryService;
 
+    @CrossOrigin("*")
     @PostMapping()
     public ResponseEntity<?> registerAuction(Authentication authentication,
             @RequestPart(value = "req") AuctionCreateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
+        System.out.println(auctionImageList.toString());
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(userEmail, req, auctionImageList);
         if (auction == null)
@@ -60,6 +62,7 @@ public class AuctionController {
         return new ResponseEntity<>(auction, HttpStatus.OK);
     }
 
+    @CrossOrigin("*")
     @PatchMapping()
     public ResponseEntity<?> updateAuction(Authentication authentication,
             @RequestPart(value = "req") AuctionUpdateRequest req,
@@ -73,6 +76,7 @@ public class AuctionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin("*")
     @DeleteMapping("/{auctionSeq}")
     public ResponseEntity<?> deleteAuction(Authentication authentication,
             @PathVariable("auctionSeq") int auctionSeq) {
@@ -87,6 +91,7 @@ public class AuctionController {
     }
 
     // 경매 상세정보
+    @CrossOrigin("*")
     @GetMapping("/{auctionSeq}")
     public ResponseEntity<?> getAuctionInfo(@PathVariable("auctionSeq") int auctionSeq) {
         Auction auction = auctionService.getAuction(auctionSeq);
@@ -98,6 +103,7 @@ public class AuctionController {
 
     // 나의 경매 예정 리스트(state=0)
     // state가 1인 애들을 아직 서비스에서 어떻게 할지 못정했기 때문에 default state=0 으로 함
+    @CrossOrigin("*")
     @GetMapping("/mylist")
     public ResponseEntity<List<AuctionListResponse>> getMyAuctionList(
             Authentication authentication) {
@@ -118,6 +124,7 @@ public class AuctionController {
 
     /// 메인 방 - auctionlist 불러오기
     /// main - 경매중 viewer / like - 경매예정 likeCount / category - 유저 관심카테고리 순 / startTime - 최신순
+    @CrossOrigin("*")
     @GetMapping("/list")
     public ResponseEntity<List<AuctionListResponse>> getAuctionList(
             @Nullable Authentication authentication, @RequestParam("sort") String sort,
