@@ -12,6 +12,7 @@ import Modal from "@mui/material/Modal";
 import { OutlinedInput } from "@mui/material";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { enterLive } from "@/api/auction";
 
 const style = {
   position: "absolute",
@@ -57,10 +58,12 @@ function ChildModal({ auctionInfo }: IProps) {
     sendDataRouter();
   };
 
+  // 라이브 참여 : 판매자(자동경매사용)
   const sendDataRouter = () => {
     if (biddingCost <= auctionInfo.startPrice) {
       alert("최대 입찰 금액은 입찰 시작가보다 낮을 수 없습니다.");
     } else {
+      enterLive(auctionInfo.auctionSeq, biddingCost);
       navigate(`/live/${auctionInfo.auctionSeq}`, {
         state: {
           userState: "auto",
@@ -117,8 +120,10 @@ export default function AlertDialog({ auctionInfo }: IProps) {
     setOpen(false);
   };
 
+  // 라이브 참여 : 참여자(수동경매사용)
   const sendDataRouter = () => {
     handleClose();
+    enterLive(auctionInfo.auctionSeq, 0);
     navigate(`/live/${auctionInfo.auctionSeq}`, {
       state: {
         userState: "nonAuto",

@@ -192,7 +192,7 @@ class VideoRoomComponent extends Component {
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
-      mirror: this.props.locations.state.userState === "seller" ? false : true,
+      // mirror: this.props.locations.state.userState === "seller" ? false : true,
     });
 
     if (this.state.session.capabilities.publish) {

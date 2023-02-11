@@ -52,3 +52,16 @@ export async function deleteAuctionLike(auctionSeq: string) {
     `${VITE_SERVER_DOMAIN}/api/liked/${auctionSeq}`
   );
 }
+
+export const openLive = async (auctionSeq: number) => {
+  return await instance.post(`${VITE_SERVER_DOMAIN}/api/live/open`, {
+    auctionSeq: auctionSeq,
+  });
+};
+
+export const enterLive = async (auctionSeq: number, autoPrice: number) => {
+  return await instance.post(`${VITE_SERVER_DOMAIN}/api/live/enter`, {
+    auctionSeq: auctionSeq,
+    autoPrice: autoPrice,
+  });
+};
