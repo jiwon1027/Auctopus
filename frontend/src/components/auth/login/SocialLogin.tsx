@@ -1,13 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import Button from "@mui/material/Button";
-import { kAKAO_AUTH_URL } from "@/api/api";
+import React from 'react';
+import styled from 'styled-components';
+import Button from '@mui/material/Button';
+import { kAKAO_AUTH_URL } from '@/api/api';
 
 export default function SocialLogin() {
   return (
     <StyledSocialLogin>
-      <Button variant="outlined" href={kAKAO_AUTH_URL}>
-        Kakao
+      <Button
+        variant="contained"
+        disableElevation
+        className="btn"
+        type="submit"
+        href={kAKAO_AUTH_URL}
+      >
+        kakao로 간편로그인하기
       </Button>
     </StyledSocialLogin>
   );
@@ -15,12 +21,17 @@ export default function SocialLogin() {
 
 const StyledSocialLogin = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
   text-align: center;
-
-  button {
-    border-color: ${(props) => props.theme.colors.primary};
-    color: ${(props) => props.theme.colors.primary};
-    margin-top: 3rem;
+  margin-top: 4rem;
+  .btn {
+    text-transform: initial;
+    background-color: #fae100;
+    font-weight: bold;
     font-size: 1.8rem;
+    border-radius: 1rem;
+    color: black;
+    padding: 1rem;
   }
 `;
