@@ -58,7 +58,7 @@ function ChildModal({ auctionInfo }: IProps) {
     sendDataRouter();
   };
 
-  // 라이브 참여 : 판매자(자동경매사용)
+  // 라이브 참여 : 구매자(자동경매사용)
   const sendDataRouter = () => {
     if (biddingCost <= auctionInfo.startPrice) {
       alert("최대 입찰 금액은 입찰 시작가보다 낮을 수 없습니다.");
@@ -120,7 +120,7 @@ export default function AlertDialog({ auctionInfo }: IProps) {
     setOpen(false);
   };
 
-  // 라이브 참여 : 참여자(수동경매사용)
+  // 라이브 참여 : 구매자(수동경매사용)
   const sendDataRouter = () => {
     handleClose();
     enterLive(auctionInfo.auctionSeq, 0);

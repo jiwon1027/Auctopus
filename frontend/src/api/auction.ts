@@ -43,6 +43,12 @@ export async function getAuctionLikes() {
   return await instance.get<IAuction[]>(`${VITE_SERVER_DOMAIN}/api/liked`);
 }
 
+export async function getMyAuctionList() {
+  return await instance.get<IAuction[]>(
+    `${VITE_SERVER_DOMAIN}/api/auction/mylist`
+  );
+}
+
 export async function postAuctionLike(auctionSeq: string) {
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, { auctionSeq });
 }
@@ -60,6 +66,9 @@ export const openLive = async (auctionSeq: number) => {
 };
 
 export const enterLive = async (auctionSeq: number, autoPrice: number) => {
+  console.log("auctionSeq : " + auctionSeq);
+  console.log("acutoPrice : " + autoPrice);
+
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/live/enter`, {
     auctionSeq: auctionSeq,
     autoPrice: autoPrice,

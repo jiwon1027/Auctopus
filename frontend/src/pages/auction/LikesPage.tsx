@@ -5,8 +5,9 @@ import ItemsList from "@components/common/ItemsList";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
 import { IAuction } from "types/auction";
-import { getAuctionLikes } from "@/api/auction";
+import { getAuctionLikes, getMyAuctionList } from "@/api/auction";
 import { useNavigate } from "react-router-dom";
+import useAuth from "@/store/atoms/useAuth";
 
 const initLiveAuction: IAuction[] = [
   {
@@ -44,21 +45,14 @@ const initLiveAuction: IAuction[] = [
 ];
 
 export default function LikesPage() {
+  const { getUser } = useAuth();
   const navigate = useNavigate();
   const [live, setLive] = useState<"live" | "nonLive">("live");
   const [liveAuction, setLiveAuction] = useState<IAuction[]>(initLiveAuction);
 
   useEffect(() => {
-    const fetchAuctionLikes = async () => {
-      const res = await getAuctionLikes();
-      if (res.status !== 200)
-        throw new Error("Internal Server Error error (❁´◡`❁)");
-
-      setLiveAuction(res.data);
-    };
-
     try {
-      fetchAuctionLikes();
+      fetchMyAuction();
     } catch (error) {
       navigate("/error");
     }
@@ -66,12 +60,34 @@ export default function LikesPage() {
 
   const changeLive = () => {
     setLive((prev) => (prev === "live" ? "nonLive" : "live"));
+    live === "live" ? fetchAuctionLikes() : fetchMyAuction();
   };
+
+  const fetchAuctionLikes = async () => {
+    const res = await getAuctionLikes();
+    if (res.status !== 200)
+      throw new Error("Internal Server Error error (❁´◡`❁)");
+
+    setLiveAuction(res.data);
+  };
+
+  const fetchMyAuction = async () => {
+    const res = await getMyAuctionList();
+    if (res.status !== 200)
+      throw new Error("Internal Server Error error (❁´◡`❁)");
+
+    setLiveAuction(res.data);
+  };
+
+  const userData = getUser();
+
   return (
     <Layout>
       <ProfileBox>
-        <Profile src={ProfileImg} alt="profile" />
-        <span className="profileTitle">정개미님의 관심목록</span>
+        <Profile onClick={() => navigate("/profile")}>
+          <img className="image" src={userData.profileUrl} alt="profile" />
+        </Profile>
+        <span className="profileTitle">{userData.nickname}님의 관심목록</span>
       </ProfileBox>
       <MainToggleButtonGroup isMe live={live} onClick={changeLive} />
       <MarginBox />
@@ -80,8 +96,18 @@ export default function LikesPage() {
   );
 }
 
+const Profile = styled.div`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 70%;
+  overflow: hidden;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 const ProfileBox = styled.div`
-  flex: 0.2;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -94,10 +120,6 @@ const ProfileBox = styled.div`
     text-align: center;
     font-weight: ${(props) => props.theme.fontWeight.semibold};
   }
-`;
-
-const Profile = styled.img`
-  width: 6rem;
 `;
 
 const MarginBox = styled.div`
