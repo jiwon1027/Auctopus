@@ -1,9 +1,9 @@
-import React from "react";
-import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import Hamburger from "../common/Hamburger";
-import LogoImg from "@/assets/common/logo.png";
+import React from 'react';
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import Hamburger from '../common/Hamburger';
+import LogoImg from '@/assets/common/logo.png';
 /**
  * @param title
  * @param leftIcon none은 없음, back은 뒤로가기 버튼, turtle은 거북이 아이콘
@@ -31,10 +31,7 @@ export default function Header(props: IProps): JSX.Element {
     <StyledHeader>
       <div className="backContainer">
         {props.back ? (
-          <ChevronLeftOutlinedIcon
-            className="backIcon"
-            onClick={() => navigate(-1)}
-          />
+          <ChevronLeftOutlinedIcon className="backIcon" onClick={() => navigate(-1)} />
         ) : (
           <Hamburger />
         )}
@@ -42,7 +39,7 @@ export default function Header(props: IProps): JSX.Element {
       {props.title ? (
         <h1 className="title">{props.title}</h1>
       ) : (
-        <LogoBox onClick={() => navigate("/")}>
+        <LogoBox onClick={() => navigate('/main')}>
           <Logo src={LogoImg} alt="logo" />
         </LogoBox>
       )}
@@ -75,7 +72,7 @@ const StyledHeader = styled.header`
     flex: 1;
     text-align: start;
     .backIcon {
-      color: ${(props) => props.theme.colors.primary};
+      color: ${props => props.theme.colors.primary};
       width: 3rem;
       height: 3rem;
     }
@@ -90,7 +87,7 @@ const StyledHeader = styled.header`
     flex: 1;
     font-weight: bold;
     font-size: 1.8rem;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${props => props.theme.colors.primary};
     text-align: center;
   }
 
@@ -100,28 +97,28 @@ const StyledHeader = styled.header`
     text-align: end;
 
     .icon {
-      color: ${(props) => props.theme.colors.primary};
+      color: ${props => props.theme.colors.primary};
       width: 3rem;
       height: 3rem;
     }
 
     .rightText {
-      font-weight: ${(props) => props.theme.fontWeight.medium};
+      font-weight: ${props => props.theme.fontWeight.medium};
       font-size: 1.6rem;
-      color: ${(props) => props.theme.colors.turtleDark};
+      color: ${props => props.theme.colors.turtleDark};
       width: 3rem;
     }
   }
 
   /* .icon {
-    color: ${(props) => props.theme.colors.primary};
+    color: ${props => props.theme.colors.primary};
     width: 3rem;
     height: 3rem;
   }
   .rightText {
-    font-weight: ${(props) => props.theme.fontWeight.medium};
+    font-weight: ${props => props.theme.fontWeight.medium};
     font-size: 1.6rem;
-    color: ${(props) => props.theme.colors.turtleDark};
+    color: ${props => props.theme.colors.turtleDark};
     width: 3rem;
   } */
 `;

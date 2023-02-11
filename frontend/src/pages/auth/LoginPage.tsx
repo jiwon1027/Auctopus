@@ -1,15 +1,22 @@
-import React from "react";
-import Layout from "@components/common/Layout";
-import Title from "@components/auth/login/Title";
-import Form from "@components/auth/login/Form";
-import SocialLogin from "@components/auth/login/SocialLogin";
-
+import React from 'react';
+import Title from '@components/auth/login/Title';
+// import Form from '@components/auth/login/Form';
+import SocialLogin from '@components/auth/login/SocialLogin';
+import styled from 'styled-components';
 export default function LoginPage() {
   return (
-    <Layout>
+    <Container title="">
       <Title />
-      <Form />
+      {/* <Form /> */}
       <SocialLogin />
-    </Layout>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.8rem;
+`;
