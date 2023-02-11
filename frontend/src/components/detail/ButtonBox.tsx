@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import Modal from "@/components/detail/Modal";
 import { styled as mstyled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { openLive } from "@/api/auction";
 
 interface IProps {
   isBuyer: boolean;
@@ -22,11 +23,12 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
       setOnTime(isOnTime(auctionInfo.startTime));
       setRemainingTime(getRemainTime(auctionInfo.startTime));
     }, 1000);
-    console.log(auctionInfo.startTime);
     return () => clearInterval(interval);
   }, []);
 
+  // 라이브 시작 : 판매자
   const sendDataRouter = () => {
+    openLive(auctionInfo.auctionSeq);
     navigate(`/live/${auctionInfo.auctionSeq}`, {
       state: {
         userState: "seller",
