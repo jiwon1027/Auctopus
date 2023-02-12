@@ -19,8 +19,10 @@
     "@mui/styled-engine-sc": "^5.11.0",
     "@mui/x-data-grid": "^5.17.21",
     "@mui/x-date-pickers": "^5.0.16",
+    "@stomp/stompjs": "^7.0.0",
     "axios": "^1.2.4",
     "dayjs": "^1.11.7",
+    "isomorphic-ws": "^5.0.0",
     "jquery": "^3.6.3",
     "moment": "^2.29.4",
     "openvidu-browser": "^2.25.0",
@@ -34,10 +36,10 @@
     "slick-carousel": "^1.8.1",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
-    "stompjs": "^2.3.3",
     "styled-components": "^5.3.6",
     "styled-normalize": "^8.0.7",
-    "vite-plugin-svgr": "^2.4.0"
+    "vite-plugin-svgr": "^2.4.0",
+    "ws": "^8.12.0"
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
@@ -48,6 +50,7 @@
     "@types/sockjs-client": "^1.5.1",
     "@types/stompjs": "^2.3.5",
     "@types/styled-components": "^5.1.26",
+    "@types/ws": "^8.5.4",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "@vitejs/plugin-react": "^3.0.0",
