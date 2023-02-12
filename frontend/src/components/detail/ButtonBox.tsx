@@ -17,11 +17,15 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const navigate = useNavigate();
   const [onTime, setOnTime] = useState(false);
   const [remainingTime, setRemainingTime] = useState("");
-  console.log(auctionInfo.startTime);
+  const revertKST = (time: string) => {
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    return time + KR_TIME_DIFF;
+  };
+  console.log(revertKST(auctionInfo.startTime));
   useEffect(() => {
     const interval = setInterval(() => {
-      setOnTime(isOnTime(auctionInfo.startTime));
-      setRemainingTime(getRemainTime(auctionInfo.startTime));
+      setOnTime(isOnTime(revertKST(auctionInfo.startTime)));
+      setRemainingTime(getRemainTime(revertKST(auctionInfo.startTime)));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -56,7 +60,7 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
         {onTime ? (
           <>
             <div className="time-left">
-              {getRemainTime(auctionInfo.startTime)}후 입장 가능
+              {getRemainTime(revertKST(auctionInfo.startTime))}후 입장 가능
             </div>
             <DisableButton>입장하기</DisableButton>
           </>
@@ -88,12 +92,14 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   );
 }
 const revertKST = (time: string) => {
+  console.log(time);
   const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-  return new Date(time + KR_TIME_DIFF);
+  return time + KR_TIME_DIFF;
 };
 function isOnTime(time: string) {
-  console.log(new Date(time).getTime() - Date.now());
-  return new Date(revertKST(time)).getTime() - Date.now() <= 0;
+  console.log(time);
+  console.log(revertKST(time));
+  return new Date(time).getTime() - Date.now() <= 0;
 }
 
 function getRemainTime(time: string) {
