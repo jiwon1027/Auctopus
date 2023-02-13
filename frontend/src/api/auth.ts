@@ -17,5 +17,6 @@ export const requestForSignup = async (user: IUser) => {
     profileUrl: "",
     userName: user.name,
   };
+  console.log(reqData);
   return await instance.post(`${URL}/api/kakao/login`, reqData);
 };

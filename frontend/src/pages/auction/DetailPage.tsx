@@ -51,7 +51,6 @@ export default function DetailPage() {
         return new Error("경매 정보를 가져오지 못했습니다");
       setData(res.data);
       setImgUrl(res.data.auctionImageList[0].imageUrl);
-      console.log(imgUrl);
       const user = getUser();
 
       user.email === res.data.userEmail ? setIsBuyer(false) : setIsBuyer(true);
@@ -73,9 +72,6 @@ export default function DetailPage() {
 
     setIsLiked((prev) => !prev);
   };
-
-  // console.log(data.auctionImageList[0].imageUrl);
-  console.log(data.auctionImageList);
 
   return (
     <CustomContainer disableGutters={true}>
@@ -104,9 +100,5 @@ const CustomContainer = mstyled(Container)`
 
 const ImgBox = styled.div`
   height: 45%;
-  /* overflow: hidden; */
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
   background-color: white;
 `;
