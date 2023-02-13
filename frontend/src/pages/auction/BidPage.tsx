@@ -87,7 +87,6 @@ export default function BidPage() {
     userState: string;
     limit?: number;
   }) || { auctionInfo: initAuctionInfo, userState: "seller", limit: 1000 };
-  console.log("auctioninfo", auctionInfo);
 
   useEffect(() => {
     const newWebSocket = new WebSocket(
@@ -165,7 +164,7 @@ function writeMessage(
   top: { topPrice: number; topBidder: string }
 ) {
   return JSON.stringify({
-    type: type, // 1: 일반채팅, 2: 경매 입찰
+    type: type, // 0: open, 1: 일반채팅, 2: 경매 입찰, 3: close
     date: "",
     liveSeq: auctionSeq,
     message: message,

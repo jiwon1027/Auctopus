@@ -22,7 +22,7 @@ export default function ChatSection(props: IProps) {
   return (
     <StyledChatContainer>
       {props.messages.map((msg) =>
-        msg.type === 1 ? (
+        msg.type === 2 ? (
           <Message
             key={msg.date}
             msg={msg}
