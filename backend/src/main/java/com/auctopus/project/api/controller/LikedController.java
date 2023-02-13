@@ -10,13 +10,11 @@ import com.auctopus.project.db.domain.Auction;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
+
 import java.util.Map;
-=======
 
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.domain.Live;
->>>>>>> a057170 (ð✨ feat:category-delete-like-auction-image-add)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +39,14 @@ public class LikedController {
     @Autowired
     private NotificationService notificationService;
 
-<<<<<<< HEAD
-    @CrossOrigin("*")
-=======
+
     @Autowired
     private AuctionImageService auctionImageService;
 
     @Autowired
     private LiveService liveService;
 
->>>>>>> a057170 (ð✨ feat:category-delete-like-auction-image-add)
+    @CrossOrigin("*")
     @PostMapping()
     public ResponseEntity<?> registerLikeAuction(Authentication authentication,
             @RequestBody Map<String, Integer> map) {

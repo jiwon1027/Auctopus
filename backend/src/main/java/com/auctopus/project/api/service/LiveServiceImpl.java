@@ -23,6 +23,7 @@ public class LiveServiceImpl implements LiveService {
     @Override
     @Transactional
     public void createLive(int auctionSeq) {
+
         Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + auctionSeq + " not found",
