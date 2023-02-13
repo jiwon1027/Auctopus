@@ -18,6 +18,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +32,9 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
-    private TaskScheduler taskScheduler;
-    @Autowired
     private JavaMailSender mailSender;
+    private TaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+
     private Map<String, ScheduledFuture> map = new HashMap<>();
 
 
