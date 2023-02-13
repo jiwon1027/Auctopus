@@ -82,7 +82,7 @@ export default function useAuth() {
               ...prev.user,
               email: resData.userEmail,
               nickname: resData.nickname,
-              proifleUrl: resData.profile_image,
+              profileUrl: resData.profile_image,
             },
             validated: {
               ...prev.validated,
@@ -212,6 +212,7 @@ export default function useAuth() {
    * @param resData 카카오 로그인하고나서 넘어온 response 데이터
    */
   function signIn(resData: IResSocialLogin) {
+    console.log(resData);
     localStorage.setItem("token", resData.token);
     localStorage.setItem(
       "user",
@@ -225,6 +226,7 @@ export default function useAuth() {
 
   async function signUp() {
     try {
+      console.log(formState.user);
       const res = await requestForSignup(formState.user);
       console.log(res);
       if (res.status === 200) {
