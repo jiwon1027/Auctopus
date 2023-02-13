@@ -43,8 +43,9 @@ export async function getMyAuctionList() {
     `${VITE_SERVER_DOMAIN}/api/auction/mylist`
   );
 }
+// TODO api check
 export async function getLikesCheck(auctionSeq: string) {
-  return await instance.get(`${VITE_SERVER_DOMAIN}/liked${auctionSeq}`);
+  return await instance.get(`${VITE_SERVER_DOMAIN}/api/liked${auctionSeq}`);
 }
 export async function postAuctionLike(auctionSeq: string) {
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, { auctionSeq });
