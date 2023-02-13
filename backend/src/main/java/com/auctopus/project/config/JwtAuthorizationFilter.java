@@ -128,6 +128,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         } catch (Exception e) {
             System.out.println("ERROR : JwkException ");
+            e.printStackTrace();
         }
 
         return null;
