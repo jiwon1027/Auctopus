@@ -34,8 +34,8 @@ interface IProps {
 }
 
 export default function Category(props: IProps) {
-  const onClickEvent = (title: string) => {
-    props.onChangeCategory(title);
+  const onClickEvent = (title: number) => {
+    props.onChangeCategory(title.toString());
   };
 
   return (
@@ -44,7 +44,7 @@ export default function Category(props: IProps) {
       <Grid container columnSpacing={3} rowSpacing={2}>
         {category.map((item, index) => (
           <Grid key={index}>
-            <CategoryBox onClick={() => onClickEvent(item.title)}>
+            <CategoryBox onClick={() => onClickEvent(item.value)}>
               <CategoryImg src={item.imgURL} />
               <CategoryDesc>{item.title}</CategoryDesc>
             </CategoryBox>
