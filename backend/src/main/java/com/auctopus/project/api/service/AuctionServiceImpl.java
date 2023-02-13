@@ -181,18 +181,4 @@ public class AuctionServiceImpl implements AuctionService {
         return auctionList;
     }
 
-    // 카테고리 경매
-//    @Override
-//    public List<Auction> getAuctionListByViewerAndCategory(int categorySeq, int state) {
-//        List<Auction> auctionList = null;
-//        auctionList = auctionRepository.findAllAuctionByViewerAndCategory(categorySeq, state);
-//        return auctionList;
-//    }
-//
-//    @Override
-//    public List<Auction> getAuctionListByLikeCountAndCategory(int categorySeq, int state) {
-//        List<Auction> auctionList = null;
-//        auctionList = auctionRepository.findAllAuctionByLikeCountAndCategory(categorySeq, state);
-//        return auctionList;
-//    }
 }

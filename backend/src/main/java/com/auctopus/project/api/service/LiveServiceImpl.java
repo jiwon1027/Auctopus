@@ -88,6 +88,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setViewer(live.getViewer() + 1);
+        liveRepository.save(live);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setViewer(live.getViewer() - 1);
+        liveRepository.save(live);
     }
 
     @Override
@@ -106,6 +108,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setParticipant(live.getParticipant() + 1);
+        liveRepository.save(live);
     }
 
     @Override
@@ -115,5 +118,6 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setParticipant(live.getParticipant() - 1);
+        liveRepository.save(live);
     }
 }

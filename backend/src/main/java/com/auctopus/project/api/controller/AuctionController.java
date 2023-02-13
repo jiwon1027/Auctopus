@@ -6,6 +6,7 @@ import com.auctopus.project.api.response.AuctionListResponse;
 import com.auctopus.project.api.response.AuctionResponse;
 import com.auctopus.project.api.service.AuctionImageService;
 import com.auctopus.project.api.service.AuctionService;
+import com.auctopus.project.api.service.LikeAuctionService;
 import com.auctopus.project.api.service.LikeCategoryService;
 import com.auctopus.project.api.service.LiveService;
 import com.auctopus.project.api.service.UserService;
@@ -47,12 +48,14 @@ public class AuctionController {
     @Autowired
     private AuctionImageService auctionImageService;
     @Autowired
+    private LikeAuctionService likeAuctionService;
+    @Autowired
     private LikeCategoryService likeCategoryService;
 
     @CrossOrigin("*")
     @PostMapping()
     public ResponseEntity<?> registerAuction(Authentication authentication,
-            @RequestBody AuctionCreateRequest req,
+            @RequestPart AuctionCreateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.createAuction(userEmail, req, auctionImageList);
@@ -64,7 +67,7 @@ public class AuctionController {
     @CrossOrigin("*")
     @PatchMapping()
     public ResponseEntity<?> updateAuction(Authentication authentication,
-            @RequestBody AuctionUpdateRequest req,
+            @RequestPart AuctionUpdateRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> auctionImageList) {
         String userEmail = (String) authentication.getCredentials();
         Auction auction = auctionService.getAuction(req.getAuctionSeq());
@@ -91,12 +94,17 @@ public class AuctionController {
     // 경매 상세정보
     @CrossOrigin("*")
     @GetMapping("/{auctionSeq}")
-    public ResponseEntity<?> getAuctionInfo(@PathVariable("auctionSeq") int auctionSeq) {
+    public ResponseEntity<?> getAuctionInfo(Authentication authentication,
+            @PathVariable("auctionSeq") int auctionSeq) {
+        String userEmail = (String) authentication.getCredentials(); // 사용자의 정보
         Auction auction = auctionService.getAuction(auctionSeq);
-        User user = userService.getUser(auction.getUserEmail());
-        List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(
+        User user = userService.getUser(auction.getUserEmail()); // 판매자의 정보
+        boolean isLiked = likeAuctionService.checkingExistence(userEmail, auctionSeq);
+        List<AuctionImage
+                > auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(
                 auctionSeq);
-        return ResponseEntity.status(200).body(AuctionResponse.of(auction, user, auctionImageList));
+        return ResponseEntity.status(200)
+                .body(AuctionResponse.of(auction, user, isLiked, auctionImageList));
     }
 
     // 나의 경매 예정 리스트(state=0)
