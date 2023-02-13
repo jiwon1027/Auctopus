@@ -16,12 +16,8 @@ export default function NoticeSection(props: IProps) {
         <div className="notice__title">{props.auction.title}</div>
         <div className="notice__state">
           <div>시작가 {props.auction.startPrice}원</div>
-          <div>입찰 단위 {props.auction.bidUnit}</div>
-          {props.isSeller && (
-            <>
-              <div>나의 최대가 {props.limit}</div>
-            </>
-          )}
+          <div>입찰 단위 {props.auction.bidUnit}원</div>
+          {props.isSeller && <div>나의 최대가 {props.limit}원</div>}
         </div>
       </div>
     </StyledNotice>

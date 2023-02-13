@@ -12,7 +12,7 @@ export default function Message(props: IProps) {
   return (
     <StyledMessage isMe={props.isMe}>
       <div className="messageContainer">
-        <div className="message">
+        <div className="message1">
           <Avatar {...stringAvatar(props.msg.nickname)} />
           <div className="message__content">
             {props.msg.nickname} <br /> {props.msg.message}
@@ -35,7 +35,7 @@ const StyledMessage = styled.div<{ isMe: boolean }>`
     padding: 3px;
     margin-bottom: 1rem;
 
-    .message {
+    .message1 {
       display: flex;
       align-items: center;
     }
@@ -43,6 +43,7 @@ const StyledMessage = styled.div<{ isMe: boolean }>`
     .message__content {
       margin-left: 5px;
       color: ${(props) => props.isMe && "white"};
+      font-size: 2rem;
     }
   }
 `;

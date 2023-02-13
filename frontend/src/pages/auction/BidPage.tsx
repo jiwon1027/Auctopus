@@ -3,7 +3,7 @@ import Layout from "@components/common/Layout";
 import { Button } from "@mui/material";
 import NoticeSection from "@components/bidding/NoticeSection";
 import ChatSection from "@components/bidding/ChatSection";
-import ActionFooter from "@components/bidding/ActionFooter";
+import ActionForm from "@components/bidding/ActionForm";
 import { IMessage } from "types/auction";
 import { useLocation } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
@@ -27,11 +27,54 @@ const initAuctionInfo: IAuctionDetail = {
   auctionImageList: [],
 };
 
+const initMessages: IMessage[] = [
+  {
+    type: 1,
+    date: "",
+    liveSeq: 1,
+    message: "yop",
+    nickname: "멋지",
+    userEmail: "taw4654@gmail.com",
+  },
+  {
+    type: 1,
+    date: "",
+    liveSeq: 1,
+    message: "hello",
+    nickname: "멋지",
+    userEmail: "ssafy@ssafy.com",
+  },
+  {
+    type: 1,
+    date: "",
+    liveSeq: 1,
+    message: "hello",
+    nickname: "멋지",
+    userEmail: "ssafy@ssafy.com",
+  },
+  {
+    type: 1,
+    date: "",
+    liveSeq: 1,
+    message: "hello",
+    nickname: "멋지",
+    userEmail: "ssafy@ssafy.com",
+  },
+  {
+    type: 1,
+    date: "",
+    liveSeq: 1,
+    message: "hello",
+    nickname: "멋지",
+    userEmail: "ssafy@ssafy.com",
+  },
+];
+
 export default function BidPage() {
   const location = useLocation();
   const user = useAuth().getUser();
   const [webSocket, setWebSocket] = useState<WebSocket>();
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>(initMessages);
   const { auctionInfo, userState, limit } = (location.state as {
     auctionInfo: IAuctionDetail;
     userState: string;
@@ -44,10 +87,11 @@ export default function BidPage() {
       `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`
     );
 
-    newWebSocket.onopen = (event) => {
+    newWebSocket.onopen = () => {
       newWebSocket.send(
         writeMessage(
           auctionInfo.auctionSeq,
+          1,
           "Here's some text that the server is urgently awaiting!",
           user
         )
@@ -55,17 +99,16 @@ export default function BidPage() {
     };
 
     newWebSocket.onmessage = (event) => {
-      console.log("event: ", event.data);
-      // TODO: setMessages((prev) => [...prev, JSON.parse(event.data as string)]);
+      // console.log("event: ", event.data);
+      setMessages((prev) => [...prev, JSON.parse(event.data as string)]);
     };
 
     setWebSocket(newWebSocket);
     return () => newWebSocket.close();
   }, []);
 
-  // FIXME: type
-  const sendMessage = (chat: string) => {
-    webSocket?.send(writeMessage(auctionInfo.auctionSeq, chat, user));
+  const sendMessage = (type: number, chat: string) => {
+    webSocket?.send(writeMessage(auctionInfo.auctionSeq, type, chat, user));
   };
 
   return (
@@ -76,7 +119,7 @@ export default function BidPage() {
         isSeller={userState === "seller"}
       />
       <ChatSection email={user.email} messages={messages} />
-      <ActionFooter onSend={sendMessage} />
+      <ActionForm onSend={sendMessage} />
     </Layout>
   );
 }
@@ -87,9 +130,14 @@ const RightComponent = (
   </Button>
 );
 
-function writeMessage(auctionSeq: number, message: string, user: IUser) {
+function writeMessage(
+  auctionSeq: number,
+  type: number,
+  message: string,
+  user: IUser
+) {
   return JSON.stringify({
-    type: 2,
+    type: type, // 1: 일반채팅, 2: 경매 입찰
     date: "",
     liveSeq: auctionSeq,
     message: message,

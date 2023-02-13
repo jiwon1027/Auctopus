@@ -4,10 +4,10 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import styled from "styled-components";
 
 interface IProps {
-  onSend: (chat: string) => void;
+  onSend: (type: number, chat: string) => void;
 }
 
-export default function ActionFooter(props: IProps) {
+export default function ActionForm(props: IProps) {
   const [chat, setChat] = useState("");
   const onChangeMsg = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -18,12 +18,12 @@ export default function ActionFooter(props: IProps) {
     e.preventDefault();
     const trimmed = chat.trim();
     if (!trimmed) return;
-    props.onSend(trimmed);
+    props.onSend(1, trimmed);
     setChat("");
   };
 
   return (
-    <StyledActionFooter onSubmit={onSubmit}>
+    <StyledActionForm onSubmit={onSubmit}>
       <TextField
         fullWidth
         id="fullWidth"
@@ -35,12 +35,16 @@ export default function ActionFooter(props: IProps) {
         color="secondary"
         sx={{ width: "4rem", height: "4rem", marginLeft: "2rem" }}
       />
-    </StyledActionFooter>
+    </StyledActionForm>
   );
 }
 
-const StyledActionFooter = styled.section`
+const StyledActionForm = styled.form`
   display: flex;
   align-items: center;
   padding-bottom: 3rem;
+
+  input {
+    font-size: 2rem;
+  }
 `;
