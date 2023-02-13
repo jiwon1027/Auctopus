@@ -7,7 +7,7 @@ import ActionFooter from "@components/bidding/ActionFooter";
 import { IMessage } from "types/auction";
 import { useLocation } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
-import WebSocket from "ws";
+import WebSocket from "isomorphic-ws";
 
 const initAuctionInfo: IAuctionDetail = {
   auctionSeq: 1,
