@@ -31,17 +31,9 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
       </div>
       <div className="likes">
         {isLiked ? (
-          <FavoriteIcon
-            onClick={likeHandler}
-            color="warning"
-            sx={{ fontSize: 30 }}
-          />
+          <FavoriteIcon onClick={likeHandler} color="warning" sx={{ fontSize: 30 }} />
         ) : (
-          <FavoriteBorderIcon
-            onClick={likeHandler}
-            color="disabled"
-            sx={{ fontSize: 30 }}
-          />
+          <FavoriteBorderIcon onClick={likeHandler} color="disabled" sx={{ fontSize: 30 }} />
         )}
 
         <div className="likesCount">

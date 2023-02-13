@@ -61,3 +61,4 @@ export interface IReqPatchUser {
   addressDetail: string;
   profileUrl: string;
 }
+ 

@@ -14,7 +14,7 @@ interface IReqAuction {
 
 export async function getAuctions(data: IReqAuction) {
   return await instance.get<IAuction[]>(
-    `${VITE_SERVER_DOMAIN}/api/auction/list?sort=${data.sort}&state=${data.state}`
+    `${VITE_SERVER_DOMAIN}/api/auction/list?sort=${data.sort}&state=${data.state}`,
   );
 }
 
@@ -29,9 +29,7 @@ export async function getAuctionsByQuery(data: IReqSearch) {
 }
 
 export async function getAuction(auctionSeq: string) {
-  return await instance.get<IAuctionDetail>(
-    `${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`
-  );
+  return await instance.get<IAuctionDetail>(`${VITE_SERVER_DOMAIN}/api/auction/${auctionSeq}`);
 }
 
 export async function getAuctionLikes() {
@@ -39,22 +37,17 @@ export async function getAuctionLikes() {
 }
 
 export async function getMyAuctionList() {
-  return await instance.get<IAuction[]>(
-    `${VITE_SERVER_DOMAIN}/api/auction/mylist`
-  );
+  return await instance.get<IAuction[]>(`${VITE_SERVER_DOMAIN}/api/auction/mylist`);
 }
-// TODO api check
 export async function getLikesCheck(auctionSeq: string) {
-  return await instance.get(`${VITE_SERVER_DOMAIN}/api/liked${auctionSeq}`);
+  return await instance.get(`${VITE_SERVER_DOMAIN}/api/liked/${auctionSeq}`);
 }
 export async function postAuctionLike(auctionSeq: string) {
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/liked`, { auctionSeq });
 }
 
 export async function deleteAuctionLike(auctionSeq: string) {
-  return await instance.delete<IAuction>(
-    `${VITE_SERVER_DOMAIN}/api/liked/${auctionSeq}`
-  );
+  return await instance.delete<IAuction>(`${VITE_SERVER_DOMAIN}/api/liked/${auctionSeq}`);
 }
 
 export const openLive = async (auctionSeq: number) => {
