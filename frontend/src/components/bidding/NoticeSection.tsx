@@ -6,6 +6,7 @@ interface IProps {
   auction: IAuctionDetail;
   isSeller: boolean;
   limit?: number;
+  top: { topPrice: number; topBidder: string };
 }
 
 export default function NoticeSection(props: IProps) {
@@ -18,6 +19,11 @@ export default function NoticeSection(props: IProps) {
           <div>시작가 {props.auction.startPrice}원</div>
           <div>입찰 단위 {props.auction.bidUnit}원</div>
           {props.isSeller && <div>나의 최대가 {props.limit}원</div>}
+          {props.top.topPrice > 0 && (
+            <div>
+              현재 {props.top.topBidder} 님의 입찰 가격 {props.top.topPrice}
+            </div>
+          )}
         </div>
       </div>
     </StyledNotice>

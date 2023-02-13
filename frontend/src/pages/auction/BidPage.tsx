@@ -30,43 +30,48 @@ const initAuctionInfo: IAuctionDetail = {
 const initMessages: IMessage[] = [
   {
     type: 1,
-    date: "",
-    liveSeq: 1,
+    date: "2023-02-13T07:49:21.527Z",
     message: "yop",
     nickname: "멋지",
     userEmail: "taw4654@gmail.com",
+    topPrice: 0,
+    topBidder: "",
+  },
+  {
+    type: 2,
+    date: "2023-02-13T07:49:22.527Z",
+    message: "100",
+    nickname: "멋지",
+    userEmail: "ssafy@ssafy.com",
+    topPrice: 100,
+    topBidder: "ssafy@ssafy.com",
   },
   {
     type: 1,
-    date: "",
-    liveSeq: 1,
+    date: "2023-02-13T07:49:23.527Z",
     message: "hello",
     nickname: "멋지",
     userEmail: "ssafy@ssafy.com",
+    topPrice: 100,
+    topBidder: "ssafy@ssafy.com",
   },
   {
-    type: 1,
-    date: "",
-    liveSeq: 1,
-    message: "hello",
+    type: 2,
+    date: "2023-02-13T07:49:24.527Z",
+    message: "200",
     nickname: "멋지",
     userEmail: "ssafy@ssafy.com",
+    topPrice: 200,
+    topBidder: "멋지",
   },
   {
-    type: 1,
-    date: "",
-    liveSeq: 1,
-    message: "hello",
+    type: 2,
+    date: "2023-02-13T07:49:25.527Z",
+    message: "140",
     nickname: "멋지",
     userEmail: "ssafy@ssafy.com",
-  },
-  {
-    type: 1,
-    date: "",
-    liveSeq: 1,
-    message: "hello",
-    nickname: "멋지",
-    userEmail: "ssafy@ssafy.com",
+    topPrice: 200,
+    topBidder: "ssafy@ssafy.com",
   },
 ];
 
@@ -75,6 +80,8 @@ export default function BidPage() {
   const user = useAuth().getUser();
   const [webSocket, setWebSocket] = useState<WebSocket>();
   const [messages, setMessages] = useState<IMessage[]>(initMessages);
+  const [top, setTop] = useState({ topPrice: 0, topBidder: "" });
+
   const { auctionInfo, userState, limit } = (location.state as {
     auctionInfo: IAuctionDetail;
     userState: string;
@@ -91,16 +98,33 @@ export default function BidPage() {
       newWebSocket.send(
         writeMessage(
           auctionInfo.auctionSeq,
-          1,
-          "Here's some text that the server is urgently awaiting!",
-          user
+          0,
+          `${user.nickname} 님이 입장하셨습니다`,
+          user,
+          top
         )
       );
     };
 
     newWebSocket.onmessage = (event) => {
       // console.log("event: ", event.data);
-      setMessages((prev) => [...prev, JSON.parse(event.data as string)]);
+      const msg: IMessage = JSON.parse(event.data as string);
+      if (top.topPrice !== msg.topPrice) {
+        setTop({ topPrice: msg.topPrice, topBidder: msg.topBidder });
+      }
+      setMessages((prev) => [...prev, msg]);
+    };
+
+    newWebSocket.onclose = () => {
+      newWebSocket.send(
+        writeMessage(
+          auctionInfo.auctionSeq,
+          3,
+          `${user.nickname} 님이 나가셨습니다`,
+          user,
+          top
+        )
+      );
     };
 
     setWebSocket(newWebSocket);
@@ -108,7 +132,9 @@ export default function BidPage() {
   }, []);
 
   const sendMessage = (type: number, chat: string) => {
-    webSocket?.send(writeMessage(auctionInfo.auctionSeq, type, chat, user));
+    webSocket?.send(
+      writeMessage(auctionInfo.auctionSeq, type, chat, user, top)
+    );
   };
 
   return (
@@ -117,6 +143,7 @@ export default function BidPage() {
         auction={auctionInfo}
         limit={limit}
         isSeller={userState === "seller"}
+        top={top}
       />
       <ChatSection email={user.email} messages={messages} />
       <ActionForm onSend={sendMessage} />
@@ -134,7 +161,8 @@ function writeMessage(
   auctionSeq: number,
   type: number,
   message: string,
-  user: IUser
+  user: IUser,
+  top: { topPrice: number; topBidder: string }
 ) {
   return JSON.stringify({
     type: type, // 1: 일반채팅, 2: 경매 입찰
@@ -143,5 +171,7 @@ function writeMessage(
     message: message,
     nickname: user.nickname,
     userEmail: user.email,
+    topPrice: top.topPrice,
+    topBidder: top.topBidder,
   } as IMessage);
 }

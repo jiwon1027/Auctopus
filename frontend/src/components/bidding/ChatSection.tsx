@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { IMessage } from "types/auction";
+import Bid from "./Bid";
 import Message from "./Message";
 
 interface IProps {
@@ -9,7 +10,6 @@ interface IProps {
 }
 
 export default function ChatSection(props: IProps) {
-  // const myInformation = useRecoilValue(myInformationState);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -21,9 +21,17 @@ export default function ChatSection(props: IProps) {
 
   return (
     <StyledChatContainer>
-      {props.messages.map((msg, idx) => (
-        <Message key={idx} msg={msg} isMe={props.email === msg.userEmail} />
-      ))}
+      {props.messages.map((msg) =>
+        msg.type === 1 ? (
+          <Message
+            key={msg.date}
+            msg={msg}
+            isMe={props.email === msg.userEmail}
+          />
+        ) : (
+          <Bid key={msg.date} msg={msg} />
+        )
+      )}
       <div ref={messagesEndRef}></div>
     </StyledChatContainer>
   );

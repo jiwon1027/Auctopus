@@ -24,6 +24,7 @@ export default function ActionForm(props: IProps) {
 
   return (
     <StyledActionForm onSubmit={onSubmit}>
+      {/* TODO: add a radio button to swap between chatting and bidding */}
       <TextField
         fullWidth
         id="fullWidth"
