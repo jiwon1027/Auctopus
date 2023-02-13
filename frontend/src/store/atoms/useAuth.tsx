@@ -226,6 +226,7 @@ export default function useAuth() {
   async function signUp() {
     try {
       const res = await requestForSignup(formState.user);
+      console.log(res);
       if (res.status === 200) {
         alert("회원가입을 완료했습니다");
         resetFormState();

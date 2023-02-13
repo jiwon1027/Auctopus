@@ -13,7 +13,7 @@ import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
@@ -40,6 +40,7 @@ export default function Hamburger() {
   const onLogout = () => {
     signOut();
     alert("로그아웃했습니다");
+    redirect("/");
   };
 
   return (
@@ -104,7 +105,7 @@ function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
             <ListItem key={obj.value} disablePadding>
               <ListItemButton component={Link} to={obj.uri}>
                 <ListItemIcon>
-                  {obj.uri === "/" && <CustomHome color="primary" />}
+                  {obj.uri === "/main" && <CustomHome color="primary" />}
                   {obj.uri === "/chat" && <CustomText color="primary" />}
                   {obj.uri === "/likes" && <CustomFavorite color="primary" />}
                   {obj.uri === "/profile" && <CustomAccount color="primary" />}
@@ -122,7 +123,7 @@ function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
               <CustomListTextL>로그 아웃</CustomListTextL>
             </ListItemButton>
           ) : (
-            <ListItemButton onClick={() => navigate("/login")}>
+            <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
                 <CustomLogin color="info" />.
               </ListItemIcon>

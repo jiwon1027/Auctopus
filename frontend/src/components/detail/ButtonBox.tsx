@@ -19,11 +19,11 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
   const [remainingTime, setRemainingTime] = useState("");
   useEffect(() => {
     const interval = setInterval(() => {
-      setOnTime(isOnTime(auctionInfo.startTime));
       setRemainingTime(getRemainTime(auctionInfo.startTime));
+      setOnTime(isOnTime(auctionInfo.startTime));
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [auctionInfo.startTime]);
 
   // 라이브 시작 : 판매자
   const sendDataRouter = () => {
@@ -54,13 +54,15 @@ export default function ButtonBox({ isBuyer, auctionInfo }: IProps) {
             </div>
           </div>
           <ButtonWrapper>
-            {onTime ? (
+            {!onTime ? (
               <>
                 <div className="time-left">{remainingTime}후 입장 가능</div>
                 <DisableButton>입장하기</DisableButton>
               </>
             ) : (
-              <Modal auctionInfo={auctionInfo} />
+              <>
+                <Modal auctionInfo={auctionInfo} />
+              </>
             )}
           </ButtonWrapper>
         </>
@@ -94,8 +96,6 @@ const revertKST = (time: string) => {
   return utc + KR_TIME_DIFF;
 };
 function isOnTime(time: string) {
-  console.log(time);
-  console.log(revertKST(time));
   return new Date(revertKST(time)).getTime() - Date.now() <= 0;
 }
 
@@ -103,12 +103,13 @@ function getRemainTime(time: string) {
   const masTime = new Date(revertKST(time)).getTime();
   const now = Date.now();
   let interval = Math.floor((masTime - now) / 1000);
-  if (interval <= 0) {
+  if (interval < 0) {
     return "경매에 참여하세요!";
   } else {
     const date = Math.floor(interval / (24 * 60 * 60));
     interval -= date * 24 * 60 * 60;
     const hour = Math.floor(interval / (60 * 60));
+    5;
     interval -= hour * 60 * 60;
     const min = Math.floor(interval / 60);
     const sec = Math.floor(interval - min * 60);
