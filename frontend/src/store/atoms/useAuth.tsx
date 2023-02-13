@@ -1,19 +1,25 @@
-import { requestForSignup, sendAuthCode } from '@/api/auth';
-import { redirect, useNavigate } from 'react-router-dom';
-import { atom, useRecoilState, useResetRecoilState } from 'recoil';
-import { IUser, IInterest, IValidated, IForm, IResSocialLogin } from 'types/auth';
+import { requestForSignup, sendAuthCode } from "@/api/auth";
+import { redirect, useNavigate } from "react-router-dom";
+import { atom, useRecoilState, useResetRecoilState } from "recoil";
+import {
+  IUser,
+  IInterest,
+  IValidated,
+  IForm,
+  IResSocialLogin,
+} from "types/auth";
 
 const initUser: IUser = {
   seq: -1,
-  email: '',
-  password: '',
-  passwordConfirm: '',
-  name: '',
-  nickname: '',
-  address: '',
-  bankAccount: '',
+  email: "",
+  password: "",
+  passwordConfirm: "",
+  name: "",
+  nickname: "",
+  address: "",
+  bankAccount: "",
   interests: [] as IInterest[],
-  profileUrl: '',
+  profileUrl: "",
 };
 
 const InitValidated: IValidated = {
@@ -34,7 +40,7 @@ const InitForm: IForm = {
 };
 
 const formDefaultState = atom({
-  key: 'formDefaultStatebjkla;sdlfj',
+  key: "formDefaultStatebjkla;sdlfj",
   default: InitForm,
 });
 
@@ -44,13 +50,13 @@ export default function useAuth() {
   const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
 
   function getToken() {
-    const tokenStr = localStorage.getItem('token');
+    const tokenStr = localStorage.getItem("token");
     if (!tokenStr) return;
     return tokenStr;
   }
 
   function getUser() {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem("user");
     if (!userStr) return initUser;
     return JSON.parse(userStr);
   }
@@ -69,7 +75,7 @@ export default function useAuth() {
 
       // newUser: number | null; // 0: 기존유저, 1: 새로운유저
       if (resData.newUser > 0) {
-        setFormState(prev => {
+        setFormState((prev) => {
           return {
             ...prev,
             user: {
@@ -88,15 +94,15 @@ export default function useAuth() {
             },
           };
         });
-        navigate('/signup');
+        navigate("/signup");
         return;
       }
 
-      navigate('/main', { replace: true });
+      navigate("/main", { replace: true });
     } catch (error) {
-      console.log('소셜로그인 에러', error);
-      window.alert('로그인에 실패하였습니다.');
-      navigate('/login', { replace: true });
+      console.log("소셜로그인 에러", error);
+      window.alert("로그인에 실패하였습니다.");
+      navigate("/", { replace: true });
     }
   }
 
@@ -109,10 +115,10 @@ export default function useAuth() {
     let confirmed = true;
     for (const key in formState.validated) {
       if (
-        key === 'address' ||
-        key === 'bankAccount' ||
-        key === 'interests' ||
-        key === 'profileUrl'
+        key === "address" ||
+        key === "bankAccount" ||
+        key === "interests" ||
+        key === "profileUrl"
       ) {
         continue;
       }
@@ -134,10 +140,10 @@ export default function useAuth() {
    * ```
    */
   function updateUser(name: keyof IUser, value: string | IInterest[]) {
-    setFormState(prev => {
+    setFormState((prev) => {
       let isValidated = true;
       switch (name) {
-        case 'email': {
+        case "email": {
           // eslint-disable-next-line no-useless-escape
           const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (!mailFormat.test(value as string)) {
@@ -145,9 +151,9 @@ export default function useAuth() {
           }
           break;
         }
-        case 'password': {
+        case "password": {
           if (!getToken()) {
-            if ((value as string).trim() === '') {
+            if ((value as string).trim() === "") {
               isValidated = false;
             }
             return {
@@ -165,20 +171,20 @@ export default function useAuth() {
           }
           break;
         }
-        case 'passwordConfirm': {
+        case "passwordConfirm": {
           if (!getToken() && prev.user.password !== value) {
             isValidated = false;
           }
           break;
         }
-        case 'name':
-        case 'nickname': {
-          if ((value as string).trim() === '') isValidated = false;
+        case "name":
+        case "nickname": {
+          if ((value as string).trim() === "") isValidated = false;
           break;
         }
-        case 'address':
-        case 'bankAccount':
-        case 'interests':
+        case "address":
+        case "bankAccount":
+        case "interests":
         default:
           break;
       }
@@ -206,14 +212,14 @@ export default function useAuth() {
    * @param resData 카카오 로그인하고나서 넘어온 response 데이터
    */
   function signIn(resData: IResSocialLogin) {
-    localStorage.setItem('token', resData.token);
+    localStorage.setItem("token", resData.token);
     localStorage.setItem(
-      'user',
+      "user",
       JSON.stringify({
         email: resData.userEmail,
         nickname: resData.nickname,
         profileUrl: resData.profile_image,
-      }),
+      })
     );
   }
 
@@ -221,15 +227,15 @@ export default function useAuth() {
     try {
       const res = await requestForSignup(formState.user);
       if (res.status === 200) {
-        alert('회원가입을 완료했습니다');
+        alert("회원가입을 완료했습니다");
         resetFormState();
         localStorage.clear();
-        navigate('/login', { replace: true });
+        navigate("/", { replace: true });
       } else {
-        throw new Error('회원가입 에러');
+        throw new Error("회원가입 에러");
       }
     } catch (error) {
-      redirect('/error');
+      redirect("/error");
     }
   }
 

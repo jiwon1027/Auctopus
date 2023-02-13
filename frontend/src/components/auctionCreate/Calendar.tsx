@@ -1,9 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import TextField from '@mui/material/TextField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import React from "react";
+import styled from "styled-components";
+import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Dayjs } from "dayjs";
 
 export default function Calendar({
   data,
@@ -12,24 +13,21 @@ export default function Calendar({
   data: IAuctionCreate;
   onChange: (name: string, value: string) => void;
 }) {
-  const handleChange = (newValue: Date | null) => {
-    onChange('startTime', revertKST(newValue?.toString() as string));
+  const handleChange = (newValue: Dayjs | null) => {
+    onChange("startTime", newValue?.toString() as string);
   };
-  const revertKST = (time: string) => {
-    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-    console.log(new Date(time + KR_TIME_DIFF));
-    const KST = new Date(time + KR_TIME_DIFF);
-    return KST.toString();
-  };
-  const color = '#386641';
+
+  const color = "#386641";
   return (
     <Container>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateTimePicker
           label="경매시작날짜"
-          value={revertKST(data.startTime)}
+          value={data.startTime}
           onChange={handleChange}
-          renderInput={params => <TextField {...params} fullWidth sx={{ border: { color } }} />}
+          renderInput={(params) => (
+            <TextField {...params} fullWidth sx={{ border: { color } }} />
+          )}
           disablePast={true}
         />
       </LocalizationProvider>

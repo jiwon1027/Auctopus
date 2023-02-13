@@ -16,7 +16,6 @@ export default function Slick({ auctionInfo }: IProps) {
     arrows: false,
   };
   const imageList = auctionInfo.auctionImageList;
-  console.log(imageList);
   return (
     <Slider {...settings}>
       {imageList.map((item, idx) => (
