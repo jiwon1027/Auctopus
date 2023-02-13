@@ -14,9 +14,13 @@ export const requestForSignup = async (user: IUser) => {
     account: user.bankAccount,
     address: user.address,
     bankCode: -1,
-    profileUrl: "",
+    profileUrl: user.profileUrl,
     userName: user.name,
   };
   console.log(reqData);
-  return await instance.post(`${URL}/api/kakao/login`, reqData);
+  return await instance.post(`${URL}/api/kakao/login`, reqData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 };

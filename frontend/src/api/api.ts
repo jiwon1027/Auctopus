@@ -6,12 +6,12 @@ const REDIRECT_URI = `${
   import.meta.env.VITE_LOCAL_DOMAIN
 }/oauth/callback/kakao`;
 
-export const kAKAO_AUTH_URL = `${KAKAO_HOST}/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+export const KAKAO_AUTH_URL = `${KAKAO_HOST}/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_DOMAIN,
   headers: {
-    Authorization: ` Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
 

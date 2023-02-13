@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Button from '@mui/material/Button';
-import { kAKAO_AUTH_URL } from '@/api/api';
+import React from "react";
+import styled from "styled-components";
+import Button from "@mui/material/Button";
+import { KAKAO_AUTH_URL } from "@/api/api";
 
 export default function SocialLogin() {
   return (
@@ -11,7 +11,7 @@ export default function SocialLogin() {
         disableElevation
         className="btn"
         type="submit"
-        href={kAKAO_AUTH_URL}
+        href={KAKAO_AUTH_URL}
       >
         kakao로 간편로그인하기
       </Button>
