@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { styled as mstyled } from '@mui/material/styles';
-import { useNavigate, useParams } from 'react-router-dom';
-import Profile from '@/components/detail/Profile';
-import Content from '@/components/detail/Content';
-import ButtonBox from '@/components/detail/ButtonBox';
-import Container from '@mui/material/Container';
-import dayjs from 'dayjs';
-import { deleteAuctionLike, getAuction, postAuctionLike, getLikesCheck } from '@/api/auction';
-import useAuth from '@/store/atoms/useAuth';
-import { theme } from '@/styles/theme';
-import Slick from '@components/detail/Slick';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { styled as mstyled } from "@mui/material/styles";
+import { useNavigate, useParams } from "react-router-dom";
+import Profile from "@/components/detail/Profile";
+import Content from "@/components/detail/Content";
+import ButtonBox from "@/components/detail/ButtonBox";
+import Container from "@mui/material/Container";
+import dayjs from "dayjs";
+import { deleteAuctionLike, getAuction, postAuctionLike, getLikesCheck } from "@/api/auction";
+import useAuth from "@/store/atoms/useAuth";
+import { theme } from "@/styles/theme";
+import Slick from "@components/detail/Slick";
 
 const initData: IAuctionDetail = {
   auctionSeq: 0,
-  userEmail: '',
+  userEmail: "",
   category: 0,
-  title: '',
-  content: '',
+  title: "",
+  content: "",
   startTime: dayjs().toString(),
   startPrice: 0,
   likeCount: 0,
   isLiked: false,
-  profileUrl: '',
+  profileUrl: "",
   state: 0,
-  nickname: '',
+  nickname: "",
   bidUnit: 0,
   auctionImageList: [],
 };
@@ -34,7 +34,7 @@ export default function DetailPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [isBuyer, setIsBuyer] = useState(false);
   const [data, setData] = useState<IAuctionDetail>(initData);
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState("");
   const { auctionSeq } = useParams();
   const { getUser } = useAuth();
   const navigate = useNavigate();
@@ -42,12 +42,12 @@ export default function DetailPage() {
   useEffect(() => {
     const fetchAuction = async () => {
       if (!auctionSeq) {
-        navigate('/error');
+        navigate("/error");
         return;
       }
 
       const res = await getAuction(auctionSeq);
-      if (res.status !== 200) return new Error('경매 정보를 가져오지 못했습니다');
+      if (res.status !== 200) return new Error("경매 정보를 가져오지 못했습니다");
       setData(res.data);
       setImgUrl(res.data.auctionImageList[0].imageUrl);
       const user = getUser();
@@ -61,7 +61,7 @@ export default function DetailPage() {
     try {
       fetchAuction();
     } catch (error) {
-      navigate('/error');
+      navigate("/error");
     }
   }, []);
 

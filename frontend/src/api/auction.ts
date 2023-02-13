@@ -1,5 +1,5 @@
-import instance from './api';
-import { IAuction, IReqSearch } from 'types/auction';
+import instance from "./api";
+import { IAuction, IReqSearch } from "types/auction";
 
 const VITE_SERVER_DOMAIN = import.meta.env.VITE_SERVER_DOMAIN;
 
@@ -57,8 +57,8 @@ export const openLive = async (auctionSeq: number) => {
 };
 
 export const enterLive = async (auctionSeq: number, autoPrice: number) => {
-  console.log('auctionSeq : ' + auctionSeq);
-  console.log('acutoPrice : ' + autoPrice);
+  console.log("auctionSeq : " + auctionSeq);
+  console.log("acutoPrice : " + autoPrice);
 
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/live/enter`, {
     auctionSeq: auctionSeq,
