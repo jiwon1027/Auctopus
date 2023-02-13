@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { theme } from "@/styles/theme";
+import React from 'react';
+import styled from 'styled-components';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { theme } from '@/styles/theme';
 
 interface IProps {
   isLiked: boolean;
@@ -12,39 +12,31 @@ interface IProps {
 export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
   return (
     <ProfileBox>
-      <div className="profileIconBox">
+      <div className='profileIconBox'>
         <ProfileImg>
           <img
-            className="image"
+            className='image'
             src={
-              auctionInfo.profileUrl !== ("01" || "")
+              auctionInfo.profileUrl !== ('01' || '')
                 ? auctionInfo.profileUrl
-                : "https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_basic.png"
+                : 'https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_basic.png'
             }
-            alt="profile-image"
+            alt='profile-image'
           />
         </ProfileImg>
       </div>
-      <div className="infoBox">
-        <div className="infoTitle">{auctionInfo.nickname}</div>
-        <div className="infoBadge">{auctionInfo.userEmail}</div>
+      <div className='infoBox'>
+        <div className='infoTitle'>{auctionInfo.nickname}</div>
+        <div className='infoBadge'>{auctionInfo.userEmail}</div>
       </div>
-      <div className="likes">
+      <div className='likes'>
         {isLiked ? (
-          <FavoriteIcon
-            onClick={likeHandler}
-            color="warning"
-            sx={{ fontSize: 30 }}
-          />
+          <FavoriteIcon onClick={likeHandler} color='warning' sx={{ fontSize: 30 }} />
         ) : (
-          <FavoriteBorderIcon
-            onClick={likeHandler}
-            color="disabled"
-            sx={{ fontSize: 30 }}
-          />
+          <FavoriteBorderIcon onClick={likeHandler} color='disabled' sx={{ fontSize: 30 }} />
         )}
 
-        <div className="likesCount">
+        <div className='likesCount'>
           {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
         </div>
       </div>
