@@ -41,11 +41,16 @@ public class SearchController {
     @CrossOrigin("*")
     @GetMapping()
     public ResponseEntity<List<AuctionListResponse>> getAuctionListByWordOrCategory(
-            @Nullable Authentication authentication, @RequestParam(required = false) String word, @RequestParam(required=false)int category,
+            @Nullable Authentication authentication, @RequestParam(required = false) String word, @RequestParam(required=false) Integer category,
             @RequestParam int state) throws UnsupportedEncodingException {
         List<Auction> auctionList = null;
-        int categorySeq = 0;
-        if (category > 0) categorySeq = category;
+        int categorySeq;
+
+        if (category == null)
+            categorySeq = 0;
+        else
+            categorySeq = category;
+
         if (state == 1) { // 시청자 수(Live - viewer)로 sort
             auctionList = auctionService.getAuctionListByViewerAndWordOrCategorySeq(word, categorySeq, state);
         } else { // 좋아요(Auction - likeCount)로 sort
