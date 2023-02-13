@@ -8,6 +8,7 @@ import { IMessage } from "types/auction";
 import { useLocation } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
 import WebSocket from "isomorphic-ws";
+import { IUser } from "types/auth";
 
 const initAuctionInfo: IAuctionDetail = {
   auctionSeq: 1,
@@ -45,12 +46,17 @@ export default function BidPage() {
 
     newWebSocket.onopen = (event) => {
       newWebSocket.send(
-        "Here's some text that the server is urgently awaiting!"
+        writeMessage(
+          auctionInfo.auctionSeq,
+          "Here's some text that the server is urgently awaiting!",
+          user
+        )
       );
     };
 
     newWebSocket.onmessage = (event) => {
-      setMessages((prev) => [...prev, JSON.parse(event.data as string)]);
+      console.log("event: ", event.data);
+      // TODO: setMessages((prev) => [...prev, JSON.parse(event.data as string)]);
     };
 
     setWebSocket(newWebSocket);
@@ -59,16 +65,7 @@ export default function BidPage() {
 
   // FIXME: type
   const sendMessage = (chat: string) => {
-    webSocket?.send(
-      JSON.stringify({
-        type: 2,
-        date: "",
-        liveSeq: auctionInfo.auctionSeq,
-        message: chat,
-        nickname: user.nickname,
-        userEmail: user.email,
-      } as IMessage)
-    );
+    webSocket?.send(writeMessage(auctionInfo.auctionSeq, chat, user));
   };
 
   return (
@@ -89,3 +86,14 @@ const RightComponent = (
     LIVE
   </Button>
 );
+
+function writeMessage(auctionSeq: number, message: string, user: IUser) {
+  return JSON.stringify({
+    type: 2,
+    date: "",
+    liveSeq: auctionSeq,
+    message: message,
+    nickname: user.nickname,
+    userEmail: user.email,
+  } as IMessage);
+}
