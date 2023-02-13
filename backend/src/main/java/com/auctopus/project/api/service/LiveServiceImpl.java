@@ -8,10 +8,17 @@ import com.auctopus.project.db.domain.Live;
 import com.auctopus.project.db.repository.AuctionRepository;
 import com.auctopus.project.db.repository.LiveRepository;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class LiveServiceImpl implements LiveService {
 
@@ -19,6 +26,13 @@ public class LiveServiceImpl implements LiveService {
     private AuctionRepository auctionRepository;
     @Autowired
     private LiveRepository liveRepository;
+
+    private Map<Integer, Live> lives;
+
+    @PostConstruct
+    private void init() {
+        lives = new HashMap<>();
+    }
 
     @Override
     @Transactional
@@ -39,6 +53,7 @@ public class LiveServiceImpl implements LiveService {
                 .currentPrice(auction.getStartPrice())
                 .build();
         liveRepository.save(live);
+        lives.put(auctionSeq, live);
 
         // 경매방의 state를 진행중(2)로 바꾸어주자
         auction.setState(2);
