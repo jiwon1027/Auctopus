@@ -14,16 +14,17 @@ export default function LiveItem(props: IProps) {
   const navigate = useNavigate();
 
   const getTime = (time: string) => {
-    const masTime = new Date(time).getTime();
+    const auctionStartTime = new Date(time).getTime();
     const todayTime = new Date().getTime();
 
-    const diff = todayTime - masTime;
+    const diff = todayTime - auctionStartTime;
 
     const diffMin = Math.floor((diff / (1000 * 60)) % 60);
+    const diffMin2 = (diff / (1000 * 60)) % 60;
 
-    //
     const remainTime = 60 - diffMin;
-    return remainTime;
+
+    return diff < 0 ? "이건 시작전" : diffMin;
   };
 
   const moveToDetail = () => {
@@ -42,7 +43,7 @@ export default function LiveItem(props: IProps) {
         <div className="infoBox">
           <div className="infoTitle">{props.item.title}</div>
           <div className="infoTimeBox">
-            <div className="infoTimeDesc">경매 종료까지</div>
+            <div className="infoTimeDesc">경매 시작한지</div>
             <div className="infoTime">{getTime(props.item.startTime)}분</div>
             <AccessTimeIcon color="error" sx={{ fontSize: 20 }} />
           </div>
