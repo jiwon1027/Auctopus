@@ -74,7 +74,7 @@ class ToolbarComponent extends Component {
 
   navToAuction() {
     const navigate = this.props.navigate;
-    navigate(`/chat/${this.props.detailData.auctionInfo.auctionSeq}`, {
+    navigate(`/detail/${this.props.detailData.auctionInfo.auctionSeq}/bid`, {
       state: {
         auctionInfo: this.props.detailData.auctionInfo,
         userState: this.props.detailData.userState,

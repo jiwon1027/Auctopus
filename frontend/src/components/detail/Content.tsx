@@ -11,7 +11,7 @@ export default function Content({ auctionInfo }: IProps) {
     <ContentBox>
       <div className="contentTitle">{auctionInfo.title}</div>
       <div className="contentCataegory">
-        {categories[auctionInfo.category - 1]?.name}
+        {categories[auctionInfo.categorySeq - 1]?.name}
       </div>
       <div className="contentDescription">{auctionInfo.content}</div>
     </ContentBox>

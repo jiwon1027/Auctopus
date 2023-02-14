@@ -14,7 +14,7 @@ import OAuth2RedirectHandler from "@components/auth/login/OAuth2RedirectHandler"
 import SearchPage from "./pages/auction/SearchPage";
 import NotificationPage from "./pages/auction/NotificationPage";
 import AuctionCreatePage from "./pages/auction/AuctionCreatePage";
-import BiddingPage from "./pages/auction/BiddingPage";
+import BiddingPage from "./pages/auction/BidPage";
 import VideoRoomComponent from "./pages/openvidu/VideoRoomComponent";
 import AuctionCompeletePage from "./pages/auction/AuctionCompletePage";
 
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
   { path: "/signup/additional", element: <AdditionalInfoPage /> },
   { path: "/signup/category", element: <CategoryInfoPage /> },
   { path: "/detail/:auctionSeq", element: <DetailPage /> },
-  { path: "/detail/:auctionSeq/bidding", element: <BiddingPage /> },
+  { path: "/detail/:auctionSeq/bid", element: <BiddingPage /> },
   { path: "/createAuction", element: <AuctionCreatePage /> },
   { path: "/noti", element: <NotificationPage /> },
   { path: "/chat/:auctionSeq", element: <ChatPage /> },

@@ -30,7 +30,7 @@ export default function NonLiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img src={props.item.auctionImage.imageUrl} alt="image" />
+          <img src={props.item.auctionImage?.imageUrl} alt="image" />
           <div className="liveBox">
             <FavoriteIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>
