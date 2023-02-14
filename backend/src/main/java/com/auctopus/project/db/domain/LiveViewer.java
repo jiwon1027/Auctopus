@@ -22,6 +22,4 @@ public class LiveViewer {
     private String viewerEmail;
     private int liveSeq;
     private int autoPrice;
-    private int state;
-
 }

@@ -82,9 +82,6 @@ public class LiveController {
     public ResponseEntity<?> bidNewPrice(Authentication authentication, @RequestBody int liveSeq,
             @RequestBody int newPrice) {
         String userEmail = (String) authentication.getCredentials();
-        // 경매에 참여한 적 없는 사용자라면 경매 참여자를 1 늘려주고, 결국 최종 최고 입찰자가 될 사람이 누구인지 반환한다
-        if (liveViewerService.getLiveViewer(userEmail).getState() == 0)
-            liveViewerService.updateViewerState(userEmail);
 
         String newTopBidder;
         int newTopPrice;
@@ -113,8 +110,7 @@ public class LiveController {
 
         liveViewerService.deleteLiveViewer(userEmail);
         liveService.decreaseViewer(liveSeq);
-        if (liveViewerService.getLiveViewer(userEmail).getState() == 1)
-            liveService.decreaseParticipant(liveSeq);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

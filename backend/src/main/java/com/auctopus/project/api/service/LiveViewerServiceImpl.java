@@ -19,16 +19,7 @@ public class LiveViewerServiceImpl implements LiveViewerService {
                 .viewerEmail(userEmail)
                 .liveSeq(liveSeq)
                 .autoPrice(autoPrice)
-                .state(autoPrice == 0 ? 0 : 1)
                 .build();
-        liveViewerRepository.save(liveViewer);
-    }
-
-    @Override
-    @Transactional
-    public void updateViewerState(String userEmail) {
-        LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
-        liveViewer.setState(1);
         liveViewerRepository.save(liveViewer);
     }
 
