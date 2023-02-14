@@ -22,17 +22,21 @@ export default function ActionForm(props: IProps) {
   }, [props.top.topPrice]);
 
   const isMessaging = radioState === "messaging";
+  const isBiddingAvailable =
+    !!bidPrice &&
+    (props.top.topPrice || props.auctionInfo.startPrice) < bidPrice;
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!bidPrice) return;
-    if (!!bidPrice && props.top.topPrice >= bidPrice) {
+    if (!isMessaging && isBiddingAvailable) {
+      props.onSend(2, bidPrice.toString());
+      setBidPrice(0);
       return;
     }
 
-    const trimmed = isMessaging ? chat.trim() : (bidPrice as number).toString();
+    const trimmed = chat.trim();
     if (!trimmed) return;
-    props.onSend(isMessaging ? 1 : 2, trimmed);
+    props.onSend(1, trimmed);
     setChat("");
   };
 
@@ -72,12 +76,7 @@ export default function ActionForm(props: IProps) {
           value={bidPrice}
           onChange={onChangeBidPrice}
           draggable
-          color={
-            !!bidPrice &&
-            (props.top.topPrice || props.auctionInfo.startPrice) < bidPrice
-              ? "primary"
-              : "error"
-          }
+          color={isBiddingAvailable ? "primary" : "error"}
           inputProps={{
             step: props.auctionInfo.bidUnit,
             min: props.top.topPrice || props.auctionInfo.startPrice,

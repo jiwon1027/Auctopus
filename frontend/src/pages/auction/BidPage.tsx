@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Layout from "@components/common/Layout";
 import { Button } from "@mui/material";
 import NoticeSection from "@components/bidding/NoticeSection";
@@ -27,53 +27,53 @@ const initAuctionInfo: IAuctionDetail = {
   auctionImageList: [],
 };
 
-const initMessages: IMessage[] = [
-  {
-    type: 1,
-    date: "2023-02-13T07:49:21.527Z",
-    message: "yop",
-    nickname: "멋지",
-    userEmail: "taw4654@gmail.com",
-    topPrice: 0,
-    topBidder: "",
-  },
-  {
-    type: 2,
-    date: "2023-02-13T07:49:22.527Z",
-    message: "100",
-    nickname: "멋지",
-    userEmail: "ssafy@ssafy.com",
-    topPrice: 100,
-    topBidder: "ssafy@ssafy.com",
-  },
-  {
-    type: 1,
-    date: "2023-02-13T07:49:23.527Z",
-    message: "hello",
-    nickname: "멋지",
-    userEmail: "ssafy@ssafy.com",
-    topPrice: 100,
-    topBidder: "ssafy@ssafy.com",
-  },
-  {
-    type: 2,
-    date: "2023-02-13T07:49:24.527Z",
-    message: "200",
-    nickname: "멋지",
-    userEmail: "ssafy@ssafy.com",
-    topPrice: 200,
-    topBidder: "멋지",
-  },
-  {
-    type: 2,
-    date: "2023-02-13T07:49:25.527Z",
-    message: "140",
-    nickname: "멋지",
-    userEmail: "ssafy@ssafy.com",
-    topPrice: 200,
-    topBidder: "ssafy@ssafy.com",
-  },
-];
+// const initMessages: IMessage[] = [
+//   {
+//     type: 1,
+//     date: "2023-02-13T07:49:21.527Z",
+//     message: "yop",
+//     nickname: "멋지",
+//     userEmail: "taw4654@gmail.com",
+//     topPrice: 0,
+//     topBidder: "",
+//   },
+//   {
+//     type: 2,
+//     date: "2023-02-13T07:49:22.527Z",
+//     message: "100",
+//     nickname: "멋지",
+//     userEmail: "ssafy@ssafy.com",
+//     topPrice: 100,
+//     topBidder: "ssafy@ssafy.com",
+//   },
+//   {
+//     type: 1,
+//     date: "2023-02-13T07:49:23.527Z",
+//     message: "hello",
+//     nickname: "멋지",
+//     userEmail: "ssafy@ssafy.com",
+//     topPrice: 100,
+//     topBidder: "ssafy@ssafy.com",
+//   },
+//   {
+//     type: 2,
+//     date: "2023-02-13T07:49:24.527Z",
+//     message: "200",
+//     nickname: "멋지",
+//     userEmail: "ssafy@ssafy.com",
+//     topPrice: 200,
+//     topBidder: "멋지",
+//   },
+//   {
+//     type: 2,
+//     date: "2023-02-13T07:49:25.527Z",
+//     message: "140",
+//     nickname: "멋지",
+//     userEmail: "ssafy@ssafy.com",
+//     topPrice: 200,
+//     topBidder: "ssafy@ssafy.com",
+//   },
+// ];
 
 export default function BidPage() {
   const location = useLocation();
@@ -85,7 +85,7 @@ export default function BidPage() {
     limit?: number;
   }) || { auctionInfo: initAuctionInfo, userState: "seller", limit: 1000 };
   const [webSocket, setWebSocket] = useState<WebSocket>();
-  const [messages, setMessages] = useState<IMessage[]>(initMessages);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [top, setTop] = useState({
     topPrice: 0,
     topBidder: "",
@@ -96,15 +96,10 @@ export default function BidPage() {
       `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`
     );
 
+    const writeMessage = messageCreator(user, top);
     newWebSocket.onopen = () => {
       newWebSocket.send(
-        writeMessage(
-          auctionInfo.auctionSeq,
-          0,
-          `${user.nickname} 님이 입장하셨습니다`,
-          user,
-          top
-        )
+        writeMessage(0, `${user.nickname} 님이 입장하셨습니다`)
       );
     };
 
@@ -118,26 +113,20 @@ export default function BidPage() {
     };
 
     newWebSocket.onclose = () => {
-      newWebSocket.send(
-        writeMessage(
-          auctionInfo.auctionSeq,
-          3,
-          `${user.nickname} 님이 나가셨습니다`,
-          user,
-          top
-        )
-      );
+      newWebSocket.send(writeMessage(3, `${user.nickname} 님이 나가셨습니다`));
     };
 
     setWebSocket(newWebSocket);
     return () => newWebSocket.close();
   }, []);
 
-  const sendMessage = (type: number, chat: string) => {
-    webSocket?.send(
-      writeMessage(auctionInfo.auctionSeq, type, chat, user, top)
-    );
-  };
+  const sendMessage = useCallback(
+    (type: number, chat: string) => {
+      const writeMessage = messageCreator(user, top);
+      webSocket?.send(writeMessage(type, chat));
+    },
+    [user, top]
+  );
 
   return (
     <Layout title="경매방" right={RightComponent}>
@@ -159,20 +148,20 @@ const RightComponent = (
   </Button>
 );
 
-function writeMessage(
-  auctionSeq: number,
-  type: number,
-  message: string,
+function messageCreator(
   user: IUser,
   top: { topPrice: number; topBidder: string }
 ) {
-  return JSON.stringify({
-    type: type, // 0: open, 1: 일반채팅, 2: 경매 입찰, 3: close
-    date: "",
-    message: message, // "1000"
-    nickname: user.nickname,
-    userEmail: user.email,
-    topPrice: top.topPrice,
-    topBidder: top.topBidder,
-  } as IMessage);
+  return (type: number, message: string) => {
+    const msg: IMessage = {
+      type: type, // 0: open, 1: 일반채팅, 2: 경매 입찰, 3: close
+      date: "",
+      message: message, // "1000"
+      nickname: user.nickname,
+      userEmail: user.email,
+      topPrice: top.topPrice,
+      topBidder: top.topBidder,
+    };
+    return JSON.stringify(msg);
+  };
 }
