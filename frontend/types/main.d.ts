@@ -34,3 +34,11 @@ interface IUserData {
   email: string;
   profileUrl: string;
 }
+
+interface IProfile {
+  userName?: string;
+  bankCode?: number;
+  account?: string;
+  address?: string;
+  profileUrl: string;
+}

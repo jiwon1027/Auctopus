@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
-import InputLabel from "@mui/material/InputLabel";
 import MuiMenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
-import Box from "@mui/material/Box";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 
@@ -37,7 +35,6 @@ export default function Content({
         name="title"
         onChange={updateTextHandler}
       />
-      {/* select */}
       <FormControl
         sx={{
           marginTop: 2,

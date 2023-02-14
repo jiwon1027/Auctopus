@@ -8,6 +8,7 @@ import { IAuction } from "types/auction";
 import { getAuctionLikes, getMyAuctionList } from "@/api/auction";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
+import { theme } from "@/styles/theme";
 
 const initLiveAuction: IAuction[] = [
   {
@@ -82,12 +83,16 @@ export default function LikesPage() {
   const userData = getUser();
 
   return (
-    <Layout>
+    <Layout headerDisabled>
       <ProfileBox>
         <Profile onClick={() => navigate("/profile")}>
           <img className="image" src={userData.profileUrl} alt="profile" />
         </Profile>
         <span className="profileTitle">{userData.nickname}님의 관심목록</span>
+        <span className="userEmail">{userData.email}</span>
+        <ProfileUpdate onClick={() => navigate(`/profileUpdate`)}>
+          프로필 편집
+        </ProfileUpdate>
       </ProfileBox>
       <MainToggleButtonGroup isMe live={live} onClick={changeLive} />
       <MarginBox />
@@ -108,6 +113,8 @@ const Profile = styled.div`
   }
 `;
 const ProfileBox = styled.div`
+  margin-top: 3rem;
+  height: 20%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -115,13 +122,33 @@ const ProfileBox = styled.div`
   align-items: center;
   .profileTitle {
     font-size: 1.8rem;
-    margin: 1.2rem 0;
+    margin-top: 1.2rem;
     font-family: Pretendard;
     text-align: center;
     font-weight: ${(props) => props.theme.fontWeight.semibold};
+  }
+  .userEmail {
+    font-size: 1.5rem;
+    margin: 0.7rem 0;
+    color: ${theme.colors.turtleStandard};
   }
 `;
 
 const MarginBox = styled.div`
   height: 1.5rem;
+`;
+
+const ProfileUpdate = styled.div`
+  width: 50%;
+  height: 2.6rem;
+  background-color: ${theme.colors.primary};
+  color: white;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: ${theme.fontWeight.semibold};
+  font-family: Pretendad;
+  cursor: pointer;
 `;

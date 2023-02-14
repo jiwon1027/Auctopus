@@ -17,6 +17,7 @@ import AuctionCreatePage from "./pages/auction/AuctionCreatePage";
 import BiddingPage from "./pages/auction/BidPage";
 import VideoRoomComponent from "./pages/openvidu/VideoRoomComponent";
 import AuctionCompeletePage from "./pages/auction/AuctionCompletePage";
+import ProfileUpdatePage from "./pages/auth/ProfileUpdatePage";
 
 const router = createBrowserRouter([
   { path: "/", element: <LoginPage />, errorElement: <ErrorPage /> },
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
   { path: "/search", element: <SearchPage /> },
   { path: "/live/:auctionSeq", element: <VideoRoomComponent /> },
   { path: "/auctionComplete", element: <AuctionCompeletePage /> },
+  { path: "/profileUpdate", element: <ProfileUpdatePage /> },
 ]);
 
 export default router;
