@@ -13,7 +13,5 @@ public interface LiveViewerService {
     // 경매 시청자 퇴장(삭제)
     void deleteLiveViewer(String userEmail);
 
-    // 경매 시청자 정보 가져오기
-    LiveViewer getLiveViewer(String userEmail);
 
 }

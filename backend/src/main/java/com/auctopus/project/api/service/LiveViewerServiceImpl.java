@@ -30,10 +30,5 @@ public class LiveViewerServiceImpl implements LiveViewerService {
         liveViewerRepository.delete(liveViewer);
     }
 
-    @Override
-    public LiveViewer getLiveViewer(String userEmail) {
-        LiveViewer liveViewer = liveViewerRepository.findByViewerEmail(userEmail).orElseThrow();
-        return liveViewer;
-    }
 
 }
