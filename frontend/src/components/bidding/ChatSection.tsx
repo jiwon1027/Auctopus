@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { IMessage } from "types/auction";
-import Bid from "./Bid";
+import Alert from "./Alert";
 import Message from "./Message";
 
 interface IProps {
@@ -22,14 +22,14 @@ export default function ChatSection(props: IProps) {
   return (
     <StyledChatContainer>
       {props.messages.map((msg) =>
-        msg.type === 2 ? (
+        msg.type === 1 ? (
           <Message
             key={msg.date}
             msg={msg}
             isMe={props.email === msg.userEmail}
           />
         ) : (
-          <Bid key={msg.date} msg={msg} />
+          <Alert key={msg.date} msg={msg} />
         )
       )}
       <div ref={messagesEndRef}></div>

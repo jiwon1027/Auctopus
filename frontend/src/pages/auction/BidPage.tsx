@@ -78,15 +78,18 @@ const initMessages: IMessage[] = [
 export default function BidPage() {
   const location = useLocation();
   const user = useAuth().getUser();
-  const [webSocket, setWebSocket] = useState<WebSocket>();
-  const [messages, setMessages] = useState<IMessage[]>(initMessages);
-  const [top, setTop] = useState({ topPrice: 0, topBidder: "" });
 
   const { auctionInfo, userState, limit } = (location.state as {
     auctionInfo: IAuctionDetail;
     userState: string;
     limit?: number;
   }) || { auctionInfo: initAuctionInfo, userState: "seller", limit: 1000 };
+  const [webSocket, setWebSocket] = useState<WebSocket>();
+  const [messages, setMessages] = useState<IMessage[]>(initMessages);
+  const [top, setTop] = useState({
+    topPrice: 0,
+    topBidder: "",
+  });
 
   useEffect(() => {
     const newWebSocket = new WebSocket(
@@ -108,7 +111,7 @@ export default function BidPage() {
     newWebSocket.onmessage = (event) => {
       // console.log("event: ", event.data);
       const msg: IMessage = JSON.parse(event.data as string);
-      if (top.topPrice !== msg.topPrice) {
+      if (top.topPrice < msg.topPrice) {
         setTop({ topPrice: msg.topPrice, topBidder: msg.topBidder });
       }
       setMessages((prev) => [...prev, msg]);
@@ -145,7 +148,7 @@ export default function BidPage() {
         top={top}
       />
       <ChatSection email={user.email} messages={messages} />
-      <ActionForm onSend={sendMessage} />
+      <ActionForm auctionInfo={auctionInfo} top={top} onSend={sendMessage} />
     </Layout>
   );
 }
@@ -166,8 +169,7 @@ function writeMessage(
   return JSON.stringify({
     type: type, // 0: open, 1: 일반채팅, 2: 경매 입찰, 3: close
     date: "",
-    liveSeq: auctionSeq,
-    message: message,
+    message: message, // "1000"
     nickname: user.nickname,
     userEmail: user.email,
     topPrice: top.topPrice,
