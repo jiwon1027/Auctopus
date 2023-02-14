@@ -61,7 +61,7 @@ export const enterLive = async (auctionSeq: number, autoPrice: number) => {
   console.log("acutoPrice : " + autoPrice);
 
   return await instance.post(`${VITE_SERVER_DOMAIN}/api/live/enter`, {
-    auctionSeq: auctionSeq,
+    liveSeq: auctionSeq,
     autoPrice: autoPrice,
   });
 };
