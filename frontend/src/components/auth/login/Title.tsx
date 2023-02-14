@@ -1,12 +1,16 @@
-import React from 'react';
-import { ReactComponent as Mooneo } from '@/assets//mooneo.svg';
-import styled from 'styled-components';
-import Logo from '@/assets/common/logo.png';
+import React from "react";
+import { ReactComponent as Mooneo } from "@/assets//mooneo.svg";
+import styled from "styled-components";
+import Logo from "@/assets/common/logo.png";
 export default function Title() {
   return (
     <StyledTitle>
       <div>
-        <Mooneo className="signatureIcon" />
+        <img
+          src="https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_favicon.svg"
+          alt="mooneo img"
+          className="signatureIcon"
+        />
       </div>
       <LogoImg src={Logo} alt="logo" />
     </StyledTitle>
@@ -23,7 +27,7 @@ const StyledTitle = styled.div`
   h1 {
     text-align: center;
     font-size: 5rem;
-    color: ${props => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
   }
   div {
     .signatureIcon {

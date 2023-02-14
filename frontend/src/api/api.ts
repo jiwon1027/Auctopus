@@ -8,10 +8,12 @@ const REDIRECT_URI = `${
 
 export const KAKAO_AUTH_URL = `${KAKAO_HOST}/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
+const token = localStorage.getItem("token");
+
 const instance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_DOMAIN,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${token}`,
   },
 });
 
