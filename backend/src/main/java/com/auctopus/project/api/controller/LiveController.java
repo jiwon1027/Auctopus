@@ -107,8 +107,10 @@ public class LiveController {
 
     @CrossOrigin("*")
     @PostMapping("/exit")
-    public ResponseEntity<?> exitLive(Authentication authentication, @RequestBody int liveSeq) {
+    public ResponseEntity<?> exitLive(Authentication authentication,  @RequestBody Map<String, Integer> map) {
         String userEmail = (String) authentication.getCredentials();
+        int liveSeq = map.get("liveSeq");
+
         liveViewerService.deleteLiveViewer(userEmail);
         liveService.decreaseViewer(liveSeq);
         if (liveViewerService.getLiveViewer(userEmail).getState() == 1)
