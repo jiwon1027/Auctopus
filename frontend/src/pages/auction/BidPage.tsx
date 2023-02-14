@@ -27,54 +27,6 @@ const initAuctionInfo: IAuctionDetail = {
   auctionImageList: [],
 };
 
-// const initMessages: IMessage[] = [
-//   {
-//     type: 1,
-//     date: "2023-02-13T07:49:21.527Z",
-//     message: "yop",
-//     nickname: "멋지",
-//     userEmail: "taw4654@gmail.com",
-//     topPrice: 0,
-//     topBidder: "",
-//   },
-//   {
-//     type: 2,
-//     date: "2023-02-13T07:49:22.527Z",
-//     message: "100",
-//     nickname: "멋지",
-//     userEmail: "ssafy@ssafy.com",
-//     topPrice: 100,
-//     topBidder: "ssafy@ssafy.com",
-//   },
-//   {
-//     type: 1,
-//     date: "2023-02-13T07:49:23.527Z",
-//     message: "hello",
-//     nickname: "멋지",
-//     userEmail: "ssafy@ssafy.com",
-//     topPrice: 100,
-//     topBidder: "ssafy@ssafy.com",
-//   },
-//   {
-//     type: 2,
-//     date: "2023-02-13T07:49:24.527Z",
-//     message: "200",
-//     nickname: "멋지",
-//     userEmail: "ssafy@ssafy.com",
-//     topPrice: 200,
-//     topBidder: "멋지",
-//   },
-//   {
-//     type: 2,
-//     date: "2023-02-13T07:49:25.527Z",
-//     message: "140",
-//     nickname: "멋지",
-//     userEmail: "ssafy@ssafy.com",
-//     topPrice: 200,
-//     topBidder: "ssafy@ssafy.com",
-//   },
-// ];
-
 export default function BidPage() {
   const location = useLocation();
   const user = useAuth().getUser();
@@ -104,7 +56,6 @@ export default function BidPage() {
     };
 
     newWebSocket.onmessage = (event) => {
-      // console.log("event: ", event.data);
       const msg: IMessage = JSON.parse(event.data as string);
       if (top.topPrice < msg.topPrice) {
         setTop({ topPrice: msg.topPrice, topBidder: msg.topBidder });
@@ -113,7 +64,7 @@ export default function BidPage() {
     };
 
     newWebSocket.onclose = () => {
-      newWebSocket.send(writeMessage(3, `${user.nickname} 님이 나가셨습니다`));
+      newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
     };
 
     setWebSocket(newWebSocket);
@@ -133,7 +84,7 @@ export default function BidPage() {
       <NoticeSection
         auction={auctionInfo}
         limit={limit}
-        isSeller={userState === "seller"}
+        isAutoBuyer={userState === "auto"}
         top={top}
       />
       <ChatSection email={user.email} messages={messages} />
@@ -154,7 +105,7 @@ function messageCreator(
 ) {
   return (type: number, message: string) => {
     const msg: IMessage = {
-      type: type, // 0: open, 1: 일반채팅, 2: 경매 입찰, 3: close
+      type: type, // 0: server says, 1: 일반채팅, 2: 경매 입찰
       date: "",
       message: message, // "1000"
       nickname: user.nickname,

@@ -12,6 +12,7 @@ interface IProps {
 
 export default function ActionForm(props: IProps) {
   const [chat, setChat] = useState("");
+  // FIXME: Warning: A component is changing a controlled input to be uncontrolled.
   const [bidPrice, setBidPrice] = useState<number | null>();
   const [radioState, setRadioState] = useState<"messaging" | "bidding">(
     "messaging"
