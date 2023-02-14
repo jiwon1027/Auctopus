@@ -56,24 +56,9 @@ public class LiveController {
         String userEmail = (String) authentication.getCredentials();
         int liveSeq = req.getLiveSeq();
         int autoPrice = req.getAutoPrice();
+        if (0 < autoPrice)
+            liveService.registerAutoBidder(liveSeq, userEmail, autoPrice);
 
-        liveViewerService.createLiveViewer(userEmail, liveSeq, autoPrice);
-        liveService.increaseViewer(liveSeq);
-
-        // 자동 경매 시스템 사용자라면 경매 참여자도 1 늘려주고, TopAutoBidder 정보도 갱신하자
-        if (autoPrice != 0) {
-            liveService.increaseParticipant(liveSeq);
-            int currTopAutoPrice = (int) allLiveTopAutoBidder.get(liveSeq)[1];
-            if (currTopAutoPrice < autoPrice)
-                allLiveTopAutoBidder.put(liveSeq, new Object[]{userEmail, autoPrice});
-
-            // 적절한 가격으로 입찰도 자동으로 진행하자
-            Live live = liveService.getLiveInfo(liveSeq);
-            int currPrice = live.getCurrentPrice();
-            int bidUnit = live.getBidUnit();
-            int newPrice = Math.min(currPrice + bidUnit, autoPrice);
-            return bidNewPrice(authentication, liveSeq, newPrice);
-        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -104,7 +89,8 @@ public class LiveController {
 
     @CrossOrigin("*")
     @PostMapping("/exit")
-    public ResponseEntity<?> exitLive(Authentication authentication,  @RequestBody Map<String, Integer> map) {
+    public ResponseEntity<?> exitLive(Authentication authentication,
+            @RequestBody Map<String, Integer> map) {
         String userEmail = (String) authentication.getCredentials();
         int liveSeq = map.get("liveSeq");
 
