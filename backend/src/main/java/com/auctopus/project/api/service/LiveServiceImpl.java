@@ -45,6 +45,7 @@ public class LiveServiceImpl implements LiveService {
         User user = userRepository.findByEmail(auction.getUserEmail()).orElseThrow();
         Live live = Live.builder()
                 .liveSeq(auctionSeq)
+                .bidUnit(auction.getBidUnit())
                 .userEmail(auction.getUserEmail())
                 .startTime(startTime)
                 .endTime(Timestamp.valueOf(auctionTime.toLocalDateTime().plusHours(1)))
