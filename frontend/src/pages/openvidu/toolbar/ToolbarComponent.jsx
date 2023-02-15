@@ -78,6 +78,7 @@ class ToolbarComponent extends Component {
         userState: this.props.detailData.userState,
         limit: this.props.detailData.minCost,
       },
+      replace: true,
     });
   }
 

@@ -1,14 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import Layout from "@components/common/Layout";
-import { Button } from "@mui/material";
+import { Box, Button, Divider, Modal, Typography } from "@mui/material";
 import NoticeSection from "@components/bidding/NoticeSection";
 import ChatSection from "@components/bidding/ChatSection";
 import ActionForm from "@components/bidding/ActionForm";
-import { IMessage } from "types/auction";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "@/store/atoms/useAuth";
-import WebSocket from "isomorphic-ws";
-import { IUser } from "types/auth";
+import useChat from "@/hooks/useChat";
 
 const initAuctionInfo: IAuctionDetail = {
   auctionSeq: 1,
@@ -27,8 +25,39 @@ const initAuctionInfo: IAuctionDetail = {
   auctionImageList: [],
 };
 
+const initTop = {
+  topBidder: "",
+  topPrice: 0,
+};
+
+const style = {
+  position: "absolute", // as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  height: 200,
+  bgcolor: "background.paper",
+  border: "1px solid #386641",
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-around",
+  // alignItems: "center",
+};
+
+const RightComponent = (props: { onClick: () => void }) => (
+  <Button variant="contained" color="primary" onClick={props.onClick}>
+    ON AIR
+  </Button>
+);
+
 export default function BidPage() {
+  const [open, setOpen] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useAuth().getUser();
 
   const { auctionInfo, userState, limit } = (location.state as {
@@ -36,51 +65,33 @@ export default function BidPage() {
     userState: string;
     limit?: number;
   }) || { auctionInfo: initAuctionInfo, userState: "seller", limit: 1000 };
-  const [webSocket, setWebSocket] = useState<WebSocket>();
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [top, setTop] = useState({
-    topPrice: 0,
-    topBidder: "",
-  });
 
-  useEffect(() => {
-    const newWebSocket = new WebSocket(
-      `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`
-    );
-
-    const writeMessage = messageCreator(user, top);
-    newWebSocket.onopen = () => {
-      newWebSocket.send(
-        writeMessage(0, `${user.nickname} 님이 입장하셨습니다`)
-      );
-    };
-
-    newWebSocket.onmessage = (event) => {
-      const msg: IMessage = JSON.parse(event.data as string);
-      if (top.topPrice < msg.topPrice) {
-        setTop({ topPrice: msg.topPrice, topBidder: msg.topBidder });
-      }
-      setMessages((prev) => [...prev, msg]);
-    };
-
-    newWebSocket.onclose = () => {
-      newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
-    };
-
-    setWebSocket(newWebSocket);
-    return () => newWebSocket.close();
-  }, []);
-
-  const sendMessage = useCallback(
-    (type: number, chat: string) => {
-      const writeMessage = messageCreator(user, top);
-      webSocket?.send(writeMessage(type, chat));
-    },
-    [user, top]
+  const { top, messages, sendMessage } = useChat(
+    `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`,
+    user,
+    initTop
   );
 
+  function closeAuction() {
+    if (userState === "seller") {
+      sendMessage(
+        3,
+        `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topBidder} ${top.topPrice} 에 낙찰했습니다`
+      );
+    }
+    navigate(`/chat/${auctionInfo.auctionSeq}`, { replace: true });
+  }
+
+  function toggleModal() {
+    setOpen((prev) => !prev);
+  }
+
   return (
-    <Layout title="경매방" right={RightComponent}>
+    <Layout
+      back
+      title="경매방"
+      right={<RightComponent onClick={toggleModal} />}
+    >
       <NoticeSection
         auction={auctionInfo}
         limit={limit}
@@ -88,31 +99,39 @@ export default function BidPage() {
         top={top}
       />
       <ChatSection email={user.email} messages={messages} />
-      <ActionForm auctionInfo={auctionInfo} top={top} onSend={sendMessage} />
+      <ActionForm
+        ableToBid={userState !== "seller"}
+        auctionInfo={auctionInfo}
+        top={top}
+        onSend={sendMessage}
+      />
+      <Modal
+        open={open}
+        onClose={toggleModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h4" component="h2">
+            판매를 종료하시겠습니까?
+          </Typography>
+          <Divider />
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            최종 낙찰자{" "}
+            <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>
+              hoho{top.topBidder}
+            </Box>
+            가{" "}
+            <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>
+              {top.topPrice}
+            </Box>
+            에 낙찰했습니다
+          </Typography>
+          <Button variant="outlined" color="primary" onClick={closeAuction}>
+            확인
+          </Button>
+        </Box>
+      </Modal>
     </Layout>
   );
-}
-
-const RightComponent = (
-  <Button variant="contained" color="primary">
-    LIVE
-  </Button>
-);
-
-function messageCreator(
-  user: IUser,
-  top: { topPrice: number; topBidder: string }
-) {
-  return (type: number, message: string) => {
-    const msg: IMessage = {
-      type: type, // 0: server says, 1: 일반채팅, 2: 경매 입찰
-      date: "",
-      message: message, // "1000"
-      nickname: user.nickname,
-      userEmail: user.email,
-      topPrice: top.topPrice,
-      topBidder: top.topBidder,
-    };
-    return JSON.stringify(msg);
-  };
 }

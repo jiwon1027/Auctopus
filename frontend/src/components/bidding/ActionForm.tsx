@@ -5,6 +5,7 @@ import styled from "styled-components";
 import RadioFilter from "./RadioFilter";
 
 interface IProps {
+  ableToBid: boolean;
   auctionInfo: IAuctionDetail;
   top: { topBidder: string; topPrice: number };
   onSend: (type: number, chat: string) => void;
@@ -57,7 +58,9 @@ export default function ActionForm(props: IProps) {
 
   return (
     <StyledActionForm onSubmit={onSubmit}>
-      <RadioFilter state={radioState} onChange={onChangeRadioState} />
+      {!props.ableToBid && (
+        <RadioFilter state={radioState} onChange={onChangeRadioState} />
+      )}
       {isMessaging ? (
         <TextField
           fullWidth
