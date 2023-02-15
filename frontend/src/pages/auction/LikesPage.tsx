@@ -3,7 +3,6 @@ import Layout from "@components/common/Layout";
 import MainToggleButtonGroup from "@components/main/MainToggleButtonGroup";
 import ItemsList from "@components/common/ItemsList";
 import styled from "styled-components";
-import ProfileImg from "@/assets/common/profile.png";
 import { IAuction } from "types/auction";
 import { getAuctionLikes, getMyAuctionList } from "@/api/auction";
 import { useNavigate } from "react-router-dom";
@@ -18,27 +17,11 @@ const initLiveAuction: IAuction[] = [
       imageUrl: "",
     },
     auctionSeq: 1,
-    email: "BIBI@naver.com",
-    title: "내 찜이야",
-    startTime: "2023-01-27 12:05",
-    likeCount: 200,
-    startPrice: 500000,
-    state: 0,
-    viewer: 0,
-    price: 0,
-  },
-  {
-    auctionImage: {
-      auctionImageSeq: 0,
-      auctionSeq: 0,
-      imageUrl: "",
-    },
-    auctionSeq: 2,
-    email: "ㅓㅑㅓㅑ@naver.com",
-    title: "내 찜이야",
-    startTime: "2023-01-28 16:10",
-    likeCount: 100,
-    startPrice: 300000,
+    email: "",
+    title: "",
+    startTime: "",
+    likeCount: 0,
+    startPrice: 0,
     state: 0,
     viewer: 0,
     price: 0,
@@ -83,12 +66,12 @@ export default function LikesPage() {
   const userData = getUser();
 
   return (
-    <Layout headerDisabled>
+    <Layout title=" ">
       <ProfileBox>
         <Profile onClick={() => navigate("/profile")}>
           <img className="image" src={userData.profileUrl} alt="profile" />
         </Profile>
-        <span className="profileTitle">{userData.nickname}님의 관심목록</span>
+        <span className="profileTitle">{userData.nickname}님의 프로필</span>
         <span className="userEmail">{userData.email}</span>
         <ProfileUpdate onClick={() => navigate(`/profileUpdate`)}>
           프로필 편집
@@ -113,7 +96,6 @@ const Profile = styled.div`
   }
 `;
 const ProfileBox = styled.div`
-  margin-top: 3rem;
   height: 20%;
   padding: 2rem;
   display: flex;

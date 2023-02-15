@@ -70,8 +70,7 @@ export default function Hamburger() {
 const navItems = [
   { value: "메인 화면", uri: "/main" },
   { value: "채팅", uri: "/chat" },
-  { value: "찜 목록", uri: "/likes" },
-  { value: "내 프로필", uri: "/profile" },
+  { value: "내 프로필", uri: "/likes" },
 ];
 
 function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
@@ -107,8 +106,7 @@ function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
                 <ListItemIcon>
                   {obj.uri === "/main" && <CustomHome color="primary" />}
                   {obj.uri === "/chat" && <CustomText color="primary" />}
-                  {obj.uri === "/likes" && <CustomFavorite color="primary" />}
-                  {obj.uri === "/profile" && <CustomAccount color="primary" />}
+                  {obj.uri === "/likes" && <CustomAccount color="primary" />}
                 </ListItemIcon>
                 <CustomListText color="primary">{obj.value}</CustomListText>
               </ListItemButton>
