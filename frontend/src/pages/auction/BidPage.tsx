@@ -69,6 +69,7 @@ export default function BidPage() {
   const { top, messages, sendMessage } = useChat(
     `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`,
     user,
+    closeAuction,
     initTop
   );
 
@@ -79,13 +80,18 @@ export default function BidPage() {
         `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topBidder} ${top.topPrice} 에 낙찰했습니다`
       );
     }
-    navigate(`/chat/${auctionInfo.auctionSeq}`, {
-      state: {
-        top,
-        auctionInfo,
-      },
-      replace: true,
-    });
+
+    if (userState === "seller" || user.email === top.topBidder) {
+      navigate(`/chat/${auctionInfo.auctionSeq}`, {
+        state: {
+          top,
+          auctionInfo,
+        },
+        replace: true,
+      });
+      return;
+    }
+    navigate("/main", { replace: true });
   }
 
   function toggleModal() {
@@ -119,13 +125,15 @@ export default function BidPage() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h4" component="h2">
-            판매를 종료하시겠습니까?
+            {userState === "seller"
+              ? "판매를 종료하시겠습니까?"
+              : "나가시겠습니까?"}
           </Typography>
           <Divider />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             최종 낙찰자{" "}
             <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>
-              hoho{top.topBidder}
+              {top.topBidder}
             </Box>
             가{" "}
             <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>

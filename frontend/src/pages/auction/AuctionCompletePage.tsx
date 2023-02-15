@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import backgroundImg from "@/assets/auction/background.png";
 import Turtle from "@/assets/auction/turtle-removebg.png";
@@ -8,6 +8,7 @@ import Mooneo from "@/assets/auction/mooneo-removebg.png";
 import Mulbeom from "@/assets/auction/mulbeom-removebg.png";
 import Sudal from "@/assets/auction/sudal-removebg.png";
 import { theme } from "@/styles/theme";
+import { useNavigate } from "react-router-dom";
 // import { keyframes } from "@emotion/react";
 
 const animalList = [
@@ -38,6 +39,13 @@ const animalList = [
 ];
 const idx = Math.floor(Math.random() * animalList.length);
 export default function AuctionCompeletePage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/main", { replace: true });
+    }, 3000);
+  }, []);
+
   return (
     <Container>
       <CuteAnimals src={animalList[idx].img} alt="cuties" />

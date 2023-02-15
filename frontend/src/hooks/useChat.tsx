@@ -3,10 +3,10 @@ import WebSocket from "isomorphic-ws";
 import { IMessage } from "types/auction";
 import { IUser } from "types/auth";
 
-// `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`
 export default function useChat(
   uri: string,
   user: IUser,
+  closeHandler: () => void,
   initTop: { topPrice: number; topBidder: string }
 ) {
   const [webSocket, setWebSocket] = useState<WebSocket>();
@@ -33,6 +33,7 @@ export default function useChat(
 
     newWebSocket.onclose = () => {
       newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
+      closeHandler();
     };
 
     setWebSocket(newWebSocket);
