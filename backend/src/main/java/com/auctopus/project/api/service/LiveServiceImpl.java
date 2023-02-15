@@ -64,7 +64,7 @@ public class LiveServiceImpl implements LiveService {
     @Transactional
     public void registerAutoBidder(int liveSeq, String userEmail, int autoPrice) {
         String key = String.valueOf(liveSeq) + "autoBidder";
-        Double CV = Double.valueOf(String.valueOf(redisTemplate.opsForValue().get(key + "CV")));
+        Double CV = Double.valueOf(String.valueOf(redisTemplate.opsForValue().get(liveSeq + "CV")));
         redisTemplate.opsForZSet().add(key, userEmail, Double.valueOf(autoPrice) - CV);
         redisTemplate.opsForValue().set(key + "CV", String.valueOf(CV - 0.000000001));
     }
