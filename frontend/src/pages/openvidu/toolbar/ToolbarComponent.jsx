@@ -1,10 +1,7 @@
 true; /* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import "./ToolbarComponent.css";
-
-// import AppBar from "@material-ui/core/AppBar";
 import AppBar from "@mui/material/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
 import Toolbar from "@mui/material/Toolbar";
 import LogoImg from "@/assets/common/logo.png";
 import Mic from "@mui/icons-material/KeyboardVoice";
@@ -15,9 +12,9 @@ import SwitchVideoIcon from "@mui/icons-material/SwitchVideo";
 import Tooltip from "@mui/material/Tooltip";
 import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
 import QuestionAnswer from "@mui/icons-material/QuestionAnswer";
-
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import { exitLive } from "@/api/auction";
 
 function withRouterToolbar(Component) {
   // eslint-disable-next-line react/display-name
@@ -37,6 +34,7 @@ class ToolbarComponent extends Component {
     this.leaveSession = this.leaveSession.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.navToAuction = this.navToAuction.bind(this);
+    this.handleExit = this.handleExit.bind(this);
   }
 
   micStatusChanged() {
@@ -83,6 +81,13 @@ class ToolbarComponent extends Component {
     });
   }
 
+  handleExit() {
+    const navigate = this.props.navigate;
+    console.log(this.props.detailData.auctionInfo.auctionSeq);
+    exitLive(this.props.detailData.auctionInfo.auctionSeq);
+    navigate(-1);
+  }
+
   render() {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
@@ -92,7 +97,15 @@ class ToolbarComponent extends Component {
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
-          <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} />
+          {/* <img src={LogoImg} alt="logo " id="logo" style={{ width: "50px" }} /> */}
+          <IconButton
+            onClick={this.handleExit}
+            color="inherit"
+            className="navButton"
+            id="navNextButton"
+          >
+            뒤로
+          </IconButton>
           <div className="buttonsContent">
             <IconButton
               color="inherit"
