@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @CrossOrigin("*")
-    @PatchMapping()
+    @PutMapping()
     public ResponseEntity<?> updateUserInfo(Authentication authentication,
                                             @RequestBody UserUpdateRequest req) {
         String userEmail = (String) authentication.getCredentials();
