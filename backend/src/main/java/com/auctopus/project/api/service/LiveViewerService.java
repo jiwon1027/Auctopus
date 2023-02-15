@@ -1,7 +1,5 @@
 package com.auctopus.project.api.service;
 
-import com.auctopus.project.db.domain.LiveViewer;
-
 /**
  * 라이브 시청자 관련 로직 처리를 위한 서비스 구현
  */

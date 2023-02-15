@@ -7,7 +7,6 @@ import com.auctopus.project.api.service.LiveService;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
 import com.auctopus.project.db.domain.Live;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,8 @@ public class SearchController {
     @CrossOrigin("*")
     @GetMapping()
     public ResponseEntity<List<AuctionListResponse>> getAuctionListByWordOrCategory(
-            @Nullable Authentication authentication, @RequestParam(required = false) String word, @RequestParam(required=false) Integer category,
+            @Nullable Authentication authentication, @RequestParam(required = false) String word,
+            @RequestParam(required = false) Integer category,
             @RequestParam int state) throws UnsupportedEncodingException {
         List<Auction> auctionList = null;
         int categorySeq;
@@ -52,14 +52,17 @@ public class SearchController {
             categorySeq = category;
 
         if (state == 1) { // 시청자 수(Live - viewer)로 sort
-            auctionList = auctionService.getAuctionListByViewerAndWordOrCategorySeq(word, categorySeq, state);
+            auctionList = auctionService.getAuctionListByViewerAndWordOrCategorySeq(word,
+                    categorySeq, state);
         } else { // 좋아요(Auction - likeCount)로 sort
-            auctionList = auctionService.getAuctionListByLikeCountAndWordOrCategorySeq(word, categorySeq, state);
+            auctionList = auctionService.getAuctionListByLikeCountAndWordOrCategorySeq(word,
+                    categorySeq, state);
         }
         List<AuctionListResponse> auctionListResponseList = new ArrayList<>();
         for (Auction auction : auctionList) {
 //            List<AuctionImage> auctionImageList = null;
-            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(auction.getAuctionSeq());
+            List<AuctionImage> auctionImageList = auctionImageService.getAuctionImageListByAuctionSeq(
+                    auction.getAuctionSeq());
             if (state == 1) {
                 System.out.println(auction.getAuctionSeq());
                 Live live = liveService.getLiveInfo(auction.getAuctionSeq());

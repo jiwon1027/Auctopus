@@ -5,9 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.auctopus.project.db.repository.UserRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +17,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class S3FileService {
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
 
     @Autowired
     AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
-    public List<String> uploadAuctionImage(List<MultipartFile> multipartFiles, int auctionSeq) throws Exception {
+    public List<String> uploadAuctionImage(List<MultipartFile> multipartFiles, int auctionSeq)
+            throws Exception {
         List<String> imagePathList = new ArrayList<>();
-        for (MultipartFile multipartFile :multipartFiles) {
+        for (MultipartFile multipartFile : multipartFiles) {
             String originalName = createFileName(multipartFile.getOriginalFilename());
             long size = multipartFile.getSize();
 
@@ -36,9 +35,11 @@ public class S3FileService {
             objectMetadata.setContentLength(size);
             System.out.println(bucket);
             amazonS3Client.putObject(
-                    new PutObjectRequest(bucket + "/auction/" + auctionSeq, originalName, multipartFile.getInputStream(), objectMetadata)
+                    new PutObjectRequest(bucket + "/auction/" + auctionSeq, originalName,
+                            multipartFile.getInputStream(), objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
-            String imagePath = amazonS3Client.getUrl(bucket + "/auction/" + auctionSeq, originalName).toString();
+            String imagePath = amazonS3Client.getUrl(bucket + "/auction/" + auctionSeq,
+                    originalName).toString();
             imagePathList.add(imagePath);
         }
         return imagePathList;
@@ -46,7 +47,8 @@ public class S3FileService {
 
     public void deleteFileName(String fileName) {
         String file = fileName.substring(52);
-        if (!file.equals("auctopus_basic.png"))amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
+        if (!file.equals("auctopus_basic.png"))
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
     }
 
     private String createFileName(String fileName) {

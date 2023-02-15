@@ -178,6 +178,7 @@ public class LiveServiceImpl implements LiveService {
         liveRepository.save(live);
     }
 
+
     @Override
     @Transactional
     public void decreaseViewer(int liveSeq) {

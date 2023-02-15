@@ -63,31 +63,6 @@ public class LiveController {
     }
 
     @CrossOrigin("*")
-    @PostMapping("/bid")
-    public ResponseEntity<?> bidNewPrice(Authentication authentication, @RequestBody int liveSeq,
-            @RequestBody int newPrice) {
-        String userEmail = (String) authentication.getCredentials();
-
-        String newTopBidder;
-        int newTopPrice;
-        int currTopAutoPrice = (int) allLiveTopAutoBidder.get(liveSeq)[1];
-        if (currTopAutoPrice <= newPrice) {
-            newTopBidder = userEmail;
-            newTopPrice = newPrice;
-        } else {
-            int bidUnit = liveService.getLiveInfo(liveSeq).getBidUnit();
-            newTopBidder = (String) allLiveTopAutoBidder.get(liveSeq)[0];
-            newTopPrice = newPrice + bidUnit;
-        }
-
-        liveService.updateTopBidderInfo(newTopBidder, liveSeq, newTopPrice);
-        Map<String, Object> res = new HashMap<>();
-        res.put("userEmail", newTopBidder);
-        res.put("currentPrice", newTopPrice);
-        return new ResponseEntity<>(userEmail, HttpStatus.OK);
-    }
-
-    @CrossOrigin("*")
     @PostMapping("/exit")
     public ResponseEntity<?> exitLive(Authentication authentication,
             @RequestBody Map<String, Integer> map) {

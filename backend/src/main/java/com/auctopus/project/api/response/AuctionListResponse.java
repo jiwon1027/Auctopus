@@ -2,7 +2,6 @@ package com.auctopus.project.api.response;
 
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.AuctionImage;
-import com.auctopus.project.db.domain.Live;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.Builder;
@@ -13,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuctionListResponse {
+
     int auctionSeq;
     String userEmail;
     String title;
@@ -26,7 +26,8 @@ public class AuctionListResponse {
 
     AuctionImage auctionImage;
 
-    public static AuctionListResponse of(Auction auction, int liveViewer, int livePrice, List<AuctionImage> auctionImageList) {
+    public static AuctionListResponse of(Auction auction, int liveViewer, int livePrice,
+            List<AuctionImage> auctionImageList) {
         AuctionListResponse res = AuctionListResponse.builder()
                 .auctionSeq(auction.getAuctionSeq())
                 .userEmail(auction.getUserEmail())
