@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
-import InputLabel from "@mui/material/InputLabel";
 import MuiMenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
-import Box from "@mui/material/Box";
 import { styled as mstyled } from "@mui/material/styles";
 import { theme } from "@/styles/theme";
 
@@ -37,11 +35,9 @@ export default function Content({
         name="title"
         onChange={updateTextHandler}
       />
-      {/* select */}
       <FormControl
         sx={{
           marginTop: 2,
-          // border: "solid 1px #386641",
           borderRadius: 1,
         }}
         color="primary"
@@ -53,7 +49,6 @@ export default function Content({
           name="categorySeq"
           onChange={updateHandler}
           value={data.categorySeq?.toString()}
-          // defaultValue={1}
           displayEmpty
         >
           <MenuItem value="">카테고리를 선택하세요.</MenuItem>
@@ -74,7 +69,6 @@ export default function Content({
           variant="outlined"
           placeholder="가격 ( 입찰 시작가)"
           name="startPrice"
-          // value={data.startPrice}
           onChange={updateTextHandler}
         />
         <CustomPriceField

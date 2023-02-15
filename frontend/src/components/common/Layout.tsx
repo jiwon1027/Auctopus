@@ -4,6 +4,7 @@ import { styled as mstyled } from "@mui/system";
 import Header from "@components/common/Header";
 
 interface IProps {
+  headerDisabled?: boolean;
   title?: string;
   back?: boolean;
   right?: JSX.Element;
@@ -37,7 +38,9 @@ interface IProps {
 export default function Layout(props: IProps) {
   return (
     <StyledContainer maxWidth="md">
-      <Header title={props.title} back={props.back} right={props.right} />
+      {!props.headerDisabled && (
+        <Header title={props.title} back={props.back} right={props.right} />
+      )}
       {props.children}
     </StyledContainer>
   );
