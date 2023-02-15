@@ -50,11 +50,6 @@ public class AuctionServiceImpl implements AuctionService {
                 .link("https://i8a704.p.ssafy.io/")
                 .build();
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime startDateTime = auction.getStartTime().toLocalDateTime();
-        if (currentDateTime.isAfter(startDateTime))
-            auction.setState(1);
-
         auctionRepository.save(auction);
 
         if (multipartFileList == null) {
@@ -101,12 +96,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setStartPrice(req.getStartPrice());
         auction.setBidUnit(req.getBidUnit());
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime startDateTime = auction.getStartTime().toLocalDateTime();
-        if (currentDateTime.isAfter(startDateTime))
-            auction.setState(1);
-        else
-            auction.setState(0);
+
 
         auctionRepository.save(auction);
         return auction;
