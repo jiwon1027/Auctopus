@@ -39,7 +39,7 @@ dependencies {
 
     // json parsing
     implementation 'com.google.code.gson:gson:2.8.7'
-    compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     // jwt 유효성 검사
     implementation 'com.auth0:java-jwt:4.2.2'
