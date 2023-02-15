@@ -12,15 +12,14 @@ export default function Chat1To1Page() {
   const { top: initTop, auctionInfo } = location.state;
   // console.log(navData);
   const user = useAuth().getUser();
-  // FIXME: uri
   const { top, messages, sendMessage } = useChat(
-    `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`,
+    `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/chat/${auctionInfo.auctionSeq}`,
     user,
     initTop
   );
 
   return (
-    <Layout title="약속방" right={RightComponent}>
+    <Layout back title="약속방" right={RightComponent}>
       <ChatSection email={user.email} messages={messages} />
       <ActionForm
         ableToBid={false}

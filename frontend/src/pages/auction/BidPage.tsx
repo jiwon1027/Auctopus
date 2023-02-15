@@ -79,7 +79,13 @@ export default function BidPage() {
         `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topBidder} ${top.topPrice} 에 낙찰했습니다`
       );
     }
-    navigate(`/chat/${auctionInfo.auctionSeq}`, { replace: true });
+    navigate(`/chat/${auctionInfo.auctionSeq}`, {
+      state: {
+        top,
+        auctionInfo,
+      },
+      replace: true,
+    });
   }
 
   function toggleModal() {

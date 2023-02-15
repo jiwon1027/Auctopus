@@ -58,7 +58,7 @@ export default function ActionForm(props: IProps) {
 
   return (
     <StyledActionForm onSubmit={onSubmit}>
-      {!props.ableToBid && (
+      {props.ableToBid && (
         <RadioFilter state={radioState} onChange={onChangeRadioState} />
       )}
       {isMessaging ? (
