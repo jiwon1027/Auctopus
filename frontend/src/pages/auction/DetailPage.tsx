@@ -7,7 +7,12 @@ import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import Container from "@mui/material/Container";
 import dayjs from "dayjs";
-import { deleteAuctionLike, getAuction, postAuctionLike, getLikesCheck } from "@/api/auction";
+import {
+  deleteAuctionLike,
+  getAuction,
+  postAuctionLike,
+  getLikesCheck,
+} from "@/api/auction";
 import useAuth from "@/store/atoms/useAuth";
 import Slick from "@components/detail/Slick";
 
@@ -43,13 +48,12 @@ export default function DetailPage() {
         navigate("/error");
         return;
       }
-
       const res = await getAuction(auctionSeq);
-      if (res.status !== 200) return new Error("경매 정보를 가져오지 못했습니다");
+      if (res.status !== 200)
+        return new Error("경매 정보를 가져오지 못했습니다");
       setData(res.data);
       setImgUrl(res.data.auctionImageList[0].imageUrl);
       const user = getUser();
-
       user.email === res.data.userEmail ? setIsBuyer(false) : setIsBuyer(true);
 
       const checkLikes = await getLikesCheck(auctionSeq);
@@ -69,8 +73,7 @@ export default function DetailPage() {
     } else {
       deleteAuctionLike(auctionSeq as string);
     }
-
-    setIsLiked(prev => !prev);
+    setIsLiked((prev) => !prev);
   };
 
   return (

@@ -43,10 +43,6 @@ export default function Profile({ isLiked, auctionInfo, likeHandler }: IProps) {
             sx={{ fontSize: 30 }}
           />
         )}
-
-        <div className="likesCount">
-          {isLiked ? auctionInfo.likeCount + 1 : auctionInfo.likeCount}
-        </div>
       </div>
     </ProfileBox>
   );

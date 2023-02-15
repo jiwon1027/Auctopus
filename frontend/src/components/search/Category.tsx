@@ -41,9 +41,9 @@ export default function Category(props: IProps) {
   return (
     <CategoryContainer>
       <CategoryTitle>카테고리별 검색</CategoryTitle>
-      <Grid container columnSpacing={3} rowSpacing={2}>
+      <Grid container alignItems="center" justifyContent="center">
         {category.map((item, index) => (
-          <Grid key={index}>
+          <Grid key={index} xs={3}>
             <CategoryBox onClick={() => onClickEvent(item.value)}>
               <CategoryImg src={item.imgURL} />
               <CategoryDesc>{item.title}</CategoryDesc>
@@ -69,6 +69,8 @@ const CategoryBox = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CategoryImg = styled.img`
