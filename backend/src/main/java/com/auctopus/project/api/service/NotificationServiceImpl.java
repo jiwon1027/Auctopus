@@ -13,12 +13,11 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +31,9 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
-    private JavaMailSender mailSender;
-    private TaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+    private TaskScheduler taskScheduler;
+    @Autowired
+    private MailSender mailSender;
 
     private Map<String, ScheduledFuture> map = new HashMap<>();
 
@@ -68,6 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
         mail.setFrom("auctopus");
         mail.setSubject("[Auctopus] 찜해놓은 경매의 라이브 오픈 안내 드립니다.");
         mail.setText(message);
+        System.out.println(mail);
         mailSender.send(mail);
     }
 
