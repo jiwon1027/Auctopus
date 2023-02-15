@@ -52,10 +52,12 @@ public class LiveController {
     @CrossOrigin("*")
     @PostMapping("/enter")
     public ResponseEntity<?> enterLive(Authentication authentication,
-            @RequestBody LiveEnterRequest req) {
+            @RequestBody Map<String, Integer> map) {
         String userEmail = (String) authentication.getCredentials();
-        int liveSeq = req.getLiveSeq();
-        int autoPrice = req.getAutoPrice();
+        int liveSeq = map.get("liveSeq");
+        int autoPrice = map.get("autoPrice");
+        System.out.println(liveSeq);
+        System.out.println(autoPrice);
         if (0 < autoPrice)
             liveService.registerAutoBidder(liveSeq, userEmail, autoPrice);
 
