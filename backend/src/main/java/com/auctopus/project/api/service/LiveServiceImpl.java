@@ -42,6 +42,7 @@ public class LiveServiceImpl implements LiveService {
         Timestamp auctionTime = auction.getStartTime();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = auctionTime.before(currTime) ? currTime : auctionTime;
+        User user = userRepository.findByEmail(auction.getUserEmail()).orElseThrow();
         Live live = Live.builder()
                 .liveSeq(auctionSeq)
                 .userEmail(auction.getUserEmail())
@@ -50,8 +51,10 @@ public class LiveServiceImpl implements LiveService {
                 .currentPrice(auction.getStartPrice())
                 .build();
         liveRepository.save(live);
-        String key = String.valueOf(auctionSeq);
-        redisTemplate.opsForValue().set(key + "CV", "0.999999999");
+
+        redisTemplate.opsForValue()
+                .set(auctionSeq + "Top", user.getNickname() + "-" + auction.getStartPrice());
+        redisTemplate.opsForValue().set(auctionSeq + "CV", "0.999999999");
 
         // 경매방의 state를 진행중(2)로 바꾸어주자
         auction.setState(2);
@@ -60,7 +63,7 @@ public class LiveServiceImpl implements LiveService {
     @Override
     @Transactional
     public void registerAutoBidder(int liveSeq, String userEmail, int autoPrice) {
-        String key = String.valueOf(liveSeq);
+        String key = String.valueOf(liveSeq) + "autoBidder";
         Double CV = Double.valueOf(String.valueOf(redisTemplate.opsForValue().get(key + "CV")));
         redisTemplate.opsForZSet().add(key, userEmail, Double.valueOf(autoPrice) - CV);
         redisTemplate.opsForValue().set(key + "CV", String.valueOf(CV - 0.000000001));
@@ -69,7 +72,7 @@ public class LiveServiceImpl implements LiveService {
     @Override
     public String[] autoBidding(int liveSeq, String currBidder, String currPrice) {
         // 자동 경매 시스템 이용자들을 불러온다
-        String key = String.valueOf(liveSeq);
+        String key = String.valueOf(liveSeq) + "autoBidder";
         Set<ZSetOperations.TypedTuple<String>> autoBidderSet = redisTemplate.opsForZSet().
                 reverseRangeWithScores(key, 0, -1);
 
@@ -137,6 +140,14 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         liveRepository.delete(live);
+
+        String cvKey = String.valueOf(liveSeq) + "CV";
+        String liveKey = String.valueOf(liveSeq) + "live";
+        String autoBidderKey = String.valueOf(liveSeq) + "autoBidder";
+        redisTemplate.delete(cvKey);
+        redisTemplate.delete(liveKey);
+        redisTemplate.delete(autoBidderKey);
+//        ate.opsForZSet().removeRange(bidderKey, 0, -1);
 
         // 경매방의 state를 끝(3)로 바꾸어주자
         Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
