@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import ProfileImg from "@/assets/common/profile.png";
-import turtleImg from "@/assets/badges/turtle.svg";
 import ItemList from "@components/notification/ItemList";
 import Layout from "@components/common/Layout";
-import NoticeMooneo from "@/assets/mooneo.svg";
+import NoticeMooneo from "@/assets/auction/mooneo-removebg.png";
 
 const userLocal = localStorage.getItem("user");
 const user = userLocal ? JSON.parse(userLocal) : "";
