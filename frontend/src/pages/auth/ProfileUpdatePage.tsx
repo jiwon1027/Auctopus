@@ -5,27 +5,17 @@ import useAuth from "@/store/atoms/useAuth";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { styled as mstyled } from "@mui/system";
 import { theme } from "@/styles/theme";
-import Content from "@components/profile/Form";
+import Form from "@components/profile/Form";
 
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 
-const initProfile = {
-  userName: "",
-  bankCode: -1,
-  account: "",
-  address: "",
-  profileUrl: "",
-};
 
 export default function ProfileUpdatePage() {
   const { getUser } = useAuth();
-  const RightComponent = (
-    <span style={{ fontSize: "1.8rem", color: "#386641" }}>완료</span>
-  );
+
   const userData = getUser();
-  console.log(userData);
   return (
-    <Layout right={RightComponent} back title="프로필 편집">
+    <Layout back title="프로필 편집">
       <ProfileBox>
         <Profile>
           <img
@@ -35,7 +25,7 @@ export default function ProfileUpdatePage() {
           />
         </Profile>
       </ProfileBox>
-      <Content />
+      <Form />
     </Layout>
   );
 }
@@ -57,16 +47,3 @@ const Profile = styled.div`
     object-fit: cover;
   }
 `;
-
-const Title = styled.div``;
-
-const CustomEdit = mstyled(EditIcon)`
-
-
-`;
-// const CustomCamera = mstyled(CameraAltIcon)`
-//   position: absolute;
-//   width: 4rem;
-//   height: 4rem;
-//   color: ${theme.colors.primary};
-// `;

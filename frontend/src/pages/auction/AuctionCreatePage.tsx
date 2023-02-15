@@ -68,8 +68,8 @@ export default function AuctionCreate() {
       form.append("images", item.file);
     });
 
-    console.log(data);
-    console.log(imgFileList);
+    // console.log(data);
+    // console.log(imgFileList);
 
     createAuction(form, token).then(() => {
       alert("경매방 등록 성공!");
