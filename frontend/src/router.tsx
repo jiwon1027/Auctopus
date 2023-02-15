@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./pages/auction/Root";
 import ErrorPage from "./pages/ErrorPage";
-import ChatPage from "./pages/auction/ChatPage";
+import ChatPage from "./pages/auction/Chat1To1Page";
 import LikesPage from "./pages/auction/LikesPage";
 import ProfilePage from "./pages/auth/ProfilePage";
 import DetailPage from "./pages/auction/DetailPage";
