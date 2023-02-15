@@ -1,9 +1,7 @@
 export interface IUserInfoData {
-  email: string;
-  nickname: string;
   userName: string;
-  social: number;
   account: string;
-  addrress: string;
+  address: string;
   profileUrl: string;
+  bankCode: number;
 }

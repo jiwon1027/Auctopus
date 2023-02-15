@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import FormControl from "@mui/material/FormControl";
-import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
 import { theme } from "@/styles/theme";
 import { styled as mstyled } from "@mui/material/styles";
 import { updateUserInfo, getUserInfo } from "@/api/profile";
@@ -12,13 +9,11 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const initProfile = {
-  email: "",
-  nickname: "",
   userName: "",
-  social: 0,
   account: "",
-  addrress: "",
+  address: "",
   profileUrl: "",
+  bankCode: -1,
 };
 
 export default function Form() {
@@ -28,11 +23,16 @@ export default function Form() {
   useEffect(() => {
     getUserInfo().then((res) => {
       const data = res.data;
-      userInfo.nickname = data.nickname;
-      userInfo.account = data.account;
-      userInfo.addrress = data.address;
+      setUserInfo((prev) => ({
+        ...prev,
+        account: data.account,
+        userName: data.userName,
+        address: data.address,
+        bankCode: data.bankCode,
+        profileUrl: data.profileUrl,
+      }));
     });
-  }, [userInfo]);
+  }, []);
 
   const handleChange = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
@@ -50,7 +50,8 @@ export default function Form() {
     e.preventDefault();
     console.log(userInfo);
     updateUserInfo(userInfo).then(() => {
-      navigator("/profile");
+      alert("프로필 수정 완료!");
+      navigator("/likes");
     });
   };
 
@@ -58,27 +59,24 @@ export default function Form() {
     <Container>
       <Title>닉네임 수정</Title>
       <CustomTextField
-        value={userInfo.nickname}
-        name="nickname"
+        value={userInfo.userName}
+        name="userName"
         onChange={handleChange}
+        placeholder="닉네임을 입력해주세요"
       />
       <Title>계좌정보 수정</Title>
       <CustomTextField
         value={userInfo.account}
         name="account"
         onChange={handleChange}
-        placeholder={
-          userInfo.account === "" ? "정보가 없습니다" : userInfo.account
-        }
+        placeholder="계좌정보를 입력해주세요"
       />
       <Title>대표배송지 수정</Title>
       <CustomTextField
-        value={userInfo.addrress}
-        name="addrress"
+        value={userInfo.address}
+        name="address"
         onChange={handleChange}
-        placeholder={
-          userInfo.addrress === "" ? "정보가 없습니다" : userInfo.addrress
-        }
+        placeholder="대표 배송지를"
       />
       <Button
         variant="contained"

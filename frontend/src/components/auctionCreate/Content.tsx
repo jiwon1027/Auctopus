@@ -38,7 +38,6 @@ export default function Content({
       <FormControl
         sx={{
           marginTop: 2,
-          // border: "solid 1px #386641",
           borderRadius: 1,
         }}
         color="primary"
@@ -50,7 +49,6 @@ export default function Content({
           name="categorySeq"
           onChange={updateHandler}
           value={data.categorySeq?.toString()}
-          // defaultValue={1}
           displayEmpty
         >
           <MenuItem value="">카테고리를 선택하세요.</MenuItem>
@@ -71,7 +69,6 @@ export default function Content({
           variant="outlined"
           placeholder="가격 ( 입찰 시작가)"
           name="startPrice"
-          // value={data.startPrice}
           onChange={updateTextHandler}
         />
         <CustomPriceField
