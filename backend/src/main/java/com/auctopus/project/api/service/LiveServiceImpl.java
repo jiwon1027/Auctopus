@@ -66,8 +66,8 @@ public class LiveServiceImpl implements LiveService {
         String key = String.valueOf(liveSeq) + "autoBidder";
         double CV = Double.parseDouble(
                 String.valueOf(redisTemplate.opsForValue().get(liveSeq + "CV")));
-        redisTemplate.opsForZSet().add(key, userEmail, (double) autoPrice - CV);
-        redisTemplate.opsForValue().set(key + "CV", String.valueOf(CV + 0.000000001));
+        redisTemplate.opsForZSet().add(key, userEmail, (double) autoPrice + CV);
+        redisTemplate.opsForValue().set(liveSeq+ "CV", String.valueOf(CV - 0.000000001));
     }
 
     @Override
