@@ -1,22 +1,59 @@
 import React from "react";
-import { ReactComponent as Mooneo } from "@/assets//mooneo.svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Logo from "@/assets/common/logo.png";
+import Mooneo1 from "@/assets/mooneo/1.png";
+import Mooneo2 from "@/assets/mooneo/2.png";
+import Mooneo3 from "@/assets/mooneo/3.png";
+import Mooneo4 from "@/assets/mooneo/4.png";
+import Mooneo5 from "@/assets/mooneo/5.png";
+import Mooneo6 from "@/assets/mooneo/6.png";
+import Mooneo7 from "@/assets/mooneo/7.png";
+import Mooneo8 from "@/assets/mooneo/8.png";
+import Mooneo9 from "@/assets/mooneo/9.png";
+import Mooneo10 from "@/assets/mooneo/10.png";
+
 export default function Title() {
+  const mooneoList = [
+    Mooneo1,
+    Mooneo2,
+    Mooneo3,
+    Mooneo4,
+    Mooneo5,
+    Mooneo6,
+    Mooneo7,
+    Mooneo8,
+    Mooneo9,
+    Mooneo10,
+  ];
+
+  const idx = Math.floor(Math.random() * mooneoList.length);
   return (
     <StyledTitle>
-      <div>
-        <img
-          src="https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_favicon.svg"
-          alt="mooneo img"
-          className="signatureIcon"
-        />
-      </div>
+      <Mooneo
+        src={mooneoList[idx]}
+        alt="mooneo img"
+        className="signatureIcon"
+      />
       <LogoImg src={Logo} alt="logo" />
     </StyledTitle>
   );
 }
 
+const floating = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+const Mooneo = styled.img`
+  width: 30rem;
+  animation: ${floating} 3s 1s infinite linear alternate;
+`;
 const StyledTitle = styled.div`
   flex: 1;
   margin-top: 11rem;
