@@ -26,8 +26,9 @@ const initAuctionInfo: IAuctionDetail = {
 };
 
 const initTop = {
-  topBidder: "",
+  topEmail: "",
   topPrice: 0,
+  topNickname: "",
 };
 
 const style = {
@@ -48,9 +49,9 @@ const style = {
   // alignItems: "center",
 };
 
-const RightComponent = (props: { onClick: () => void }) => (
+const RightComponent = (props: { isSeller: boolean; onClick: () => void }) => (
   <Button variant="contained" color="primary" onClick={props.onClick}>
-    ON AIR
+    {props.isSeller ? "종료하기" : "나가기"}
   </Button>
 );
 
@@ -77,11 +78,11 @@ export default function BidPage() {
     if (userState === "seller") {
       sendMessage(
         3,
-        `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topBidder} ${top.topPrice} 에 낙찰했습니다`
+        `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topNickname} ${top.topPrice} 에 낙찰했습니다`
       );
     }
 
-    if (userState === "seller" || user.email === top.topBidder) {
+    if (userState === "seller" || user.email === top.topEmail) {
       navigate(`/chat/${auctionInfo.auctionSeq}`, {
         state: {
           top,
@@ -102,7 +103,12 @@ export default function BidPage() {
     <Layout
       back
       title="경매방"
-      right={<RightComponent onClick={toggleModal} />}
+      right={
+        <RightComponent
+          isSeller={userState === "seller"}
+          onClick={toggleModal}
+        />
+      }
     >
       <NoticeSection
         auction={auctionInfo}
@@ -133,7 +139,7 @@ export default function BidPage() {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             최종 낙찰자{" "}
             <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>
-              {top.topBidder}
+              {top.topNickname}
             </Box>
             가{" "}
             <Box component="span" sx={{ fontWeight: "bold", color: "#386641" }}>

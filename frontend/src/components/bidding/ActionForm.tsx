@@ -3,11 +3,12 @@ import { TextField } from "@mui/material";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import styled from "styled-components";
 import RadioFilter from "./RadioFilter";
+import { ITop } from "types/auction";
 
 interface IProps {
   ableToBid: boolean;
   auctionInfo: IAuctionDetail;
-  top: { topBidder: string; topPrice: number };
+  top: ITop;
   onSend: (type: number, chat: string) => void;
 }
 

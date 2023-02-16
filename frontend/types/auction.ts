@@ -23,12 +23,16 @@ export interface IReqSearch {
   state: number;
 }
 
-export interface IMessage {
+export interface IMessage extends ITop {
   type: number; // 0: open, 1: 일반 채팅, 2: bidding, 3: close
   userEmail: string;
   nickname: string;
   message: string; // "안녕"
   date: string;
+}
+
+export interface ITop {
   topPrice: number;
-  topBidder: string; // nickname
+  topEmail: string;
+  topNickname: string;
 }
