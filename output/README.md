@@ -5,6 +5,7 @@
 ## Table of Content
 
 1. [서비스 개요](#1-서비스-개요)
+1. [기술 스택](#2-기술-스택)
 1. [팀원 소개](#2-팀원-소개)
 1. [Jira Convention](#3-jira-convention)
 1. [Git Flow Convention](#4-git-flow-convention)
@@ -16,6 +17,40 @@
 1. [References](#10-references)
 
 ## 1. 서비스 개요
+
+// TODO:
+
+## 2. 기술 스택
+
+### FrontEnd
+
+| <div align="center"><img src="/assets/readme/html.svg" alt="HTML5" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/css.svg" alt="CSS3" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/js.png" alt="JavaScript" width="50px" height="50px" /></div> |
+| :-----------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: |
+|                                      &nbsp;&nbsp;HTML5&nbsp;&nbsp;                                      |                         &nbsp;&nbsp;&nbsp;&nbsp;CSS3&nbsp;&nbsp;&nbsp;&nbsp;                         |                                                JavaScript                                                 |
+
+| <div align="center"><img src="/assets/readme/react.svg" alt="React" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/recoil.png" alt="Recoil" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/reactquery.svg" alt="React-Query" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/styledcomponents.png" alt="Styled-components" width="50px" height="50px" /> </div> |
+| :------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;React&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     |                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recoil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     |                                                     React-Query                                                     |                                                        Styled-components                                                        |
+
+| <div align="center"><img src="/assets/readme/sockjs.png" alt="SockJS" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/axios.png" alt="axios" width="100px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/openvidu.png" alt="OpenVidu" width="100px" height="50px" /> </div> |
+| :--------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+|                                 &nbsp;&nbsp;&nbsp;SockJS&nbsp;&nbsp;&nbsp;                                 |                                                   AXIOS                                                   |                                                    OpenVidu                                                     |
+
+### BackEnd
+
+| <div align="center"><img src="/assets/readme/java.svg" alt="java" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/springboot.png" alt="springboot" width="100px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/springsecurity.png" alt="springsecurity" width="100px" height="50px" /></div> | <div align="center"><img src="/assets/readme/gradle.png" alt="gradle" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/hibernate.png" alt="hibernate" width="50px" height="50px" /></div> |
+| :----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+|                                                  Java                                                  |                                                     Spring-Boot                                                     |                                                      Spring-Security                                                       |                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gradle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     |                                  &nbsp;&nbsp;&nbsp;Hibernate&nbsp;&nbsp;&nbsp;                                  |
+
+| <div align="center"><img src="/assets/readme/mysql.svg" alt="mysql" width="70px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/swagger.png" alt="swagger" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/postman.svg" alt="postman" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/websocket.svg" alt="websocket" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/redis.png" alt="redis" width="70px" height="50px" /></div> |
+| :------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+|                                                  MySQL                                                   |                                                   Swagger                                                   |                                                   Postman                                                   |                                                    Websocket                                                    |                                                  Redis                                                  |
+
+### DevOps
+
+| <div align="center"><img src="/assets/readme/docker.png" alt="docker" width="50px" height="50px" /> </div> | <div align="center"><img src="/assets/readme/jenkins.png" alt="jenkins" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/nginx.png" alt="nginx" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/ec2.png" alt="EC2" width="50px" height="50px" /></div> | <div align="center"><img src="/assets/readme/s3.png" alt="S3" width="50px" height="50px" /></div> |
+| :--------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |
+|                                                   Docker                                                   |                                                   Jenkins                                                   |                                                  NginX                                                  |                                               AWS EC2                                               |                                              AWS S3                                               |
 
 ## 2. 팀원 소개
 
