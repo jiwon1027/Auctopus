@@ -6,15 +6,18 @@
 
 1. [서비스 개요](#1-서비스-개요)
 1. [기술 스택](#2-기술-스택)
-1. [팀원 소개](#2-팀원-소개)
-1. [Jira Convention](#3-jira-convention)
-1. [Git Flow Convention](#4-git-flow-convention)
-1. [Commit Message Convention](#5-commit-message-convention)
-1. [Backend Convention](#6-backend-convention)
-1. [Frontend Convention](#7-frontend-convention)
-1. [Wire Frames](#8-wire-frames)
-1. [기능 정의서](#9-기능-정의서)
-1. [References](#10-references)
+1. [한눈에 보는 시스템 아키텍처](#3-한눈에-보는-시스템-아키텍처)
+1. [팀원 소개](#4-팀원-소개)
+1. [Jira Convention](#5-jira-convention)
+1. [Git Flow Convention](#6-git-flow-convention)
+1. [Commit Message Convention](#7-commit-message-convention)
+1. [Backend Convention](#8-backend-convention)
+1. [Frontend Convention](#9-frontend-convention)
+1. [Wire Frames](#10-wire-frames)
+1. [기능 정의서](#11-기능-정의서)
+1. [ERD](#12-erd)
+1. [Sequence Diagram](#13-sequence-diagram)
+1. [References](#14-references)
 
 ## 1. 서비스 개요
 
@@ -56,7 +59,11 @@
 | :--------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |
 |                                                   Docker                                                   |                                                   Jenkins                                                   |                                                  NginX                                                  |                                               AWS EC2                                               |                                              AWS S3                                               |
 
-## 2. 팀원 소개
+## 3. 한눈에 보는 시스템 아키텍처
+
+![system architecture](/assets/readme/system_architecture.png)
+
+## 4. 팀원 소개
 
 정상기 (팀장): Frontend 개발 + 프로젝트 관리
 손예지 (팀원): Frontend 개발 + 디자인
@@ -65,7 +72,7 @@
 변유정 (팀원): Backend 개발 + 이슈 관리
 우상빈 (팀원): Backend 개발 + 이슈 관리 + 발표
 
-## 3. Jira Convention
+## 5. Jira Convention
 
 Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
@@ -90,7 +97,7 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
   - 번다운 차트는 스프린트별 시간당 잔여 Story-point 를 추적합니다
   - 주차별 스프린트를 시작하기 전에 모든 이슈를 생성하고 할당해야 올바른 번다운 차트를 생성할 수 있습니다
 
-## 4. Git Flow Convention
+## 6. Git Flow Convention
 
 디렉터리 구조는 **frontend** 와 **backend** 로 구분됩니다. 각 개발자들은 해당 디렉터리로 이동한다음 작업하면 됩니다
 
@@ -144,7 +151,7 @@ Branch Types
 
 <!-- [ref](https://techblog.woowahan.com/2553/) -->
 
-## 5. Commit Message Convention
+## 7. Commit Message Convention
 
 Commit Message Types
 
@@ -177,7 +184,7 @@ Commit Message Types
 
 <!-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) -->
 
-## 6. Backend Convention
+## 8. Backend Convention
 
 - Style Guide
   - [Google Style Guide for Java](https://google.github.io/styleguide/javaguide.html)
@@ -212,7 +219,7 @@ Commit Message Types
 
 ```
 
-## 7. Frontend Convention
+## 9. Frontend Convention
 
 - Style Guide
   - [Google Style Guide for Typescript](https://google.github.io/styleguide/tsguide.html)
@@ -235,7 +242,7 @@ Commit Message Types
 
 ```
 
-## 8. Wire Frames
+## 10. Wire Frames
 
 - 유저 화면 프레임들
 
@@ -265,7 +272,7 @@ Commit Message Types
 ![경매방 생성](/assets/wireframes/auction/%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%83%9D%EC%84%B1.png)
 ![낙찰시-모달](/assets/wireframes/auction/%EB%82%99%EC%B0%B0%EC%8B%9C%20%EB%AA%A8%EB%8B%AC.png)
 
-## 9. 기능 정의서
+## 11. 기능 정의서
 
 - 전체적 흐름도
 
@@ -275,7 +282,16 @@ Commit Message Types
 
   ![auction](/assets/flowchart/flowchart-auction.png)
 
-## 10. References
+## 12. ERD
+
+![Auctopus ERD](/assets/readme/Auctopus_v4.1.0.png)
+
+## 13. Sequence Diagram
+
+![login](/assets/readme/sequence_diagram_login.png)
+![auction](/assets/readme/sequence_diagram_auction.png)
+
+## 14. References
 
 - [우린 Git-flow를 사용하고 있어요](https://techblog.woowahan.com/2553/)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
