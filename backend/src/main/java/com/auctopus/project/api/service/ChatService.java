@@ -112,12 +112,12 @@ public class ChatService extends TextWebSocketHandler {
             case "0":
                 TextMessage sendM = new TextMessage(jsonInfo.toJSONString());
                 String value = redisTemplate.opsForValue().get(liveSeq + "Top");
-//                if (value != null) {
-                String[] currTopBidderInfo = value.split("；");
-                jsonInfo.put("topEmail", currTopBidderInfo[0]);
-                jsonInfo.put("topPrice", currTopBidderInfo[1]);
-                jsonInfo.put("topNickname", jsonInfo.get("nickname"));
-//                }
+                if (value != null) {
+                    String[] currTopBidderInfo = value.split("；");
+                    jsonInfo.put("topEmail", currTopBidderInfo[0]);
+                    jsonInfo.put("topPrice", currTopBidderInfo[1]);
+                    jsonInfo.put("topNickname", jsonInfo.get("nickname"));
+                }
 //                redisTemplate.opsForList().rightPush(key, jsonInfo.toJSONString());
                 for (WebSocketSession client : clients)
                     client.sendMessage(sendM);
