@@ -168,6 +168,13 @@ public class ChatService extends TextWebSocketHandler {
                     System.out.println("나가려고 한 사람 : " + jsonInfo.get("userEmail"));
                     System.out.println("그리고 sellerEmail : " + sellerEmail);
                     System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
+                    String lastValue = redisTemplate.opsForValue().get(liveSeq + "Top");
+                    if (lastValue != null) {
+                        String[] currTopBidderInfo = lastValue.split("；");
+                        jsonInfo.put("topEmail", currTopBidderInfo[0]);
+                        jsonInfo.put("topPrice", currTopBidderInfo[1]);
+//                        jsonInfo.put("topNickname", jsonInfo.get("nickname"));
+                    }
                     while (!clients.isEmpty()) {
                         WebSocketSession currSession = clients.get(clients.size() - 1);
                         currSession.close();
