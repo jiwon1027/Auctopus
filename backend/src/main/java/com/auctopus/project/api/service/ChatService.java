@@ -161,25 +161,26 @@ public class ChatService extends TextWebSocketHandler {
                 }
                 break;
             case "3":
-                String openerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
+                String sellerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
+                System.out.println("라이브의 현재 sellerEmail입니다 :  " + sellerEmail);
                 TextMessage closeM = new TextMessage(jsonInfo.toJSONString());
-                if (jsonInfo.get("userEmail").equals(openerEmail)) {
-                    System.out.println("여기확인해보자구우우우~~~ : " +  clients.size());
-                    System.out.println("여기확인해보자구우우우~~~ : " +  clients.size());
-                    System.out.println("여기확인해보자구우우우~~~ : " +  clients.size());
-                    System.out.println("여기확인해보자구우우우~~~ : " +  clients.size());
+                System.out.println("여기확인해보자구우우우~~~ : " + clients.size());
+                if (jsonInfo.get("userEmail").equals(sellerEmail)) {
+                    System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
                     for (WebSocketSession client : clients) {
-                        client.sendMessage(closeM);
                         client.close();
                     }
                     clients.remove(liveSeq);
+                    if (chatType.equals("live")) {
+                        liveService.deleteLive(liveSeq);
+                    }
+                } else {
+                    for (WebSocketSession client : clients) {
+                        client.sendMessage(closeM);
+                    }
+                    session.close();
                 }
-                if (chatType.equals("live"))
-                    liveService.deleteLive(liveSeq);
-                break;
         }
-
-
     }
 
     private String[] getChatInfo(WebSocketSession session) {
