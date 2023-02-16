@@ -40,7 +40,12 @@ export default function NoticeSection(props: IProps) {
           </div>
           {props.isAutoBuyer && (
             <div>
-              나의 최대가 <b>{props.limit}</b>원
+              나의 최대가{" "}
+              <b>
+                {props.limit &&
+                  props.limit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </b>
+              원
             </div>
           )}
           {props.top.topPrice > 0 && (
