@@ -6,6 +6,7 @@ import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import Container from "@mui/material/Container";
+import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import dayjs from "dayjs";
 import {
   deleteAuctionLike,
@@ -15,6 +16,7 @@ import {
 } from "@/api/auction";
 import useAuth from "@/store/atoms/useAuth";
 import Slick from "@components/detail/Slick";
+import { theme } from "@/styles/theme";
 
 const initData: IAuctionDetail = {
   auctionSeq: 0,
@@ -77,8 +79,9 @@ export default function DetailPage() {
   };
 
   return (
-    <CustomContainer disableGutters={true}>
+    <CustomContainer>
       <ImgBox>
+        <CustomBackIcon />
         <Slick auctionInfo={data} />
       </ImgBox>
       <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
@@ -104,4 +107,13 @@ const CustomContainer = mstyled(Container)`
 const ImgBox = styled.div`
   height: 45%;
   background-color: white;
+`;
+
+const CustomBackIcon = mstyled(ChevronLeftOutlinedIcon)`
+  z-index: 10;
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  color: ${theme.colors.primary};
+  margin-top: 1rem;
 `;
