@@ -47,7 +47,7 @@ export default function useChat(
       console.log("경매 종료했을때 콜백");
       closeHandler();
     };
-  }, [top]);
+  }, [webSocket, top]);
 
   const sendMessage = (type: number, chat: string) => {
     const writeMessage = messageCreator(user, top);
