@@ -30,7 +30,7 @@ export default function Chat1To1Page() {
 
   /** 판매자만이 경매를 종료할 수 있다 */
   function requestToCloseAuction() {
-    if (user.email === top.topBidder) {
+    if (user.email === top.topEmail) {
       alert("판매자가 종료하기 전까진 나갈 수 없습니다");
       return;
     }
