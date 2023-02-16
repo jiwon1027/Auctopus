@@ -31,11 +31,11 @@ const animalList = [
 const idx = Math.floor(Math.random() * animalList.length);
 export default function AuctionCompeletePage() {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     navigate("/main", { replace: true });
-  //   }, 3000);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/main", { replace: true });
+    }, 3000);
+  }, []);
 
   return (
     <Container>
