@@ -23,7 +23,14 @@ export default function useChat(
       );
     };
 
-    newWebSocket.onmessage = (event) => {
+    setWebSocket(newWebSocket);
+    return () => newWebSocket.close();
+  }, []);
+
+  useEffect(() => {
+    console.log("top changed: ", top);
+    if (!webSocket) return;
+    webSocket.onmessage = (event) => {
       const msg: IMessage = JSON.parse(event.data as string);
       if (top.topPrice < msg.topPrice) {
         setTop({
@@ -35,18 +42,11 @@ export default function useChat(
       setMessages((prev) => [...prev, msg]);
     };
 
-    newWebSocket.onclose = () => {
+    webSocket.onclose = () => {
       // newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
       console.log("경매 종료했을때 콜백");
       closeHandler();
     };
-
-    setWebSocket(newWebSocket);
-    return () => newWebSocket.close();
-  }, []);
-
-  useEffect(() => {
-    console.log("top changed: ", top);
   }, [top]);
 
   const sendMessage = (type: number, chat: string) => {
