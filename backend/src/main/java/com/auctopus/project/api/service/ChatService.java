@@ -170,8 +170,9 @@ public class ChatService extends TextWebSocketHandler {
                     System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
                     while (!clients.isEmpty()) {
                         WebSocketSession currSession = clients.get(clients.size() - 1);
-                        session.close();
+                        currSession.close();
                     }
+                    System.out.println("chatType입니다!!! : " + chatType);
                     if (chatType.equals("live")) {
 //                        allClients.remove(liveSeq);
                         liveService.deleteLive(liveSeq);
