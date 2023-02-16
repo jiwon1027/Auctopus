@@ -45,6 +45,10 @@ export default function useChat(
     return () => newWebSocket.close();
   }, []);
 
+  useEffect(() => {
+    console.log("top changed: ", top);
+  }, [top]);
+
   const sendMessage = (type: number, chat: string) => {
     const writeMessage = messageCreator(user, top);
     webSocket?.send(writeMessage(type, chat));
