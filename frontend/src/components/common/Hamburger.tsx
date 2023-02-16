@@ -69,7 +69,6 @@ export default function Hamburger() {
 
 const navItems = [
   { value: "메인 화면", uri: "/main" },
-  { value: "채팅", uri: "/chat" },
   { value: "내 프로필", uri: "/likes" },
 ];
 

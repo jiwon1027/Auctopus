@@ -120,7 +120,7 @@ export default class ChatComponent extends Component {
                 }
               >
                 <img
-                  src={profileUrl}
+                  src="https://s3-auctopus.s3.ap-northeast-2.amazonaws.com/auctopus_favicon.svg"
                   width="30"
                   height="30"
                   className="user-img"

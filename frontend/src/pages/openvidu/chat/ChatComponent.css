@@ -118,10 +118,8 @@ span.triangle {
   margin-top: 1.2rem;
   width: 95%;
   font-family: Prentendard;
-  height: 5rem;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 .message > .left .msg-detail .msg-info {
   text-align: left;
@@ -163,12 +161,11 @@ span.triangle {
 }
 .message.right .user-img {
   right: 0;
-  /* margin-bottom: 1rem; */
-  /* margin-right: auto; */
-  /* flex-direction: row-reverse; */
-  /* display: flex; */
+  margin-bottom: 1rem;
+  margin-right: auto;
+  flex-direction: row-reverse;
+  display: flex;
   border: 2px solid green;
-  /* border: solid 2px red; */
 }
 
 .message.right .msg-detail .msg-content {
@@ -182,7 +179,7 @@ span.triangle {
   background-color: #c8ffe8;
   border-bottom-width: 0;
   border-left-width: 0;
-  /* right: -5px; */
+  right: -5px;
 }
 
 /* End my messages */
