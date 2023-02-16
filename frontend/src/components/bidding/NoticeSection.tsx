@@ -20,12 +20,38 @@ export default function NoticeSection(props: IProps) {
       <div className="notice">
         <div className="notice__title">{props.auction.title}</div>
         <div className="notice__state">
-          <div>시작가 {props.auction.startPrice}원</div>
-          <div>입찰 단위 {props.auction.bidUnit}원</div>
-          {props.isAutoBuyer && <div>나의 최대가 {props.limit}원</div>}
+          <div>
+            시작가{" "}
+            <b>
+              {props.auction.startPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </b>
+            원
+          </div>
+          <div>
+            입찰 단위{" "}
+            <b>
+              {props.auction.bidUnit
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </b>
+            원
+          </div>
+          {props.isAutoBuyer && (
+            <div>
+              나의 최대가 <b>{props.limit}</b>원
+            </div>
+          )}
           {props.top.topPrice > 0 && (
             <div>
-              현재 {props.top.topNickname} 님의 입찰 가격 {props.top.topPrice}
+              현재 {props.top.topNickname} 님의 입찰 가격{" "}
+              <b>
+                {props.top.topPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </b>
+              원
             </div>
           )}
         </div>

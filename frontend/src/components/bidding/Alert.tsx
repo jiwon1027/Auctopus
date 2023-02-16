@@ -9,7 +9,9 @@ interface IProps {
 export default function Alert(props: IProps) {
   const state =
     props.msg.type === 2
-      ? `${props.msg.nickname} 님이 ${props.msg.message} 원 입찰하셨습니다`
+      ? `${props.msg.nickname} 님이 ${props.msg.message
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원 입찰하셨습니다`
       : props.msg.message;
   return <StyledBid>{state}</StyledBid>;
 }
