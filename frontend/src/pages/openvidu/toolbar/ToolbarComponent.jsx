@@ -86,6 +86,7 @@ class ToolbarComponent extends Component {
   handleExit() {
     const navigate = this.props.navigate;
     console.log(this.props.detailData.auctionInfo.auctionSeq);
+    this.leaveSession();
     exitLive(this.props.detailData.auctionInfo.auctionSeq);
     navigate(-1);
   }
