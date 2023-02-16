@@ -101,7 +101,7 @@ export default function SearchPage() {
         <>
           <ResultText>
             {result.type}{" "}
-            <b>&lsquo;{categoryArr[parseInt(result.content)]}&rsquo;</b> 에
+            <b>&lsquo;{categoryArr[parseInt(result.content) - 1]}&rsquo;</b> 에
             대한 검색결과입니다.
           </ResultText>
         </>
