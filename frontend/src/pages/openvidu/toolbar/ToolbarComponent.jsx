@@ -80,6 +80,7 @@ class ToolbarComponent extends Component {
       },
       replace: true,
     });
+    this.leaveSession();
   }
 
   handleExit() {
