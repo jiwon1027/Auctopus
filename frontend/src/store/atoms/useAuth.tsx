@@ -244,7 +244,7 @@ export default function useAuth() {
 
   function signOut() {
     localStorage.clear();
-    redirect("/");
+    navigate("/");
   }
 
   return {
