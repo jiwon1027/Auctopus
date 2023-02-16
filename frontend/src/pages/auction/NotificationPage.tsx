@@ -1,6 +1,4 @@
 import React from "react";
-import styled from "styled-components";
-import ProfileImg from "@/assets/common/profile.png";
 import ItemList from "@components/notification/ItemList";
 import Layout from "@components/common/Layout";
 import NoticeMooneo from "@/assets/auction/mooneo-removebg.png";

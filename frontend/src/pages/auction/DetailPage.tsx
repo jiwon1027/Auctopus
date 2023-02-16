@@ -6,7 +6,8 @@ import Profile from "@/components/detail/Profile";
 import Content from "@/components/detail/Content";
 import ButtonBox from "@/components/detail/ButtonBox";
 import Container from "@mui/material/Container";
-import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
+import ChevronLeftOutlinedIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import dayjs from "dayjs";
 import {
   deleteAuctionLike,
@@ -111,8 +112,8 @@ const ImgBox = styled.div`
 const CustomBackIcon = mstyled(ChevronLeftOutlinedIcon)`
   z-index: 10;
   position: absolute;
-  width: 5rem;
-  height: 5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   color: ${theme.colors.primary};
   margin-top: 1rem;
 `;
