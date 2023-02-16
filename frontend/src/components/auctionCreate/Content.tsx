@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import MuiMenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Box from "@mui/material/Box";
+import MuiSelect, { SelectChangeEvent } from "@mui/material/Select";
 import { styled as mstyled } from "@mui/material/styles";
+import { theme } from "@/styles/theme";
 
 export default function Content({
   data,
@@ -16,13 +15,13 @@ export default function Content({
   data: IAuctionCreate;
   onChange: (name: string, value: string) => void;
 }) {
-  const updateHandler = (e: SelectChangeEvent) => {
+  const updateHandler = (e: SelectChangeEvent<unknown>) => {
     onChange(e.target.name, e.target.value as string);
   };
 
   const updateTextHandler = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement;
-    console.log(target);
+    // console.log(target);
     onChange(target.name, target.value);
   };
 
@@ -36,45 +35,33 @@ export default function Content({
         name="title"
         onChange={updateTextHandler}
       />
-      {/* select */}
-      <Box
+      <FormControl
         sx={{
-          minWidth: 120,
           marginTop: 2,
-          border: "solid 1px #386641",
           borderRadius: 1,
         }}
+        color="primary"
+        fullWidth
       >
-        <FormControl fullWidth>
-          <InputLabel
-            id="demo-simple-select-label"
-            style={{
-              fontSize: 16,
-              fontFamily: "Pretendard",
-              color: "#D2D2D2",
-            }}
-          >
-            카테고리
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="category"
-            name="categorySeq"
-            onChange={updateHandler}
-            value={data.categorySeq?.toString()}
-          >
-            <MenuItem value={10}>전자기기</MenuItem>
-            <MenuItem value={20}>패션/잡화</MenuItem>
-            <MenuItem value={30}>도서/음반</MenuItem>
-            <MenuItem value={40}>완구/문구</MenuItem>
-            <MenuItem value={50}>뷰티/미용</MenuItem>
-            <MenuItem value={60}>인테리어</MenuItem>
-            <MenuItem value={70}>생활용품</MenuItem>
-            <MenuItem value={80}>기타</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          name="categorySeq"
+          onChange={updateHandler}
+          value={data.categorySeq?.toString()}
+          displayEmpty
+        >
+          <MenuItem value="">카테고리를 선택하세요.</MenuItem>
+          <MenuItem value={1}>전자기기</MenuItem>
+          <MenuItem value={2}>패션/잡화</MenuItem>
+          <MenuItem value={3}>도서/음반</MenuItem>
+          <MenuItem value={4}>완구/문구</MenuItem>
+          <MenuItem value={5}>뷰티/미용</MenuItem>
+          <MenuItem value={6}>인테리어</MenuItem>
+          <MenuItem value={7}>생활용품</MenuItem>
+          <MenuItem value={8}>기타</MenuItem>
+        </Select>
+      </FormControl>
 
       <PriceWrapper>
         <CustomPriceField
@@ -82,22 +69,25 @@ export default function Content({
           variant="outlined"
           placeholder="가격 ( 입찰 시작가)"
           name="startPrice"
-          value={data.startPrice}
           onChange={updateTextHandler}
         />
         <CustomPriceField
           id="outlined-basic"
           variant="outlined"
           placeholder="가격 ( 입찰 단위 )"
+          name="bidUnit"
+          // value={data.bidUnit}
+          onChange={updateTextHandler}
         />
       </PriceWrapper>
       <CustomTextArea
         aria-label="minimum height"
-        minRows={15}
+        minRows={10}
         placeholder="상품 상세 내용"
         name="content"
         value={data.content}
         onChange={updateTextHandler}
+        color="primary"
       />
     </>
   );
@@ -109,7 +99,6 @@ const CustomTextField = mstyled(TextField)`
   width: 100%;   
   font-weight: bold;
   color: #D2D2D2;
-  border: solid 1px #386641;
   border-radius: 0.5rem;
 
 
@@ -127,7 +116,7 @@ const PriceWrapper = styled.div`
 `;
 const CustomPriceField = mstyled(TextField)`
   font-family: Pretendard;
-  border: solid 1px #386641;
+  /* border: solid 1px #386641; */
   border-radius: 0.5rem;
   width: 48%;   
   font-weight: bold;
@@ -139,7 +128,6 @@ const CustomPriceField = mstyled(TextField)`
   }
 `;
 const CustomTextArea = mstyled(TextareaAutosize)`
-    width: 33rem;
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
@@ -147,6 +135,7 @@ const CustomTextArea = mstyled(TextareaAutosize)`
     border: solid 1px #386641;
     border-radius: 0.5rem;
     outline-color: solid 2px gray;
+    resize: none;
     ::placeholder {
       color: #D2D2D2;
     }
@@ -156,6 +145,21 @@ const CustomTextArea = mstyled(TextareaAutosize)`
         box-shadow: 0 0 5px  #D2D2D2;
     }
 `;
+
+const Select = mstyled(MuiSelect)({
+  fontWeight: `${theme.fontWeight.semibold}`,
+  fontSize: "1.4rem",
+  fontFamily: "Pretendard",
+  height: "43px",
+});
+
+const MenuItem = mstyled(MuiMenuItem)({
+  minHeight: "15px",
+  padding: "5px 12px",
+  fontWeight: `${theme.fontWeight.medium}`,
+  fontSize: "1.4rem",
+  fontFamily: "Pretendard",
+});
 
 /* const categories = [
   {

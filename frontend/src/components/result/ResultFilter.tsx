@@ -6,17 +6,12 @@ import { styled as mstyled } from "@mui/material/styles";
 
 interface MainProps {
   live: "live" | "nonLive";
-  onClick: () => void;
-  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
+  onChangeLive: (val: "live" | "nonLive") => void;
 }
 
 export default function ResultFilter(props: MainProps) {
-  const handleAlignment = (
-    event: React.ChangeEvent<HTMLElement>,
-    value: string
-  ) => {
-    props.onClick();
-    // TODO: state별로 API 설정할 것
+  const handleAlignment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.onChangeLive(e.target.value as "live" | "nonLive");
   };
 
   return (

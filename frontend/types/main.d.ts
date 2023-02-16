@@ -1,31 +1,44 @@
-interface IAuction {
-  auctionSeq: number;
-  email: string;
-  title: string;
-  startTime: string;
-  likeCount: number;
-  startPrice: number;
-  state: number;
-}
-
-interface IAuctionInfo {
+interface IAuctionDetail {
   auctionSeq: number;
   userEmail: string;
+  profileUrl: string;
+  nickname: string;
   categorySeq: number;
   title: string;
   content: string;
   startTime: string;
   startPrice: number;
-  link: string;
   likeCount: number;
   state: number;
+  bidUnit: number;
+  auctionImageList: {
+    auctionImageSeq: number;
+    auctionSeq: number;
+    imageUrl: string;
+  }[];
+  isLiked: boolean;
 }
 
 interface IAuctionCreate {
-  userEmail: string;
+  images?: [];
   categorySeq: string;
   title: string;
   content: string;
   startTime: string;
   startPrice: number;
+  bidUnit: number;
+}
+
+interface IUserData {
+  nickname: string;
+  email: string;
+  profileUrl: string;
+}
+
+interface IProfile {
+  userName?: string;
+  bankCode?: number;
+  account?: string;
+  address?: string;
+  profileUrl: string;
 }

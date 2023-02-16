@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import ProfileImg from "@/assets/common/profile.png";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -11,19 +10,37 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsNoneOutlindIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
 import { styled as mstyled } from "@mui/material/styles";
+import useAuth from "@/store/atoms/useAuth";
 
+interface IList {
+  userData: IUserData;
+  onClick: () => void;
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
 export default function Hamburger() {
+  const { getToken, getUser, signOut } = useAuth();
   const [toggle, setToggle] = React.useState(false);
+
+  const isLoggedIn = !!getToken();
+  const userData = getUser();
 
   const toggleDrawer = () => {
     setToggle((prev) => !prev);
+  };
+
+  const onLogout = () => {
+    signOut();
+    alert("로그아웃했습니다");
+    redirect("/");
   };
 
   return (
@@ -39,41 +56,46 @@ export default function Hamburger() {
         left
       </MenuIcon>
       <Drawer anchor="left" open={toggle} onClose={toggleDrawer}>
-        <ListComponent onClick={toggleDrawer} />
+        <ListComponent
+          userData={userData}
+          onClick={toggleDrawer}
+          isLoggedIn={isLoggedIn}
+          onLogout={onLogout}
+        />
       </Drawer>
     </>
   );
 }
 
 const navItems = [
-  { value: "메인 화면", uri: "/" },
-  { value: "채팅", uri: "/chat" },
-  { value: "찜 목록", uri: "/likes" },
-  { value: "내 프로필", uri: "/profile" },
+  { value: "메인 화면", uri: "/main" },
+  { value: "내 프로필", uri: "/likes" },
 ];
 
-function ListComponent(props: { onClick: () => void }) {
+function ListComponent({ userData, onClick, isLoggedIn, onLogout }: IList) {
+  const navigate = useNavigate();
+
   return (
     <>
-      <IconBox>
-        <Link to={`/noti`}>
-          <CustomNotice />
-        </Link>
-        <CustomClose onClick={props.onClick} />
-      </IconBox>
-      <ProfileBox>
-        <Link to={`/profile`}>
-          <Profile src={ProfileImg} alt="profile" />
-        </Link>
-
-        <span className="profileTitle">정개미님</span>
-      </ProfileBox>
-
+      {isLoggedIn && (
+        <>
+          <IconBox>
+            <CustomNotice onClick={() => navigate("/noti")} />
+            <CustomClose onClick={onClick} />
+          </IconBox>
+          <ProfileBox>
+            <Profile onClick={() => navigate("/profile")}>
+              <img className="image" src={userData.profileUrl} alt="profile" />
+            </Profile>
+            <span className="profileTitle">{userData.nickname}님</span>
+          </ProfileBox>
+        </>
+      )}
       <Box
         sx={{ width: 280 }}
         role="presentation"
-        onClick={props.onClick}
-        onKeyDown={props.onClick}
+        onClick={onClick}
+        onKeyDown={onClick}
       >
         <Divider />
         <List>
@@ -81,22 +103,30 @@ function ListComponent(props: { onClick: () => void }) {
             <ListItem key={obj.value} disablePadding>
               <ListItemButton component={Link} to={obj.uri}>
                 <ListItemIcon>
-                  {obj.uri === "/" && <CustomHome color="primary" />}
+                  {obj.uri === "/main" && <CustomHome color="primary" />}
                   {obj.uri === "/chat" && <CustomText color="primary" />}
-                  {obj.uri === "/likes" && <CustomFavorite color="primary" />}
-                  {obj.uri === "/profile" && <CustomAccount color="primary" />}
+                  {obj.uri === "/likes" && <CustomAccount color="primary" />}
                 </ListItemIcon>
                 <CustomListText color="primary">{obj.value}</CustomListText>
               </ListItemButton>
             </ListItem>
           ))}
           <Divider />
-          <ListItemButton>
-            <ListItemIcon>
-              <CustomLogout color="info" />.
-            </ListItemIcon>
-            <CustomListTextL>로그 아웃</CustomListTextL>
-          </ListItemButton>
+          {isLoggedIn ? (
+            <ListItemButton onClick={onLogout}>
+              <ListItemIcon>
+                <CustomLogout color="info" />.
+              </ListItemIcon>
+              <CustomListTextL>로그 아웃</CustomListTextL>
+            </ListItemButton>
+          ) : (
+            <ListItemButton onClick={() => navigate("/")}>
+              <ListItemIcon>
+                <CustomLogin color="info" />.
+              </ListItemIcon>
+              <CustomListTextL>로그인</CustomListTextL>
+            </ListItemButton>
+          )}
         </List>
       </Box>
     </>
@@ -105,6 +135,17 @@ function ListComponent(props: { onClick: () => void }) {
 
 const IconBox = styled.div`
   display: flex;
+`;
+const Profile = styled.div`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 70%;
+  overflow: hidden;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 const ProfileBox = styled.div`
   padding: 2rem;
@@ -119,10 +160,6 @@ const ProfileBox = styled.div`
     text-align: center;
     font-weight: ${(props) => props.theme.fontWeight.semibold};
   }
-`;
-const Profile = styled.img`
-  width: 6rem;
-  cursor: pointer;
 `;
 
 const CustomNotice = mstyled(NotificationsNoneOutlindIcon)`
@@ -174,7 +211,13 @@ const CustomListTextL = styled.div`
   font-family: Pretendard;
 `;
 
-const CustomLogout = mstyled(ExitToAppOutlinedIcon)`
+const CustomLogout = mstyled(LogoutOutlinedIcon)`
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 1rem;
+`;
+
+const CustomLogin = mstyled(LoginOutlinedIcon)`
   width: 2.5rem;
   height: 2.5rem;
   padding: 1rem;

@@ -8,9 +8,8 @@ import {
   IForm,
   IResSocialLogin,
 } from "types/auth";
-import { setHeaderToken } from "@/api/api";
 
-const InitUser: IUser = {
+const initUser: IUser = {
   seq: -1,
   email: "",
   password: "",
@@ -20,6 +19,7 @@ const InitUser: IUser = {
   address: "",
   bankAccount: "",
   interests: [] as IInterest[],
+  profileUrl: "",
 };
 
 const InitValidated: IValidated = {
@@ -31,10 +31,11 @@ const InitValidated: IValidated = {
   address: false,
   bankAccount: false,
   interests: false,
+  profileUrl: false,
 };
 
 const InitForm: IForm = {
-  user: { ...InitUser },
+  user: { ...initUser },
   validated: { ...InitValidated },
 };
 
@@ -47,7 +48,18 @@ export default function useAuth() {
   const navigate = useNavigate();
   const resetRecoilState = useResetRecoilState(formDefaultState);
   const [formState, setFormState] = useRecoilState(formDefaultState); // used for signup
-  const getToken = () => localStorage.getItem("token");
+
+  function getToken() {
+    const tokenStr = localStorage.getItem("token");
+    if (!tokenStr) return;
+    return tokenStr;
+  }
+
+  function getUser(): IUser {
+    const userStr = localStorage.getItem("user");
+    if (!userStr) return initUser;
+    return JSON.parse(userStr);
+  }
 
   // debug formState
   // useEffect(() => {
@@ -70,6 +82,7 @@ export default function useAuth() {
               ...prev.user,
               email: resData.userEmail,
               nickname: resData.nickname,
+              profileUrl: resData.profile_image,
             },
             validated: {
               ...prev.validated,
@@ -77,6 +90,7 @@ export default function useAuth() {
               passwordConfirm: true,
               nickname: true,
               email: true,
+              profileUrl: false,
             },
           };
         });
@@ -84,11 +98,11 @@ export default function useAuth() {
         return;
       }
 
-      redirect("/");
+      navigate("/main", { replace: true });
     } catch (error) {
       console.log("소셜로그인 에러", error);
       window.alert("로그인에 실패하였습니다.");
-      redirect("/login");
+      navigate("/", { replace: true });
     }
   }
 
@@ -100,7 +114,12 @@ export default function useAuth() {
   function confirmUser() {
     let confirmed = true;
     for (const key in formState.validated) {
-      if (key === "address" || key === "bankAccount" || key === "interests") {
+      if (
+        key === "address" ||
+        key === "bankAccount" ||
+        key === "interests" ||
+        key === "profileUrl"
+      ) {
         continue;
       }
       confirmed = confirmed && formState.validated[key as keyof IValidated];
@@ -193,24 +212,28 @@ export default function useAuth() {
    * @param resData 카카오 로그인하고나서 넘어온 response 데이터
    */
   function signIn(resData: IResSocialLogin) {
+    console.log(resData);
     localStorage.setItem("token", resData.token);
     localStorage.setItem(
       "user",
       JSON.stringify({
         email: resData.userEmail,
         nickname: resData.nickname,
+        profileUrl: resData.profile_image,
       })
     );
-    setHeaderToken(resData.token);
   }
 
   async function signUp() {
     try {
+      console.log(formState.user);
       const res = await requestForSignup(formState.user);
+      console.log(res);
       if (res.status === 200) {
+        alert("회원가입을 완료했습니다");
         resetFormState();
         localStorage.clear();
-        redirect("/login");
+        navigate("/", { replace: true });
       } else {
         throw new Error("회원가입 에러");
       }
@@ -221,11 +244,13 @@ export default function useAuth() {
 
   function signOut() {
     localStorage.clear();
+    navigate("/");
   }
 
   return {
     formState,
     getToken,
+    getUser,
     kakaoLogin,
     confirmUser,
     updateUser,

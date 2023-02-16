@@ -2,9 +2,11 @@ import React, { ReactNode } from "react";
 import Container from "@mui/material/Container";
 import { styled as mstyled } from "@mui/system";
 import Header from "@components/common/Header";
-import styled from "styled-components";
 
 interface IProps {
+  headerDisabled?: boolean;
+  title?: string;
+  back?: boolean;
   right?: JSX.Element;
   children: ReactNode;
 }
@@ -35,21 +37,17 @@ interface IProps {
  */
 export default function Layout(props: IProps) {
   return (
-    <StyledLayout>
-      <Header right={props.right} />
-      <StyledContainer maxWidth="md">{props.children}</StyledContainer>
-    </StyledLayout>
+    <StyledContainer maxWidth="md">
+      {!props.headerDisabled && (
+        <Header title={props.title} back={props.back} right={props.right} />
+      )}
+      {props.children}
+    </StyledContainer>
   );
 }
 
-const StyledLayout = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
-
 const StyledContainer = mstyled(Container)`
-  flex: 1;
+  height: 100vh;
   background-color: white;
   display: flex;
   flex-direction: column;

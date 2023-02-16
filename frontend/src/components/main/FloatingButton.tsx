@@ -9,7 +9,7 @@ import { theme } from "@/styles/theme";
 import { useNavigate } from "react-router-dom";
 
 const actions = [
-  { icon: <PostAddIcon />, name: "경매방 생성", path: "/search" },
+  { icon: <PostAddIcon />, name: "경매방 생성", path: "/createAuction" },
 ];
 
 export default function FloatingButton() {

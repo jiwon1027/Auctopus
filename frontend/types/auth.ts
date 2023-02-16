@@ -8,6 +8,7 @@ export interface IUser {
   address: string;
   bankAccount: string;
   interests: IInterest[];
+  profileUrl: string;
 }
 
 export interface IInterest {
@@ -24,6 +25,7 @@ export interface IValidated {
   address: boolean;
   bankAccount: boolean;
   interests: boolean;
+  profileUrl: boolean;
 }
 export interface IForm {
   user: IUser;
@@ -31,30 +33,32 @@ export interface IForm {
 }
 
 export interface IReqSocialSignup {
-  userName: string,
-  bankCode: number,
-  account: string,
-  address: string,
-  profileUrl: string,
+  userName: string;
+  bankCode: number;
+  account: string;
+  address: string;
+  profileUrl: string;
 }
 
 export interface IResSocialSignup {
-  userName: string,
-  userEmail: string
+  userName: string;
+  userEmail: string;
 }
 
 export interface IResSocialLogin {
-  token: string,
-  nickname: string,
-  userEmail: string,
-  newUser: number
+  token: string;
+  nickname: string;
+  userEmail: string;
+  newUser: number;
+  profile_image: string;
 }
 
 export interface IReqPatchUser {
-  userName: string,
-  bankCode: number,
-  account: string,
-  address: string,
-  addressDetail: string,
-  profileUrl: string,
+  userName: string;
+  bankCode: number;
+  account: string;
+  address: string;
+  addressDetail: string;
+  profileUrl: string;
 }
+ 

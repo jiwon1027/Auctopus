@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CircleIcon from "@mui/icons-material/Circle";
-import img1 from "@/assets/main/airpodsImg.jpg";
 import { useNavigate } from "react-router-dom";
+import { IAuction } from "types/auction";
 
 interface IProps {
   item: IAuction;
@@ -14,16 +14,17 @@ export default function LiveItem(props: IProps) {
   const navigate = useNavigate();
 
   const getTime = (time: string) => {
-    const masTime = new Date(time).getTime();
+    const auctionStartTime = new Date(time).getTime();
     const todayTime = new Date().getTime();
 
-    const diff = todayTime - masTime;
+    const diff = todayTime - auctionStartTime;
 
     const diffMin = Math.floor((diff / (1000 * 60)) % 60);
+    const diffMin2 = (diff / (1000 * 60)) % 60;
 
-    //
     const remainTime = 60 - diffMin;
-    return remainTime;
+
+    return diff < 0 ? "이건 시작전" : diffMin;
   };
 
   const moveToDetail = () => {
@@ -33,7 +34,7 @@ export default function LiveItem(props: IProps) {
     <>
       <ItemBox onClick={moveToDetail}>
         <div className="imgBox">
-          <img src={img1} alt="image" />
+          <img src={props.item.auctionImage?.imageUrl} alt="image" />
           <div className="liveBox">
             <CircleIcon color="error" sx={{ fontSize: 15 }} />
             <div className="liveBoxDesc">{props.item.likeCount}명</div>
@@ -42,7 +43,7 @@ export default function LiveItem(props: IProps) {
         <div className="infoBox">
           <div className="infoTitle">{props.item.title}</div>
           <div className="infoTimeBox">
-            <div className="infoTimeDesc">경매 종료까지</div>
+            <div className="infoTimeDesc">경매 시작한지</div>
             <div className="infoTime">{getTime(props.item.startTime)}분</div>
             <AccessTimeIcon color="error" sx={{ fontSize: 20 }} />
           </div>
@@ -82,6 +83,11 @@ const ItemBox = styled.div`
     border-radius: 0.8rem;
   }
 
+  .imgBox > img {
+    width: 100%;
+    height: 100%;
+  }
+
   .liveBox {
     display: flex;
     position: relative;
@@ -96,6 +102,8 @@ const ItemBox = styled.div`
     color: white;
     font-weight: 600;
     padding-left: 0.2rem;
+    text-shadow: -1px 0px 0px black, 1px 0px 0px black, 0px -1px 0px black,
+      0px 1px 0px black;
   }
 
   .infoBox {

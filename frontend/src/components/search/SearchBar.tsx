@@ -4,61 +4,30 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 
 interface IProps {
-  setAuctionList: React.Dispatch<React.SetStateAction<IAuction[]>>;
+  keyword: string;
+  onChangeKeyword: (val: string) => void;
+  onSearch: () => void;
 }
 
 export default function SearchBar(props: IProps) {
-  const [searchParams] = useSearchParams("keyword");
-  const [searchValue, setSearchValue] = React.useState<string>(
-    searchParams.get("keyword") === null
-      ? ""
-      : (searchParams.get("keyword") as string)
-  );
-  const navigate = useNavigate();
-
-  const getAuctionList = (value: string) => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_SERVER_DOMAIN
-        }/api/search?word=${value}&page=0&size=20&sort=main`
-      )
-      .then((res) => {
-        const data = res.data.resList;
-        // if (data.length === 0) return;
-        props.setAuctionList(data);
-      });
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    props.onChangeKeyword(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchValue === "") {
-      alert("검색어를 입력하세요.");
-      return;
-    }
-    searchParams.set("keyword", searchValue);
-    navigate(`/result?${searchParams}`);
-    getAuctionList(searchValue);
+    props.onSearch();
   };
 
   return (
     <SearchBox>
-      <ArrowBackIosIcon className="backIcon" onClick={() => navigate(-1)} />
       <SearchForm onSubmit={handleSubmit}>
         <InputBase
           sx={{ ml: 1, flex: 4, fontSize: 14, paddingY: 0.2 }}
           placeholder="검색어를 입력하세요."
-          value={searchValue}
+          value={props.keyword}
           onChange={handleChange}
           autoFocus
         />

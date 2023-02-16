@@ -6,22 +6,37 @@ import { Button } from "@mui/material";
 import Calendar from "@components/auctionCreate/Calendar";
 import { createAuction } from "@/api/auction";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+
 const initObj: IAuctionCreate = {
-  userEmail: " ",
   categorySeq: "",
   title: "",
   content: "",
   startTime: dayjs().toString(),
   startPrice: 0,
+  bidUnit: 0,
 };
-export default function AuctionCreate() {
-  const [data, setData] = useState<IAuctionCreate>(initObj);
 
-  const handleChange = (name: string, value: string) => {
+interface IFile {
+  dataURL: string;
+  file: File;
+}
+
+export default function AuctionCreate() {
+  const navigator = useNavigate();
+  const [data, setData] = useState<IAuctionCreate>(initObj);
+  const [imgFileList, setImgFileList] = useState<IFile[]>([]);
+  const token = localStorage.getItem("token") || " ";
+  // data.userEmail = userL.email;
+  const handleChange = (name: string, value: string | []) => {
     setData((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleImgChange = (name: string, value: []) => {
+    setImgFileList(value);
   };
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -40,12 +55,34 @@ export default function AuctionCreate() {
     if (!data.startTime) {
       return alert("경매 시작 날짜를 선택해주세요");
     }
-    createAuction(data);
+
+    const form = new FormData();
+    form.append(
+      "req",
+      new Blob([JSON.stringify(data)], {
+        type: "application/json",
+      })
+    );
+
+    imgFileList?.map((item) => {
+      form.append("images", item.file);
+    });
+
+    // console.log(data);
+    // console.log(imgFileList);
+
+    createAuction(form, token).then(() => {
+      alert("경매방 등록 성공!");
+      navigator("/main");
+    });
   };
 
   return (
-    <Layout>
-      <ImageUpload />
+    <Layout title="경매방 생성" back>
+      <ImageUpload
+        data={data}
+        onChange={(name: string, value: []) => handleImgChange(name, value)}
+      />
       <Content
         data={data}
         onChange={(name: string, value: string) => handleChange(name, value)}
@@ -54,7 +91,9 @@ export default function AuctionCreate() {
         data={data}
         onChange={(name: string, value: string) => handleChange(name, value)}
       />
-      <Button onClick={submitHandler}>등록해라 좋은말할때</Button>
+      <Button variant="contained" onClick={submitHandler} sx={{ marginTop: 3 }}>
+        경매 등록하기
+      </Button>
     </Layout>
   );
 }
