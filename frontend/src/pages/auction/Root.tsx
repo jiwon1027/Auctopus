@@ -38,7 +38,6 @@ export default function Root() {
   const RightComponent = (
     <SearchOutlinedIcon className="icon" onClick={() => navigate("/search")} />
   );
-
   return (
     <Layout right={RightComponent}>
       <MainToggleButtonGroup live={live} onClick={changeLive} />
