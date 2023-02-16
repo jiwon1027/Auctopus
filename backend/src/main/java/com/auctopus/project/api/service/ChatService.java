@@ -25,6 +25,9 @@ public class ChatService extends TextWebSocketHandler {
     private final Map<Integer, List<WebSocketSession>> twoClients = new ConcurrentHashMap<>();
     private final JSONParser parser = new JSONParser();
     private final RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private AuctionService auctionService;
     @Autowired
     private LiveService liveService;
 
@@ -79,12 +82,13 @@ public class ChatService extends TextWebSocketHandler {
                 clients.remove(session);
                 allClients.put(liveSeq, clients);
             }
+        } else {
+            clients = twoClients.get(liveSeq);
+            if (clients != null) {
+                clients.remove(session);
+                twoClients.put(liveSeq, clients);
+            }
         }
-//        else {
-//            clients = twoClients.get(liveSeq);
-//            clients.remove(session);
-//            twoClients.put(liveSeq, clients);
-//        }
     }
 
     // 임의의 사용자로부터 메시지가 도착했을 때
@@ -161,26 +165,13 @@ public class ChatService extends TextWebSocketHandler {
                 }
                 break;
             case "3":
-                String sellerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
-                String lastValue = redisTemplate.opsForValue().get(liveSeq + "Top");
-                if (lastValue != null) {
-                    String[] currTopBidderInfo = lastValue.split("；");
-                    jsonInfo.put("topEmail", currTopBidderInfo[0]);
-                    jsonInfo.put("topPrice", currTopBidderInfo[1]);
-//                        jsonInfo.put("topNickname", jsonInfo.get("nickname"));
-                }
+                String sellerEmail = auctionService.getAuction(liveSeq).getUserEmail();
                 TextMessage closeM = new TextMessage(jsonInfo.toJSONString());
-                System.out.println("여기확인해보자구우우우~~~ : " + clients.size());
                 if (jsonInfo.get("userEmail").equals(sellerEmail)) {
-                    System.out.println("나가려고 한 사람 : " + jsonInfo.get("userEmail"));
-                    System.out.println("그리고 sellerEmail : " + sellerEmail);
-                    System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
-
                     while (!clients.isEmpty()) {
                         WebSocketSession currSession = clients.get(clients.size() - 1);
                         currSession.close();
                     }
-                    System.out.println("chatType입니다!!! : " + chatType);
                     if (chatType.equals("live")) {
 //                        allClients.remove(liveSeq);
                         liveService.deleteLive(liveSeq);

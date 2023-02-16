@@ -144,13 +144,12 @@ public class LiveServiceImpl implements LiveService {
                         ErrorCode.LIVE_NOT_FOUND));
         liveRepository.delete(live);
 
-        String cvKey = String.valueOf(liveSeq) + "CV";
-        String liveKey = String.valueOf(liveSeq) + "live";
-        String autoBidderKey = String.valueOf(liveSeq) + "autoBidder";
-        redisTemplate.delete(cvKey);
-        redisTemplate.delete(liveKey);
-        redisTemplate.delete(autoBidderKey);
-//        ate.opsForZSet().removeRange(bidderKey, 0, -1);
+//        String cvKey = String.valueOf(liveSeq) + "CV";
+//        String liveKey = String.valueOf(liveSeq) + "live";
+//        String autoBidderKey = String.valueOf(liveSeq) + "autoBidder";
+//        redisTemplate.delete(cvKey);
+//        redisTemplate.delete(liveKey);
+//        redisTemplate.delete(autoBidderKey);
 
         // 경매방의 state를 끝(3)로 바꾸어주자
         Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
