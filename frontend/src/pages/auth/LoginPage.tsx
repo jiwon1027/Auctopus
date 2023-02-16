@@ -14,7 +14,7 @@ export default function LoginPage() {
 
 const Container = styled.div`
   height: 100vh;
-  background-color: lightgreen;
+  background-color: white;
   display: flex;
   flex-direction: column;
   padding: 0 1.8rem;
