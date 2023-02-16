@@ -75,6 +75,7 @@ export default function BidPage() {
   );
 
   function closeHandler() {
+    alert("경매를 종료합니다");
     if (userState === "seller" || user.email === top.topEmail) {
       navigate(`/chat/${auctionInfo.auctionSeq}`, {
         state: {
