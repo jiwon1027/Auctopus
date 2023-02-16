@@ -162,10 +162,11 @@ public class ChatService extends TextWebSocketHandler {
                 break;
             case "3":
                 String sellerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
-                System.out.println("라이브의 현재 sellerEmail입니다 :  " + sellerEmail);
                 TextMessage closeM = new TextMessage(jsonInfo.toJSONString());
                 System.out.println("여기확인해보자구우우우~~~ : " + clients.size());
                 if (jsonInfo.get("userEmail").equals(sellerEmail)) {
+                    System.out.println("나가려고 한 사람 : " + jsonInfo.get("userEmail"));
+                    System.out.println("그리고 sellerEmail : " + sellerEmail);
                     System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
                     while (!clients.isEmpty()) {
                         WebSocketSession currSession = clients.get(clients.size() - 1);
@@ -176,14 +177,13 @@ public class ChatService extends TextWebSocketHandler {
                         liveService.deleteLive(liveSeq);
                     }
                 } else {
-                    while (!clients.isEmpty()) {
-                        WebSocketSession currSession = clients.get(clients.size() - 1);
+                    for (WebSocketSession currSession : clients)
                         currSession.sendMessage(closeM);
-                    }
-                    session.close();
                 }
+                session.close();
         }
     }
+
 
     private String[] getChatInfo(WebSocketSession session) {
         String[] path = session.getUri().getPath().split("/");
