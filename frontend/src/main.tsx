@@ -8,6 +8,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { normalize } from "styled-normalize";
 import { theme } from "@/styles/theme";
 import { RecoilRoot } from "recoil";
+import GlobalFont from "@/styles/GlobalFont";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const GlobalStyle = createGlobalStyle`
@@ -26,6 +27,7 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider theme={theme}>
     <GlobalStyle />
+    <GlobalFont />
     <MThemeProvider theme={mtheme}>
       <RecoilRoot>
         <RouterProvider router={router} />

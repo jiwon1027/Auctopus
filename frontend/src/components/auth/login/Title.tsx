@@ -52,7 +52,7 @@ const floating = keyframes`
 `;
 const Mooneo = styled.img`
   width: 30rem;
-  animation: ${floating} 3s 1s infinite linear alternate;
+  animation: ${floating} 2s 1s infinite linear alternate;
 `;
 const StyledTitle = styled.div`
   flex: 1;

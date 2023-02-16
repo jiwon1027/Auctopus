@@ -77,11 +77,10 @@ export default function DetailPage() {
     }
     setIsLiked((prev) => !prev);
   };
-
   return (
     <CustomContainer>
       <ImgBox>
-        <CustomBackIcon />
+        <CustomBackIcon onClick={() => navigate(-1)} />
         <Slick auctionInfo={data} />
       </ImgBox>
       <Profile isLiked={isLiked} auctionInfo={data} likeHandler={likeHandler} />
