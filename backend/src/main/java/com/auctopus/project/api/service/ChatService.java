@@ -162,9 +162,13 @@ public class ChatService extends TextWebSocketHandler {
                 break;
             case "3":
                 String openerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
+                TextMessage closeM = new TextMessage(jsonInfo.toJSONString());
                 if (jsonInfo.get("userEmail").equals(openerEmail)) {
-                    for (WebSocketSession client : clients)
+                    System.out.println(clients.size());
+                    for (WebSocketSession client : clients) {
+                        client.sendMessage(closeM);
                         client.close();
+                    }
                     clients.remove(liveSeq);
                 }
                 if (chatType.equals("live"))
