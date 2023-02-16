@@ -1,13 +1,10 @@
 package com.auctopus.project.config;
 
-import com.auctopus.project.api.service.KakaoUserService;
 import com.auctopus.project.api.service.UserService;
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -64,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://i8a704.p.ssafy.io");
         configuration.addAllowedOrigin("https://i8a704.p.ssafy.io");
+        configuration.addAllowedOrigin("https://auctopus.store");
         configuration.setAllowCredentials(true); // 내서버가 응답을 하면 json을 js에서 처리할 수 있게 함
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");

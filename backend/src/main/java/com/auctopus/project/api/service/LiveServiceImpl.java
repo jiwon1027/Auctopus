@@ -3,17 +3,30 @@ package com.auctopus.project.api.service;
 import com.auctopus.project.common.exception.auction.AuctionNotFoundException;
 import com.auctopus.project.common.exception.code.ErrorCode;
 import com.auctopus.project.common.exception.live.LiveNotFoundException;
+import com.auctopus.project.common.exception.user.UserNotFoundException;
 import com.auctopus.project.db.domain.Auction;
 import com.auctopus.project.db.domain.Live;
+import com.auctopus.project.db.domain.User;
 import com.auctopus.project.db.repository.AuctionRepository;
 import com.auctopus.project.db.repository.LiveRepository;
+import com.auctopus.project.db.repository.UserRepository;
 import java.sql.Timestamp;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Service
 public class LiveServiceImpl implements LiveService {
+
+    private final RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     private AuctionRepository auctionRepository;
     @Autowired
@@ -29,8 +42,10 @@ public class LiveServiceImpl implements LiveService {
         Timestamp auctionTime = auction.getStartTime();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = auctionTime.before(currTime) ? currTime : auctionTime;
+        User user = userRepository.findByEmail(auction.getUserEmail()).orElseThrow();
         Live live = Live.builder()
                 .liveSeq(auctionSeq)
+                .bidUnit(auction.getBidUnit())
                 .userEmail(auction.getUserEmail())
                 .startTime(startTime)
                 .endTime(Timestamp.valueOf(auctionTime.toLocalDateTime().plusHours(1)))
@@ -38,8 +53,77 @@ public class LiveServiceImpl implements LiveService {
                 .build();
         liveRepository.save(live);
 
+        // 초기 최고 낙찰자는 방 방장 본인으로 해준다.
+        redisTemplate.opsForValue()
+                .set(auctionSeq + "Top", user.getNickname() + "；" + auction.getStartPrice());
+        redisTemplate.opsForValue().set(auctionSeq + "CV", "0.999999999");
+
         // 경매방의 state를 진행중(2)로 바꾸어주자
         auction.setState(2);
+    }
+
+    @Override
+    @Transactional
+    public void registerAutoBidder(int liveSeq, String userEmail, int autoPrice) {
+        String key = liveSeq + "autoBidder";
+        double CV = Double.parseDouble(
+                String.valueOf(redisTemplate.opsForValue().get(liveSeq + "CV")));
+        redisTemplate.opsForZSet().add(key, userEmail, (double) autoPrice + CV);
+        redisTemplate.opsForValue().set(liveSeq + "CV", String.valueOf(CV - 0.000000001));
+    }
+
+    @Override
+    public String[] autoBidding(int liveSeq, String currEmail, String currPrice) {
+        // 자동 경매 시스템 이용자들을 불러온다
+        String key = liveSeq + "autoBidder";
+        Set<ZSetOperations.TypedTuple<String>> autoBidderSet = redisTemplate.opsForZSet().
+                reverseRangeWithScores(key, 0, -1);
+
+        String finalEmail = currEmail;
+        int finalPrice = Integer.parseInt(currPrice);
+        Live live = getLiveInfo(liveSeq);
+        int bidUnit = live.getBidUnit();
+        if (autoBidderSet == null) {
+            System.out.println("뀨!");
+        } else if (autoBidderSet.size() == 1) {
+            String firstEmail = currEmail;
+            int firstPrice = finalPrice;
+            for (TypedTuple autoBidder : autoBidderSet) {
+                firstEmail = String.valueOf(autoBidder.getValue());
+                firstPrice = autoBidder.getScore().intValue();
+            }
+            if (finalPrice < firstPrice && !finalEmail.equals(firstEmail)) {
+                finalEmail = firstEmail;
+                finalPrice += bidUnit;
+            }
+        } else {
+            int rank = 1;
+            String firstEmail = currEmail;
+            int firstPrice = 0;
+            int secondPrice = 0;
+            for (TypedTuple autoBidder : autoBidderSet) {
+                if (rank == 1) {
+                    firstEmail = String.valueOf(autoBidder.getValue());
+                    firstPrice = autoBidder.getScore().intValue();
+                    rank++;
+                } else {
+                    secondPrice = autoBidder.getScore().intValue();
+                    break;
+                }
+            }
+            if (finalPrice < firstPrice) {
+                finalEmail = firstEmail;
+                if (firstPrice == secondPrice)
+                    finalPrice = firstPrice;
+                else
+                    finalPrice = Math.max(finalPrice, secondPrice) + bidUnit;
+            }
+        }
+
+        User finalBidder = userRepository.findByEmail(finalEmail).orElseThrow(
+                () -> new UserNotFoundException("user with email not found",
+                        ErrorCode.USER_NOT_FOUND));
+        return new String[]{finalEmail, String.valueOf(finalPrice), finalBidder.getNickname()};
     }
 
     @Override
@@ -60,12 +144,20 @@ public class LiveServiceImpl implements LiveService {
                         ErrorCode.LIVE_NOT_FOUND));
         liveRepository.delete(live);
 
+//        String cvKey = String.valueOf(liveSeq) + "CV";
+//        String liveKey = String.valueOf(liveSeq) + "live";
+//        String autoBidderKey = String.valueOf(liveSeq) + "autoBidder";
+//        redisTemplate.delete(cvKey);
+//        redisTemplate.delete(liveKey);
+//        redisTemplate.delete(autoBidderKey);
+
         // 경매방의 state를 끝(3)로 바꾸어주자
         Auction auction = auctionRepository.findByAuctionSeq(liveSeq).orElseThrow(
                 () -> new AuctionNotFoundException(
                         "auction with auctionSeq " + liveSeq + " not found",
                         ErrorCode.AUCTION_NOT_FOUND));
         auction.setState(3);
+        auctionRepository.save(auction);
     }
 
     // 한 개의 라이브 정보 보기
@@ -85,7 +177,9 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setViewer(live.getViewer() + 1);
+        liveRepository.save(live);
     }
+
 
     @Override
     @Transactional
@@ -94,6 +188,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setViewer(live.getViewer() - 1);
+        liveRepository.save(live);
     }
 
     @Override
@@ -103,6 +198,7 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setParticipant(live.getParticipant() + 1);
+        liveRepository.save(live);
     }
 
     @Override
@@ -112,5 +208,6 @@ public class LiveServiceImpl implements LiveService {
                 () -> new LiveNotFoundException("live with liveSeq " + liveSeq + " not found",
                         ErrorCode.LIVE_NOT_FOUND));
         live.setParticipant(live.getParticipant() - 1);
+        liveRepository.save(live);
     }
 }

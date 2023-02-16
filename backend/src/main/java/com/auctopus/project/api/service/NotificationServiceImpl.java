@@ -7,24 +7,36 @@ import com.auctopus.project.db.domain.Notification;
 import com.auctopus.project.db.repository.AuctionRepository;
 import com.auctopus.project.db.repository.NotificationRepository;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@EnableScheduling
+@EnableAsync
 public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private AuctionRepository auctionRepository;
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
     private TaskScheduler taskScheduler;
+    @Autowired
     private MailSender mailSender;
+
+    private Map<String, ScheduledFuture> map = new HashMap<>();
+
 
     @Override
     public void scheduleNotification(String userEmail, int auctionSeq) {
@@ -35,16 +47,28 @@ public class NotificationServiceImpl implements NotificationService {
         // 지정된 시간에 실행될 Runnable 설정해준다
         Timestamp mailTime = Timestamp.valueOf(
                 auction.getStartTime().toLocalDateTime().minusMinutes(10));
-        taskScheduler.schedule(new SendNotification(userEmail, auction), mailTime);
+        ScheduledFuture<?> future = taskScheduler.schedule(new SendNotification(userEmail, auction),
+                mailTime);
+        String key = userEmail + auctionSeq;
+        map.put(key, future);
+    }
+
+    @Override
+    public void cancelNotification(String userEmail, int auctionSeq) {
+        String key = userEmail + auctionSeq;
+        ScheduledFuture future = map.get(key);
+        future.cancel(true);
+        map.remove(key);
     }
 
     @Override
     public void sendEmail(String userEmail, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(userEmail);
-        mail.setFrom("auctopus@autopus.com");
+        mail.setFrom("auctopus");
         mail.setSubject("[Auctopus] 찜해놓은 경매의 라이브 오픈 안내 드립니다.");
         mail.setText(message);
+        System.out.println(mail);
         mailSender.send(mail);
     }
 

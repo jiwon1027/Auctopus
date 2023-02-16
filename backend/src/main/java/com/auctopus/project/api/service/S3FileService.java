@@ -2,11 +2,10 @@ package com.auctopus.project.api.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.auctopus.project.db.repository.UserRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +17,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class S3FileService {
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
 
     @Autowired
     AmazonS3Client amazonS3Client;
-    @Autowired
-    UserRepository userRepository;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
-//    public String uploadProfileImage(MultipartFile multipartFile, String userEmail) throws Exception {
-//        String originalName = createFileName(multipartFile.getOriginalFilename());
-//        long size = multipartFile.getSize();
-//        String extension = originalName.substring(originalName.lastIndexOf("."));
-//        List<String> filename_extension = new ArrayList<>(Arrays.asList(".jpeg", ".JPEG", "jpg", ".JPG", ".png", ".PNG"));
-//        if (!filename_extension.contains(extension)) {
-//            return "fail";
-//        }
-//
-//        ObjectMetadata objectMetadata = new ObjectMetadata();
-//        objectMetadata.setContentType(multipartFile.getContentType());
-//        objectMetadata.setContentLength(size);
-//
-//        amazonS3Client.putObject(
-//                new PutObjectRequest(bucket + "/profile", originalName, multipartFile.getInputStream(), objectMetadata)
-//                        .withCannedAcl(CannedAccessControlList.PublicRead)
-//        );
-//        String imagePath = amazonS3Client.getUrl(bucket + "/profile", originalName).toString().substring(30);
-//        userRepository.updateProfileUrl(userEmail, imagePath);
-//        return imagePath;
-//    }
-
-    public List<String> uploadAuctionImage(List<MultipartFile> multipartFiles, int auctionSeq) throws Exception {
+    public List<String> uploadAuctionImage(List<MultipartFile> multipartFiles, int auctionSeq)
+            throws Exception {
         List<String> imagePathList = new ArrayList<>();
-        for (MultipartFile multipartFile :multipartFiles) {
+        for (MultipartFile multipartFile : multipartFiles) {
             String originalName = createFileName(multipartFile.getOriginalFilename());
             long size = multipartFile.getSize();
 
@@ -59,12 +35,20 @@ public class S3FileService {
             objectMetadata.setContentLength(size);
             System.out.println(bucket);
             amazonS3Client.putObject(
-                    new PutObjectRequest(bucket + "/auction/" + auctionSeq, originalName, multipartFile.getInputStream(), objectMetadata)
+                    new PutObjectRequest(bucket + "/auction/" + auctionSeq, originalName,
+                            multipartFile.getInputStream(), objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
-            String imagePath = amazonS3Client.getUrl(bucket + "/auction/" + auctionSeq, originalName).toString().substring(30);
+            String imagePath = amazonS3Client.getUrl(bucket + "/auction/" + auctionSeq,
+                    originalName).toString();
             imagePathList.add(imagePath);
         }
         return imagePathList;
+    }
+
+    public void deleteFileName(String fileName) {
+        String file = fileName.substring(52);
+        if (!file.equals("auctopus_basic.png"))
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, file));
     }
 
     private String createFileName(String fileName) {

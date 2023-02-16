@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface LikeAuctionRepository extends JpaRepository<LikeAuction, Integer> {
 
-    @Query("SELECT a FROM LikeAuction a WHERE a.userEmail = ?1")
+    @Query("SELECT a FROM LikeAuction a WHERE a.userEmail= ?1 ")
     List<LikeAuction> findLikeAuctionListByUserEmail(String userEmail);
 
-    @Query("SELECT a FROM LikeAuction a WHERE a.userEmail=?1AND a.auctionSeq =?2")
+//    @Query("SELECT a FROM LikeAuction a WHERE a.auctionSeq= ?1 ")
+//    List<LikeAuction> findLikeAuctionListByAuctionSeq(int auctionSeq);
+
+    @Query("SELECT a FROM LikeAuction a WHERE a.userEmail= ?1 AND a.auctionSeq= ?2 ")
     LikeAuction findByUserEmailAndAuctionSeq(String userEmail, int auctionSeq);
 
 }

@@ -14,14 +14,12 @@ import org.hibernate.annotations.DynamicInsert;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@DynamicInsert
+@DynamicInsert // JPA insert시 null인 필드 제외
 @Table(name = "live_viewer")
 public class LiveViewer {
 
     @Id
-    private String userEmail;
+    private String viewerEmail;
     private int liveSeq;
     private int autoPrice;
-    private int state;
-
 }

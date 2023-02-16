@@ -22,35 +22,56 @@ public class LikeAuctionServiceImpl implements LikeAuctionService {
 
     @Override
     @Transactional
-    public void creatLikeAuction(String userEmail, int auctionSeq) {
-        LikeAuction likeAuction = LikeAuction.builder()
-                .userEmail(userEmail)
-                .auctionSeq(auctionSeq)
-                .build();
-        likeAuctionRepository.save(likeAuction);
+    public boolean creatLikeAuction(String userEmail, int auctionSeq) {
+        LikeAuction likeAuction = likeAuctionRepository.findByUserEmailAndAuctionSeq(userEmail,
+                auctionSeq);
+        if (likeAuction == null) {
+            likeAuction = LikeAuction.builder()
+                    .userEmail(userEmail)
+                    .auctionSeq(auctionSeq)
+                    .build();
+            likeAuctionRepository.save(likeAuction);
 
-        // 경매의 likeCount 증가
-        Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
-                () -> new AuctionNotFoundException(
-                        "auction with auctionSeq " + auctionSeq + " not found",
-                        ErrorCode.AUCTION_NOT_FOUND));
-        auction.setLikeCount(auction.getLikeCount() + 1);
-        auctionRepository.save(auction);
+            // 경매의 likeCount 증가
+            Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
+                    () -> new AuctionNotFoundException(
+                            "auction with auctionSeq " + auctionSeq + " not found",
+                            ErrorCode.AUCTION_NOT_FOUND));
+            auction.setLikeCount(auction.getLikeCount() + 1);
+            auctionRepository.save(auction);
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void deleteLikeAuction(String userEmail, int auctionSeq) {
+    @Transactional
+    public boolean deleteLikeAuction(String userEmail, int auctionSeq) {
         LikeAuction likeAuction = likeAuctionRepository.findByUserEmailAndAuctionSeq(userEmail,
                 auctionSeq);
-        likeAuctionRepository.delete(likeAuction);
+        if (likeAuction != null) {
+            likeAuctionRepository.delete(likeAuction);
 
-        // 경매의 likeCount 감소
-        Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
-                () -> new AuctionNotFoundException(
-                        "auction with auctionSeq " + auctionSeq + " not found",
-                        ErrorCode.AUCTION_NOT_FOUND));
-        auction.setLikeCount(auction.getLikeCount() - 1);
-        auctionRepository.save(auction);
+            // 경매의 likeCount 감소
+            Auction auction = auctionRepository.findByAuctionSeq(auctionSeq).orElseThrow(
+                    () -> new AuctionNotFoundException(
+                            "auction with auctionSeq " + auctionSeq + " not found",
+                            ErrorCode.AUCTION_NOT_FOUND));
+            auction.setLikeCount(auction.getLikeCount() - 1);
+            auctionRepository.save(auction);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkingExistence(String userEmail, int auctionSeq) {
+        LikeAuction likeAuction = likeAuctionRepository.findByUserEmailAndAuctionSeq(userEmail,
+                auctionSeq);
+        if (likeAuction == null)
+            return false;
+        else
+            return true;
     }
 
     @Override

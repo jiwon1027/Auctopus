@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class LiveEnterRequest {
 
     int liveSeq;
-    String userEmail;
     int autoPrice;
 
 }
