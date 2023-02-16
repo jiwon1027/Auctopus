@@ -8,7 +8,7 @@ interface IProps {
 
 export default function Slick({ auctionInfo }: IProps) {
   const settings = {
-    centerMode: true,
+    centerMode: false,
     dots: true,
     infinite: true,
     slidesToShow: 1,
