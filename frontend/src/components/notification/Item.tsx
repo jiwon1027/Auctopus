@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import ProfileImg from "@/assets/common/profile.png";
 import { theme } from "@/styles/theme";
 import ClearIcon from "@mui/icons-material/Clear";
-import turtleImg from "@/assets/badges/turtle.svg";
 
 interface IProps {
   notiItem: {
@@ -18,9 +16,9 @@ export default function Item({ notiItem }: IProps) {
         <img className="profile" src={notiItem.img} alt="" />
       </ProfileBox>
       <TextBox>{notiItem.context}</TextBox>
-      <IconBox>
+      {/* <IconBox>
         <ClearIcon sx={{ fontSize: 20 }} />
-      </IconBox>
+      </IconBox> */}
     </Container>
   );
 }
