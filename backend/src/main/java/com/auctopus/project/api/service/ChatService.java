@@ -167,16 +167,18 @@ public class ChatService extends TextWebSocketHandler {
                 System.out.println("여기확인해보자구우우우~~~ : " + clients.size());
                 if (jsonInfo.get("userEmail").equals(sellerEmail)) {
                     System.out.println("방장이 나가려고 합니다 현재 방의 인원은 : " + clients.size() + "명이었습니다.");
-                    for (WebSocketSession client : clients) {
-                        client.close();
+                    while (!clients.isEmpty()) {
+                        WebSocketSession currSession = clients.get(clients.size() - 1);
+                        session.close();
                     }
-                    clients.remove(liveSeq);
                     if (chatType.equals("live")) {
+//                        allClients.remove(liveSeq);
                         liveService.deleteLive(liveSeq);
                     }
                 } else {
-                    for (WebSocketSession client : clients) {
-                        client.sendMessage(closeM);
+                    while (!clients.isEmpty()) {
+                        WebSocketSession currSession = clients.get(clients.size() - 1);
+                        currSession.sendMessage(closeM);
                     }
                     session.close();
                 }
