@@ -20,8 +20,8 @@ export default function Chat1To1Page() {
   const { top, messages, sendMessage } = useChat(
     `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/chat/${auctionInfo.auctionSeq}`,
     user,
-    closeHandler,
-    initTop
+    initTop,
+    closeHandler
   );
 
   function closeHandler() {
@@ -29,7 +29,7 @@ export default function Chat1To1Page() {
   }
 
   /** 판매자만이 경매를 종료할 수 있다 */
-  function requestToCloseAuction() {
+  function closeChat() {
     if (user.email === top.topEmail) {
       alert("판매자가 종료하기 전까진 나갈 수 없습니다");
       return;
@@ -38,11 +38,7 @@ export default function Chat1To1Page() {
   }
 
   return (
-    <Layout
-      back
-      title="약속방"
-      right={<RightComponent onClick={requestToCloseAuction} />}
-    >
+    <Layout back title="약속방" right={<RightComponent onClick={closeChat} />}>
       <ChatSection email={user.email} messages={messages} />
       <ActionForm
         ableToBid={false}

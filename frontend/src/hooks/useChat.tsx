@@ -6,8 +6,8 @@ import { IUser } from "types/auth";
 export default function useChat(
   uri: string,
   user: IUser,
-  closeHandler: () => void,
-  initTop: ITop
+  initTop: ITop,
+  closeHandler: () => void
 ) {
   const [webSocket, setWebSocket] = useState<WebSocket>();
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -36,7 +36,8 @@ export default function useChat(
     };
 
     newWebSocket.onclose = () => {
-      newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
+      // newWebSocket.send(writeMessage(0, `${user.nickname} 님이 나가셨습니다`));
+      console.log("경매 종료했을때 콜백");
       closeHandler();
     };
 

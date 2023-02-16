@@ -70,18 +70,11 @@ export default function BidPage() {
   const { top, messages, sendMessage } = useChat(
     `${import.meta.env.VITE_WEBSOCKET_DOMAIN}/live/${auctionInfo.auctionSeq}`,
     user,
-    closeAuction,
-    initTop
+    initTop,
+    closeHandler
   );
 
-  function closeAuction() {
-    if (userState === "seller") {
-      sendMessage(
-        3,
-        `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topNickname} ${top.topPrice} 에 낙찰했습니다`
-      );
-    }
-
+  function closeHandler() {
     if (userState === "seller" || user.email === top.topEmail) {
       navigate(`/chat/${auctionInfo.auctionSeq}`, {
         state: {
@@ -93,6 +86,18 @@ export default function BidPage() {
       return;
     }
     navigate("/main", { replace: true });
+  }
+
+  function closeAuction() {
+    if (userState === "seller") {
+      sendMessage(
+        3,
+        `판매자가 경매를 종료하였습니다: 최종 낙찰자 ${top.topNickname} ${top.topPrice} 에 낙찰했습니다`
+      );
+      return;
+    }
+
+    sendMessage(3, `${user.nickname} 님이 나가셨습니다`);
   }
 
   function toggleModal() {
