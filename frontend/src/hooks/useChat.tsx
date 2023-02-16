@@ -39,6 +39,7 @@ export default function useChat(
           topNickname: msg.topNickname,
         });
       }
+      console.log(event.data, msg);
       setMessages((prev) => [...prev, msg]);
     };
 
