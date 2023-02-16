@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import WebSocket from "isomorphic-ws";
-import { IMessage } from "types/auction";
+import { IMessage, ITop } from "types/auction";
 import { IUser } from "types/auth";
 
 export default function useChat(
   uri: string,
   user: IUser,
   closeHandler: () => void,
-  initTop: { topPrice: number; topBidder: string }
+  initTop: ITop
 ) {
   const [webSocket, setWebSocket] = useState<WebSocket>();
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -26,7 +26,11 @@ export default function useChat(
     newWebSocket.onmessage = (event) => {
       const msg: IMessage = JSON.parse(event.data as string);
       if (top.topPrice < msg.topPrice) {
-        setTop({ topPrice: msg.topPrice, topBidder: msg.topBidder });
+        setTop({
+          topPrice: msg.topPrice,
+          topEmail: msg.topEmail,
+          topNickname: msg.topNickname,
+        });
       }
       setMessages((prev) => [...prev, msg]);
     };
@@ -52,10 +56,7 @@ export default function useChat(
   };
 }
 
-function messageCreator(
-  user: IUser,
-  top: { topPrice: number; topBidder: string }
-) {
+function messageCreator(user: IUser, top: ITop) {
   return (type: number, message: string) => {
     const msg: IMessage = {
       type: type, // 0: server says, 1: 일반채팅, 2: 경매 입찰, 3: 종료
@@ -64,7 +65,8 @@ function messageCreator(
       nickname: user.nickname,
       userEmail: user.email,
       topPrice: top.topPrice,
-      topBidder: top.topBidder,
+      topEmail: top.topEmail,
+      topNickname: top.topNickname,
     };
     return JSON.stringify(msg);
   };

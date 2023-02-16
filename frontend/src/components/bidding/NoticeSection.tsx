@@ -1,18 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import airpods from "@/assets/autobid/airpodsMax.png";
+import { ITop } from "types/auction";
 
 interface IProps {
   auction: IAuctionDetail;
   isAutoBuyer: boolean;
   limit?: number;
-  top: { topPrice: number; topBidder: string };
+  top: ITop;
 }
 
 export default function NoticeSection(props: IProps) {
   return (
     <StyledNotice>
-      <img src={airpods} width={95} height={95} />
+      <img
+        src={props.auction.auctionImageList[0].imageUrl}
+        width={95}
+        height={95}
+      />
       <div className="notice">
         <div className="notice__title">{props.auction.title}</div>
         <div className="notice__state">
@@ -21,7 +25,7 @@ export default function NoticeSection(props: IProps) {
           {props.isAutoBuyer && <div>나의 최대가 {props.limit}원</div>}
           {props.top.topPrice > 0 && (
             <div>
-              현재 {props.top.topBidder} 님의 입찰 가격 {props.top.topPrice}
+              현재 {props.top.topNickname} 님의 입찰 가격 {props.top.topPrice}
             </div>
           )}
         </div>
