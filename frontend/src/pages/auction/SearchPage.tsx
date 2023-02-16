@@ -9,6 +9,17 @@ import styled from "styled-components";
 import { IAuction, IReqSearch } from "types/auction";
 import { getAuctionsByQuery } from "@/api/auction";
 
+const categoryArr = [
+  "전자기기",
+  "패션잡화",
+  "도서/음반",
+  "완구문구",
+  "뷰티미용",
+  "인테리어",
+  "생활용품",
+  "기타",
+];
+
 interface IResult {
   type: string;
   content: string;
@@ -77,6 +88,7 @@ export default function SearchPage() {
     searchHandler("live", val);
     setLive(val);
   };
+  console.log(result);
 
   return (
     <Layout back>
@@ -88,7 +100,8 @@ export default function SearchPage() {
       {result.type && (
         <>
           <ResultText>
-            {result.type} <b>&lsquo;{result.content}&rsquo;</b> 에 대한
+            {result.type}{" "}
+            <b>&lsquo;{categoryArr[parseInt(result.content)]}&rsquo;</b> 에 대한
             검색결과입니다.
           </ResultText>
         </>

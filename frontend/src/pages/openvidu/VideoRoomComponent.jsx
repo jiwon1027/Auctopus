@@ -263,7 +263,7 @@ class VideoRoomComponent extends Component {
       session: undefined,
       subscribers: [],
       mySessionId: "",
-      myUserName: "" + Math.floor(Math.random() * 100),
+      myUserName: "",
       localUser: undefined,
     });
     if (this.props.leaveSession) {
