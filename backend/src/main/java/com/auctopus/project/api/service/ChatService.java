@@ -73,18 +73,18 @@ public class ChatService extends TextWebSocketHandler {
         int liveSeq = Integer.parseInt(chatInfo[1]);
 
         List<WebSocketSession> clients;
-        String key;
         if (chatType.equals("live")) {
-            key = liveSeq + "live";
             clients = allClients.get(liveSeq);
-            clients.remove(session);
-            allClients.put(liveSeq, clients);
-        } else {
-            key = liveSeq + "chat";
-            clients = twoClients.get(liveSeq);
-            clients.remove(session);
-            twoClients.put(liveSeq, clients);
+            if (clients != null) {
+                clients.remove(session);
+                allClients.put(liveSeq, clients);
+            }
         }
+//        else {
+//            clients = twoClients.get(liveSeq);
+//            clients.remove(session);
+//            twoClients.put(liveSeq, clients);
+//        }
     }
 
     // 임의의 사용자로부터 메시지가 도착했을 때
@@ -112,12 +112,12 @@ public class ChatService extends TextWebSocketHandler {
             case "0":
                 TextMessage sendM = new TextMessage(jsonInfo.toJSONString());
                 String value = redisTemplate.opsForValue().get(liveSeq + "Top");
-                if (value != null) {
-                    String[] currTopBidderInfo = value.split("-");
-                    jsonInfo.put("topBidder", currTopBidderInfo[0]);
-                    jsonInfo.put("topPrice", currTopBidderInfo[0]);
-                }
-
+//                if (value != null) {
+                String[] currTopBidderInfo = value.split("；");
+                jsonInfo.put("topEmail", currTopBidderInfo[0]);
+                jsonInfo.put("topPrice", currTopBidderInfo[1]);
+                jsonInfo.put("topNickname", jsonInfo.get("nickname"));
+//                }
 //                redisTemplate.opsForList().rightPush(key, jsonInfo.toJSONString());
                 for (WebSocketSession client : clients)
                     client.sendMessage(sendM);
@@ -129,30 +129,31 @@ public class ChatService extends TextWebSocketHandler {
                     client.sendMessage(chatM);
                 break;
             case "2":
-                String currBidder = String.valueOf(jsonInfo.get("userEmail"));
+                String currEmail = String.valueOf(jsonInfo.get("userEmail"));
                 String currPrice = String.valueOf(jsonInfo.get("message"));
-                jsonInfo.put("topBidder", jsonInfo.get("nickname"));
+                jsonInfo.put("topEmail", currEmail);
                 jsonInfo.put("topPrice", currPrice);
-                redisTemplate.opsForValue()
-                        .set(liveSeq + "Top", jsonInfo.get("nickname") + "-" + currPrice);
+                jsonInfo.put("topNickname", jsonInfo.get("nickname"));
+                redisTemplate.opsForValue().set(liveSeq + "Top", currEmail + "；" + currPrice);
                 redisTemplate.opsForList().rightPush(key, jsonInfo.toJSONString());
                 TextMessage bidM = new TextMessage(jsonInfo.toJSONString());
                 for (WebSocketSession client : clients)
                     client.sendMessage(bidM);
 
-                // 입찰 메시지였다면 자동입찰자들과 비교하여 또 입찰 메시지를 보낼지 파악해야 한다
-                String[] topBidderInfo = liveService.autoBidding(liveSeq, currBidder, currPrice);
-                if (!topBidderInfo[0].equals(currBidder)
-                        && Integer.parseInt(currPrice) < Integer.parseInt(topBidderInfo[1])) {
-                    Thread.sleep(1000);
-                    jsonInfo.put("nickname", topBidderInfo[0]);
-                    jsonInfo.put("topBidder", topBidderInfo[0]);
+                // 자동입찰자들과 비교하여 또 입찰 메시지를 보낼지 파악해야 한다
+                String[] topBidderInfo = liveService.autoBidding(liveSeq, currEmail, currPrice);
+                if (Integer.parseInt(currPrice) < Integer.parseInt(topBidderInfo[1])) {
+
+                    jsonInfo.put("userEmail", topBidderInfo[0]);
+                    jsonInfo.put("topEmail", topBidderInfo[0]);
                     jsonInfo.put("message", topBidderInfo[1]);
                     jsonInfo.put("topPrice", topBidderInfo[1]);
-                    jsonInfo.put("userEmail", topBidderInfo[2]);
+                    jsonInfo.put("nickname", topBidderInfo[2]);
+                    jsonInfo.put("topNickname", topBidderInfo[2]);
+                    Thread.sleep(1000);
                     jsonInfo.put("date", new Timestamp(System.currentTimeMillis()).toString());
                     redisTemplate.opsForValue()
-                            .set(liveSeq + "Top", topBidderInfo[0] + "-" + topBidderInfo[1]);
+                            .set(liveSeq + "Top", topBidderInfo[0] + "；" + topBidderInfo[1]);
                     redisTemplate.opsForList().rightPush(key, jsonInfo.toJSONString());
                     bidM = new TextMessage(jsonInfo.toJSONString());
                     for (WebSocketSession client : clients)
@@ -160,9 +161,14 @@ public class ChatService extends TextWebSocketHandler {
                 }
                 break;
             case "3":
-                TextMessage closeM = new TextMessage(jsonInfo.toJSONString());
-                for (WebSocketSession client : clients)
-                    client.sendMessage(closeM);
+                String openerEmail = liveService.getLiveInfo(liveSeq).getUserEmail();
+                if (jsonInfo.get("userEmail").equals(openerEmail)) {
+                    for (WebSocketSession client : clients)
+                        client.close();
+                    clients.remove(liveSeq);
+                }
+                if (chatType.equals("live"))
+                    liveService.deleteLive(liveSeq);
                 break;
         }
 

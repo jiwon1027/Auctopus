@@ -53,8 +53,9 @@ public class LiveServiceImpl implements LiveService {
                 .build();
         liveRepository.save(live);
 
+        // 초기 최고 낙찰자는 방 방장 본인으로 해준다.
         redisTemplate.opsForValue()
-                .set(auctionSeq + "Top", user.getNickname() + "-" + auction.getStartPrice());
+                .set(auctionSeq + "Top", user.getNickname() + "；" + auction.getStartPrice());
         redisTemplate.opsForValue().set(auctionSeq + "CV", "0.999999999");
 
         // 경매방의 state를 진행중(2)로 바꾸어주자
@@ -64,45 +65,45 @@ public class LiveServiceImpl implements LiveService {
     @Override
     @Transactional
     public void registerAutoBidder(int liveSeq, String userEmail, int autoPrice) {
-        String key = String.valueOf(liveSeq) + "autoBidder";
+        String key = liveSeq + "autoBidder";
         double CV = Double.parseDouble(
                 String.valueOf(redisTemplate.opsForValue().get(liveSeq + "CV")));
         redisTemplate.opsForZSet().add(key, userEmail, (double) autoPrice + CV);
-        redisTemplate.opsForValue().set(liveSeq+ "CV", String.valueOf(CV - 0.000000001));
+        redisTemplate.opsForValue().set(liveSeq + "CV", String.valueOf(CV - 0.000000001));
     }
 
     @Override
-    public String[] autoBidding(int liveSeq, String currBidder, String currPrice) {
+    public String[] autoBidding(int liveSeq, String currEmail, String currPrice) {
         // 자동 경매 시스템 이용자들을 불러온다
-        String key = String.valueOf(liveSeq) + "autoBidder";
+        String key = liveSeq + "autoBidder";
         Set<ZSetOperations.TypedTuple<String>> autoBidderSet = redisTemplate.opsForZSet().
                 reverseRangeWithScores(key, 0, -1);
 
-        String finalBidder = currBidder;
+        String finalEmail = currEmail;
         int finalPrice = Integer.parseInt(currPrice);
         Live live = getLiveInfo(liveSeq);
         int bidUnit = live.getBidUnit();
         if (autoBidderSet == null) {
             System.out.println("뀨!");
         } else if (autoBidderSet.size() == 1) {
-            String firstBidder = currBidder;
-            int firstPrice = 0;
+            String firstEmail = currEmail;
+            int firstPrice = finalPrice;
             for (TypedTuple autoBidder : autoBidderSet) {
-                firstBidder = String.valueOf(autoBidder.getValue());
+                firstEmail = String.valueOf(autoBidder.getValue());
                 firstPrice = autoBidder.getScore().intValue();
             }
-            if (finalPrice < firstPrice) {
-                finalBidder = firstBidder;
+            if (finalPrice < firstPrice && !finalEmail.equals(firstEmail)) {
+                finalEmail = firstEmail;
                 finalPrice += bidUnit;
             }
         } else {
             int rank = 1;
-            String firstBidder = currBidder;
+            String firstEmail = currEmail;
             int firstPrice = 0;
             int secondPrice = 0;
             for (TypedTuple autoBidder : autoBidderSet) {
                 if (rank == 1) {
-                    firstBidder = String.valueOf(autoBidder.getValue());
+                    firstEmail = String.valueOf(autoBidder.getValue());
                     firstPrice = autoBidder.getScore().intValue();
                     rank++;
                 } else {
@@ -111,18 +112,18 @@ public class LiveServiceImpl implements LiveService {
                 }
             }
             if (finalPrice < firstPrice) {
-                finalBidder = firstBidder;
+                finalEmail = firstEmail;
                 if (firstPrice == secondPrice)
-                    finalPrice = secondPrice + bidUnit;
+                    finalPrice = firstPrice;
                 else
                     finalPrice = Math.max(finalPrice, secondPrice) + bidUnit;
             }
         }
 
-        User user = userRepository.findByEmail(finalBidder).orElseThrow(
+        User finalBidder = userRepository.findByEmail(finalEmail).orElseThrow(
                 () -> new UserNotFoundException("user with email not found",
                         ErrorCode.USER_NOT_FOUND));
-        return new String[]{user.getNickname(), String.valueOf(finalPrice), finalBidder};
+        return new String[]{finalEmail, String.valueOf(finalPrice), finalBidder.getNickname()};
     }
 
     @Override
