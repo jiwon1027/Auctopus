@@ -34,7 +34,7 @@ export default function AuctionCompeletePage() {
   useEffect(() => {
     setTimeout(() => {
       navigate("/main", { replace: true });
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
