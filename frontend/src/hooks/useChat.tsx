@@ -32,9 +32,9 @@ export default function useChat(
     if (!webSocket) return;
     webSocket.onmessage = (event) => {
       const msg: IMessage = JSON.parse(event.data as string);
-      if (top.topPrice < msg.topPrice) {
+      if (top.topPrice < Number(msg.topPrice)) {
         setTop({
-          topPrice: msg.topPrice,
+          topPrice: Number(msg.topPrice),
           topEmail: msg.topEmail,
           topNickname: msg.topNickname,
         });
