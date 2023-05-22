@@ -7,17 +7,17 @@
 1. [서비스 개요](#1-서비스-개요)
 1. [기술 스택](#2-기술-스택)
 1. [한눈에 보는 시스템 아키텍처](#3-한눈에-보는-시스템-아키텍처)
-1. [팀원 소개](#4-팀원-소개)
-1. [Jira Convention](#5-jira-convention)
-1. [Git Flow Convention](#6-git-flow-convention)
-1. [Commit Message Convention](#7-commit-message-convention)
-1. [Backend Convention](#8-backend-convention)
-1. [Frontend Convention](#9-frontend-convention)
-1. [Wire Frames](#10-wire-frames)
-1. [기능 정의서](#11-기능-정의서)
-1. [ERD](#12-erd)
-1. [Sequence Diagram](#13-sequence-diagram)
-1. [References](#14-references)
+1. [어플리케이션 화면](#4-어플리케이션-화면)
+2. [팀원 소개](#5-팀원-소개)
+3. [Jira Convention](#6-jira-convention)
+4. [Git Flow Convention](#7-git-flow-convention)
+5. [Commit Message Convention](#8-commit-message-convention)
+6. [Backend Convention](#9-backend-convention)
+7. [Frontend Convention](#10-frontend-convention)
+8. [기능 정의서](#11-기능-정의서)
+9. [ERD](#12-erd)
+10. [Sequence Diagram](#13-sequence-diagram)
+11. [References](#14-references)
 
 ## 1. 서비스 개요
 
@@ -63,16 +63,44 @@
 
 ![system architecture](/assets/readme/system_architecture.png)
 
-## 4. 팀원 소개
+## 4. 어플리케이션 화면
+
+- 유저 화면 프레임들
+
+  ![login](/assets/readme/view/join.png)
+  ![signup](/assets/readme/view/join1.png)
+
+- 메인 화면 프레임들
+
+  ![notification-live](/assets/readme/view/main.png)
+  ![main-0](/assets/readme/view/search.png)
+  ![main-1](/assets/readme/view/search1.png)
+  ![mypage](/assets/readme/view/mypage.png)
+
+
+- 경매 화면 프레임들
+
+  ![detail](/assets/readme/view/detail.png)
+  ![money](/assets/readme/view/money.png)
+  ![live](/assets/readme/view/live.png)
+  ![auction](/assets/readme/view/auction.png)
+
+## 5. 팀원 소개
 
 정상기 (팀장): Frontend 개발 + 프로젝트 관리
+
 손예지 (팀원): Frontend 개발 + 디자인
+
 김태원 (팀원): Frontend 총괄 + QA
-이지원 (팀원): Backend 총괄 + QA
+
+이지원 (팀원): Backend 총괄 + QA + Infra
+
 변유정 (팀원): Backend 개발 + 이슈 관리
+
 우상빈 (팀원): Backend 개발 + 이슈 관리 + 발표
 
-## 5. Jira Convention
+
+## 6. Jira Convention
 
 Jira는 개발 이슈 트랙킹 용도로 사용합니다.
 
@@ -97,7 +125,7 @@ Jira는 개발 이슈 트랙킹 용도로 사용합니다.
   - 번다운 차트는 스프린트별 시간당 잔여 Story-point 를 추적합니다
   - 주차별 스프린트를 시작하기 전에 모든 이슈를 생성하고 할당해야 올바른 번다운 차트를 생성할 수 있습니다
 
-## 6. Git Flow Convention
+## 7. Git Flow Convention
 
 디렉터리 구조는 **frontend** 와 **backend** 로 구분됩니다. 각 개발자들은 해당 디렉터리로 이동한다음 작업하면 됩니다
 
@@ -151,7 +179,7 @@ Branch Types
 
 <!-- [ref](https://techblog.woowahan.com/2553/) -->
 
-## 7. Commit Message Convention
+## 8. Commit Message Convention
 
 Commit Message Types
 
@@ -184,7 +212,7 @@ Commit Message Types
 
 <!-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) -->
 
-## 8. Backend Convention
+## 9. Backend Convention
 
 - Style Guide
   - [Google Style Guide for Java](https://google.github.io/styleguide/javaguide.html)
@@ -219,7 +247,7 @@ Commit Message Types
 
 ```
 
-## 9. Frontend Convention
+## 10. Frontend Convention
 
 - Style Guide
   - [Google Style Guide for Typescript](https://google.github.io/styleguide/tsguide.html)
@@ -241,35 +269,6 @@ Commit Message Types
 └── types           // 타입 선언 디렉터리
 
 ```
-
-## 10. Wire Frames
-
-- 유저 화면 프레임들
-
-  ![login](/assets/readme/view/join.png)
-  ![signup](/assets/readme/view/join1.png)
-
-- 메인 화면 프레임들
-
-  ![notification-live](/assets/readme/view/main.png)
-  ![main-0](/assets/readme/view/search.png)
-  ![main-1](/assets/readme/view/search1.png)
-
-- 하위 메인 화면 프레임들
-
-  ![관심목록-내찜](/assets/wireframes/submain/%EB%A9%94%EC%9D%B8%20%ED%99%88%20-%20%EB%82%B4%20%EC%B0%9C.png)
-  ![관심목록-입장예정](/assets/wireframes/submain/%EB%82%B4%20%EC%B0%9C%20-%20%EC%9E%85%EC%9E%A5%20%EC%98%88%EC%A0%95.png)
-  ![자동경매](/assets/wireframes/submain/%EA%B2%BD%EB%A7%A4%EB%B0%A9%20%EC%9E%90%EB%8F%99%20%EA%B2%BD%EB%A7%A4.png)
-  ![알람리스트](/assets/wireframes/submain/%EC%95%8C%EB%9E%8C%20%EB%A6%AC%EC%8A%A4%ED%8A%B8.png)
-
-- 경매 화면 프레임들
-
-![mypage](/assets/readme/view/mypage.png)
-![detail](/assets/readme/view/detail.png)
-![money](/assets/readme/view/money.png)
-![live](/assets/readme/view/live.png)
-![auction](/assets/readme/view/auction.png)
-
 
 ## 11. 기능 정의서
 
